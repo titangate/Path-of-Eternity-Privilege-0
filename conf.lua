@@ -1,0 +1,24 @@
+function love.conf(t)
+
+	t.author 	= "Leon Jiang"
+	t.version 	= "0.8.0"
+	
+	t.console 			= false	 
+	t.modules.joystick 	= false    
+    t.modules.audio 	= true      
+    t.modules.keyboard 	= true   
+    t.modules.event 	= true      
+    t.modules.image 	= true      
+    t.modules.graphics 	= true   
+    t.modules.timer 	= true      
+    t.modules.mouse 	= true      
+    t.modules.sound 	= true      
+    t.modules.physics 	= true
+    t.screen.fullscreen = false 
+    t.screen.vsync 		= false
+    
+    t.screen.fsaa 		= 0           
+    t.screen.height 	= 800       
+    t.screen.width 		= 1280   
+	
+end
