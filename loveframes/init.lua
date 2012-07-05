@@ -35,8 +35,7 @@ function loveframes.load()
 	local dir = loveframes.config["DIRECTORY"]
 	
 	-- require the internal base libraries
-	require(dir .. "/third-party/middleclass/middleclass")
-	Stateful = require(dir .. "/third-party/middleclass/stateful")
+--	require(dir .. "/third-party/middleclass/middleclass")
 	require(dir .. "/util")
 	require(dir .. "/skins")
 	require(dir .. "/templates")

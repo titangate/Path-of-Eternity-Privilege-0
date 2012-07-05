@@ -122,7 +122,7 @@ function textinput:draw()
 	
 	love.graphics.setFont(font)
 	love.graphics.setColor(unpack(textcolor))
-	love.graphics.print(text, textx, self.texty)
+	pn(text, textx, self.texty)
 	
 	love.graphics.setStencil()
 	

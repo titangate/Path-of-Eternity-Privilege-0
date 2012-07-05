@@ -257,7 +257,7 @@ function text:DrawText()
 				love.graphics.setFont(font)
 				love.graphics.setColor(unpack(color))
 				
-				love.graphics.print(text, x + drawx, y + drawy)
+				pn(text, x + drawx, y + drawy)
 			
 			else
 			
@@ -269,7 +269,7 @@ function text:DrawText()
 				
 				love.graphics.setFont(font)
 				love.graphics.setColor(unpack(color))
-				love.graphics.print(text, x + drawx, y)
+				pn(text, x + drawx, y)
 				
 			end
 			

@@ -20,6 +20,6 @@ end
 if DEBUG then
 function AIWait:DebugDraw()
 	local x,y = self.unit:getPosition()
-	love.graphics.print(string.format("waiting for %.2f",self.dt),x,y)
+	pn(string.format("waiting for %.2f",self.dt),x,y)
 end
 end

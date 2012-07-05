@@ -287,7 +287,7 @@ function skin.DrawFrame(object)
 	-- frame name section
 	love.graphics.setFont(skin.controls.frame_name_font)
 	love.graphics.setColor(unpack(skin.controls.frame_name_color))
-	love.graphics.print(object.name, object:GetX() + 5, object:GetY() + 5)
+	pn(object.name, object:GetX() + 5, object:GetY() + 5)
 	
 	-- frame border
 	love.graphics.setColor(unpack(skin.controls.frame_border_color))
@@ -321,7 +321,7 @@ function skin.DrawButton(object)
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_down_color))
-		love.graphics.print(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -339,7 +339,7 @@ function skin.DrawButton(object)
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_hover_color))
-		love.graphics.print(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -357,7 +357,7 @@ function skin.DrawButton(object)
 		-- button text
 		love.graphics.setFont(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
-		love.graphics.print(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- button border
 		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
@@ -446,9 +446,9 @@ function skin.DrawImageButton(object)
 		
 		love.graphics.setFont(font)
 		love.graphics.setColor(0, 0, 0, 255)
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2 + 1, object:GetY() + object:GetHeight() - theight - 5 + 1)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2 + 1, object:GetY() + object:GetHeight() - theight - 5 + 1)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2 + 1, object:GetY() + object:GetHeight() - theight - 6 + 1)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2 + 1, object:GetY() + object:GetHeight() - theight - 6 + 1)
 		
 	elseif hover == true then
 	
@@ -459,9 +459,9 @@ function skin.DrawImageButton(object)
 		
 		love.graphics.setFont(font)
 		love.graphics.setColor(0, 0, 0, 255)
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_hover_color))
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 6)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 6)
 		
 	else
 		
@@ -472,9 +472,9 @@ function skin.DrawImageButton(object)
 		
 		love.graphics.setFont(font)
 		love.graphics.setColor(0, 0, 0, 255)
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
-		love.graphics.print(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 6)
+		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 6)
 		
 	end
 
@@ -500,7 +500,7 @@ function skin.DrawProgressBar(object)
 	skin.DrawGradient(object:GetX(), object:GetY(), object.progress, object:GetHeight(), "up", gradientcolor)
 	love.graphics.setFont(font)
 	love.graphics.setColor(unpack(skin.controls.progressbar_text_color))
-	love.graphics.print(object.value .. "/" ..object.max, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+	pn(object.value .. "/" ..object.max, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 	
 	-- progress bar border
 	love.graphics.setColor(unpack(skin.controls.progressbar_border_color))
@@ -676,12 +676,12 @@ function skin.DrawTabButton(object)
 			-- button text
 			love.graphics.setFont(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
-			love.graphics.print(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
+			pn(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
 		else
 			-- button text
 			love.graphics.setFont(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
-			love.graphics.print(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
+			pn(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
 		end
 				
 	else
@@ -703,12 +703,12 @@ function skin.DrawTabButton(object)
 			-- button text
 			love.graphics.setFont(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
-			love.graphics.print(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
+			pn(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
 		else
 			-- button text
 			love.graphics.setFont(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
-			love.graphics.print(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
+			pn(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
 		end
 				
 	end
@@ -732,9 +732,9 @@ function skin.DrawMultiChoice(object)
 	local h = smallfont:getHeight()
 	
 	if object.choice == "" then
-		love.graphics.print(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - h/2)
+		pn(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - h/2)
 	else
-		love.graphics.print(object.choice, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - h/2)
+		pn(object.choice, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - h/2)
 	end
 	
 	love.graphics.setColor(255, 255, 255, 255)
@@ -779,12 +779,12 @@ function skin.DrawMultiChoiceRow(object)
 		love.graphics.setColor(unpack(skin.controls.multichoicerow_body_hover_color))
 		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		love.graphics.setColor(unpack(skin.controls.multichoicerow_text_hover_color))
-		love.graphics.print(object.text, object:GetX() + 5, object:GetY() + 5)
+		pn(object.text, object:GetX() + 5, object:GetY() + 5)
 	else
 		love.graphics.setColor(unpack(skin.controls.multichoicerow_body_nohover_color))
 		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		love.graphics.setColor(unpack(skin.controls.multichoicerow_text_nohover_color))
-		love.graphics.print(object.text, object:GetX() + 5, object:GetY() + 5)
+		pn(object.text, object:GetX() + 5, object:GetY() + 5)
 	end
 	
 end
@@ -1071,7 +1071,7 @@ function skin.DrawCollapsibleCategory(object)
 	skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 	
 	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_text_color))
-	love.graphics.print(object.text, object:GetX() + 5, object:GetY() + 5)
+	pn(object.text, object:GetX() + 5, object:GetY() + 5)
 	
 	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_border_color))
 	skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
@@ -1114,7 +1114,7 @@ function skin.DrawColumnListHeader(object)
 		-- header name
 		love.graphics.setFont(font)
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_down_color))
-		love.graphics.print(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
@@ -1132,7 +1132,7 @@ function skin.DrawColumnListHeader(object)
 		-- header name
 		love.graphics.setFont(font)
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_hover_color))
-		love.graphics.print(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
@@ -1150,7 +1150,7 @@ function skin.DrawColumnListHeader(object)
 		-- header name
 		love.graphics.setFont(font)
 		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
-		love.graphics.print(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
+		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
 		-- header border
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))

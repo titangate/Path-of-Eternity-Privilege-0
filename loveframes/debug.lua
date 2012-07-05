@@ -43,51 +43,51 @@ function loveframes.debug.draw()
 	love.graphics.setColor(0, 0, 0, 50)
 	love.graphics.rectangle("fill", 10, 10, 190, 20)
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Library Information", 15, 15)
+	pn("Library Information", 15, 15)
 	
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print("Author: " ..loveframes.info.author, 15, 30)
-	love.graphics.print("Version: " ..loveframes.info.version, 15, 40)
-	love.graphics.print("Stage: " ..loveframes.info.stage, 15, 50)
-	love.graphics.print("Base Directory: " ..loveframes.config["DIRECTORY"], 15, 60)
+	pn("Author: " ..loveframes.info.author, 15, 30)
+	pn("Version: " ..loveframes.info.version, 15, 40)
+	pn("Stage: " ..loveframes.info.stage, 15, 50)
+	pn("Base Directory: " ..loveframes.config["DIRECTORY"], 15, 60)
 	
 	-- object information box
 	love.graphics.setColor(0, 0, 0, 50)
 	love.graphics.rectangle("fill", 10, 80, 190, 20)
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Object Information", 15, 85)
+	pn("Object Information", 15, 85)
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	
 	if numcols > 0 then
-		love.graphics.print("Type: " ..topcol.type, 15, 100)
+		pn("Type: " ..topcol.type, 15, 100)
 	else
-		love.graphics.print("Type: none", 10, 100)
+		pn("Type: none", 10, 100)
 	end
 	
 	if topcol.children then
-		love.graphics.print("# of children: " .. #topcol.children, 15, 110)
+		pn("# of children: " .. #topcol.children, 15, 110)
 	else
-		love.graphics.print("# of children: 0", 15, 110)
+		pn("# of children: 0", 15, 110)
 	end
 	
-	love.graphics.print("X: " ..topcol.x, 15, 120)
-	love.graphics.print("Y: " ..topcol.y, 15, 130)
-	love.graphics.print("Width: " ..topcol.width, 15, 140)
-	love.graphics.print("Height: " ..topcol.height, 15, 150)
+	pn("X: " ..topcol.x, 15, 120)
+	pn("Y: " ..topcol.y, 15, 130)
+	pn("Width: " ..topcol.width, 15, 140)
+	pn("Height: " ..topcol.height, 15, 150)
 	
 	-- Miscellaneous box
 	love.graphics.setColor(0, 0, 0, 50)
 	love.graphics.rectangle("fill", 10, 190, 190, 20)
 	love.graphics.setColor(255, 0, 0, 255)
-	love.graphics.print("Miscellaneous", 15, 195)
+	pn("Miscellaneous", 15, 195)
 	
 	love.graphics.setColor(255, 255, 255, 255)
 	
-	love.graphics.print("LOVE Version: " ..love._version, 15, 210)
-	love.graphics.print("FPS: " ..love.timer.getFPS(), 15, 220)
-	love.graphics.print("Delta Time: " ..love.timer.getDelta(), 15, 230)
-	love.graphics.print("Total Objects: " ..#objects, 15, 240)
+	pn("LOVE Version: " ..love._version, 15, 210)
+	pn("FPS: " ..love.timer.getFPS(), 15, 220)
+	pn("Delta Time: " ..love.timer.getDelta(), 15, 230)
+	pn("Total Objects: " ..#objects, 15, 240)
 	
 	-- outline the object that the mouse is hovering over
 	love.graphics.setColor(255, 204, 51, 255)

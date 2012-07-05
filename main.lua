@@ -8,6 +8,7 @@ if DEBUG and PROFILING then
 end
 
 require 'middleclass'
+Stateful = require"stateful"
 require 'localization'
 require 'mathematic'
 require 'essential'
@@ -26,18 +27,14 @@ screen = {
 }
 
 function initFont()
-	font = {}
-	
-	font.smallfont = love.graphics.newFont('oldsansblack.ttf',12)
-	font.imagebuttonfont = love.graphics.newFont('oldsansblack.ttf',15)
 end
 
 
 function love.load()
 	
 	-- UI init --
-	setLocalization'eng'
-	initFont()
+	setLocalization'chr'
+--	initFont()
 	
 	require 'loveframes'
 	-- load the examples menu
@@ -103,9 +100,9 @@ function love.draw()
 	loveframes.draw()
 	
 	love.graphics.setColor(0, 0, 0, 255)
-	love.graphics.print("Press \"`\" to toggle debug mode.", 210, 7)
+	pn("Press \"`\" to toggle debug mode.", 210, 7)
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print("Press \"`\" to toggle debug mode.", 210, 5)
+	pn("Press \"`\" to toggle debug mode.", 210, 5)
 
 	local fps = love.timer.getFPS()
 	love.graphics.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))

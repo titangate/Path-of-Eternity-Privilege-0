@@ -12,7 +12,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 
 function vibrate.conf(obj)
 	if type(obj.vibrate_ref)=='number' then
-		vibrate.pe:send('ref',2^obj.vibrate_ref-1)
+		vibrate.pe:send('ref',1.2^obj.vibrate_ref-1)
 	end
 end
 

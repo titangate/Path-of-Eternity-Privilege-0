@@ -1,5 +1,6 @@
 filters={
-	vibrate = require 'shader.vibrate'
+	vibrate = require 'shader.vibrate',
+	zoomblur = require 'shader.zoomblur',
 }
 function neartwo(n)
 	local r=1

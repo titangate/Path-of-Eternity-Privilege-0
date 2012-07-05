@@ -92,6 +92,10 @@ end
 --]]---------------------------------------------------------
 function list:draw()
 	
+	if self.filter then 
+		self.filter.predraw(self)
+		self.filter.conf(self)
+	end
 	local visible = self.visible
 	
 	if visible == false then
@@ -138,6 +142,9 @@ function list:draw()
 		skin.DrawOverList(self)
 	end
 	
+	if self.filter then 
+		self.filter.postdraw(self)
+	end
 end
 
 --[[---------------------------------------------------------

@@ -1,9 +1,13 @@
 local l
-local function switchfonts(loc)
+local function switchfont(loc)
 	local t = {
 	eng = function()
-		fonts = {}
-		fonts.default24 = love.graphics.newFont(24)
+		
+		font = {}
+
+		font.smallfont = love.graphics.newFont('oldsansblack.ttf',12)
+		font.imagebuttonfont = love.graphics.newFont('oldsansblack.ttf',15)
+		pn = love.graphics.print
 		pfn = love.graphics.printf
 		sfn = love.graphics.setFont
 		
@@ -13,31 +17,20 @@ local function switchfonts(loc)
 		end
 	end,
 	chr = function()
-		fonts = {}
+		font = {}
 		local f = 'simsun.ttc'
-		fonts.default24 = love.graphics.newFont(24)
-		fonts.oldsans12 = love.graphics.newFont(f, 12)
-		fonts.oldsans20 = love.graphics.newFont(f, 20)
-		fonts.oldsans24 = love.graphics.newFont(f, 24)
-		fonts.oldsans32 = love.graphics.newFont(f, 32)
-		fonts.bigfont = love.graphics.newFont(f,25)
-		fonts.midfont = love.graphics.newFont(f,19)
-		fonts.smallfont = love.graphics.newFont(f,13)
-		local fontsizes = {
-			[fonts.default24] = 24,
-			[fonts.oldsans12] = 12,
-			[fonts.oldsans20] = 20,
-			[fonts.oldsans24] = 24,
-			[fonts.oldsans32] = 32,
-			[fonts.bigfont] = 25,
-			[fonts.midfont] = 19,
-			[fonts.smallfont] = 13,
+		font.smallfont = love.graphics.newFont(f, 12)
+		font.imagebuttonfont = love.graphics.newFont(f,15)
+		local fontizes = {
+			[font.imagebuttonfont] = 15,
+			[font.smallfont] = 12,
 		}
 		local pf = love.graphics.printf
 		local fw = 25
 		function pfn(text,x,y,limit,align)
 			text = tostring(text)
 			limit = limit or 9999999
+			align = align or 'left'
 			local f = love.graphics.getFont()
 			if f:getWidth(text) <= limit then
 				pf(text,x,y,limit,align)
@@ -51,11 +44,11 @@ local function switchfonts(loc)
 				end
 			end
 		end
+		pn = pfn
 		local sf = love.graphics.setFont
 		function sfn(font)
 			sf(font)
-			fw = fontsizes[font] or fw
-			
+			fw = fontizes[font] or fw
 		end
 		
 		function fontGetWrap(font,text,width)
@@ -74,7 +67,9 @@ local function switchfonts(loc)
 end
 
 function setLocalization(loc)
+	
 	if loc == 'eng' then 
+		
 		function LocalizedString(str)
 			return str
 		end
@@ -86,5 +81,5 @@ function setLocalization(loc)
 			return l[str] or str
 		end
 	end
-	switchfonts(loc)
+	switchfont(loc)
 end

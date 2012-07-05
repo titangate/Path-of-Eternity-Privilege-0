@@ -90,7 +90,7 @@ function columnlistrow:draw()
 	for k, v in ipairs(self.columndata) do
 		love.graphics.setFont(self.font)
 		love.graphics.setColor(unpack(textcolor))
-		love.graphics.print(v, self.x + x, self.y + self.texty)
+		pn(v, self.x + x, self.y + self.texty)
 		x = x + cwidth
 	end
 	

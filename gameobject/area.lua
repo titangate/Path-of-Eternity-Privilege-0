@@ -21,7 +21,7 @@ function Area:DebugDraw()
 	love.graphics.setColor(0,0,0)
 	if self.unitcount then
 		local x,y = self:getCenter()
-		love.graphics.printf(string.format("unit: %d",self.unitcount),x,y,30,'center')
+		pnf(string.format("unit: %d",self.unitcount),x,y,30,'center')
 	end
 end
 
