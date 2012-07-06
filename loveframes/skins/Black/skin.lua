@@ -48,7 +48,7 @@ skin.controls.imagebutton_text_hover_color			= {255, 255, 255, 255}
 skin.controls.imagebutton_text_font 				= imagebuttonfont
 
 -- close button
-skin.controls.closebutton_body_down_color			= {255, 255, 255, 100}
+skin.controls.closebutton_body_down_color			= {210, 152, 65, 100}
 skin.controls.closebutton_body_nohover_color		= {255, 255, 255, 200}
 skin.controls.closebutton_body_hover_color			= {255, 255, 255, 255}
 
@@ -83,7 +83,7 @@ skin.controls.panel_body_color 						= {255, 255, 255, 50}
 skin.controls.panel_border_color					= bordercolor
 
 -- tab panel
-skin.controls.tabpanel_body_color 					= {232, 232, 232, 255}
+skin.controls.tabpanel_body_color 					= {0, 0,0, 200}
 skin.controls.tabpanel_border_color					= bordercolor
 
 -- tab button
@@ -92,7 +92,7 @@ skin.controls.tab_border_hover_color				= bordercolor
 skin.controls.tab_body_nohover_color				= {0, 0, 0, 255}
 skin.controls.tab_body_hover_color					= {0, 0, 0, 255}
 skin.controls.tab_text_nohover_color				= {255, 255, 255, 255}
-skin.controls.tab_text_hover_color					= {210, 252, 65, 255}
+skin.controls.tab_text_hover_color					= {252, 210, 65, 255}
 skin.controls.tab_text_font 						= smallfont
 
 -- multichoice
@@ -479,7 +479,7 @@ function skin.DrawCloseButton(object)
 	local image = skin.images["close.png"]
 	local gradientcolor = {}
 	
-	love.graphics.setColor(255,255,255,math.random()*255)
+	love.graphics.setColor(255,255,0)
 	love.graphics.draw(skin.images["flare.png"], object:GetX()+object:GetWidth()/2, object:GetY()+object:GetHeight()/2,0,0.5,0.5,64,32)
 	
 	if down == true then
@@ -515,7 +515,7 @@ function skin.DrawImage(object)
 	
 	if color then
 		love.graphics.setColor(unpack(color))
-		love.graphics.draw(image)
+		love.graphics.draw(image, object:GetX(), object:GetY())
 	else
 		love.graphics.setColor(255, 255, 255, 255)
 		love.graphics.draw(image, object:GetX(), object:GetY())
@@ -761,13 +761,13 @@ function skin.DrawTabButton(object)
 			
 		-- button body
 		love.graphics.setColor(unpack(skin.controls.tab_body_hover_color))
-		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		
-		gradientcolor = {skin.controls.tab_body_hover_color[1] - 20, skin.controls.tab_body_hover_color[2] - 20, skin.controls.tab_body_hover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+--		gradientcolor = {skin.controls.tab_body_hover_color[1] - 20, skin.controls.tab_body_hover_color[2] - 20, skin.controls.tab_body_hover_color[3] - 20, 255}
+--		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 				
 		if image then
 			-- button image
@@ -787,14 +787,14 @@ function skin.DrawTabButton(object)
 	else
 				
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.tab_body_nohover_color))
-		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--		love.graphics.setColor(unpack(skin.controls.tab_body_nohover_color))
+--		love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 		
-		gradientcolor = {skin.controls.tab_body_nohover_color[1] - 20, skin.controls.tab_body_nohover_color[2] - 20, skin.controls.tab_body_nohover_color[3] - 20, 255}
-		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
+--		gradientcolor = {skin.controls.tab_body_nohover_color[1] - 20, skin.controls.tab_body_nohover_color[2] - 20, skin.controls.tab_body_nohover_color[3] - 20, 255}
+--		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
-		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
-		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
+--		skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 				
 		if image then
 			-- button image
@@ -894,12 +894,25 @@ end
 	- desc: draws the tool tip object
 --]]---------------------------------------------------------
 function skin.DrawToolTip(object)
-		
-	love.graphics.setColor(unpack(skin.controls.tooltip_body_color))
-	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
-	love.graphics.setColor(unpack(skin.controls.tooltip_border_color))
-	skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
-	love.graphics.setColor(unpack(skin.controls.tooltip_text_color))
+	
+	local attritubebackground = skin.images["attback.png"]
+	local x,y = object:GetX(),object:GetY()
+	local w,h = object:GetWidth(),object:GetHeight()
+
+	love.graphics.drawq(attritubebackground,quads.topleft,x-10,y-10)
+	love.graphics.drawq(attritubebackground,quads.topright,x+w,y-10)
+	love.graphics.drawq(attritubebackground,quads.botleft,x-10,y+h)
+	love.graphics.drawq(attritubebackground,quads.botright,x+w,y+h)
+	love.graphics.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
+	love.graphics.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
+	love.graphics.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
+	love.graphics.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
+	love.graphics.drawq(attritubebackground,quads.mid,x,y,0,w,h)
+--	love.graphics.setColor(unpack(skin.controls.tooltip_body_color))
+--	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--	love.graphics.setColor(unpack(skin.controls.tooltip_border_color))
+--	skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+--	love.graphics.setColor(unpack(skin.controls.tooltip_text_color))
 	
 end
 

@@ -180,7 +180,7 @@ function checkbox:mousereleased(x, y, button)
 		end
 		
 		if self.OnChanged then
-			self.OnChanged(self)
+			self.OnChanged(self,self.checked)
 		end
 		
 	end
@@ -272,14 +272,14 @@ function checkbox:SetHeight(height)
 end
 
 --[[---------------------------------------------------------
-	- func: SetChecked(bool)
+	- func: SetChecked(bool,effect)
 	- desc: sets whether the object is checked or not
 --]]---------------------------------------------------------
-function checkbox:SetChecked(bool)
-
+function checkbox:SetChecked(bool,effect)
+	
 	self.checked = bool
 	
-	if self.OnChanged then
+	if effect and self.OnChanged then
 		self.OnChanged(self)
 	end
 	

@@ -5,4 +5,13 @@ function requireImage(f)
 	end
 	return img[f]
 end
-	
+
+local essential = {}
+function essential.setTextureQuality()
+	-- unimplemented
+end
+function essential.getAvailableTextureQuality()
+	return {'HIGH'}
+end
+
+return essential

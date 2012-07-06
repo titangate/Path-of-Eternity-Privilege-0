@@ -61,11 +61,14 @@ function tooltip:update(dt)
 	
 	local object = self.object
 	local draworder = self.draworder
+	assert(draworder,'toop tip requires a draworder')
 	
 	if object then
 	
 		local hover = object.hover
 		local odraworder = object.draworder
+--		if not odraworder then return end
+		assert(odraworder,'object requires a draworder')
 		
 		self.show = object.hover
 		self.visible = self.show

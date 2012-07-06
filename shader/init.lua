@@ -1,6 +1,25 @@
-filters={
-	vibrate = require 'shader.vibrate',
-	zoomblur = require 'shader.zoomblur',
+local emptyshader = {}
+function emptyshader.predraw()end
+function emptyshader.conf()end
+function emptyshader.postdraw()end
+
+local fil = {
+	ULTRA = {
+		vibrate = require 'shader.vibrate',
+		zoomblur = require 'shader.zoomblur',
+	},
+	HIGH = {
+		vibrate = require 'shader.vibrate',
+		zoomblur = require 'shader.zoomblur',
+	},
+	LOW = {
+		vibrate = require 'shader.vibrate',
+		zoomblur = emptyshader,
+	},
+	DISABLED = {
+		vibrate = emptyshader,
+		zoomblur = emptyshader,
+	},
 }
 function neartwo(n)
 	local r=1
@@ -13,6 +32,8 @@ end
 canvasmanager = {}
 function canvasmanager.requireCanvas(w,h)
 	w,h = neartwo(w),neartwo(h)
+	w = math.min(w,screen.width)
+	h = math.min(h,screen.height)
 	if not canvasmanager[w*10000+h] then
 		canvasmanager[w*10000+h] = {}
 	end
@@ -27,3 +48,16 @@ function canvasmanager.releaseCanvas(c)
 	assert(canvasmanager[c.w*10000+c.h])
 	table.insert(canvasmanager[c.w*10000+c.h],c)
 end
+
+local shader = {}
+function shader.setQuality()
+	local q = option.shaderquality
+	assert(fil[q])
+	filters = fil[q]
+end
+
+function shader.getAvailableQuality()
+	return {'DISABLED','LOW','HIGH','ULTRA'}
+end
+
+return shader

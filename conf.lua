@@ -15,10 +15,10 @@ function love.conf(t)
     t.modules.sound 	= true      
     t.modules.physics 	= true
     t.screen.fullscreen = false 
-    t.screen.vsync 		= false
+    t.screen.vsync 		= true
     
     t.screen.fsaa 		= 0           
-    t.screen.height 	= 800       
+    t.screen.height 	= 768       
     t.screen.width 		= 1280   
 	
 end

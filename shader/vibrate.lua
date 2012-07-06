@@ -27,15 +27,15 @@ function vibrate.predraw(obj)
 	vibrate.c = c
 	love.graphics.push()
 	love.graphics.translate(-obj:GetX()+(w2-w)/2,-obj:GetY())
-	
 end
 
 function vibrate.postdraw(obj)
 local w = obj:GetWidth()
-local w2 = neartwo(w*2)
+local w2 = math.min(screen.width,neartwo(w*2))
 	love.graphics.pop()
 	love.graphics.setCanvas(vibrate.prevc)
 	love.graphics.setPixelEffect(vibrate.pe)
+	love.graphics.setColor(255,255,255)
 	love.graphics.draw(vibrate.c.canvas,obj:GetX()-(w2-w)/2,obj:GetY())
 	canvasmanager.releaseCanvas(vibrate.c)
 	love.graphics.setPixelEffect()
