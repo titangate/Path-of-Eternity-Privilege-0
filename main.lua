@@ -9,21 +9,20 @@ end
 
 require 'middleclass'
 Stateful = require"stateful"
-require 'localization'
-require 'mathematic'
-local essential = require 'essential'
+local localization = require 'library.localization'
+require 'library.mathematic'
+local essential = require 'library.essential'
 require 'ai'
 require 'gameobject'
-local waits = require 'trigger'
+local waits = require 'library.trigger'
 local shader = require 'shader'
+local graphics = require 'library.graphics'
 
 screen = {
 	width = love.graphics.getWidth(),
 	height = love.graphics.getHeight(),
 	halfwidth = love.graphics.getWidth()/2,
 	halfheight = love.graphics.getHeight()/2,
-	w = love.graphics.getWidth(),
-	h = love.graphics.getHeight(),
 }
 
 option = {
@@ -32,20 +31,59 @@ option = {
 	seperateUI = true,
 	shaderquality = 'HIGH',
 	texturequality = 'HIGH',
+	language = 'English',
 }
 
-function initFont()
+local gamesys = {}
+function gamesys.push(sys,transtime)
+	table.insert(gamesys,sys)
+	loveframes.anim:easy(gamesys,'transtime',1,0,transtime)
+	sys.host = gamesys
 end
 
-local g = require 'gamesystem.graphics'
+
+function gamesys.pop(transtime)
+	
+--	loveframes.anim:easy(gamesys,'transtime',1,0,transtime)
+--	sys.host = nil
+	return table.remove(gamesys,sys)
+end
+
+function gamesys.top()
+	return gamesys[#gamesys]
+end
+
+
+function gamesys.update(dt)
+	if gamesys.transtime > 0 and gamesys[#gamesys-1] then
+		gamesys[#gamesys-1]:update(dt)
+	end
+	gamesys[#gamesys]:update(dt)
+end
+
+function gamesys.draw()
+	if gamesys.transtime > 0 and gamesys[#gamesys-1] then
+		gamesys[#gamesys-1]:draw()
+	end
+	gamesys[#gamesys]:draw()
+end
+
+
 
 function love.load()
 	
-	g.load()
-	assert(g.canvas)
+	graphics.load()
+	assert(graphics.canvas)
 	-- UI init --
-	setLocalization'eng'
 	
+	if love.filesystem.isFile'option' then
+		essential.load(table.load(love.filesystem.read('option')))
+	end
+	
+	if love.filesystem.isFile'graphics' then
+		graphics.load(table.load(love.filesystem.read('graphics')))
+	end
+	localization.setLocalization(option.language)
 	essential.setTextureQuality()
 	shader.setQuality()
 --	initFont()
@@ -55,26 +93,34 @@ function love.load()
 	
 	-- load the sin selector menu
 	
-	gamesystem = require 'gamesystem.mainmenu'
+	local mainmenu = require 'gamesystem.mainmenu'
 	
-	gamesystem:load()
+	mainmenu:loadmain()
 	
-	loveframes.debug.SkinSelector()
-	loveframes.debug.ExamplesMenu()
+	gamesys.push(mainmenu)
+	
+	if DEBUG then
+		loveframes.config["DEBUG"] = true
+	else
+		loveframes.config["DEBUG"] = false
+	end
+	loveframes.config["DEBUG"] = false
+--	loveframes.debug.SkinSelector()
+--	loveframes.debug.ExamplesMenu()
 	
 --	love.graphics.setBackgroundColor(255,255,255,0)
 end
 
 function love.mousepressed(x, y, button)
 	
-	gamesystem:mousepressed(x,y,button)
+	gamesys[#gamesys]:mousepressed(x,y,button)
 	loveframes.mousepressed(x, y, button)
 	
 end
 
 function love.mousereleased(x, y, button)
 
-	gamesystem:mousereleased(x,y,button)
+	gamesys[#gamesys]:mousereleased(x,y,button)
 	loveframes.mousereleased(x, y, button)
 
 end
@@ -82,7 +128,7 @@ end
 
 function love.keypressed(key, unicode)
 
-	gamesystem:keypressed(key,unicode)
+	gamesys[#gamesys]:keypressed(key,unicode)
 	loveframes.keypressed(key, unicode)
 	
 	if key == "`" then
@@ -101,7 +147,7 @@ end
 
 function love.keyreleased(key)
 
-	gamesystem:keyreleased(key)
+	gamesys[#gamesys]:keyreleased(key)
 	loveframes.keyreleased(key)
 	
 end
@@ -120,26 +166,27 @@ function love.update(dt)
 		loveframes.update(dt)
 	end
 	waits.update()
-	gamesystem:update(dt)
+	gamesys.update(dt)
 end
 
 function love.draw()
 	--love.graphics.setColor(0,255,255)
 	
 	--love.graphics.rectangle('fill',0,0,10000,10000)
-	gamesystem:draw()
+	
+	gamesys.draw()
 	if option.seperateUI then
 		if refreshUI then
-			g.canvas.c:clear()
+			graphics.canvas.c:clear()
 			love.graphics.setColor(255,255,255)
-			love.graphics.setCanvas(g.canvas.c)
+			love.graphics.setCanvas(graphics.canvas.c)
 			loveframes.draw()
 			love.graphics.setCanvas()
 			refreshUI = false
 		end
 		love.graphics.setColor(255,255,255)
 		love.graphics.setBlendMode'premultiplied'
-		love.graphics.draw(g.canvas.c)
+		love.graphics.draw(graphics.canvas.c)
 		love.graphics.setBlendMode'alpha'
 	else
 		

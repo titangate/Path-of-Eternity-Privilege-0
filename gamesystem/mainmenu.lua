@@ -9,12 +9,23 @@ function mainmenu:load()
 --	map:SetColor{82, 60, 25,255}
 	
 	local img = requireImage'worldmap.png'
-	local dx,dy = img:getWidth()/2-screen.halfwidth,img:getHeight()/2-screen.halfheight
 	function map.Draw(m)
-		love.graphics.setColor(82, 60, 25,self.mapopacity)
-		love.graphics.draw(img,-dx+self.focus.x,-dy+self.focus.y,0,self.mapscale,self.mapscale,self.focus.x,self.focus.y)
+		love.graphics.setColor(82, 60, 25,self.mapopacity^0.3*255)
+		love.graphics.push()
+--		love.graphics.translate(screen.halfwidth,screen.halfheight)
+		local x,y = self.focus.x,self.focus.y
+		local ox,oy = 0,0
+		local s = screen.width/img:getWidth()*self.mapscale
+--		love.graphics.translate(-screen.halfwidth*s,-screen.halfheight*s)self.mapopacity
+		love.graphics.translate(-x*s*(1-self.mapopacity)^0.3,-y*s*(1-self.mapopacity)^0.3)
+		love.graphics.scale(s)
+		love.graphics.translate((ox+screen.halfwidth)/s,(oy+screen.halfheight)/s)
+		love.graphics.draw(img,0,0,0,1,1,img:getWidth()/2,img:getHeight()/2)
+		love.graphics.setColor(255,0,0,self.mapopacity^0.3*255)
+		love.graphics.circle('fill',x,y,15)
+		love.graphics.pop()
 	end
-	
+	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")
 	exampleslist:SetSize(450, exampleslist:GetParent():GetHeight() - 25)
 	exampleslist:SetPos(screen.halfwidth,screen.halfheight)
@@ -22,22 +33,6 @@ function mainmenu:load()
 	exampleslist:SetSpacing(0)
 	exampleslist:SetDisplayType("vertical")
 	
-	local collapsiblecategory1 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory1:SetPos(5, 30)
-	collapsiblecategory1:SetSize(490, 265)
-	collapsiblecategory1:SetText(LocalizedString"RESUME GAME")
-	collapsiblecategory1:SetDescription(LocalizedString'RESTART FROM LAST CHECKPOINT')
-	
-	local collapsiblecategory2 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory2:SetPos(5, 60)
-	collapsiblecategory2:SetSize(490, 265)
-	collapsiblecategory2:SetText(LocalizedString"START GAME")
-	collapsiblecategory2:SetDescription(LocalizedString'START HOSPTIAL GAMEPLAY DEMO')
-	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory3:SetPos(5, 60)
-	collapsiblecategory3:SetSize(490, 265)
-	collapsiblecategory3:SetText(LocalizedString"QUIT GAME")
-	collapsiblecategory3:SetDescription(LocalizedString'EXIT TO OPERATION SYSTEM')
 	
 	function exampleslist:Draw()
 	end
@@ -50,7 +45,7 @@ function mainmenu:load()
 	local textframe = loveframes.Create("frame")
 	textframe:SetPos(-100,-100)
 	textframe:SetSize(50,50)
---	function textframe.Draw()end
+	function textframe.Draw()end
 	self.textframe = textframe
 	self.text = {}
 	
@@ -73,10 +68,11 @@ function mainmenu:load()
 			text = text()
 		end
 		local t = loveframes.Create('text',self.textframe)
-		t:SetFont(font.smallfont)
-		t:SetPos(screen.halfwidth - 300,screen.halfheight+200)
+--		t:SetFont(font.smallfont)
+		t:SetPos(screen.halfwidth - 300,screen.halfheight + 200)
+		
 		loveframes.anim:easy(t,'y',screen.halfheight+200,screen.halfheight-150,10)
-
+		t:SetWidth(300)
 		t.filter = filters.vibrate
 		loveframes.anim:easy(t,'vibrate_ref',3,0,1,loveframes.style.linear)
 		t:SetText(text)
@@ -108,10 +104,96 @@ function mainmenu:load()
 	coroutinemsg(coroutine.resume(self.co))
 	
 	-- map related argument
-	self.mapopacity = 255
+	self.mapopacity = 1
 	self.mapscale = 1
-	self.focus = Vector(0,0)
 	
+end
+
+function mainmenu:loadpostmenu()
+	
+	local exampleslist = self.base
+	local collapsiblecategory1 = loveframes.Create("menubutton", exampleslist)
+	collapsiblecategory1:SetPos(5, 30)
+	collapsiblecategory1:SetSize(490, 265)
+	collapsiblecategory1:SetText(LocalizedString"RESUME GAME")
+	collapsiblecategory1:SetDescription(LocalizedString'RESTART FROM LAST CHECKPOINT')
+	
+	local collapsiblecategory2 = loveframes.Create("menubutton", exampleslist)
+	collapsiblecategory2:SetPos(5, 60)
+	collapsiblecategory2:SetSize(490, 265)
+	collapsiblecategory2:SetText(LocalizedString"START GAME")
+	collapsiblecategory2:SetDescription(LocalizedString'START HOSPTIAL GAMEPLAY DEMO')
+	
+	collapsiblecategory2.OnClick = function(object)
+		--love.event.push'quit'
+		assert(self.host)
+		
+		coroutine.resume(coroutine.create(function()
+		self:zoomin(500,121,1)
+		self:dismiss()end))
+		wait(0.5)
+		local gs = require 'gamesystem.demogame'
+		gs:load()
+		self.host.push(gs,1)
+	end
+	
+	local collapsiblecategory4 = loveframes.Create("menubutton", exampleslist)
+	collapsiblecategory4:SetPos(5, 60)
+	collapsiblecategory4:SetSize(490, 265)
+	collapsiblecategory4:SetText(LocalizedString"OPTIONS")
+	collapsiblecategory4:SetDescription(LocalizedString'CHANGE GAMEPLAY, GRAPHICS, AUDIO SETTINGS')
+	
+	collapsiblecategory4.OnClick = function(object)
+		
+		require 'gamesystem.optionmenu'.OnReset = function()self:reset()end
+		require 'gamesystem.optionmenu':load()
+	end
+	
+	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)
+	collapsiblecategory3:SetPos(5, 60)
+	collapsiblecategory3:SetSize(490, 265)
+	collapsiblecategory3:SetText(LocalizedString"QUIT GAME")
+	collapsiblecategory3:SetDescription(LocalizedString'EXIT TO OPERATION SYSTEM')
+	collapsiblecategory3.OnClick = function(object)
+		love.event.push'quit'
+	end
+	self.lastload = self.loadmain
+	
+end
+
+function mainmenu:loadmain()
+	self:load()
+	local exampleslist = self.base
+	self:loadpostmenu()
+	local t=self.map
+	t.filter = filters.vibrate
+	loveframes.anim:easy(t,'vibrate_ref',10,0,1,loveframes.style.linear)
+end
+
+function mainmenu:loadpause()
+	self:load()
+	local exampleslist = self.base
+	
+	local collapsiblecategory0 = loveframes.Create("menubutton", exampleslist)
+	collapsiblecategory0:SetPos(5, 30)
+	collapsiblecategory0:SetSize(490, 265)
+	collapsiblecategory0:SetText(LocalizedString"CONTINUE")
+	collapsiblecategory0:SetDescription(LocalizedString'DISMISS THIS MENU AND CONTINUE THE GAME')
+	
+	collapsiblecategory0.OnClick = function(object)
+		assert(self.host)
+		
+		coroutine.resume(coroutine.create(function()
+			self:zoomin(500,121,1)
+			self:dismiss()
+		end))
+		wait(0.25)
+		self.host.pop()
+		self.host.top():loadresume()
+	end
+	self:loadpostmenu()
+	self.lastload = self.loadpause
+	self:zoomout(500,121,0.5)
 end
 
 function mainmenu:reset()
@@ -123,7 +205,7 @@ function mainmenu:reset()
 	self.map:Remove()
 	self.base:Remove()
 	self.dismissing = true
-	self:load()
+	self:lastload()
 end
 
 function mainmenu:update(dt)
@@ -138,11 +220,13 @@ function mainmenu:keypressed(k)
 	if k=='c' then
 		coroutine.resume(coroutine.create(function ()self:dismiss()end))
 	elseif k=='m' then
-		coroutine.resume(coroutine.create(function ()self:zoomin(500,200,10)end))
+		coroutine.resume(coroutine.create(function ()self:zoomin(500,121,1)end))
 	elseif k=='n' then
-		coroutine.resume(coroutine.create(function ()self:zoomout(500,200,10)end))
+		coroutine.resume(coroutine.create(function ()self:zoomout(500,121,10)end))
 	elseif k=='o' then
+		require 'gamesystem.optionmenu'.OnReset = function()self:reset()end
 		require 'gamesystem.optionmenu':load()
+		
 	end
 end
 
@@ -158,12 +242,12 @@ function mainmenu:dismiss()
 	self.dismissing = true
 	for i,t in ipairs(self.text) do
 		t.filter = filters.vibrate
-		loveframes.anim:easy(t,'vibrate_ref',0,10,1,loveframes.style.linear)
+		loveframes.anim:easy(t,'vibrate_ref',0,10,0.5,loveframes.style.linear)
 	end
 	local t = self.base
 	t.filter = filters.vibrate
-	loveframes.anim:easy(t,'vibrate_ref',0,10,1,loveframes.style.linear)
-	wait(1)
+	loveframes.anim:easy(t,'vibrate_ref',0,10,0.5,loveframes.style.linear)
+	wait(0.5)
 	
 	for i,t in ipairs(self.text) do
 		t:Remove()
@@ -174,27 +258,32 @@ end
 function mainmenu:zoomin(x,y,time)
 	self.focus = Vector(x,y)
 	loveframes.anim:easy(self,'mapscale',1,10,time)
-	loveframes.anim:easy(self,'mapopacity',255,0,time)
+	loveframes.anim:easy(self,'mapopacity',1,0,time)
 	
 	local t = self.map
 	t.filter = filters.zoomblur
-	t.zoomblur_center = self.focus
+	t.zoomblur_center = Vector(self.focus.x,self.focus.y)
 	t.zoomblur_intensity = 1
 	loveframes.anim:easy(t,'zoomblur_intensity',0,5,time,loveframes.style.linear)
+	loveframes.anim:easy(t.zoomblur_center,'x',self.focus.x,0.5,time,loveframes.style.linear)
+	loveframes.anim:easy(t.zoomblur_center,'y',self.focus.y,0.5,time,loveframes.style.linear)
 	wait(time)
 	t.filter = nil
 end
 
 function mainmenu:zoomout(x,y,time)
-	self.focus = Vector(x,time)
+	
+	self.focus = Vector(x,y)
 	loveframes.anim:easy(self,'mapscale',10,1,time)
-	loveframes.anim:easy(self,'mapopacity',0,255,time)
+	loveframes.anim:easy(self,'mapopacity',0,1,time)
 	
 	local t = self.map
 	t.filter = filters.zoomblur
-	t.zoomblur_center = self.focus
+	t.zoomblur_center = Vector(self.focus.x,self.focus.y)
 	t.zoomblur_intensity = 1
 	loveframes.anim:easy(t,'zoomblur_intensity',5,0,time,loveframes.style.linear)
+	loveframes.anim:easy(t.zoomblur_center,'x',0.5,self.focus.x,time,loveframes.style.linear)
+	loveframes.anim:easy(t.zoomblur_center,'y',0.5,self.focus.y,time,loveframes.style.linear)
 	wait(time)
 	t.filter = nil
 end

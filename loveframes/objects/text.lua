@@ -133,14 +133,15 @@ function text:SetText(t)
 			prevcolor = v
 		elseif dtype == "string" then
 			
-			v = v:gsub(string.char(9), "    ")
-			v = v:gsub("\n", "")
+--[[			v = v:gsub(string.char(9), "    ")
+--			v = v:gsub("\n", "")
 			
-			local parts = loveframes.util.SplitSring(v, " ")
+--			local parts = loveframes.util.SplitSring(v, " ")
 					
 			for i, j in ipairs(parts) do
 				table.insert(self.text, {color = prevcolor, text = j})
-			end
+			end]]
+			self.text = {{color = prevcolor,text=v}}
 			
 		end
 		
@@ -149,17 +150,18 @@ function text:SetText(t)
 	if maxw > 0 then
 	
 		for k, v in ipairs(self.text) do
-					
 			local data = v.text
 			local width = font:getWidth(data)
 			local curw = 0
 			local new = ""
 			local key = k
 			
-			if width > maxw then
+			self.height = select(2,fontGetWrap(font,data,maxw))*font:getHeight("a")
+			
+--[[			if width > maxw then
 					
 				table.remove(self.text, k)
-				
+				table.insert(inserts,{key = key,color = v.color, text = new})
 				for n=1, #data do
 							
 					local item = data:sub(n, n)
@@ -184,15 +186,15 @@ function text:SetText(t)
 							
 				end
 						
-			end
+			end]]
 					
 		end
 		
 	end
 	
-	for k, v in ipairs(inserts) do
-		table.insert(self.text, v.key, {color = v.color, text = v.text})
-	end
+--	for k, v in ipairs(inserts) do
+--		table.insert(self.text, v.key, {color = v.color, text = v.text})
+--	end
 	self:DrawText()
 end
 
@@ -230,6 +232,10 @@ function text:DrawText()
 		
 		local text = v.text
 		local color = v.color
+		sfn(font)
+		pfn(text,x,y,maxw,'left')
+		totalwidth = font:getWidth(text)
+		--[[
 		if type(text) == "string" then
 		
 			local width = font:getWidth(text)
@@ -254,7 +260,7 @@ function text:DrawText()
 				
 				prevtextwidth = width
 				
-				love.graphics.setFont(font)
+				sfn(font)
 				love.graphics.setColor(unpack(color))
 				
 				pn(text, x + drawx, y + drawy)
@@ -267,13 +273,13 @@ function text:DrawText()
 				
 				prevtextwidth = width
 				
-				love.graphics.setFont(font)
+				sfn(font)
 				love.graphics.setColor(unpack(color))
 				pn(text, x + drawx, y)
 				
 			end
 			
-		end
+		end]]
 	
 	end
 	
@@ -283,7 +289,7 @@ function text:DrawText()
 		self.width = totalwidth
 	end
 	
-	self.height = drawy + height
+--	self.height = drawy + height
 	
 end
 

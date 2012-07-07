@@ -35,7 +35,7 @@ function loveframes.debug.draw()
 	local objects = loveframes.util.GetAllObjects()
 	
 	-- font for debug text
-	love.graphics.setFont(font)
+	sfn(font)
 	
 	love.graphics.setColor(0, 0, 0, 150)
 	love.graphics.rectangle("fill", 5, 5, 200, 250)

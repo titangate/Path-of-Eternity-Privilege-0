@@ -2,16 +2,15 @@ local zoomblur = {}
 zoomblur.pe = love.graphics.newPixelEffect[[
 	extern vec2 center; // Center of blur
 	extern number intensity = 1; // effect intensity
-	const number offset[5] = number[](0,0.05,0.1,0.15,0.2);
-	const number weight[5] = number[](0.5,0.2,0.1,0.1,0.1);
-	
+	const number offset = 0.025;
+	const number step = 10;
 	vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 	{
-		vec4 texcolor = Texel(texture, texture_coords)*weight[0];
+		vec4 texcolor = Texel(texture, texture_coords)/step;
 		vec2 diff = (texture_coords - center);
-		for (int i=1;i<5;i++)
+		for (int i=1;i<step;i++)
 		{
-			texcolor += Texel(texture,center + diff*(1+offset[i]*intensity))*weight[i];
+			texcolor += Texel(texture,center + diff*(1+offset*i*intensity))/step;
 		}
 		return color * texcolor;
 	}

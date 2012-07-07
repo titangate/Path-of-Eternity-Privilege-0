@@ -1,7 +1,8 @@
 local optionmenu = {}
+local essential = require 'library.essential'
 function optionmenu:load()
 	local frame1 = loveframes.Create("frame")
-	frame1:SetName("OPTIONS")
+	frame1:SetName(LocalizedString"OPTIONS")
 	frame1:SetSize(500, 300)
 	frame1:Center()
 	
@@ -17,17 +18,33 @@ function optionmenu:load()
 	local gameplaypanel = loveframes.Create"panel"
 	function gameplaypanel.Draw() end
 	
-	local text1 = loveframes.Create("text", gameplaypanel)
-	text1:SetText("GAMEPLAY STUFF HERE")
-	text1:SetAlwaysUpdate(true)
-	text1.Update = function(object, dt)
-		object:Center()
-	end
-	tabs1:AddTab(LocalizedString"GAMEPLAY", gameplaypanel)
+	local languagechoice = loveframes.Create("multichoice", gameplaypanel)
+	languagechoice:SetPos(0, 50)
 	
+	local localization = require 'library.localization'
+	local text0 = loveframes.Create("text", gameplaypanel)
+	text0:SetText(LocalizedString"LANGUAGE")
+	text0:SetPos(0,30)
+	local modes = localization.getAvailableLanguage()
+	local cos_language = {}
+	for i,v in ipairs(modes) do
+		languagechoice:AddChoice(LocalizedString(v))
+		cos_language[LocalizedString(v)] = v
+	end
+	languagechoice:SetChoice(LocalizedString(option.language))
+	languagechoice.OnChoiceSelected = function(object,choice)
+		option.language = cos_language[choice]
+		essential.save()
+	end
+	
+	languagechoice.tooltip = tooltip:new(languagechoice, LocalizedString'Language setting will take effect after restarting the game.',300)
+	languagechoice.tooltip:SetFollowCursor(false)
+	languagechoice.tooltip:SetOffsets(0, -5)
+	tabs1:AddTab(LocalizedString'GAMEPLAY',gameplaypanel)
+
 	local graphicspanel = loveframes.Create"panel"
 	function graphicspanel.Draw() end
-	local g = require 'gamesystem.graphics'
+	local g = require 'library.graphics'
 	g.load()
 	local multichoice1 = loveframes.Create("multichoice", graphicspanel)
 	multichoice1:SetPos(5, 50)
@@ -63,7 +80,10 @@ function optionmenu:load()
 		g.setArgument('height',v.height)
 		g.setArgument('fullscreen',v.fullscreen)
 		g.apply()
-		gamesystem:reset()
+		if self.OnReset then
+			coroutinemsg(coroutine.resume(coroutine.create(self.OnReset)))
+		end
+--		gamesys:reset()
 		frame1:MakeTop()
 	end
 	
@@ -86,6 +106,8 @@ function optionmenu:load()
 	checkbox2:SetPos(5, 120)
 	checkbox2.OnChanged = function(object2,check)
 		option.seperateUI = check
+		
+		essential.save()
 	end
 	
 	
@@ -116,17 +138,18 @@ function optionmenu:load()
 	multichoice2.OnChoiceSelected = function(object,choice)
 		option.shaderquality = cos_shader[choice]
 		shader.setQuality()
+		essential.save()
 	end
 	
 	
-	multichoice2.tooltip = tooltip:new(multichoice2, LocalizedString'Lower shader settings can drastically increase frame rate. Player may experience compatablity issue on Ultra settings.')
+	multichoice2.tooltip = tooltip:new(multichoice2, LocalizedString'Lower shader settings can drastically increase frame rate. Player may experience compatablity issue on Ultra settings.',300)
 	multichoice2.tooltip:SetFollowCursor(false)
 	multichoice2.tooltip:SetOffsets(0, -5)
 	
 	local multichoice3 = loveframes.Create("multichoice", graphicspanel)
 	multichoice3:SetPos(255, 100)
 	
-	local essential = require 'essential'
+	local essential = require 'library.essential'
 	local text3 = loveframes.Create("text", graphicspanel)
 	text3:SetText(LocalizedString"TEXTURE QUALITY")
 	text3:SetPos(255,80)

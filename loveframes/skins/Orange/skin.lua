@@ -285,7 +285,7 @@ function skin.DrawFrame(object)
 	skin.OutlinedRectangle(object:GetX(), object:GetY() + 25, object:GetWidth(), 1)
 	
 	-- frame name section
-	love.graphics.setFont(skin.controls.frame_name_font)
+	sfn(skin.controls.frame_name_font)
 	love.graphics.setColor(unpack(skin.controls.frame_name_color))
 	pn(object.name, object:GetX() + 5, object:GetY() + 5)
 	
@@ -319,7 +319,7 @@ function skin.DrawButton(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- button text
-		love.graphics.setFont(skin.controls.button_text_font)
+		sfn(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_down_color))
 		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
@@ -337,7 +337,7 @@ function skin.DrawButton(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- button text
-		love.graphics.setFont(skin.controls.button_text_font)
+		sfn(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_hover_color))
 		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
@@ -355,7 +355,7 @@ function skin.DrawButton(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- button text
-		love.graphics.setFont(skin.controls.button_text_font)
+		sfn(skin.controls.button_text_font)
 		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
 		pn(object.text, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
@@ -445,7 +445,7 @@ function skin.DrawImageButton(object)
 			love.graphics.draw(image, object:GetX() + 1, object:GetY() + 1)
 		end
 		
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2 + 1, object:GetY() + object:GetHeight() - theight - 5 + 1)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
@@ -458,7 +458,7 @@ function skin.DrawImageButton(object)
 			love.graphics.draw(image, object:GetX(), object:GetY())
 		end
 		
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_hover_color))
@@ -471,7 +471,7 @@ function skin.DrawImageButton(object)
 			love.graphics.draw(image, object:GetX(), object:GetY())
 		end
 		
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight() - theight - 5)
 		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
@@ -499,7 +499,7 @@ function skin.DrawProgressBar(object)
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object.progress, object:GetHeight())
 	gradientcolor = {skin.controls.progressbar_bar_color[1], skin.controls.progressbar_bar_color[2] - 20, skin.controls.progressbar_bar_color[3], 255}
 	skin.DrawGradient(object:GetX(), object:GetY(), object.progress, object:GetHeight(), "up", gradientcolor)
-	love.graphics.setFont(font)
+	sfn(font)
 	love.graphics.setColor(unpack(skin.controls.progressbar_text_color))
 	pn(object.value .. "/" ..object.max, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 	
@@ -675,12 +675,12 @@ function skin.DrawTabButton(object)
 			love.graphics.setColor(255, 255, 255, 255)
 			love.graphics.draw(image, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - imageheight/2)
 			-- button text
-			love.graphics.setFont(skin.controls.tab_text_font)
+			sfn(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
 			pn(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
 		else
 			-- button text
-			love.graphics.setFont(skin.controls.tab_text_font)
+			sfn(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
 			pn(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
 		end
@@ -702,12 +702,12 @@ function skin.DrawTabButton(object)
 			love.graphics.setColor(255, 255, 255, 150)
 			love.graphics.draw(image, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - imageheight/2)
 			-- button text
-			love.graphics.setFont(skin.controls.tab_text_font)
+			sfn(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
 			pn(object.text, object:GetX() + imagewidth + 10, object:GetY() + object:GetHeight()/2 - theight/2)
 		else
 			-- button text
-			love.graphics.setFont(skin.controls.tab_text_font)
+			sfn(skin.controls.tab_text_font)
 			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
 			pn(object.text, object:GetX() + 5, object:GetY() + object:GetHeight()/2 - theight/2)
 		end
@@ -728,7 +728,7 @@ function skin.DrawMultiChoice(object)
 	love.graphics.rectangle("fill", object:GetX() + 1, object:GetY() + 1, object:GetWidth() - 2, object:GetHeight() - 2)
 	
 	love.graphics.setColor(skin.controls.multichoice_text_color)
-	love.graphics.setFont(skin.controls.multichoice_text_font)
+	sfn(skin.controls.multichoice_text_font)
 	
 	local h = smallfont:getHeight()
 	
@@ -774,7 +774,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawMultiChoiceRow(object)
 	
-	love.graphics.setFont(skin.controls.multichoicerow_text_font)
+	sfn(skin.controls.multichoicerow_text_font)
 	
 	if object.hover == true then
 		love.graphics.setColor(unpack(skin.controls.multichoicerow_body_hover_color))
@@ -1113,7 +1113,7 @@ function skin.DrawColumnListHeader(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- header name
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_down_color))
 		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
@@ -1131,7 +1131,7 @@ function skin.DrawColumnListHeader(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- header name
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_hover_color))
 		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		
@@ -1149,7 +1149,7 @@ function skin.DrawColumnListHeader(object)
 		skin.DrawGradient(object:GetX(), object:GetY() - 1, object:GetWidth(), object:GetHeight(), "up", gradientcolor)
 		
 		-- header name
-		love.graphics.setFont(font)
+		sfn(font)
 		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
 		pn(object.name, object:GetX() + object:GetWidth()/2 - twidth/2, object:GetY() + object:GetHeight()/2 - theight/2)
 		

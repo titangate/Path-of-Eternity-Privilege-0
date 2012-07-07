@@ -24,6 +24,8 @@ function menubutton:initialize()
 	self.down		 	= false
 	self.children		= {}
 	self.OnOpenedClosed	= nil
+	self.clickable		= true
+	self.enabled		= true
 	
 end
 
@@ -162,7 +164,7 @@ function menubutton:mousereleased(x, y, button)
 	if hover == true and down == true and button == "l" and clickable == true then
 		if enabled == true then
 			if self.OnClick then
-				self.OnClick(self, x, y)
+				coroutinemsg(coroutine.resume(coroutine.create(function() self.OnClick(self, x, y) end)))
 			end
 		end
 	end
@@ -316,6 +318,7 @@ function menubutton:SetDescription(text)
 		local textobject = loveframes.Create("text")
 		textobject:SetSize(self.width,50)
 		textobject:SetText({skin.controls.menubutton_text_hover_color,text})
+--		textobject:SetFont(font.smallfont)
 		
 --		textobject:SetText(text)
 		self:SetObject(textobject)

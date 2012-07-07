@@ -187,7 +187,9 @@ local shiftx,shifty = 3^0.5/2,1.5
 function PathMap:DebugDraw()
 	local g = love.graphics
 	g.push()
-	g.setBackgroundColor(255,255,255)
+	g.setColor(255,255,255)
+	g.rectangle('fill',0,0,screen.width,screen.height)
+--	g.setBackgroundColor(255,255,255)
 	g.setColor(0,0,0,125)
 	for x=1,self.w do
 		for y=1,self.h do

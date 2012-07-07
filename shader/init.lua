@@ -7,14 +7,19 @@ local fil = {
 	ULTRA = {
 		vibrate = require 'shader.vibrate',
 		zoomblur = require 'shader.zoomblur',
+		active = require 'shader.haze',
+		inactive = require 'shader.satbri',
 	},
 	HIGH = {
 		vibrate = require 'shader.vibrate',
 		zoomblur = require 'shader.zoomblur',
+		active = require 'shader.haze',
+		inactive = require 'shader.satbri',
 	},
 	LOW = {
 		vibrate = require 'shader.vibrate',
 		zoomblur = emptyshader,
+		inactive = require 'shader.satbri',
 	},
 	DISABLED = {
 		vibrate = emptyshader,

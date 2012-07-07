@@ -3,18 +3,18 @@
 	-- By Nikolai Resokav --
 --]]------------------------------------------------
 
--- imagebutton clas
-imagebutton = class("imagebutton", base)
-imagebutton:include(loveframes.templates.default)
+-- circlebutton clas
+circlebutton = class("circlebutton", base)
+circlebutton:include(loveframes.templates.default)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function imagebutton:initialize()
+function circlebutton:initialize()
 
-	self.type			= "imagebutton"
-	self.text 			= "Image Button"
+	self.type			= "circlebutton"
+	self.text 			= "Circle Button"
 	self.width 			= 50
 	self.height 		= 50
 	self.internal		= false
@@ -23,6 +23,7 @@ function imagebutton:initialize()
 	self.enabled		= true
 	self.image			= nil
 	self.OnClick		= nil
+	self.active			= false
 	
 end
 
@@ -30,7 +31,8 @@ end
 	- func: update(deltatime)
 	- desc: updates the object
 --]]---------------------------------------------------------
-function imagebutton:update(dt)
+
+function circlebutton:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -75,7 +77,7 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function imagebutton:draw()
+function circlebutton:draw()
 	
 	local visible = self.visible
 	
@@ -95,7 +97,7 @@ function imagebutton:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawImageButton(self)
+		skin.DrawCircleButton(self)
 	end
 	
 end
@@ -104,7 +106,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function imagebutton:mousepressed(x, y, button)
+function circlebutton:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -133,7 +135,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function imagebutton:mousereleased(x, y, button)
+function circlebutton:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -162,7 +164,7 @@ end
 	- func: SetText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function imagebutton:SetText(text)
+function circlebutton:SetText(text)
 
 	self.text = text
 	
@@ -172,7 +174,7 @@ end
 	- func: GetText()
 	- desc: gets the object's text
 --]]---------------------------------------------------------
-function imagebutton:GetText()
+function circlebutton:GetText()
 
 	return self.text
 	
@@ -182,7 +184,7 @@ end
 	- func: SetClickable(bool)
 	- desc: sets whether the object can be clicked or not
 --]]---------------------------------------------------------
-function imagebutton:SetClickable(bool)
+function circlebutton:SetClickable(bool)
 
 	self.clickable = bool
 	
@@ -192,7 +194,7 @@ end
 	- func: GetClickable(bool)
 	- desc: gets whether the object can be clicked or not
 --]]---------------------------------------------------------
-function imagebutton:GetClickable()
+function circlebutton:GetClickable()
 
 	return self.clickable
 	
@@ -202,7 +204,7 @@ end
 	- func: SetClickable(bool)
 	- desc: sets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:SetEnabled(bool)
+function circlebutton:SetEnabled(bool)
 
 	self.enabled = bool
 	
@@ -212,7 +214,7 @@ end
 	- func: GetEnabled()
 	- desc: gets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:GetEnabled()
+function circlebutton:GetEnabled()
 
 	return self.enabled
 	
@@ -222,10 +224,10 @@ end
 	- func: SetImage(image)
 	- desc: sets the object's image
 --]]---------------------------------------------------------
-function imagebutton:SetImage(image)
+function circlebutton:SetImage(image)
 
 	if type(image) == "string" then
-		self.image = requireImage(image)
+		self.image = love.graphics.newImage(image)
 	else
 		self.image = image
 	end
@@ -236,7 +238,7 @@ end
 	- func: GetImage()
 	- desc: gets whether the object is enabled or not
 --]]---------------------------------------------------------
-function imagebutton:GetImage()
+function circlebutton:GetImage()
 
 	return self.image
 
@@ -246,7 +248,7 @@ end
 	- func: SizeToImage()
 	- desc: makes the object the same size as it's image
 --]]---------------------------------------------------------
-function imagebutton:SizeToImage()
+function circlebutton:SizeToImage()
 
 	local image = self.image
 	
@@ -255,4 +257,8 @@ function imagebutton:SizeToImage()
 		self.height = image:getHeight()
 	end
 
+end
+
+function circlebutton:SetPushed(bool)
+	self.pushed = bool
 end

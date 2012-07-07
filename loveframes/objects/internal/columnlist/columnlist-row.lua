@@ -88,7 +88,7 @@ function columnlistrow:draw()
 	local textcolor = self.textcolor
 	
 	for k, v in ipairs(self.columndata) do
-		love.graphics.setFont(self.font)
+		sfn(self.font)
 		love.graphics.setColor(unpack(textcolor))
 		pn(v, self.x + x, self.y + self.texty)
 		x = x + cwidth

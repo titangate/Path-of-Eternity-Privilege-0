@@ -120,7 +120,7 @@ function textinput:draw()
 		skin.DrawTextInput(self)
 	end
 	
-	love.graphics.setFont(font)
+	sfn(font)
 	love.graphics.setColor(unpack(textcolor))
 	pn(text, textx, self.texty)
 	

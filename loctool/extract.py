@@ -34,7 +34,7 @@ def scan_dirs(path):
 			m[len(m):] = r
 	return m
 
-existed = []
+existed = [file("../localization/Simplified Chinese.lua").read()]
 #print existed
 def writeToLua(r):
 	print 'return {'

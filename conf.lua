@@ -18,7 +18,7 @@ function love.conf(t)
     t.screen.vsync 		= true
     
     t.screen.fsaa 		= 0           
-    t.screen.height 	= 768       
-    t.screen.width 		= 1280   
+    t.screen.height 	= 768
+    t.screen.width 		= 1366   
 	
 end
