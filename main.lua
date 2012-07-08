@@ -17,6 +17,7 @@ require 'gameobject'
 local waits = require 'library.trigger'
 local shader = require 'shader'
 local graphics = require 'library.graphics'
+local sound = require 'library.sound'
 
 screen = {
 	width = love.graphics.getWidth(),
@@ -87,6 +88,8 @@ function love.load()
 	essential.setTextureQuality()
 	shader.setQuality()
 --	initFont()
+
+	sound.load()
 	
 	require 'loveframes'
 	-- load the examples menu

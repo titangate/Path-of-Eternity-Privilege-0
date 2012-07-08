@@ -71,6 +71,9 @@ function demogame:draw()
 --		u:DebugDraw()
 		host:DebugDraw()
 		e:DebugDraw()
+		if self.s then
+			self.s:DebugDraw()
+		end
 	end
 	u:draw()
 	m:draw()
@@ -93,7 +96,9 @@ end
 function demogame:keyreleased(k)
 end
 
-function demogame:mousepressed()
+function demogame:mousepressed(x,y,b)
+	self.s = Sound('sound/effect/eagle.wav',Vector(x,y),0.1)
+	self.s:play()
 end
 function demogame:mousereleased()
 end
