@@ -10,21 +10,51 @@ function sound.load()
 	sound.setCenter(sound.center)
 --	love.audio.setVelocity(300,300,300)
 --	love.audio.setVolume(0.5)
-love.audio.setOrientation(
+--[[love.audio.setOrientation(
       1,
       0,
       0,
-      0,1,0)
+      0,1,0)]]
 end
 
 function sound.update(dt)
 end
 
-function sound.loadsound(name)
+function sound.applyToChannel(channel,func)
+	assert(func)
+	local c = sound.channel[channel]
+	if c then
+		for i,v in ipairs(c) do
+			func(v)
+		end
+	end
+end
+
+function sound.play(s,channel)
+	assert(sound.channel)
+	if not sound.channel[channel] then
+		sound.channel[channel] = {}
+	end
+	table.insert(sound.channel[channel],s)
+	s:play()
+end
+
+function sound.cleanUp()
+	for k,c in pairs(sound.channel) do
+		for i,v in ipairs(c) do
+			if v:isStopped() then
+				table.remove(c,i)
+				i = i - 1
+			end
+		end
+	end
+end
+
+function sound.loadsound(name,mode)
 	if not sound.source[name] then
 		sound.source[name] = love.sound.newSoundData(name)
 	end
-	return love.audio.newSource(sound.source[name],'static')
+	return love.audio.newSource(sound.source[name],mode or 'static')
 end
 
 function sound.setCenter(x,y)
@@ -40,7 +70,7 @@ function sound.setDistanceModel(model)
 end
 
 Sound = Object:subclass'Sound'
-function Sound:initialize(name,pos,reach)
+function Sound:initialize(name,pos,reach,channel,host,alert)
 	self.source = sound.loadsound(name)
 	self.pos = pos
 	self.reach = reach
@@ -54,10 +84,17 @@ function Sound:initialize(name,pos,reach)
 --		self.source:setVelocity(100,100,0)
 		self.source:setPitch(1)
 	end
+	self.channel = channel or 'effect'
+	self.host = host
+	self.alert = alert
 end
 
 function Sound:play()
-	self.source:play()
+	if self.host then
+		assert(self.alert)
+		self.host:playself(self)
+	end
+	sound.play(self.source,self.channel)
 end
 
 function Sound:update(dt)

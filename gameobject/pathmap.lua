@@ -198,7 +198,7 @@ function PathMap:DebugDraw()
 			else
 				love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 			end
-			self._data[x][y]:DebugDraw()
+--			self._data[x][y]:DebugDraw()
 		end
 	end
 	g.pop()

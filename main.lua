@@ -145,6 +145,10 @@ function love.keypressed(key, unicode)
 		end
 		
 	end
+	if key == 'p' then
+		ProFi:stop()
+		ProFi:writeReport'report.txt'
+	end
 	
 end
 
@@ -170,6 +174,7 @@ function love.update(dt)
 	end
 	waits.update()
 	gamesys.update(dt)
+	sound.cleanUp()
 end
 
 function love.draw()

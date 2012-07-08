@@ -1,3 +1,5 @@
+local sound = require 'library.sound'
+
 local demogame = {}
 
 function demogame:load()
@@ -51,6 +53,7 @@ function demogame:update(dt)
 	c:update(dt)
 	m:update(dt)
 	e:update(dt)
+	sound.setCenter(u:getPosition())
 end
 
 function demogame:draw()
