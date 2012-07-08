@@ -8,8 +8,13 @@ function sound.load()
 	sound.source = {}
 	sound.setDistanceModel'linear'
 	sound.setCenter(sound.center)
-	love.audio.setVelocity(300,300,300)
+--	love.audio.setVelocity(300,300,300)
 --	love.audio.setVolume(0.5)
+love.audio.setOrientation(
+      1,
+      0,
+      0,
+      0,1,0)
 end
 
 function sound.update(dt)
@@ -27,7 +32,7 @@ function sound.setCenter(x,y)
 		x,y = unpack(x,y)
 	end
 	sound.center = Vector(x,y)
-	love.audio.setPosition(x,y,0)
+	love.audio.setPosition(x,0,y)
 end
 
 function sound.setDistanceModel(model)
@@ -40,13 +45,13 @@ function Sound:initialize(name,pos,reach)
 	self.pos = pos
 	self.reach = reach
 	if pos then
-		self.source:setPosition(pos.x,pos.y,0)
+		self.source:setPosition(pos.x,0,pos.y)
 	end
 	if reach then
 		self.source:setDistance(reach,reach*2)
 	end
 	if DEBUG then
-		self.source:setVelocity(100,100,0)
+--		self.source:setVelocity(100,100,0)
 		self.source:setPitch(1)
 	end
 end

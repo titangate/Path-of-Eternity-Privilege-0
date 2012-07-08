@@ -97,7 +97,7 @@ function demogame:keyreleased(k)
 end
 
 function demogame:mousepressed(x,y,b)
-	self.s = Sound('sound/effect/eagle.wav',Vector(x,y),0.1)
+	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
 	self.s:play()
 end
 function demogame:mousereleased()
