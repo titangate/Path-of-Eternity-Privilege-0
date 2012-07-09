@@ -54,8 +54,8 @@ skin.controls.closebutton_body_hover_color			= {255, 255, 255, 255}
 
 -- progress bar
 skin.controls.progressbar_border_color 				= bordercolor
-skin.controls.progressbar_body_color 				= {0, 0, 0, 255}
-skin.controls.progressbar_bar_color					= {0, 255, 0, 255}
+skin.controls.progressbar_body_color 				= {255, 255, 255, 127}
+skin.controls.progressbar_bar_color					= {0, 255, 0, 127}
 skin.controls.progressbar_text_color				= {255, 255, 255, 255}
 skin.controls.progressbar_text_font					= imagebuttonfont
 
@@ -668,10 +668,26 @@ function skin.DrawProgressBar(object)
 	local font = skin.controls.progressbar_text_font
 	local twidth = font:getWidth(object.value .. "/" ..object.max)
 	local theight = font:getHeight(object.value .. "/" ..object.max)
-	local gradientcolor = {}
-	
+
+	local bodycolor = object.body_color or skin.controls.progressbar_body_color
+	local barcolor = object.bar_color or skin.controls.progressbar_bar_color
+
+	local x,y = object:GetX(),object:GetY()
+	local w,h = object:GetWidth(),object:GetHeight()
+	local g = love.graphics
+	love.graphics.push()
+	love.graphics.translate(x,y)
+	love.graphics.setColor(unpack(bodycolor))
+	g.polygon('fill',unpack(object:GetBodyVertex()))
+	g.polygon('line',unpack(object:GetBodyVertex()))
+	g.setScissor(x,y,w,h)
+	love.graphics.setColor(unpack(barcolor))
+	g.polygon('fill',unpack(object:GetBarVertex()))
+	g.setScissor()
+	love.graphics.pop()
+	--[[
 	-- progress bar body
-	love.graphics.setColor(unpack(skin.controls.progressbar_body_color))
+	love.graphics.setColor(unpack())
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
 	love.graphics.setColor(unpack(skin.controls.progressbar_bar_color))
 	love.graphics.rectangle("fill", object:GetX(), object:GetY(), object.progress, object:GetHeight())
@@ -683,7 +699,7 @@ function skin.DrawProgressBar(object)
 	
 	-- progress bar border
 	love.graphics.setColor(unpack(skin.controls.progressbar_border_color))
-	skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())
+	skin.OutlinedRectangle(object:GetX(), object:GetY(), object:GetWidth(), object:GetHeight())]]
 		
 end
 
@@ -1008,6 +1024,7 @@ end
 	- desc: draws the compass
 --]]---------------------------------------------------------
 function skin.DrawCompass(object)
+	love.graphics.setColor(255,255,255)
 	local base = skin.images["compass_base.png"]
 	local needle = skin.images["compass_needle.png"]
 	local wheel = skin.images["compass_wheel.png"]

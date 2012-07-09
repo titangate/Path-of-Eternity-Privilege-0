@@ -28,7 +28,49 @@ function progressbar:initialize()
 	self.lerp			= false
 	self.internal		= false
 	self.OnComplete		= nil
-	
+	self:generateBodyVertex()
+	self:generateBarVertex()
+
+end
+
+function progressbar:GetBodyVertex()
+	return self._bodyvertex
+end
+
+
+function progressbar:GetBarVertex()
+	return self._barvertex
+end
+
+function progressbar:SetWidth(v)
+	self.width = v
+	self:generateBarVertex()
+	self:generateBodyVertex()
+end
+
+function progressbar:SetHeight(v)
+	self.height = v
+	self:generateBarVertex()
+	self:generateBodyVertex()
+end
+
+function progressbar:SetSize(w,h)
+	self.width = w
+	self.height = h
+	self:generateBarVertex()
+	self:generateBodyVertex()
+end
+
+function progressbar:generateBodyVertex()
+	local x,y = 0,0--self.x,self.y
+	local w,h = self.width,self.height
+	self._bodyvertex = {x,y,x+w,y,x+w-h,y+h,x,y+h}
+end
+
+function progressbar:generateBarVertex()
+	local x,y = 0,0--self.x,self.y
+	local w,h = self.progress,self.height
+	self._barvertex = {x-h,y,x+w,y,x+w-h,y+h,x-h,y+h}
 end
 
 --[[---------------------------------------------------------
@@ -53,6 +95,8 @@ function progressbar:update(dt)
 	local lerpfrom = self.lerpfrom
 	local value = self.value
 	local completed = self.completed
+
+	local originalvalue = self.progress
 	
 	self:CheckHover()
 	
@@ -97,6 +141,10 @@ function progressbar:update(dt)
 		if self.value > self.max then
 			self.value = self.max
 		end
+	end
+
+	if self.progress ~= originalvalue then
+		self:generateBarVertex()
 	end
 	
 	-- move to parent if there is a parent

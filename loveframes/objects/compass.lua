@@ -22,8 +22,8 @@ function compass:initialize()
 	self.Spin			= false
 	self.internal		= false
 	
-end
 
+end
 --[[---------------------------------------------------------
 	- func: update(deltatime)
 	- desc: updates the object

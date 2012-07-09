@@ -42,12 +42,32 @@ function optionmenu:load()
 	languagechoice.tooltip:SetOffsets(0, -5)
 	tabs1:AddTab(LocalizedString'GAMEPLAY',gameplaypanel)
 	
+	
+	local p = loveframes.Create("progressbar",gameplaypanel)
+	p:SetPos(380,38)
+	p:SetSize(200,10)
+	p:SetMinMax(0,100)
+	p:SetValue(20)
+	p.bar_color = {0,255,0,200}
+
+	local p = loveframes.Create("progressbar",gameplaypanel)
+	p:SetPos(380,50)
+	p:SetSize(200,10)
+	p:SetMinMax(0,100)
+	p:SetValue(50)
+	p.bar_color = {255,255,0,200}
+
+
+	local p = loveframes.Create("progressbar",gameplaypanel)
+	p:SetPos(380,62)
+	p:SetSize(200,10)
+	p:SetMinMax(0,100)
+	p:SetValue(80)
+	p.bar_color = {255,0,0,200}
+	
 	local compass = loveframes.Create("compass",gameplaypanel)
 	compass:SetPos(300,0)
-	compass:SetSize(128,128)
-	
-	
-	
+	compass:SetSize(96,96)
 	local graphicspanel = loveframes.Create"panel"
 	function graphicspanel.Draw() end
 	local g = require 'library.graphics'
