@@ -41,7 +41,13 @@ function optionmenu:load()
 	languagechoice.tooltip:SetFollowCursor(false)
 	languagechoice.tooltip:SetOffsets(0, -5)
 	tabs1:AddTab(LocalizedString'GAMEPLAY',gameplaypanel)
-
+	
+	local compass = loveframes.Create("compass",gameplaypanel)
+	compass:SetPos(300,0)
+	compass:SetSize(128,128)
+	
+	
+	
 	local graphicspanel = loveframes.Create"panel"
 	function graphicspanel.Draw() end
 	local g = require 'library.graphics'

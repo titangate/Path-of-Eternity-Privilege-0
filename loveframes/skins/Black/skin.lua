@@ -1004,6 +1004,25 @@ function skin.DrawText(object)
 end
 
 --[[---------------------------------------------------------
+	- func: DrawCompass(object)
+	- desc: draws the compass
+--]]---------------------------------------------------------
+function skin.DrawCompass(object)
+	local base = skin.images["compass_base.png"]
+	local needle = skin.images["compass_needle.png"]
+	local wheel = skin.images["compass_wheel.png"]
+	local shift = object:GetWidth()/2
+	local gshift = base:getWidth()/2
+	local scale = object:GetWidth()/base:getWidth()
+	local x,y = object:GetX(),object:GetY()
+	local r = object:GetValue()
+	local g = love.graphics
+	g.draw(base,x+shift,y+shift,0,scale,scale,gshift,gshift)
+	g.draw(wheel,x+shift,y+shift,-r,scale,scale,gshift,gshift)
+	g.draw(needle,x+shift,y+shift,r,scale,scale,gshift,gshift)
+end
+
+--[[---------------------------------------------------------
 	- func: DrawTextInput(object)
 	- desc: draws the text input object
 --]]---------------------------------------------------------

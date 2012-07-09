@@ -3,18 +3,10 @@
 local sound = {}
 function sound.load()
 	sound.center = Vector(0,0)
---	sound.enable3d = false
 	sound.channel = {}
 	sound.source = {}
 	sound.setDistanceModel'linear'
 	sound.setCenter(sound.center)
---	love.audio.setVelocity(300,300,300)
---	love.audio.setVolume(0.5)
---[[love.audio.setOrientation(
-      1,
-      0,
-      0,
-      0,1,0)]]
 end
 
 function sound.update(dt)
@@ -30,7 +22,13 @@ function sound.applyToChannel(channel,func)
 	end
 end
 
-function sound.play(s,channel)
+
+function sound.play(s,channel,mode)
+	
+	if type(s)=='string' then
+		s = sound.loadsound(s,mode)
+	end
+	if not s then return end
 	assert(sound.channel)
 	if not sound.channel[channel] then
 		sound.channel[channel] = {}
@@ -51,10 +49,15 @@ function sound.cleanUp()
 end
 
 function sound.loadsound(name,mode)
-	if not sound.source[name] then
-		sound.source[name] = love.sound.newSoundData(name)
+	if not love.filesystem.isFile(name) then return end
+	if mode == 'static' then
+		if not sound.source[name] then
+			sound.source[name] = love.sound.newSoundData(name)
+		end
+		return love.audio.newSource(sound.source[name],mode)
+	else
+		return love.audio.newSource(name,mode)
 	end
-	return love.audio.newSource(sound.source[name],mode or 'static')
 end
 
 function sound.setCenter(x,y)
@@ -69,24 +72,23 @@ function sound.setDistanceModel(model)
 	love.audio.setDistanceModel(model)
 end
 
+
+
 Sound = Object:subclass'Sound'
 function Sound:initialize(name,pos,reach,channel,host,alert)
 	self.source = sound.loadsound(name)
 	self.pos = pos
 	self.reach = reach
+	self.channel = channel or 'effect'
+	self.host = host
+	self.alert = alert
+	if not self.source then return end
 	if pos then
 		self.source:setPosition(pos.x,0,pos.y)
 	end
 	if reach then
 		self.source:setDistance(reach,reach*2)
 	end
-	if DEBUG then
---		self.source:setVelocity(100,100,0)
-		self.source:setPitch(1)
-	end
-	self.channel = channel or 'effect'
-	self.host = host
-	self.alert = alert
 end
 
 function Sound:play()
@@ -94,6 +96,7 @@ function Sound:play()
 		assert(self.alert)
 		self.host:playself(self)
 	end
+	if not self.source then return end
 	sound.play(self.source,self.channel)
 end
 

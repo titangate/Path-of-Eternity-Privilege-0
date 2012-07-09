@@ -1,5 +1,7 @@
 local mainmenu = {}
+local sound = require 'library.sound'
 function mainmenu:load()
+	-- music
 	------------------------------------
 	-- button example
 	------------------------------------
@@ -168,6 +170,13 @@ function mainmenu:loadmain()
 	local t=self.map
 	t.filter = filters.vibrate
 	loveframes.anim:easy(t,'vibrate_ref',10,0,1,loveframes.style.linear)
+	
+	sound.applyToChannel('music',function(s)s:stop()end)
+	local m = sound.loadsound('sound/music/adagio.ogg','stream')
+	if m then
+		m:setLooping(true)
+		sound.play(m,'music','stream')
+	end
 end
 
 function mainmenu:loadpause()
