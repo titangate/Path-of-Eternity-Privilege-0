@@ -685,6 +685,9 @@ function skin.DrawProgressBar(object)
 	g.polygon('fill',unpack(object:GetBarVertex()))
 	g.setScissor()
 	love.graphics.pop()
+	if object.EKG_image then
+--		skin.DrawEKG(object)
+	end
 	--[[
 	-- progress bar body
 	love.graphics.setColor(unpack())
@@ -1037,6 +1040,27 @@ function skin.DrawCompass(object)
 	g.draw(base,x+shift,y+shift,0,scale,scale,gshift,gshift)
 	g.draw(wheel,x+shift,y+shift,-r,scale,scale,gshift,gshift)
 	g.draw(needle,x+shift,y+shift,r,scale,scale,gshift,gshift)
+end
+
+--[[
+- func: Draw EKG
+]]
+
+
+function skin.DrawEKG(object)
+--	local img = object.EKG_img
+--	local center = object.EKG_center
+--	local range = object.EKG_range
+	if filters.EKG then
+		filters.EKG.conf(object)
+		filters.EKG.predraw()
+	end
+	love.graphics.setColor(255,255,255)
+		local s = object:GetHeight()/object.EKG_image:getHeight()
+	love.graphics.drawq(object.EKG_image,object.EKG_quad,object:GetX(),object:GetY(),0,s)--,0,s)
+	if filters.EKG then
+		filters.EKG.postdraw()
+	end
 end
 
 --[[---------------------------------------------------------

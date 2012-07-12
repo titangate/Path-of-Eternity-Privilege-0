@@ -10,6 +10,7 @@ function PathMap:initialize(w,h)
 		end
 	end
 	self.world = love.physics.newWorld()
+--	love.physics.setMeter(1)
 	self.f_destroy = {}
 	self.b_destroy = {}
 end
@@ -21,6 +22,51 @@ function PathMap:addUnit(u)
 	end
 end
 
+function PathMap:setWallbatch(image,config)
+
+	self.wallbatch = love.graphics.newSpriteBatch(image,self.w*self.h)
+	self.wallconfig = config
+end
+
+function PathMap:createWallMap()
+	local c = self.wallconfig
+	for x=1,self.w do
+		for y=1,self.h do
+			if self:hasObstacle(x,y)== 'wall' then
+				self._data[x][y].pattern = {}
+				local u = self:hasObstacle(x,y-1) == 'wall'
+				local d = self:hasObstacle(x,y+1) == 'wall'
+				local l = self:hasObstacle(x-1,y) == 'wall'
+				local r = self:hasObstacle(x+1,y) == 'wall'
+				if not (u or d or l or r) then
+					-- stud
+				elseif u and d and l and r then
+					self.wallbatch:addq(c.lurd,x*self.scale+c.width/2,y*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+				else
+					local walltable = {l,u,r,d}
+					local i = 0
+					while true do
+						local l,u,r,d = walltable[i%4+1],walltable[(i+1)%4+1],walltable[(i+2)%4+1],walltable[(i+3)%4+1]
+						if l and r and not u and not d then
+							self.wallbatch:addq(c.lr,(x-1)*self.scale+c.width/2,(y-1)*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+							break
+						elseif l and u and r and not d then
+							self.wallbatch:addq(c.lur,(x-1)*self.scale+c.width/2,(y-1)*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+							break
+						elseif u and r and not l and not d then
+							self.wallbatch:addq(c.ur,(x-1)*self.scale+c.width/2,(y-1)*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+							break
+						elseif r and not l and not u and not d then
+							self.wallbatch:addq(c.lr,(x-1)*self.scale+c.width/2,(y-1)*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+							break
+						end
+						i = i +1
+					end
+				end
+			end
+		end
+	end
+end
 
 function PathMap:removeUnit(u)
 	u.map = nil
@@ -49,7 +95,7 @@ end
 
 function PathMap:hasObstacle(x,y)
 	if x<1 or x>self.w-1 or y<1 or y>self.h-1 then
-		return true
+		return 'bound'
 	end
 	return self._data[x][y].obstacle
 end
@@ -159,6 +205,9 @@ function PathMap:update(dt)
 end
 
 function PathMap:draw()
+	if self.wallbatch then
+		love.graphics.draw(self.wallbatch)
+	end
 end
 
 function PathMap:getNearbyArea(target,distance)

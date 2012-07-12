@@ -30,7 +30,7 @@ function progressbar:initialize()
 	self.OnComplete		= nil
 	self:generateBodyVertex()
 	self:generateBarVertex()
-
+	self.EKG_rate		= 1
 end
 
 function progressbar:GetBodyVertex()
@@ -161,6 +161,13 @@ function progressbar:update(dt)
 				self.OnComplete(self)
 			end
 		end
+	end
+	
+	if self.EKG_center then
+		local s = self:GetHeight()/self.EKG_image:getHeight()
+		--print ((self.progress/self.width*s))
+		self.EKG_quad:setViewport(0,0,self.progress/s,self.EKG_image:getHeight(),self.EKG_image:getWidth(),self.EKG_image:getHeight())
+		self.EKG_center = (self.EKG_center + dt*self.EKG_rate)%(self.progress/self.width/s)
 	end
 	
 	if self.Update then

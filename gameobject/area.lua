@@ -38,6 +38,9 @@ end
 function CircleArea:getCenter()
 	return self.x,self.y
 end
+	function CircleArea:getPosition()
+		return self.x,self.y
+	end
 
 function CircleArea:random()
 	local r,d = math.random()*7,math.random()*self.r

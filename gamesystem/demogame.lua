@@ -6,9 +6,28 @@ function demogame:load()
 	-- Game Init --
 	
 	m = PathMap(20,20)
-	m._data[5][5].obstacle = true
+	m:setWallbatch(requireImage'asset/terrain/yellowwall.png',{
+		width = 64,
+		height = 64,
+		ox = 32,
+		oy = 32,
+		lurd = love.graphics.newQuad(0,0,64,64,256,64),
+		lr = love.graphics.newQuad(64,0,64,64,256,64),
+		lur = love.graphics.newQuad(128,0,64,64,256,64),
+		ur = love.graphics.newQuad(192,0,64,64,256,64),
+		})
+	m._data[5][5].obstacle = 'wall'
+	m._data[5][6].obstacle = 'wall'
+	m._data[6][6].obstacle = 'wall'
+	m._data[4][5].obstacle = 'wall'
+	m._data[3][5].obstacle = 'wall'
+	m._data[3][6].obstacle = 'wall'
+	m._data[3][4].obstacle = 'wall'
+	m:createWallMap()
 	host = AIHost(m)
-	u = Human(Box2DMover,10,10,0,'kinematic')
+	u = Human(Box2DMover,100,100,0,'kinematic')
+	u2 = Human(Box2DMover,300,200,0,'kinematic')
+	
 	m:addUnit(u)
 	
 	area = CircleArea(300,300,100)
@@ -30,6 +49,8 @@ function demogame:load()
 	host:addAI(patrolai)
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
+
+	sel = Selection(u)
 end
 
 function demogame:loadresume()
@@ -54,6 +75,10 @@ function demogame:update(dt)
 	m:update(dt)
 	e:update(dt)
 	sound.setCenter(u:getPosition())
+	
+	if u2in then
+		u2:update(dt)
+	end
 end
 
 function demogame:draw()
@@ -79,6 +104,9 @@ function demogame:draw()
 		end
 	end
 	u:draw()
+	if u2in then
+		u2:draw()
+	end
 	m:draw()
 	c:draw()
 	if self.scale ~=1 then
@@ -94,6 +122,10 @@ function demogame:keypressed(k)
 	if k=='escape' then
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:dismiss()end)))
 	end
+	if k=='a' then
+		m:addUnit(u2)
+		u2in = true
+	end
 end
 
 function demogame:keyreleased(k)
@@ -102,6 +134,10 @@ end
 function demogame:mousepressed(x,y,b)
 	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
 	self.s:play()
+	if u2in then
+		u2:setPosition(x,y)
+		u:face(u2,true)
+	end
 end
 function demogame:mousereleased()
 end

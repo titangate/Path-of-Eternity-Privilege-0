@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="legend" tilewidth="64" tileheight="64">
+  <image source="legend.png" width="256" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="obstacle" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="obstacle" value="door"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="wall" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQyJheg6x01j3TzQJiJgTrxgcv8UfMoM48QRo8/fBgAiXgARw==
+  </data>
+ </layer>
+</map>

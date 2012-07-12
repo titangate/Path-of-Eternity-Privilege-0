@@ -58,6 +58,7 @@ function Crowd:update(dt)
 	end
 	
 	for i,v in ipairs(self.crowd) do
+		local f = true
 		love.graphics.push()
 		for i,a in ipairs(self.source) do
 			if a:contain(v) then
@@ -67,8 +68,13 @@ function Crowd:update(dt)
 				repel = repel * 100*dt/repel:length()
 				local x,y = v:getPosition()
 				v:setPosition(x + repel.x,y + repel.y)
+				if a.attract then
+					v:face(a,true)
+					f = false
+				end
 			end
-		end	
+		end
+		if f then v:face() end
 		v:draw()
 		love.graphics.pop()
 	end

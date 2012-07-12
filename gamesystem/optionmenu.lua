@@ -44,23 +44,20 @@ function optionmenu:load()
 	
 	
 	local p = loveframes.Create("progressbar",gameplaypanel)
-	p:SetPos(380,38)
-	p:SetSize(200,10)
+	p:SetPos(380,45)
+	p:SetSize(220,15)
 	p:SetMinMax(0,100)
-	p:SetValue(20)
+	p:SetValue(80)
 	p.bar_color = {0,255,0,200}
-
-	local p = loveframes.Create("progressbar",gameplaypanel)
-	p:SetPos(380,50)
-	p:SetSize(200,10)
-	p:SetMinMax(0,100)
-	p:SetValue(50)
-	p.bar_color = {255,255,0,200}
-
+	p.EKG_image = requireImage'asset/interface/ekg_signal.png'
+	p.EKG_center = 0.2
+	p.EKG_range = 0.1
+	p.EKG_image:setWrap('repeat','repeat')
+	p.EKG_quad = love.graphics.newQuad(0,0,p:GetWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
 
 	local p = loveframes.Create("progressbar",gameplaypanel)
 	p:SetPos(380,62)
-	p:SetSize(200,10)
+	p:SetSize(200,15)
 	p:SetMinMax(0,100)
 	p:SetValue(80)
 	p.bar_color = {255,0,0,200}

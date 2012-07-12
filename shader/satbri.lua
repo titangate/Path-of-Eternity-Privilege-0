@@ -24,31 +24,15 @@ function satbri.conf(obj)
 	end
 	
 	if obj.satbri_brightness then
-		satbri.pe:send('saturation',obj.satbri_brightness)
+		satbri.pe:send('brightness',obj.satbri_brightness)
 	end
 end
 
 function satbri.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
-	local c = canvasmanager.requireCanvas(w,h)
-	c.canvas:clear()
-	satbri.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
-	satbri.c = c
-	love.graphics.push()
-	love.graphics.translate(-obj:GetX(),-obj:GetY())
+	love.graphics.setPixelEffect(satbri.pe)
 end
 
 function satbri.postdraw(obj)
-	love.graphics.pop()
-	love.graphics.setCanvas(satbri.prevc)
-	love.graphics.setPixelEffect(satbri.pe)
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(satbri.c.canvas,obj:GetX(),obj:GetY())
-	canvasmanager.releaseCanvas(satbri.c)
-	love.graphics.setPixelEffect()
-	satbri.c = nil
 end
 
 return satbri
