@@ -102,16 +102,16 @@ function loveframes.debug.ExamplesMenu()
 	-- examples frame
 	------------------------------------
 	local examplesframe = loveframes.Create("frame")
-	examplesframe:SetName("Examples List")
-	examplesframe:SetSize(200, love.graphics.getHeight() - 330)
-	examplesframe:SetPos(5, 325)
+	examplesframe:setName("Examples List")
+	examplesframe:setSize(200, love.graphics.getHeight() - 330)
+	examplesframe:setPos(5, 325)
 	
 	------------------------------------
 	-- examples list
 	------------------------------------
 	local exampleslist = loveframes.Create("list", examplesframe)
-	exampleslist:SetSize(200, exampleslist:GetParent():getHeight() - 25)
-	exampleslist:SetPos(0, 25)
+	exampleslist:setSize(200, exampleslist:GetParent():getHeight() - 25)
+	exampleslist:setPos(0, 25)
 	exampleslist:SetPadding(5)
 	exampleslist:SetSpacing(5)
 	exampleslist:SetDisplayType("vertical")
@@ -123,7 +123,7 @@ function loveframes.debug.ExamplesMenu()
 	buttonexample:SetText("Button")
 	buttonexample.OnClick = function(object1, x, y)
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Button")
+		frame1:setName("Button")
 		frame1:Center()
 		
 		local button1 = loveframes.Create("button", frame1)
@@ -152,19 +152,19 @@ function loveframes.debug.ExamplesMenu()
 	checkboxexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Checkbox")
+		frame1:setName("Checkbox")
 		frame1:Center()
 		frame1:SetHeight(85)
 		
 		local checkbox1 = loveframes.Create("checkbox", frame1)
 		checkbox1:SetText({{255,255,255},"Checkbox 1"})
-		checkbox1:SetPos(5, 30)
+		checkbox1:setPos(5, 30)
 		checkbox1.OnChanged = function(object2)
 		end
 		
 		local checkbox2 = loveframes.Create("checkbox", frame1)
 		checkbox2:SetText({{255,255,255},"Checkbox 2"})
-		checkbox2:SetPos(5, 60)
+		checkbox2:setPos(5, 60)
 		checkbox2.OnChanged = function(object3)
 		end
 		
@@ -179,13 +179,13 @@ function loveframes.debug.ExamplesMenu()
 	collapsiblecategoryexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Collapsible Category")
-		frame1:SetSize(500, 300)
+		frame1:setName("Collapsible Category")
+		frame1:setSize(500, 300)
 		frame1:Center()
 		
 		local exampleslist = loveframes.Create("list", frame1)
-		exampleslist:SetSize(200, exampleslist:GetParent():getHeight() - 25)
-		exampleslist:SetPos(0, 25)
+		exampleslist:setSize(200, exampleslist:GetParent():getHeight() - 25)
+		exampleslist:setPos(0, 25)
 		exampleslist:SetPadding(5)
 		exampleslist:SetSpacing(5)
 		exampleslist:SetDisplayType("vertical")
@@ -195,8 +195,8 @@ function loveframes.debug.ExamplesMenu()
 		panel1:SetHeight(230)
 			
 		local collapsiblecategory1 = loveframes.Create("collapsiblecategory", exampleslist)
-		collapsiblecategory1:SetPos(5, 30)
-		collapsiblecategory1:SetSize(490, 265)
+		collapsiblecategory1:setPos(5, 30)
+		collapsiblecategory1:setSize(490, 265)
 		collapsiblecategory1:SetText("Category 1")
 		collapsiblecategory1:SetObject(panel1)
 		
@@ -205,8 +205,8 @@ function loveframes.debug.ExamplesMenu()
 		panel2:SetText'ha'
 		
 		local collapsiblecategory2 = loveframes.Create("collapsiblecategory", exampleslist)
-		collapsiblecategory2:SetPos(5, 60)
-		collapsiblecategory2:SetSize(490, 265)
+		collapsiblecategory2:setPos(5, 60)
+		collapsiblecategory2:setSize(490, 265)
 		collapsiblecategory2:SetText("Category 2")
 		collapsiblecategory2:SetObject(panel2)
 		
@@ -224,31 +224,31 @@ function loveframes.debug.ExamplesMenu()
 	menubuttonexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Menu Button")
-		frame1:SetSize(500, 300)
+		frame1:setName("Menu Button")
+		frame1:setSize(500, 300)
 		frame1:Center()
 		
 		local exampleslist = loveframes.Create("list", frame1)
-		exampleslist:SetSize(450, exampleslist:GetParent():getHeight() - 25)
-		exampleslist:SetPos(0, 25)
+		exampleslist:setSize(450, exampleslist:GetParent():getHeight() - 25)
+		exampleslist:setPos(0, 25)
 		exampleslist:SetPadding(5)
 		exampleslist:SetSpacing(0)
 		exampleslist:SetDisplayType("vertical")
 		
 		local collapsiblecategory1 = loveframes.Create("menubutton", exampleslist)
-		collapsiblecategory1:SetPos(5, 30)
-		collapsiblecategory1:SetSize(490, 265)
+		collapsiblecategory1:setPos(5, 30)
+		collapsiblecategory1:setSize(490, 265)
 		collapsiblecategory1:SetText("RESUME GAME")
 		collapsiblecategory1:SetDescription'RESTART FROM LAST CHECKPOINT'
 		
 		local collapsiblecategory2 = loveframes.Create("menubutton", exampleslist)
-		collapsiblecategory2:SetPos(5, 60)
-		collapsiblecategory2:SetSize(490, 265)
+		collapsiblecategory2:setPos(5, 60)
+		collapsiblecategory2:setSize(490, 265)
 		collapsiblecategory2:SetText("START GAME")
 		collapsiblecategory2:SetDescription'START HOSPTIAL GAMEPLAY DEMO'
 		local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)
-		collapsiblecategory3:SetPos(5, 60)
-		collapsiblecategory3:SetSize(490, 265)
+		collapsiblecategory3:setPos(5, 60)
+		collapsiblecategory3:setSize(490, 265)
 		collapsiblecategory3:SetText("QUIT GAME")
 		collapsiblecategory3:SetDescription'EXIT TO OPERATION SYSTEM'
 		
@@ -265,13 +265,13 @@ function loveframes.debug.ExamplesMenu()
 	cloumnlistexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Column List")
-		frame1:SetSize(500, 300)
+		frame1:setName("Column List")
+		frame1:setSize(500, 300)
 		frame1:Center()
 		
 		local list1 = loveframes.Create("columnlist", frame1)
-		list1:SetPos(5, 30)
-		list1:SetSize(490, 265)
+		list1:setPos(5, 30)
+		list1:setSize(490, 265)
 		list1:AddColumn("Column 1")
 		list1:AddColumn("Column 2")
 		list1:AddColumn("Column 3")
@@ -292,7 +292,7 @@ function loveframes.debug.ExamplesMenu()
 	frameexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Frame")
+		frame1:setName("Frame")
 		frame1:Center()
 		
 		local text1 = loveframes.Create("text", frame1)
@@ -332,13 +332,13 @@ function loveframes.debug.ExamplesMenu()
 	imageexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Image")
-		frame1:SetSize(138, 163)
+		frame1:setName("Image")
+		frame1:setSize(138, 163)
 		frame1:Center()
 		
 		local image1 = loveframes.Create("image", frame1)
 		image1:SetImage("resources/images/carlsagan.png")
-		image1:SetPos(5, 30)
+		image1:setPos(5, 30)
 		
 	end
 	exampleslist:AddItem(imageexample)
@@ -351,13 +351,13 @@ function loveframes.debug.ExamplesMenu()
 	imagebuttonexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Image Button")
-		frame1:SetSize(138, 163)
+		frame1:setName("Image Button")
+		frame1:setSize(138, 163)
 		frame1:Center()
 		
 		local imagebutton1 = loveframes.Create("imagebutton", frame1)
 		imagebutton1:SetImage("resources/images/carlsagan.png")
-		imagebutton1:SetPos(5, 30)
+		imagebutton1:setPos(5, 30)
 		imagebutton1:SizeToImage()
 		
 		frame1.filter = filters.vibrate
@@ -375,20 +375,20 @@ function loveframes.debug.ExamplesMenu()
 	listexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("List")
-		frame1:SetSize(500, 455)
+		frame1:setName("List")
+		frame1:setSize(500, 455)
 		frame1:Center()
 		
 		local list1 = loveframes.Create("list", frame1)
-		list1:SetPos(5, 30)
-		list1:SetSize(490, 300)
+		list1:setPos(5, 30)
+		list1:setSize(490, 300)
 		
 		local panel1 = loveframes.Create("panel", frame1)
-		panel1:SetPos(5, 335)
-		panel1:SetSize(490, 115)
+		panel1:setPos(5, 335)
+		panel1:setSize(490, 115)
 		
 		local slider1 = loveframes.Create("slider", panel1)
-		slider1:SetPos(5, 20)
+		slider1:setPos(5, 20)
 		slider1:SetWidth(480)
 		slider1:SetMinMax(0, 100)
 		slider1:SetText("Padding")
@@ -398,19 +398,19 @@ function loveframes.debug.ExamplesMenu()
 		end
 		
 		local text1 = loveframes.Create("text", panel1)
-		text1:SetPos(5, 5)
+		text1:setPos(5, 5)
 		text1:SetFont(love.graphics.newFont(10))
 		text1:SetText(slider1:GetText())
 		
 		local text2 = loveframes.Create("text", panel1)
 		text2:SetFont(love.graphics.newFont(10))
 		text2.Update = function(object, dt)
-			object:SetPos(slider1:getWidth() - object:getWidth(), 5)
+			object:setPos(slider1:getWidth() - object:getWidth(), 5)
 			object:SetText(slider1:GetValue())
 		end
 		
 		local slider2 = loveframes.Create("slider", panel1)
-		slider2:SetPos(5, 60)
+		slider2:setPos(5, 60)
 		slider2:SetWidth(480)
 		slider2:SetMinMax(0, 100)
 		slider2:SetText("Spacing")
@@ -420,20 +420,20 @@ function loveframes.debug.ExamplesMenu()
 		end
 		
 		local text3 = loveframes.Create("text", panel1)
-		text3:SetPos(5, 45)
+		text3:setPos(5, 45)
 		text3:SetFont(love.graphics.newFont(10))
 		text3:SetText(slider2:GetText())
 		
 		local text4 = loveframes.Create("text", panel1)
 		text4:SetFont(love.graphics.newFont(10))
 		text4.Update = function(object, dt)
-			object:SetPos(slider2:getWidth() - object:getWidth(), 45)
+			object:setPos(slider2:getWidth() - object:getWidth(), 45)
 			object:SetText(slider2:GetValue())
 		end
 		
 		local button1 = loveframes.Create("button", panel1)
-		button1:SetPos(5, 85)
-		button1:SetSize(480, 25)
+		button1:setPos(5, 85)
+		button1:setSize(480, 25)
 		button1:SetText("Change List Type")
 		button1.OnClick = function(object2, x, y)
 			if list1:GetDisplayType() == "vertical" then
@@ -460,12 +460,12 @@ function loveframes.debug.ExamplesMenu()
 	multichoiceexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Multichoice")
-		frame1:SetSize(210, 60)
+		frame1:setName("Multichoice")
+		frame1:setSize(210, 60)
 		frame1:Center()
 		
 		local multichoice1 = loveframes.Create("multichoice", frame1)
-		multichoice1:SetPos(5, 30)
+		multichoice1:setPos(5, 30)
 		
 		for i=1, 20 do
 			multichoice1:AddChoice(i)
@@ -482,12 +482,12 @@ function loveframes.debug.ExamplesMenu()
 	panelexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Panel")
-		frame1:SetSize(210, 85)
+		frame1:setName("Panel")
+		frame1:setSize(210, 85)
 		frame1:Center()
 		
 		local panel1 = loveframes.Create("panel", frame1)
-		panel1:SetPos(5, 30)
+		panel1:setPos(5, 30)
 		
 	end
 	exampleslist:AddItem(panelexample)
@@ -500,17 +500,17 @@ function loveframes.debug.ExamplesMenu()
 	progressbarexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Progress Bar")
-		frame1:SetSize(500, 160)
+		frame1:setName("Progress Bar")
+		frame1:setSize(500, 160)
 		frame1:Center()
 		
 		local progressbar1 = loveframes.Create("progressbar", frame1)
-		progressbar1:SetPos(5, 30)
+		progressbar1:setPos(5, 30)
 		progressbar1:SetWidth(490)
 		progressbar1:SetLerpRate(1)
 		
 		local button1 = loveframes.Create("button", frame1)
-		button1:SetPos(5, 60)
+		button1:setPos(5, 60)
 		button1:SetWidth(490)
 		button1:SetText("Change bar value")
 		button1.OnClick = function(object2, x, y)
@@ -518,7 +518,7 @@ function loveframes.debug.ExamplesMenu()
 		end
 		
 		local button2 = loveframes.Create("button", frame1)
-		button2:SetPos(5, 90)
+		button2:setPos(5, 90)
 		button2:SetWidth(490)
 		button2:SetText("Toggle bar lerp")
 		button2.OnClick = function(object2, x, y)
@@ -530,7 +530,7 @@ function loveframes.debug.ExamplesMenu()
 		end
 		
 		local slider1 = loveframes.Create("slider", frame1)
-		slider1:SetPos(5, 135)
+		slider1:setPos(5, 135)
 		slider1:SetWidth(490)
 		slider1:SetText("Progressbar lerp rate")
 		slider1:SetMinMax(1, 50)
@@ -540,12 +540,12 @@ function loveframes.debug.ExamplesMenu()
 		end
 		
 		local text1 = loveframes.Create("text", frame1)
-		text1:SetPos(5, 120)
+		text1:setPos(5, 120)
 		text1:SetText({{255,255,255},"Lerp Rate"})
 		
 		local text2 = loveframes.Create("text", frame1)
 		text2.Update = function(object, dt)
-			object:SetPos(slider1:getWidth() - object:getWidth(), 120)
+			object:setPos(slider1:getWidth() - object:getWidth(), 120)
 			object:SetText(slider1:GetValue())
 		end
 		
@@ -560,17 +560,17 @@ function loveframes.debug.ExamplesMenu()
 	sliderexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Slider")
-		frame1:SetSize(300, 275)
+		frame1:setName("Slider")
+		frame1:setSize(300, 275)
 		frame1:Center()
 		
 		local slider1 = loveframes.Create("slider", frame1)
-		slider1:SetPos(5, 30)
+		slider1:setPos(5, 30)
 		slider1:SetWidth(290)
 		slider1:SetMinMax(0, 100)
 		
 		local slider2 = loveframes.Create("slider", frame1)
-		slider2:SetPos(5, 60)
+		slider2:setPos(5, 60)
 		slider2:SetHeight(200)
 		slider2:SetMinMax(0, 100)
 		slider2:SetButtonSize(20, 10)
@@ -590,13 +590,13 @@ function loveframes.debug.ExamplesMenu()
 	tabsexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Tabs")
-		frame1:SetSize(500, 300)
+		frame1:setName("Tabs")
+		frame1:setSize(500, 300)
 		frame1:Center()
 		
 		local tabs1 = loveframes.Create("tabs", frame1)
-		tabs1:SetPos(5, 30)
-		tabs1:SetSize(490, 265)
+		tabs1:setPos(5, 30)
+		tabs1:setSize(490, 265)
 		
 		local images = {"accept.png", "add.png", "application.png", "building.png", "bin.png", "database.png", "box.png", "brick.png"}
 		
@@ -627,13 +627,13 @@ function loveframes.debug.ExamplesMenu()
 	textexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Text")
-		frame1:SetSize(500, 300)
+		frame1:setName("Text")
+		frame1:setSize(500, 300)
 		frame1:Center()
 		
 		local list1 = loveframes.Create("list", frame1)
-		list1:SetPos(5, 30)
-		list1:SetSize(490, 265)
+		list1:setPos(5, 30)
+		list1:setSize(490, 265)
 		list1:SetPadding(5)
 		list1:SetSpacing(5)
 		
@@ -654,12 +654,12 @@ function loveframes.debug.ExamplesMenu()
 	textinputexample.OnClick = function(object1, x, y)
 	
 		local frame1 = loveframes.Create("frame")
-		frame1:SetName("Text Input")
-		frame1:SetSize(500, 60)
+		frame1:setName("Text Input")
+		frame1:setSize(500, 60)
 		frame1:Center()
 		
 		local textinput1 = loveframes.Create("textinput", frame1)
-		textinput1:SetPos(5, 30)
+		textinput1:setPos(5, 30)
 		textinput1:SetWidth(490)
 		
 	end
@@ -672,12 +672,12 @@ function loveframes.debug.SkinSelector()
 	local skins = loveframes.skins.available
 	
 	local frame = loveframes.Create("frame")
-	frame:SetName("Skin Selector")
-	frame:SetSize(200, 60)
-	frame:SetPos(5, 260)
+	frame:setName("Skin Selector")
+	frame:setSize(200, 60)
+	frame:setPos(5, 260)
 	
 	local skinslist = loveframes.Create("multichoice", frame)
-	skinslist:SetPos(5, 30)
+	skinslist:setPos(5, 30)
 	skinslist:SetWidth(190)
 	skinslist:SetChoice("Choose a skin")
 	skinslist.OnChoiceSelected = function(object, choice)

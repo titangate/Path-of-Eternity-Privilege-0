@@ -67,3 +67,7 @@ end
 function Mover:setAngle(r)
 	self.r = r
 end
+
+function Mover:valid()
+	return true
+end

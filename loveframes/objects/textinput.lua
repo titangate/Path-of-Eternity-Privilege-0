@@ -40,6 +40,10 @@ function textinput:initialize()
 	
 end
 
+function textinput:SetText(text)
+	self.text = tostring(text)
+end
+
 --[[---------------------------------------------------------
 	- func: update(deltatime)
 	- desc: updates the object

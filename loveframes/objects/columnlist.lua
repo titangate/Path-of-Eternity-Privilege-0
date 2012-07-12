@@ -193,7 +193,7 @@ function columnlist:AdjustColumns()
 		else
 			v:SetWidth(columnwidth)
 		end
-		v:SetPos(x, 0)
+		v:setPos(x, 0)
 		x = x + columnwidth
 	end
 	
@@ -212,8 +212,8 @@ function columnlist:AddColumn(name)
 	columnlistheader:new(name, self)
 	self:AdjustColumns()
 	
-	list:SetSize(self.width, self.height)
-	list:SetPos(0, 0)
+	list:setSize(self.width, self.height)
+	list:setPos(0, 0)
 	
 end
 
@@ -251,10 +251,10 @@ function columnlist:GetColumnSize()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: setSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function columnlist:SetSize(width, height)
+function columnlist:setSize(width, height)
 	
 	local internals = self.internals
 	local list = internals[1]
@@ -262,8 +262,8 @@ function columnlist:SetSize(width, height)
 	self.width = width
 	self.height = height
 	
-	list:SetSize(width, height)
-	list:SetPos(0, 0)
+	list:setSize(width, height)
+	list:setPos(0, 0)
 	
 end
 
@@ -278,8 +278,8 @@ function columnlist:SetWidth(width)
 	
 	self.width = width
 	
-	list:SetSize(width)
-	list:SetPos(0, 0)
+	list:setSize(width)
+	list:setPos(0, 0)
 	
 end
 
@@ -294,8 +294,8 @@ function columnlist:SetHeight(height)
 	
 	self.height = height
 	
-	list:SetSize(height)
-	list:SetPos(0, 0)
+	list:setSize(height)
+	list:setPos(0, 0)
 	
 end
 

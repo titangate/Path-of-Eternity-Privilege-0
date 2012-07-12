@@ -2,8 +2,8 @@ local optionmenu = {}
 local essential = require 'library.essential'
 function optionmenu:load()
 	local frame1 = loveframes.Create("frame")
-	frame1:SetName(LocalizedString"OPTIONS")
-	frame1:SetSize(500, 300)
+	frame1:setName(LocalizedString"OPTIONS")
+	frame1:setSize(500, 300)
 	frame1:Center()
 	
 	frame1:SetAlwaysUpdate(true)
@@ -12,19 +12,19 @@ function optionmenu:load()
 	end
 	
 	local tabs1 = loveframes.Create("tabs", frame1)
-	tabs1:SetPos(5, 30)
-	tabs1:SetSize(490, 265)
+	tabs1:setPos(5, 30)
+	tabs1:setSize(490, 265)
 	
 	local gameplaypanel = loveframes.Create"panel"
 	function gameplaypanel.Draw() end
 	
 	local languagechoice = loveframes.Create("multichoice", gameplaypanel)
-	languagechoice:SetPos(0, 50)
+	languagechoice:setPos(0, 50)
 	
 	local localization = require 'library.localization'
 	local text0 = loveframes.Create("text", gameplaypanel)
 	text0:SetText(LocalizedString"LANGUAGE")
-	text0:SetPos(0,30)
+	text0:setPos(0,30)
 	local modes = localization.getAvailableLanguage()
 	local cos_language = {}
 	for i,v in ipairs(modes) do
@@ -44,8 +44,8 @@ function optionmenu:load()
 	
 	
 	local p = loveframes.Create("progressbar",gameplaypanel)
-	p:SetPos(380,45)
-	p:SetSize(220,15)
+	p:setPos(380,45)
+	p:setSize(220,15)
 	p:SetMinMax(0,100)
 	p:SetValue(80)
 	p.bar_color = {0,255,0,200}
@@ -56,25 +56,25 @@ function optionmenu:load()
 	p.EKG_quad = love.graphics.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
 
 	local p = loveframes.Create("progressbar",gameplaypanel)
-	p:SetPos(380,62)
-	p:SetSize(200,15)
+	p:setPos(380,62)
+	p:setSize(200,15)
 	p:SetMinMax(0,100)
 	p:SetValue(80)
 	p.bar_color = {255,0,0,200}
 	
 	local compass = loveframes.Create("compass",gameplaypanel)
-	compass:SetPos(300,0)
-	compass:SetSize(96,96)
+	compass:setPos(300,0)
+	compass:setSize(96,96)
 	local graphicspanel = loveframes.Create"panel"
 	function graphicspanel.Draw() end
 	local g = require 'library.graphics'
 	g.load()
 	local multichoice1 = loveframes.Create("multichoice", graphicspanel)
-	multichoice1:SetPos(5, 50)
+	multichoice1:setPos(5, 50)
 	
 	local text1 = loveframes.Create("text", graphicspanel)
 	text1:SetText(LocalizedString"RESOLUTION")
-	text1:SetPos(5,30)
+	text1:setPos(5,30)
 	local modes = g.getAvailableResolution()
 	local cor = {}
 	for i,v in ipairs(modes) do
@@ -112,7 +112,7 @@ function optionmenu:load()
 	
 	local checkbox1 = loveframes.Create("checkbox", graphicspanel)
 	checkbox1:SetText({{255,255,255},LocalizedString"V SYNC"})
-	checkbox1:SetPos(5, 90)
+	checkbox1:setPos(5, 90)
 	checkbox1.OnChanged = function(object2,check)
 		g.setArgument('vsync',check)
 		g.apply()
@@ -126,7 +126,7 @@ function optionmenu:load()
 	
 	local checkbox2 = loveframes.Create("checkbox", graphicspanel)
 	checkbox2:SetText({{255,255,255},LocalizedString"LIMIT UI REDRAWS"})
-	checkbox2:SetPos(5, 120)
+	checkbox2:setPos(5, 120)
 	checkbox2.OnChanged = function(object2,check)
 		option.seperateUI = check
 		
@@ -145,12 +145,12 @@ function optionmenu:load()
 	-- 2nd coloumn
 	
 	local multichoice2 = loveframes.Create("multichoice", graphicspanel)
-	multichoice2:SetPos(255, 50)
+	multichoice2:setPos(255, 50)
 	
 	local shader = require 'shader'
 	local text2 = loveframes.Create("text", graphicspanel)
 	text2:SetText(LocalizedString"SHADER QUALITY")
-	text2:SetPos(255,30)
+	text2:setPos(255,30)
 	local modes = shader.getAvailableQuality()
 	local cos_shader = {}
 	for i,v in ipairs(modes) do
@@ -170,12 +170,12 @@ function optionmenu:load()
 	multichoice2.tooltip:SetOffsets(0, -5)
 	
 	local multichoice3 = loveframes.Create("multichoice", graphicspanel)
-	multichoice3:SetPos(255, 100)
+	multichoice3:setPos(255, 100)
 	
 	local essential = require 'library.essential'
 	local text3 = loveframes.Create("text", graphicspanel)
 	text3:SetText(LocalizedString"TEXTURE QUALITY")
-	text3:SetPos(255,80)
+	text3:setPos(255,80)
 	local modes = essential.getAvailableTextureQuality()
 	for i,v in ipairs(modes) do
 		option.texturequality = cos_shader[choice]

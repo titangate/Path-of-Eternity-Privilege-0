@@ -170,10 +170,10 @@ end
 
 
 --[[---------------------------------------------------------
-	- func: SetPos(x, y)
+	- func: setPos(x, y)
 	- desc: sets the object's position
 --]]---------------------------------------------------------
-function base:SetPos(x, y)
+function base:setPos(x, y)
 
 	local base = loveframes.base
 	local parent = self.parent
@@ -347,10 +347,10 @@ function base:CenterY()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: setSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function base:SetSize(width, height)
+function base:setSize(width, height)
 
 	self.width = width
 	self.height = height

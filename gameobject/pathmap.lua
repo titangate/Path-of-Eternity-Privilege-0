@@ -27,13 +27,22 @@ function PathMap:initialize(w,h)
 	self.f_destroy = {}
 	self.b_destroy = {}
 	self.f_update = {}
+
+	self.unit = {[0]={},[1]={}}
 end
 
-function PathMap:addUnit(u)
+function PathMap:setDelegate(del)
+	self.del = del
+end
+
+function PathMap:addUnit(u,crowd)
+	local layer = u.layer or 1
 	u.map = self
 	if u.createBody then
 		u:createBody(self)
 	end
+	if crowd then return end
+	self.unit[layer][u] = true
 end
 
 function PathMap:setWallbatch(image,config)
@@ -83,10 +92,15 @@ function PathMap:createWallMap()
 end
 
 function PathMap:removeUnit(u)
+	local layer = u.layer or 1
+	if self.del then
+		self.del:removeUnit(u)
+	end
 	u.map = nil
 	if u.destroyBody then
 		u:destroyBody(self)
 	end
+	self.unit[layer][u] = nil
 end
 
 function PathMap:destroyNext(fixture,body)
@@ -216,10 +230,17 @@ function PathMap:update(dt)
 	for i,v in ipairs(self.f_update) do
 		v[1]:setUserData(v[2])
 	end
+	
+	for i=0,#self.unit do
+		for v,_ in pairs(self.unit[i]) do
+			v:update(dt)
+		end
+	end
 	self.f_destroy = {}
 	self.b_destroy = {}
 	self.f_update = {}
 	self.world:update(dt)
+
 end
 
 	local g = love.graphics
@@ -227,6 +248,11 @@ function PathMap:draw()
 	g.setColor(255,255,255)
 	if self.wallbatch then
 		love.graphics.draw(self.wallbatch)
+	end
+	for i=0,#self.unit do
+		for v,_ in pairs(self.unit[i]) do
+			v:draw()
+		end
 	end
 end
 

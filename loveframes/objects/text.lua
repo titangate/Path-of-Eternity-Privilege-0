@@ -335,10 +335,10 @@ function text:SetHeight(height)
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize()
+	- func: setSize()
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function text:SetSize(width, height)
+function text:setSize(width, height)
 
 	self:SetMaxWidth(width)
 	

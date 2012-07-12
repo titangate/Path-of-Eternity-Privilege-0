@@ -29,8 +29,8 @@ function mainmenu:load()
 	end
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")
-	exampleslist:SetSize(450, exampleslist:GetParent():getHeight() - 25)
-	exampleslist:SetPos(screen.halfwidth,screen.halfheight)
+	exampleslist:setSize(450, exampleslist:GetParent():getHeight() - 25)
+	exampleslist:setPos(screen.halfwidth,screen.halfheight)
 	exampleslist:SetPadding(5)
 	exampleslist:SetSpacing(0)
 	exampleslist:SetDisplayType("vertical")
@@ -45,8 +45,8 @@ function mainmenu:load()
 	
 	
 	local textframe = loveframes.Create("frame")
-	textframe:SetPos(-100,-100)
-	textframe:SetSize(50,50)
+	textframe:setPos(-100,-100)
+	textframe:setSize(50,50)
 	function textframe.Draw()end
 	self.textframe = textframe
 	self.text = {}
@@ -71,7 +71,7 @@ function mainmenu:load()
 		end
 		local t = loveframes.Create('text',self.textframe)
 --		t:SetFont(font.smallfont)
-		t:SetPos(screen.halfwidth - 300,screen.halfheight + 200)
+		t:setPos(screen.halfwidth - 300,screen.halfheight + 200)
 		
 		loveframes.anim:easy(t,'y',screen.halfheight+200,screen.halfheight-150,10)
 		t:SetWidth(300)
@@ -115,14 +115,14 @@ function mainmenu:loadpostmenu()
 	
 	local exampleslist = self.base
 	local collapsiblecategory1 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory1:SetPos(5, 30)
-	collapsiblecategory1:SetSize(490, 265)
+	collapsiblecategory1:setPos(5, 30)
+	collapsiblecategory1:setSize(490, 265)
 	collapsiblecategory1:SetText(LocalizedString"RESUME GAME")
 	collapsiblecategory1:SetDescription(LocalizedString'RESTART FROM LAST CHECKPOINT')
 	
 	local collapsiblecategory2 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory2:SetPos(5, 60)
-	collapsiblecategory2:SetSize(490, 265)
+	collapsiblecategory2:setPos(5, 60)
+	collapsiblecategory2:setSize(490, 265)
 	collapsiblecategory2:SetText(LocalizedString"START GAME")
 	collapsiblecategory2:SetDescription(LocalizedString'START HOSPTIAL GAMEPLAY DEMO')
 	
@@ -140,8 +140,8 @@ function mainmenu:loadpostmenu()
 	end
 	
 	local collapsiblecategory4 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory4:SetPos(5, 60)
-	collapsiblecategory4:SetSize(490, 265)
+	collapsiblecategory4:setPos(5, 60)
+	collapsiblecategory4:setSize(490, 265)
 	collapsiblecategory4:SetText(LocalizedString"OPTIONS")
 	collapsiblecategory4:SetDescription(LocalizedString'CHANGE GAMEPLAY, GRAPHICS, AUDIO SETTINGS')
 	
@@ -152,8 +152,8 @@ function mainmenu:loadpostmenu()
 	end
 	
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory3:SetPos(5, 60)
-	collapsiblecategory3:SetSize(490, 265)
+	collapsiblecategory3:setPos(5, 60)
+	collapsiblecategory3:setSize(490, 265)
 	collapsiblecategory3:SetText(LocalizedString"QUIT GAME")
 	collapsiblecategory3:SetDescription(LocalizedString'EXIT TO OPERATION SYSTEM')
 	collapsiblecategory3.OnClick = function(object)
@@ -184,8 +184,8 @@ function mainmenu:loadpause()
 	local exampleslist = self.base
 	
 	local collapsiblecategory0 = loveframes.Create("menubutton", exampleslist)
-	collapsiblecategory0:SetPos(5, 30)
-	collapsiblecategory0:SetSize(490, 265)
+	collapsiblecategory0:setPos(5, 30)
+	collapsiblecategory0:setSize(490, 265)
 	collapsiblecategory0:SetText(LocalizedString"CONTINUE")
 	collapsiblecategory0:SetDescription(LocalizedString'DISMISS THIS MENU AND CONTINUE THE GAME')
 	
@@ -261,6 +261,7 @@ function mainmenu:dismiss()
 	for i,t in ipairs(self.text) do
 		t:Remove()
 	end
+	self.map:Remove()
 	self.base:Remove()
 end
 

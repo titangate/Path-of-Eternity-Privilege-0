@@ -222,7 +222,7 @@ function collapsiblecategory:SetObject(object)
 	object:Remove()
 	object.parent = self
 	object:SetWidth(self.width - self.padding*2)
-	object:SetPos(self.padding, self.closedheight + self.padding)
+	object:setPos(self.padding, self.closedheight + self.padding)
 	
 	table.insert(self.children, object)
 	
@@ -246,10 +246,10 @@ function collapsiblecategory:GetObject()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: setSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function collapsiblecategory:SetSize(width, height)
+function collapsiblecategory:setSize(width, height)
 
 	self.width = width
 	

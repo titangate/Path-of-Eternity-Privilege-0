@@ -32,7 +32,7 @@ function frame:initialize()
 	
 	local close = closebutton:new()
 	close.parent = self
-	close:SetSize(16, 16)
+	close:setSize(16, 16)
 	close.OnClick = function()
 		
 		self.filter = filters.vibrate
@@ -79,7 +79,7 @@ function frame:update(dt)
 	local children = self.children
 	local internals = self.internals
 	
-	close:SetPos(self.width - 22, 4)
+	close:setPos(self.width - 22, 4)
 	self:CheckHover()
 	
 	-- dragging check
@@ -265,10 +265,10 @@ function frame:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetName(name)
+	- func: setName(name)
 	- desc: sets the frame's name
 --]]---------------------------------------------------------
-function frame:SetName(name)
+function frame:setName(name)
 
 	self.name = name
 	

@@ -24,12 +24,26 @@ function Doodad:getObstacle()
 	end
 	local result = {}
 	for i=1,30 do -- use random sampling to determine the obstacled areas
-		local rx,ry = math.random(r*2)-r+x,math.random(r*2)-r+y
+		local rx,ry = math.random(r)-r/2+x,math.random(r)-r/2+y
+		if DEBUG then
+			self.sample = self.sample or {}
+			table.insert(self.sample,{rx,ry})
+		end
 		if self.mover.fixture:testPoint(rx,ry) then
 			result[self.map:getArea(rx,ry)] = true
 		end
 	end
 	return result
+end
+
+if DEBUG then
+function Doodad:DebugDraw()
+	if not self.sample then return end
+	love.graphics.setColor(0,0,0)
+	for i,v in ipairs(self.sample) do
+		love.graphics.point(v[1],v[2])
+	end
+end
 end
 
 local doodad = {}

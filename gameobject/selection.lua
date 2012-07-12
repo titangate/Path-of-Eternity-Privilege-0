@@ -19,6 +19,9 @@ function Selection:setSelection(obj)
 	self.object = obj
 	self.object.drawSelection = true
 	self.object.selection_intensity = 1
+	if self.del then
+		self.del:setSelection(obj)
+	end
 end
 
 function Selection:releaseSelection()
@@ -28,14 +31,26 @@ function Selection:releaseSelection()
 			self.object.selection_intensity = nil
 	end
 	self.object = nil
+	if self.del then
+		self.del:releaseSelection()
+	end
 end
 
 function Selection:update(dt)
 	assert(self.map.world)
 	local x,y = love.mouse.getPosition()
 	self.map.world:queryBoundingBox(x-2,y-2,x+2,y+2,self.queryCallback)
+	if love.mouse.isDown'l' then
+		self:interact(self.object)
+	end
 end
 
 function Selection:interact(obj)
+	if self.del and obj and obj.mover:valid() then
+		self.del:interact(obj)
+	end
+end
 
+function Selection:setDelegate(del)
+	self.del = del
 end

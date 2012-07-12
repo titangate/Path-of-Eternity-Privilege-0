@@ -48,10 +48,11 @@ function demogame:load()
 	
 	sel = Selection(m)
 	doodad:load()
-	d = doodad.create('desk2',500,300,0)
+	d = doodad.create('desk2',500,280,0)
 	m:addUnit(d)
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
+
 
 end
 
@@ -70,18 +71,19 @@ function demogame:dismiss()
 	
 end
 
+local pause = false
+
 function demogame:update(dt)
-	host:process(dt)
-	u:update(dt)
-	c:update(dt)
-	m:update(dt)
-	e:update(dt)
-	d:update(dt)
-	sound.setCenter(u:getPosition())
-	sel:update(dt)
-	if u2in then
-		u2:update(dt)
+	if not pause then 
+		host:process(dt)
+--		u:update(dt)
+--		c:update(dt)
+		m:update(dt)
+		e:update(dt)
+--		d:update(dt)
+		sound.setCenter(u:getPosition())
 	end
+	sel:update(dt)
 end
 
 function demogame:draw()
@@ -106,13 +108,9 @@ function demogame:draw()
 			self.s:DebugDraw()
 		end
 	end
-	u:draw()
-	if u2in then
-		u2:draw()
-	end
 	m:draw()
-	c:draw()
-	d:draw()
+
+	d:DebugDraw()
 	if self.scale ~=1 then
 		love.graphics.pop()
 		love.graphics.setColor(255,255,255,255*self.scale)
@@ -132,19 +130,29 @@ function demogame:keypressed(k)
 	end
 	if k=='o' then
 
-	print 'begin ai calc'
-	--patrolai = AIPatrol(u,{Vector(100,100,0,4),Vector(300,100,1,3),Vector(500,500,2,2),Vector(100,300,3,5),})
-	patrolai = AIInvestigate(u,Vector(400,300))
-	host:addAI(patrolai)
-end
+		print 'begin ai calc'
+		--patrolai = AIPatrol(u,{Vector(100,100,0,4),Vector(300,100,1,3),Vector(500,500,2,2),Vector(100,300,3,5),})
+		patrolai = AIInvestigate(u,Vector(400,300))
+		host:addAI(patrolai)
+	end
+	if k=='m' then
+		local editor =  require 'gamesystem.editor'
+		editor:load()
+		editor:setMap(m)
+		sel:setDelegate(editor)
+		m:setDelegate(editor)
+	end
+	if k==' ' then
+		pause = not pause
+	end
 end
 
 function demogame:keyreleased(k)
 end
 
 function demogame:mousepressed(x,y,b)
-	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
-	self.s:play()
+--	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
+--	self.s:play()
 	if u2in then
 		u2:setPosition(x,y)
 		u:face(u2,true)

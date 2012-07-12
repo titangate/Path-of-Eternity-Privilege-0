@@ -33,7 +33,7 @@ function tooltip:initialize(object, text, width)
 	self.text.parent = self
 	self.text:SetText(text or "")
 	self.text:SetWidth(width or 0)
-	self.text:SetPos(0, 0)
+	self.text:setPos(0, 0)
 	
 	table.insert(loveframes.base.children, self)
 	
@@ -90,7 +90,7 @@ function tooltip:update(dt)
 				self:MoveToTop()
 			end
 			
-			text:SetPos(self.padding, self.padding)
+			text:setPos(self.padding, self.padding)
 			
 		end
 		

@@ -211,7 +211,7 @@ function menubutton:SetObject(object)
 	object:Remove()
 	object.parent = self
 	object:SetWidth(self.width - self.padding*2)
-	object:SetPos(self.padding, self.closedheight + self.padding)
+	object:setPos(self.padding, self.closedheight + self.padding)
 	
 	table.insert(self.children, object)
 	
@@ -235,10 +235,10 @@ function menubutton:GetObject()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: setSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function menubutton:SetSize(width, height)
+function menubutton:setSize(width, height)
 
 	self.width = width
 	
@@ -316,7 +316,7 @@ function menubutton:SetDescription(text)
 		local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
 
 		local textobject = loveframes.Create("text")
-		textobject:SetSize(self.width,50)
+		textobject:setSize(self.width,50)
 		textobject:SetText({skin.controls.menubutton_text_hover_color,text})
 --		textobject:SetFont(font.smallfont)
 		

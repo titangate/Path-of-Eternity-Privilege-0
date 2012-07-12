@@ -84,7 +84,7 @@ function tabs:update(dt)
 	
 	for k, v in ipairs(children) do
 		v:update(dt)
-		v:SetPos(padding, tabheight + padding)
+		v:setPos(padding, tabheight + padding)
 	end
 	
 	if self.Update then
@@ -274,7 +274,7 @@ function tabs:AddTab(name, object, tip, image)
 	self:AddScrollButtons()
 	
 	if autosize == true and retainsize == false then
-		object:SetSize(self.width - padding*2, (self.height - tabheight) - padding*2)
+		object:setSize(self.width - padding*2, (self.height - tabheight) - padding*2)
 	end
 		
 end
@@ -296,8 +296,8 @@ function tabs:AddScrollButtons()
 	
 	local leftbutton = scrollbutton:new("left")
 	leftbutton.parent = self
-	leftbutton:SetPos(0, 0)
-	leftbutton:SetSize(15, 25)
+	leftbutton:setPos(0, 0)
+	leftbutton:setSize(15, 25)
 	leftbutton:SetAlwaysUpdate(true)
 	leftbutton.Update = function(object, dt)
 		if self.offsetx ~= 0 then
@@ -317,8 +317,8 @@ function tabs:AddScrollButtons()
 	
 	local rightbutton = scrollbutton:new("right")
 	rightbutton.parent = self
-	rightbutton:SetPos(self.width - 15, 0)
-	rightbutton:SetSize(15, 25)
+	rightbutton:setPos(self.width - 15, 0)
+	rightbutton:setSize(15, 25)
 	rightbutton:SetAlwaysUpdate(true)
 	rightbutton.Update = function(object, dt)
 		local bwidth = self:getWidthOfButtons()
@@ -398,7 +398,7 @@ function tabs:SetScrollButtonSize(width, height)
 	
 	for k, v in ipairs(internals) do
 		if v.type == "scrollbutton" then
-			v:SetSize(width, height)
+			v:setSize(width, height)
 		end
 	end
 	

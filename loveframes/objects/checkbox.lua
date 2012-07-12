@@ -205,9 +205,9 @@ function checkbox:SetText(text)
 		textobject:SetText(text)
 		textobject.Update = function(object, dt)
 			if object.height > self.boxheight then
-				object:SetPos(self.boxwidth + 5, 0)
+				object:setPos(self.boxwidth + 5, 0)
 			else
-				object:SetPos(self.boxwidth + 5, self.boxheight/2 - object.height/2)
+				object:setPos(self.boxwidth + 5, self.boxheight/2 - object.height/2)
 			end
 		end
 		
@@ -241,10 +241,10 @@ function checkbox:GetText()
 end
 
 --[[---------------------------------------------------------
-	- func: SetSize(width, height)
+	- func: setSize(width, height)
 	- desc: sets the object's size
 --]]---------------------------------------------------------
-function checkbox:SetSize(width, height)
+function checkbox:setSize(width, height)
 
 	self.boxwidth = width
 	self.boxheight = height

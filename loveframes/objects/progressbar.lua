@@ -54,7 +54,7 @@ function progressbar:SetHeight(v)
 	self:generateBodyVertex()
 end
 
-function progressbar:SetSize(w,h)
+function progressbar:setSize(w,h)
 	self.width = w
 	self.height = h
 	self:generateBarVertex()

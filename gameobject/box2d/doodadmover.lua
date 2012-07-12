@@ -33,3 +33,7 @@ function doodadMover:update(dt)
 
 	self.body:applyAngularImpulse(0.1*self.body:getInertia()*-self.body:getAngularVelocity())
 end
+
+function doodadMover:valid()
+	return self.fixture and self.fixture:getUserData()~=nil
+end

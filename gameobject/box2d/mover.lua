@@ -96,3 +96,8 @@ function Box2DMover:destroyBody(world)
 	self.fixture = nil
 	self.body = nil
 end
+
+
+function Box2DMover:valid()
+	return self.fixture and self.fixture:getUserData()~=nil
+end

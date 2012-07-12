@@ -24,7 +24,7 @@ function Crowd:spawn(x,y,r)
 	assert(self.world,'crowd needed to be added to a map')
 	local u = Human(Box2DMover,x,y,r,'dynamic')
 	--u:createBody(self.world)
-	self.world:addUnit(u)
+	self.world:addUnit(u,true)
 	table.insert(self.crowd,u)
 	self:behave(u,self.behavearg)
 end
@@ -43,11 +43,16 @@ end
 
 function Crowd:update(dt)
 	for i,v in ipairs(self.crowd) do
-		if v.crowdai then v.crowdai:process(dt) end
-		v:update(dt)
-		if not self.area:contain(v) then
-			self.world:removeUnit(v)
-			
+		if v.map then
+			if v.crowdai then v.crowdai:process(dt) end
+			v:update(dt)
+			if not self.area:contain(v) then
+				self.world:removeUnit(v)
+				
+				table.remove(self.crowd,i)
+				i = i - 1
+			end
+		else
 			table.remove(self.crowd,i)
 			i = i - 1
 		end

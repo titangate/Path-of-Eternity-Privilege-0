@@ -509,7 +509,7 @@ end
 	- func: GetSize()
 	- desc: gets the object's size
 --]]---------------------------------------------------------
-function list:SetSize(width, height)
+function list:setSize(width, height)
 
 	self.width = width
 	self.height = height
