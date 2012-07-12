@@ -17,8 +17,8 @@ function vibrate.conf(obj)
 end
 
 function vibrate.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
+	local w = obj:getWidth()
+	local h = obj:getHeight()
 	local w2 = math.min(screen.width,neartwo(w*2))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
@@ -26,17 +26,17 @@ function vibrate.predraw(obj)
 	love.graphics.setCanvas(c.canvas)
 	vibrate.c = c
 	love.graphics.push()
-	love.graphics.translate(-obj:GetX()+(w2-w)/2,-obj:GetY())
+	love.graphics.translate(-obj:getX()+(w2-w)/2,-obj:getY())
 end
 
 function vibrate.postdraw(obj)
-local w = obj:GetWidth()
+local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*2))
 	love.graphics.pop()
 	love.graphics.setCanvas(vibrate.prevc)
 	love.graphics.setPixelEffect(vibrate.pe)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(vibrate.c.canvas,obj:GetX()-(w2-w)/2,obj:GetY())
+	love.graphics.draw(vibrate.c.canvas,obj:getX()-(w2-w)/2,obj:getY())
 	canvasmanager.releaseCanvas(vibrate.c)
 	love.graphics.setPixelEffect()
 	vibrate.c = nil

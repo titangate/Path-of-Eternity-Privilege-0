@@ -26,15 +26,15 @@ function haze.conf(obj)
 end
 
 function haze.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
+	local w = obj:getWidth()
+	local h = obj:getHeight()
 	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
 	haze.prevc = love.graphics.getCanvas()
 	love.graphics.setCanvas(c.canvas)
 	haze.c = c
 	love.graphics.push()
-	love.graphics.translate(-obj:GetX(),-obj:GetY())
+	love.graphics.translate(-obj:getX(),-obj:getY())
 end
 
 function haze.postdraw(obj)
@@ -42,7 +42,7 @@ function haze.postdraw(obj)
 	love.graphics.setCanvas(haze.prevc)
 	love.graphics.setPixelEffect(haze.pe)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(haze.c.canvas,obj:GetX(),obj:GetY())
+	love.graphics.draw(haze.c.canvas,obj:getX(),obj:getY())
 	canvasmanager.releaseCanvas(haze.c)
 	love.graphics.setPixelEffect()
 	haze.c = nil

@@ -156,6 +156,12 @@ function Unit:getExposure()
 	return 10
 end
 
+function Unit:getObstacle()
+end
+
+function Unit:getLegacyObstacle()
+end
+
 if DEBUG then
 
 function Unit:DebugDraw()

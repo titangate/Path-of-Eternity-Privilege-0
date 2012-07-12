@@ -233,20 +233,20 @@ function base:GetPos()
 end
 
 --[[---------------------------------------------------------
-	- func: GetX()
+	- func: getX()
 	- desc: gets the object's x position
 --]]---------------------------------------------------------
-function base:GetX()
+function base:getX()
 
 	return self.x
 	
 end
 
 --[[---------------------------------------------------------
-	- func: GetY()
+	- func: getY()
 	- desc: gets the object's y position
 --]]---------------------------------------------------------
-function base:GetY()
+function base:getY()
 
 	return self.y
 	
@@ -388,20 +388,20 @@ function base:GetSize()
 end
 
 --[[---------------------------------------------------------
-	- func: GetWidth()
+	- func: getWidth()
 	- desc: gets the object's width
 --]]---------------------------------------------------------
-function base:GetWidth()
+function base:getWidth()
 
 	return self.width
 	
 end
 
 --[[---------------------------------------------------------
-	- func: GetHeight()
+	- func: getHeight()
 	- desc: gets the object's height
 --]]---------------------------------------------------------
-function base:GetHeight()
+function base:getHeight()
 
 	return self.height
 	

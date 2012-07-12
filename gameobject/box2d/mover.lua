@@ -13,6 +13,7 @@ end
 local lp = love.physics
 local shape = lp.newCircleShape(16)
 function Box2DMover:createBody(world)
+	self.world = world
 	if type(world)=='table' then
 		world = world.world
 	end
@@ -21,7 +22,7 @@ function Box2DMover:createBody(world)
 end
 
 function Box2DMover:setUserData(data)
-	
+	table.insert(self.world.f_update,{self.fixture,data})
 	self.fixture:setUserData(data)
 end
 

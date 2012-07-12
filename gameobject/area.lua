@@ -15,6 +15,9 @@ function Area:carryUnit(u,state)
 		self.unitcount = self.unitcount - 1
 	end
 	self.unit[u] = state
+	if self.carryfunc then
+		self:carryfunc(u,state)
+	end
 end
 
 function Area:DebugDraw()

@@ -122,7 +122,7 @@ function tabs:draw()
 		skin.DrawTabPanel(self)
 	end
 	
-	local tabheight = self:GetHeightOfButtons()
+	local tabheight = self:getHeightOfButtons()
 	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
 	local stencil = love.graphics.newStencil(stencilfunc)
 	
@@ -175,7 +175,7 @@ function tabs:mousepressed(x, y, button)
 	
 	if button == "wu" then
 		
-		local buttonheight = self:GetHeightOfButtons()
+		local buttonheight = self:getHeightOfButtons()
 		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
 		local visible = internals[numinternals - 1]:GetVisible()
 			
@@ -190,12 +190,12 @@ function tabs:mousepressed(x, y, button)
 		
 	if button == "wd" then
 		
-		local buttonheight = self:GetHeightOfButtons()
+		local buttonheight = self:getHeightOfButtons()
 		local col = loveframes.util.BoundingBox(self.x, x, self.y, y, self.width, 1, buttonheight, 1)
 		local visible = internals[numinternals]:GetVisible()
 			
 		if col == true and visible == true then
-			local bwidth = self:GetWidthOfButtons()
+			local bwidth = self:getWidthOfButtons()
 			if (self.offsetx + bwidth) < self.width then
 				self.offsetx = bwidth - self.width
 			else
@@ -321,7 +321,7 @@ function tabs:AddScrollButtons()
 	rightbutton:SetSize(15, 25)
 	rightbutton:SetAlwaysUpdate(true)
 	rightbutton.Update = function(object, dt)
-		local bwidth = self:GetWidthOfButtons()
+		local bwidth = self:getWidthOfButtons()
 		if (self.offsetx + bwidth) > self.width then
 			object.visible = true
 		else
@@ -343,10 +343,10 @@ function tabs:AddScrollButtons()
 end
 
 --[[---------------------------------------------------------
-	- func: GetWidthOfButtons()
+	- func: getWidthOfButtons()
 	- desc: gets the total width of all of the tab buttons
 --]]---------------------------------------------------------
-function tabs:GetWidthOfButtons()
+function tabs:getWidthOfButtons()
 
 	local width = 0
 	local internals = self.internals
@@ -362,10 +362,10 @@ function tabs:GetWidthOfButtons()
 end
 
 --[[---------------------------------------------------------
-	- func: GetHeightOfButtons()
+	- func: getHeightOfButtons()
 	- desc: gets the height of one tab button
 --]]---------------------------------------------------------
-function tabs:GetHeightOfButtons()
+function tabs:getHeightOfButtons()
 	
 	return self.tabheight
 	

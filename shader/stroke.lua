@@ -8,7 +8,7 @@ const number offset=3.2307692308;
 vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 {
 	vec4 texcolor = Texel(texture,texture_coords);
-	if (texcolor.a>0) return color * texcolor;
+	if (texcolor.a>0) return texcolor;
 	number alpha = Texel(texture,texture_coords+intensity*vec2(0,offset)/rf_h).a;
 	alpha += Texel(texture,texture_coords-intensity*vec2(0,offset)/rf_h).a;
 	alpha += Texel(texture,texture_coords+intensity*vec2(offset,0)/rf_w).a;
@@ -27,8 +27,8 @@ end
 local blurscale = 1
 
 function stroke.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
+	local w = obj:getWidth()
+	local h = obj:getHeight()
 	local w2 = math.min(screen.width,neartwo(w*blurscale))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
@@ -36,19 +36,19 @@ function stroke.predraw(obj)
 	love.graphics.setCanvas(c.canvas)
 	stroke.c = c
 	love.graphics.push()
-	love.graphics.translate(-obj:GetX()+(w2-w)/blurscale,-obj:GetY())
+	love.graphics.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
 	stroke.pe:send('rf_h',h)
 	stroke.pe:send('rf_w',w2)
 end
 
 function stroke.postdraw(obj)
-local w = obj:GetWidth()
+local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*blurscale))
 	love.graphics.pop()
 	love.graphics.setCanvas(stroke.prevc)
 	love.graphics.setPixelEffect(stroke.pe)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(stroke.c.canvas,obj:GetX()-(w2-w)/blurscale,obj:GetY())
+	love.graphics.draw(stroke.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
 	canvasmanager.releaseCanvas(stroke.c)
 	love.graphics.setPixelEffect()
 	stroke.c = nil

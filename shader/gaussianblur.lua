@@ -47,8 +47,8 @@ end
 local blurscale = 1
 
 function gaussianblur.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
+	local w = obj:getWidth()
+	local h = obj:getHeight()
 	local w2 = math.min(screen.width,neartwo(w*blurscale))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
@@ -56,20 +56,20 @@ function gaussianblur.predraw(obj)
 	love.graphics.setCanvas(c.canvas)
 	gaussianblur.c = c
 	love.graphics.push()
-	love.graphics.translate(-obj:GetX()+(w2-w)/blurscale,-obj:GetY())
+	love.graphics.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
 	gaussianblur.vert:send('rf_h',h)
 	gaussianblur.horz:send('rf_w',w2)
 	love.graphics.setPixelEffect(gaussianblur.vert)
 end
 
 function gaussianblur.postdraw(obj)
-local w = obj:GetWidth()
+local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*blurscale))
 	love.graphics.pop()
 	love.graphics.setCanvas(gaussianblur.prevc)
 	love.graphics.setPixelEffect(gaussianblur.horz)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(gaussianblur.c.canvas,obj:GetX()-(w2-w)/blurscale,obj:GetY())
+	love.graphics.draw(gaussianblur.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
 	canvasmanager.releaseCanvas(gaussianblur.c)
 	love.graphics.setPixelEffect()
 	gaussianblur.c = nil

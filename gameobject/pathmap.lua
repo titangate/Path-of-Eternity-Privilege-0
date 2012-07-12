@@ -3,16 +3,30 @@ function PathMap:initialize(w,h)
 	self._data = {}
 	self.w,self.h = w,h
 	self.scale = 64
+	local function cf(area,unit,state)
+		if state then
+			local a = unit:getObstacle()
+			if a then
+				for v,_ in pairs(a) do
+					v.obstacle = true
+				end
+			end
+		else
+		end
+	end
 	for x=1,w do
 		table.insert(self._data,{})
 		for y=1,h do
-			table.insert(self._data[x],RectangleArea((x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale))
+			local a = RectangleArea((x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+			table.insert(self._data[x],a)
+			a.carryfunc = cf
 		end
 	end
 	self.world = love.physics.newWorld()
 --	love.physics.setMeter(1)
 	self.f_destroy = {}
 	self.b_destroy = {}
+	self.f_update = {}
 end
 
 function PathMap:addUnit(u)
@@ -199,12 +213,18 @@ function PathMap:update(dt)
 	for i,v in ipairs(self.b_destroy) do
 		v:destroy()
 	end
+	for i,v in ipairs(self.f_update) do
+		v[1]:setUserData(v[2])
+	end
 	self.f_destroy = {}
 	self.b_destroy = {}
+	self.f_update = {}
 	self.world:update(dt)
 end
 
+	local g = love.graphics
 function PathMap:draw()
+	g.setColor(255,255,255)
 	if self.wallbatch then
 		love.graphics.draw(self.wallbatch)
 	end
@@ -230,11 +250,11 @@ function PathMap:getNearbyArea(target,distance)
 	return searchset
 end
 
+
 if DEBUG then
 local shifth = 3^0.5
 local shiftx,shifty = 3^0.5/2,1.5
 function PathMap:DebugDraw()
-	local g = love.graphics
 	g.push()
 	g.setColor(255,255,255)
 	g.rectangle('fill',0,0,screen.width,screen.height)

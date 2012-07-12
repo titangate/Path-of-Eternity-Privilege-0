@@ -1,4 +1,6 @@
+
 local sound = require 'library.sound'
+local doodad = require 'gameobject.doodad'
 
 local demogame = {}
 
@@ -44,13 +46,13 @@ function demogame:load()
 	
 	e = Exposure(u,host,m.world)
 	
-	--patrolai = AIPatrol(u,{Vector(100,100,0,4),Vector(300,100,1,3),Vector(500,500,2,2),Vector(100,300,3,5),})
-	patrolai = AIInvestigate(u,Vector(400,300))
-	host:addAI(patrolai)
+	sel = Selection(m)
+	doodad:load()
+	d = doodad.create('desk2',500,300,0)
+	m:addUnit(d)
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
 
-	sel = Selection(u)
 end
 
 function demogame:loadresume()
@@ -74,8 +76,9 @@ function demogame:update(dt)
 	c:update(dt)
 	m:update(dt)
 	e:update(dt)
+	d:update(dt)
 	sound.setCenter(u:getPosition())
-	
+	sel:update(dt)
 	if u2in then
 		u2:update(dt)
 	end
@@ -109,6 +112,7 @@ function demogame:draw()
 	end
 	m:draw()
 	c:draw()
+	d:draw()
 	if self.scale ~=1 then
 		love.graphics.pop()
 		love.graphics.setColor(255,255,255,255*self.scale)
@@ -126,6 +130,13 @@ function demogame:keypressed(k)
 		m:addUnit(u2)
 		u2in = true
 	end
+	if k=='o' then
+
+	print 'begin ai calc'
+	--patrolai = AIPatrol(u,{Vector(100,100,0,4),Vector(300,100,1,3),Vector(500,500,2,2),Vector(100,300,3,5),})
+	patrolai = AIInvestigate(u,Vector(400,300))
+	host:addAI(patrolai)
+end
 end
 
 function demogame:keyreleased(k)

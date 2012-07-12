@@ -110,7 +110,7 @@ function loveframes.debug.ExamplesMenu()
 	-- examples list
 	------------------------------------
 	local exampleslist = loveframes.Create("list", examplesframe)
-	exampleslist:SetSize(200, exampleslist:GetParent():GetHeight() - 25)
+	exampleslist:SetSize(200, exampleslist:GetParent():getHeight() - 25)
 	exampleslist:SetPos(0, 25)
 	exampleslist:SetPadding(5)
 	exampleslist:SetSpacing(5)
@@ -184,7 +184,7 @@ function loveframes.debug.ExamplesMenu()
 		frame1:Center()
 		
 		local exampleslist = loveframes.Create("list", frame1)
-		exampleslist:SetSize(200, exampleslist:GetParent():GetHeight() - 25)
+		exampleslist:SetSize(200, exampleslist:GetParent():getHeight() - 25)
 		exampleslist:SetPos(0, 25)
 		exampleslist:SetPadding(5)
 		exampleslist:SetSpacing(5)
@@ -229,7 +229,7 @@ function loveframes.debug.ExamplesMenu()
 		frame1:Center()
 		
 		local exampleslist = loveframes.Create("list", frame1)
-		exampleslist:SetSize(450, exampleslist:GetParent():GetHeight() - 25)
+		exampleslist:SetSize(450, exampleslist:GetParent():getHeight() - 25)
 		exampleslist:SetPos(0, 25)
 		exampleslist:SetPadding(5)
 		exampleslist:SetSpacing(0)
@@ -405,7 +405,7 @@ function loveframes.debug.ExamplesMenu()
 		local text2 = loveframes.Create("text", panel1)
 		text2:SetFont(love.graphics.newFont(10))
 		text2.Update = function(object, dt)
-			object:SetPos(slider1:GetWidth() - object:GetWidth(), 5)
+			object:SetPos(slider1:getWidth() - object:getWidth(), 5)
 			object:SetText(slider1:GetValue())
 		end
 		
@@ -427,7 +427,7 @@ function loveframes.debug.ExamplesMenu()
 		local text4 = loveframes.Create("text", panel1)
 		text4:SetFont(love.graphics.newFont(10))
 		text4.Update = function(object, dt)
-			object:SetPos(slider2:GetWidth() - object:GetWidth(), 45)
+			object:SetPos(slider2:getWidth() - object:getWidth(), 45)
 			object:SetText(slider2:GetValue())
 		end
 		
@@ -545,7 +545,7 @@ function loveframes.debug.ExamplesMenu()
 		
 		local text2 = loveframes.Create("text", frame1)
 		text2.Update = function(object, dt)
-			object:SetPos(slider1:GetWidth() - object:GetWidth(), 120)
+			object:SetPos(slider1:getWidth() - object:getWidth(), 120)
 			object:SetText(slider1:GetValue())
 		end
 		

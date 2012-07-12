@@ -29,7 +29,7 @@ function mainmenu:load()
 	end
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")
-	exampleslist:SetSize(450, exampleslist:GetParent():GetHeight() - 25)
+	exampleslist:SetSize(450, exampleslist:GetParent():getHeight() - 25)
 	exampleslist:SetPos(screen.halfwidth,screen.halfheight)
 	exampleslist:SetPadding(5)
 	exampleslist:SetSpacing(0)

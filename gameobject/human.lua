@@ -35,8 +35,22 @@ end
 
 function Human:draw()
 	if self.drawSelection then
-		filters.selection:conf(self)
-		filters.selection:predraw(self)
+		filters.selection.conf(self)
+		local stroke = filters.selection
+		-- customized shader predraw
+		local obj = self
+		local w = obj:getWidth()
+		local h = obj:getHeight()
+		local w2 = math.min(screen.width,neartwo(w*1))
+		local c = canvasmanager.requireCanvas(w2,h)
+		c.canvas:clear()
+		stroke.prevc = love.graphics.getCanvas()
+		love.graphics.setCanvas(c.canvas)
+		stroke.c = c
+		love.graphics.push()
+		love.graphics.translate(-obj:getX()+32+(w2-w)/1,-obj:getY()+32)
+		stroke.pe:send('rf_h',h)
+		stroke.pe:send('rf_w',w2)
 	end
 	local g = love.graphics
 	local x,y = self:getPosition()
@@ -47,6 +61,27 @@ function Human:draw()
 	g.draw(self.shoulder,x,y,r,1,1,32,32)
 	g.draw(self.head,x,y,r+self.headtilt,1,1,32,32)
 	if self.drawSelection then
-		filters.selection.postdraw()
+		local obj = self
+		local stroke = filters.selection
+
+		local w = obj:getWidth()
+		local h = obj:getHeight()
+		local w2 = math.min(screen.width,neartwo(w*1))
+		love.graphics.pop()
+		love.graphics.setCanvas(stroke.prevc)
+		love.graphics.setPixelEffect(stroke.pe)
+		love.graphics.setColor(0,255,0)
+		love.graphics.draw(stroke.c.canvas,obj:getX()-32-(w2-w)/1,obj:getY()-32)
+		canvasmanager.releaseCanvas(stroke.c)
+		love.graphics.setPixelEffect()
+		stroke.c = nil
 	end
+end
+
+function Human:getWidth()
+	return 64
+end
+
+function Human:getHeight()
+	return 64
 end

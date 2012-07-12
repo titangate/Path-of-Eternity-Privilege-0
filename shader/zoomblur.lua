@@ -30,8 +30,8 @@ function zoomblur.conf(obj)
 end
 
 function zoomblur.predraw(obj)
-	local w = obj:GetWidth()
-	local h = obj:GetHeight()
+	local w = obj:getWidth()
+	local h = obj:getHeight()
 	w = math.min(screen.width,neartwo(w))
 	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
@@ -39,16 +39,16 @@ function zoomblur.predraw(obj)
 	love.graphics.setCanvas(c.canvas)
 	zoomblur.c = c
 	love.graphics.push()
-	love.graphics.translate(-obj:GetX(),-obj:GetY())
+	love.graphics.translate(-obj:getX(),-obj:getY())
 end
 
 function zoomblur.postdraw(obj)
-	local w = obj:GetWidth()
+	local w = obj:getWidth()
 	love.graphics.pop()
 	love.graphics.setCanvas(zoomblur.prevc)
 	love.graphics.setPixelEffect(zoomblur.pe)
 	love.graphics.setColor(255,255,255)
-	love.graphics.draw(zoomblur.c.canvas,obj:GetX(),obj:GetY())
+	love.graphics.draw(zoomblur.c.canvas,obj:getX(),obj:getY())
 	canvasmanager.releaseCanvas(zoomblur.c)
 	love.graphics.setPixelEffect()
 	zoomblur.c = nil
