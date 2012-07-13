@@ -84,10 +84,10 @@ function image:draw()
 end
 
 --[[---------------------------------------------------------
-	- func: SetImage(image)
+	- func: setImage(image)
 	- desc: sets the object's image
 --]]---------------------------------------------------------
-function image:SetImage(image)
+function image:setImage(image)
 
 	if type(image) == "string" then
 		self.image = requireImage(image)

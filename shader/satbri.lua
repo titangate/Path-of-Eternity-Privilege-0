@@ -33,6 +33,7 @@ function satbri.predraw(obj)
 end
 
 function satbri.postdraw(obj)
+	love.graphics.setPixelEffect()
 end
 
 return satbri

@@ -23,7 +23,7 @@ function optionmenu:load()
 	
 	local localization = require 'library.localization'
 	local text0 = loveframes.Create("text", gameplaypanel)
-	text0:SetText(LocalizedString"LANGUAGE")
+	text0:setText(LocalizedString"LANGUAGE")
 	text0:setPos(0,30)
 	local modes = localization.getAvailableLanguage()
 	local cos_language = {}
@@ -73,7 +73,7 @@ function optionmenu:load()
 	multichoice1:setPos(5, 50)
 	
 	local text1 = loveframes.Create("text", graphicspanel)
-	text1:SetText(LocalizedString"RESOLUTION")
+	text1:setText(LocalizedString"RESOLUTION")
 	text1:setPos(5,30)
 	local modes = g.getAvailableResolution()
 	local cor = {}
@@ -111,7 +111,7 @@ function optionmenu:load()
 	end
 	
 	local checkbox1 = loveframes.Create("checkbox", graphicspanel)
-	checkbox1:SetText({{255,255,255},LocalizedString"V SYNC"})
+	checkbox1:setText({{255,255,255},LocalizedString"V SYNC"})
 	checkbox1:setPos(5, 90)
 	checkbox1.OnChanged = function(object2,check)
 		g.setArgument('vsync',check)
@@ -125,7 +125,7 @@ function optionmenu:load()
 	checkbox1.tooltip:SetOffsets(0, -5)
 	
 	local checkbox2 = loveframes.Create("checkbox", graphicspanel)
-	checkbox2:SetText({{255,255,255},LocalizedString"LIMIT UI REDRAWS"})
+	checkbox2:setText({{255,255,255},LocalizedString"LIMIT UI REDRAWS"})
 	checkbox2:setPos(5, 120)
 	checkbox2.OnChanged = function(object2,check)
 		option.seperateUI = check
@@ -149,7 +149,7 @@ function optionmenu:load()
 	
 	local shader = require 'shader'
 	local text2 = loveframes.Create("text", graphicspanel)
-	text2:SetText(LocalizedString"SHADER QUALITY")
+	text2:setText(LocalizedString"SHADER QUALITY")
 	text2:setPos(255,30)
 	local modes = shader.getAvailableQuality()
 	local cos_shader = {}
@@ -174,7 +174,7 @@ function optionmenu:load()
 	
 	local essential = require 'library.essential'
 	local text3 = loveframes.Create("text", graphicspanel)
-	text3:SetText(LocalizedString"TEXTURE QUALITY")
+	text3:setText(LocalizedString"TEXTURE QUALITY")
 	text3:setPos(255,80)
 	local modes = essential.getAvailableTextureQuality()
 	for i,v in ipairs(modes) do

@@ -33,6 +33,7 @@ function Human:getHeadAngle()
 	return self:getAngle() + self.headtilt
 end
 
+local scale = 1.5
 function Human:draw()
 	if self.drawSelection then
 		filters.selection.conf(self)
@@ -48,7 +49,7 @@ function Human:draw()
 		love.graphics.setCanvas(c.canvas)
 		stroke.c = c
 		love.graphics.push()
-		love.graphics.translate(-obj:getX()+32+(w2-w)/1,-obj:getY()+32)
+		love.graphics.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w2)
 	end
@@ -56,10 +57,10 @@ function Human:draw()
 	local x,y = self:getPosition()
 	local r = self:getAngle()
 	g.setColor(255,255,255)
-	g.draw(self.feet,x,y,r,1,1,30+self.feetshift*7,22)
-	g.draw(self.feet,x,y,r,1,1,30-self.feetshift*7,42)
-	g.draw(self.shoulder,x,y,r,1,1,32,32)
-	g.draw(self.head,x,y,r+self.headtilt,1,1,32,32)
+	g.draw(self.feet,x,y,r,scale,scale,30+self.feetshift*7,22)
+	g.draw(self.feet,x,y,r,scale,scale,30-self.feetshift*7,42)
+	g.draw(self.shoulder,x,y,r,scale,scale,32,32)
+	g.draw(self.head,x,y,r+self.headtilt,scale,scale,32,32)
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
@@ -71,7 +72,7 @@ function Human:draw()
 		love.graphics.setCanvas(stroke.prevc)
 		love.graphics.setPixelEffect(stroke.pe)
 		love.graphics.setColor(0,255,0)
-		love.graphics.draw(stroke.c.canvas,obj:getX()-32-(w2-w)/1,obj:getY()-32)
+		love.graphics.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
 		canvasmanager.releaseCanvas(stroke.c)
 		love.graphics.setPixelEffect()
 		stroke.c = nil
@@ -79,9 +80,9 @@ function Human:draw()
 end
 
 function Human:getWidth()
-	return 64
+	return scale*64
 end
 
 function Human:getHeight()
-	return 64
+	return scale*64
 end

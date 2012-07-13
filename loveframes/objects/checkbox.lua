@@ -188,10 +188,10 @@ function checkbox:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function checkbox:SetText(text)
+function checkbox:setText(text)
 
 	if text ~= "" then
 		
@@ -202,7 +202,7 @@ function checkbox:SetText(text)
 		textobject.parent = self
 		textobject.collide = false
 		textobject:SetFont(self.font)
-		textobject:SetText(text)
+		textobject:setText(text)
 		textobject.Update = function(object, dt)
 			if object.height > self.boxheight then
 				object:setPos(self.boxwidth + 5, 0)

@@ -8,7 +8,7 @@ end
 
 function Unit:getRepelField()
 	local x,y = self:getPosition()
-	self.rf = self.rf or CircleArea(x,y,50)
+	self.rf = self.rf or CircleArea(x,y,100)
 	self.rf.attract = true
 	return self.rf
 end

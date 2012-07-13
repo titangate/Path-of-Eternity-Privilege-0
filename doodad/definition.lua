@@ -4,8 +4,35 @@ local cc = {
 local mask = {
 	normal = {},
 }
-return {
-desk2 = {
+
+local t = {}
+local function easydoodad(name,shape,bodytype,scale,height,c,m,selectable,obstacle)
+	bodytype = bodytype or 'kinematic'
+	height = height or 1
+	scale = scale or 1
+	c = c or cc.normal
+	m = m or mask.normal
+	shape = shape or 'rectangle'
+	local img = requireImage('doodad/'..name..'.png')
+	t[name] = {
+	image = name..'.png',
+	collision = c,
+	mask = m,
+	width = img:getWidth()*scale,
+	height = img:getHeight()*scale,
+	shape = shape,
+	selectable = selectable,
+	obstacle = obstacle,
+	ox = img:getWidth()/2,
+	oy = img:getHeight()/2,
+	sx = scale,
+	sy = scale,
+	layer = height,
+	bodytype = bodytype,
+}
+end
+
+t.desk2small = {
 	image = 'desk2.png',
 	collision = cc.normal,
 	mask = mask.normal,
@@ -13,11 +40,19 @@ desk2 = {
 	height = 40,
 	sx = 1,
 	shape = 'rectangle',
-	bodytype = 'static',
+	bodytype = 'kinematic',
 	selectable = true,
 	interaction = nil,
 	ox = 116/2,
 	oy = 48/2,
 	obstacle = true,
 }
-}
+
+easydoodad('keyboard','rectangle','kinematic',1,2)
+easydoodad('monitor','rectangle','kinematic',1,2)
+easydoodad('desk2','rectangle','kinematic',2)
+easydoodad('safe')
+easydoodad('table','circle')
+easydoodad('bed')
+
+return t

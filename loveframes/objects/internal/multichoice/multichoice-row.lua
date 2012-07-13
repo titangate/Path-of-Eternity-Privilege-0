@@ -133,10 +133,10 @@ function multichoicerow:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function multichoicerow:SetText(text)
+function multichoicerow:setText(text)
 
 	self.text = text
 	

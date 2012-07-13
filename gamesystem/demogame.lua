@@ -18,19 +18,13 @@ function demogame:load()
 		lur = love.graphics.newQuad(128,0,64,64,256,64),
 		ur = love.graphics.newQuad(192,0,64,64,256,64),
 		})
-	m._data[5][5].obstacle = 'wall'
-	m._data[5][6].obstacle = 'wall'
-	m._data[6][6].obstacle = 'wall'
-	m._data[4][5].obstacle = 'wall'
-	m._data[3][5].obstacle = 'wall'
-	m._data[3][6].obstacle = 'wall'
-	m._data[3][4].obstacle = 'wall'
 	m:createWallMap()
 	host = AIHost(m)
 	u = Human(Box2DMover,100,100,0,'kinematic')
 	u2 = Human(Box2DMover,300,200,0,'kinematic')
 	
 	m:addUnit(u)
+	m:setBackground'map/riverhideout.png'
 	
 	area = CircleArea(300,300,100)
 	--host:findPath(Vector(50,50),Vector(100,100))
@@ -39,10 +33,10 @@ function demogame:load()
 	
 
 	a = Vector(1,1)
-	c = Crowd(RectangleArea(100,100,400,400),20)
+	c = Crowd(RectangleArea(100,100,1000,600),20)
 	c:addSource(RectangleArea(256,256,80,80))
 	c:addSource(u:getRepelField())
-	m:addUnit(c)
+--	m:addUnit(c)
 	
 	e = Exposure(u,host,m.world)
 	
@@ -157,6 +151,7 @@ function demogame:mousepressed(x,y,b)
 		u2:setPosition(x,y)
 		u:face(u2,true)
 	end
+	sel:mousepressed(x,y,b)
 end
 function demogame:mousereleased()
 end

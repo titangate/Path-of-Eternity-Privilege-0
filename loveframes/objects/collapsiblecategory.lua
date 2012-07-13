@@ -186,10 +186,10 @@ function collapsiblecategory:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function collapsiblecategory:SetText(text)
+function collapsiblecategory:setText(text)
 
 	self.text = text
 	

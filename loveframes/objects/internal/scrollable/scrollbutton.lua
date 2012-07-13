@@ -137,10 +137,10 @@ function scrollbutton:mousereleased(x, y, scrollbutton)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function scrollbutton:SetText(text)
+function scrollbutton:setText(text)
 
 	return
 	

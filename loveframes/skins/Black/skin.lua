@@ -526,6 +526,29 @@ function skin.DrawImage(object)
 	
 end
 
+
+--[[---------------------------------------------------------
+	- func: DrawDoodad(object)
+	- desc: draws the doodad object
+--]]---------------------------------------------------------
+function skin.DrawDoodad(object)
+	assert(object.def)
+	local image = requireImage('doodad/'..object.def.image)
+	local color = {255,255,255,200}
+	local ox,oy = object.def.ox,object.def.oy
+	local sx,sy = object.def.sx,object.def.sy
+	sy = sy or sx
+--	print (object:getX(), object:getY())
+	if color then
+		love.graphics.setColor(unpack(color))
+		love.graphics.draw(image, object:getX()-10, object:getY()-10,0,sx,sy,ox,oy)
+	else
+		love.graphics.setColor(255, 255, 255, 255)
+		love.graphics.draw(image, object:getX(), object:getY(),0,sx,sy,ox,oy)
+	end
+	
+end
+
 --[[---------------------------------------------------------
 	- func: DrawImageButton(object)
 	- desc: draws the image button object
@@ -617,7 +640,7 @@ function skin.DrawCircleButton(object)
 			skin.circlebutton_imagefilter.inactive.predraw(object)
 		end
 		love.graphics.setStencil(function()love.graphics.circle('fill',object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,object:getWidth()/2*0.9,30)end)
-		love.graphics.draw(image ,object:getX(),object:getY(),0,scale)
+		love.graphics.draw(image ,object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,0,object:getWidth()/image:getWidth(),object:getWidth()/image:getWidth(),image:getWidth()/2,image:getHeight()/2)
 		love.graphics.setStencil()
 		if active then
 			if skin.circlebutton_imagefilter.active then
@@ -1077,12 +1100,12 @@ function skin.DrawTextInput(object)
 	love.graphics.setColor(unpack(skin.controls.textinput_body_color))
 	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
-	object:SetTextOffsetY(object:getHeight()/2 - height/2)
+	object:setTextOffsetY(object:getHeight()/2 - height/2)
 	
 	if object.xoffset ~= 0 then
-		object:SetTextOffsetX(-5)
+		object:setTextOffsetX(-5)
 	else
-		object:SetTextOffsetX(5)
+		object:setTextOffsetX(5)
 	end
 	
 	if showblink == true and focus == true then
@@ -1444,8 +1467,8 @@ function skin.DrawColumnListRow(object)
 	local font = object:GetFont()
 	local height = font:getHeight("a")
 	
-	object:SetTextPos(5, object:getHeight()/2 - height/2)
-	object:SetTextColor(bordercolor)
+	object:setTextPos(5, object:getHeight()/2 - height/2)
+	object:setTextColor(bordercolor)
 	
 	if colorindex == 1 then
 	

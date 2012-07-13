@@ -825,12 +825,12 @@ function skin.DrawTextInput(object)
 	love.graphics.setColor(unpack(skin.controls.textinput_body_color))
 	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
-	object:SetTextOffsetY(object:getHeight()/2 - height/2)
+	object:setTextOffsetY(object:getHeight()/2 - height/2)
 	
 	if object.xoffset ~= 0 then
-		object:SetTextOffsetX(-5)
+		object:setTextOffsetX(-5)
 	else
-		object:SetTextOffsetX(5)
+		object:setTextOffsetX(5)
 	end
 	
 	if showblink == true and focus == true then
@@ -1192,8 +1192,8 @@ function skin.DrawColumnListRow(object)
 	local font = object:GetFont()
 	local height = font:getHeight("a")
 	
-	object:SetTextPos(5, object:getHeight()/2 - height/2)
-	object:SetTextColor(bordercolor)
+	object:setTextPos(5, object:getHeight()/2 - height/2)
+	object:setTextColor(bordercolor)
 	
 	if colorindex == 1 then
 	

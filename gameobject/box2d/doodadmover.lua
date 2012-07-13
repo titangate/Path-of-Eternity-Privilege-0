@@ -18,7 +18,7 @@ function doodadMover:createBody(world)
 	if type(world)=='table' then
 		world = world.world
 	end
-	self.body = lp.newBody(world,self.x,self.y,self.bodytype or 'dynamic')
+	self.body = lp.newBody(world,self.x,self.y,self.info.bodytype or 'dynamic')
 	self.fixture = lp.newFixture(self.body,shape)
 end
 

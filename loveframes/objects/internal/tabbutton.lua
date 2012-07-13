@@ -32,7 +32,7 @@ function tabbutton:initialize(parent, text, tabnumber, tip, image)
 	end
 	
 	if image then
-		self:SetImage(image)
+		self:setImage(image)
 	end
 	
 end
@@ -163,20 +163,20 @@ function tabbutton:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function tabbutton:SetText(text)
+function tabbutton:setText(text)
 
 	self.text = text
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetImage(image)
+	- func: setImage(image)
 	- desc: adds an image to the object
 --]]---------------------------------------------------------
-function tabbutton:SetImage(image)
+function tabbutton:setImage(image)
 
 	if type(image) == "string" then
 		self.image = love.graphics.newImage(image)

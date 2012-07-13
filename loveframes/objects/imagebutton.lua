@@ -159,10 +159,10 @@ function imagebutton:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function imagebutton:SetText(text)
+function imagebutton:setText(text)
 
 	self.text = text
 	
@@ -219,10 +219,10 @@ function imagebutton:GetEnabled()
 end
 
 --[[---------------------------------------------------------
-	- func: SetImage(image)
+	- func: setImage(image)
 	- desc: sets the object's image
 --]]---------------------------------------------------------
-function imagebutton:SetImage(image)
+function imagebutton:setImage(image)
 
 	if type(image) == "string" then
 		self.image = requireImage(image)

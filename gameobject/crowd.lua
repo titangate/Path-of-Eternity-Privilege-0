@@ -14,6 +14,13 @@ function Crowd:initialize(area,n)
 	self.area = area
 	self:setBehavior('walk',Vector(1,0))
 	self.n = n
+	self.obstacled = false
+	self.queryCallback = function(fixture)
+		if fixture then
+			self.obstacled = true
+
+		end
+	end
 end
 
 function Crowd:createBody(world)
@@ -22,6 +29,12 @@ end
 
 function Crowd:spawn(x,y,r)
 	assert(self.world,'crowd needed to be added to a map')
+
+	self.map.world:queryBoundingBox(x-16,y-16,x+16,y+16,self.queryCallback)
+	if self.obstacled then
+		self.obstacled = false
+		return
+	end
 	local u = Human(Box2DMover,x,y,r,'dynamic')
 	--u:createBody(self.world)
 	self.world:addUnit(u,true)

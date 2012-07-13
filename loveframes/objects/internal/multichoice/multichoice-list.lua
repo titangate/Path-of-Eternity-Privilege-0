@@ -35,7 +35,7 @@ function multichoicelist:initialize(object)
 	
 	for k, v in ipairs(object.choices) do
 		local row = multichoicerow:new()
-		row:SetText(v)
+		row:setText(v)
 		self:AddItem(row)
 	end
 	

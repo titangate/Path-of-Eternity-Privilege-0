@@ -161,10 +161,10 @@ function circlebutton:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function circlebutton:SetText(text)
+function circlebutton:setText(text)
 
 	self.text = text
 	
@@ -221,10 +221,10 @@ function circlebutton:GetEnabled()
 end
 
 --[[---------------------------------------------------------
-	- func: SetImage(image)
+	- func: setImage(image)
 	- desc: sets the object's image
 --]]---------------------------------------------------------
-function circlebutton:SetImage(image)
+function circlebutton:setImage(image)
 
 	if type(image) == "string" then
 		self.image = love.graphics.newImage(image)

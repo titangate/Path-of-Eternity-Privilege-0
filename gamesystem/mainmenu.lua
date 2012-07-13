@@ -7,7 +7,7 @@ function mainmenu:load()
 	------------------------------------
 	
 	local map = loveframes.Create("image")
-	map:SetImage"worldmap.png"
+	map:setImage"worldmap.png"
 --	map:SetColor{82, 60, 25,255}
 	
 	local img = requireImage'worldmap.png'
@@ -77,7 +77,7 @@ function mainmenu:load()
 		t:SetWidth(300)
 		t.filter = filters.vibrate
 		loveframes.anim:easy(t,'vibrate_ref',3,0,1,loveframes.style.linear)
-		t:SetText(text)
+		t:setText(text)
 		return t
 	end
 	
@@ -117,13 +117,13 @@ function mainmenu:loadpostmenu()
 	local collapsiblecategory1 = loveframes.Create("menubutton", exampleslist)
 	collapsiblecategory1:setPos(5, 30)
 	collapsiblecategory1:setSize(490, 265)
-	collapsiblecategory1:SetText(LocalizedString"RESUME GAME")
+	collapsiblecategory1:setText(LocalizedString"RESUME GAME")
 	collapsiblecategory1:SetDescription(LocalizedString'RESTART FROM LAST CHECKPOINT')
 	
 	local collapsiblecategory2 = loveframes.Create("menubutton", exampleslist)
 	collapsiblecategory2:setPos(5, 60)
 	collapsiblecategory2:setSize(490, 265)
-	collapsiblecategory2:SetText(LocalizedString"START GAME")
+	collapsiblecategory2:setText(LocalizedString"START GAME")
 	collapsiblecategory2:SetDescription(LocalizedString'START HOSPTIAL GAMEPLAY DEMO')
 	
 	collapsiblecategory2.OnClick = function(object)
@@ -142,7 +142,7 @@ function mainmenu:loadpostmenu()
 	local collapsiblecategory4 = loveframes.Create("menubutton", exampleslist)
 	collapsiblecategory4:setPos(5, 60)
 	collapsiblecategory4:setSize(490, 265)
-	collapsiblecategory4:SetText(LocalizedString"OPTIONS")
+	collapsiblecategory4:setText(LocalizedString"OPTIONS")
 	collapsiblecategory4:SetDescription(LocalizedString'CHANGE GAMEPLAY, GRAPHICS, AUDIO SETTINGS')
 	
 	collapsiblecategory4.OnClick = function(object)
@@ -154,7 +154,7 @@ function mainmenu:loadpostmenu()
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)
 	collapsiblecategory3:setPos(5, 60)
 	collapsiblecategory3:setSize(490, 265)
-	collapsiblecategory3:SetText(LocalizedString"QUIT GAME")
+	collapsiblecategory3:setText(LocalizedString"QUIT GAME")
 	collapsiblecategory3:SetDescription(LocalizedString'EXIT TO OPERATION SYSTEM')
 	collapsiblecategory3.OnClick = function(object)
 		love.event.push'quit'
@@ -186,7 +186,7 @@ function mainmenu:loadpause()
 	local collapsiblecategory0 = loveframes.Create("menubutton", exampleslist)
 	collapsiblecategory0:setPos(5, 30)
 	collapsiblecategory0:setSize(490, 265)
-	collapsiblecategory0:SetText(LocalizedString"CONTINUE")
+	collapsiblecategory0:setText(LocalizedString"CONTINUE")
 	collapsiblecategory0:SetDescription(LocalizedString'DISMISS THIS MENU AND CONTINUE THE GAME')
 	
 	collapsiblecategory0.OnClick = function(object)

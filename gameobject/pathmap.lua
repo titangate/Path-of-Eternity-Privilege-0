@@ -28,11 +28,18 @@ function PathMap:initialize(w,h)
 	self.b_destroy = {}
 	self.f_update = {}
 
-	self.unit = {[0]={},[1]={}}
+	self.unit = {[0]={},[1]={},[2]={}}
 end
 
 function PathMap:setDelegate(del)
 	self.del = del
+end
+
+function PathMap:setBackground(img)
+	if type(img) == 'string' then
+		img = requireImage(img)
+	end
+	self.background = img
 end
 
 function PathMap:addUnit(u,crowd)
@@ -246,6 +253,9 @@ end
 	local g = love.graphics
 function PathMap:draw()
 	g.setColor(255,255,255)
+	if self.background then
+		love.graphics.draw(self.background)
+	end
 	if self.wallbatch then
 		love.graphics.draw(self.wallbatch)
 	end

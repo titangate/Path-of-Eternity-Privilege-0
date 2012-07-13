@@ -5,8 +5,15 @@ function Selection:initialize(map)
 		if not fixture then return false end
 		local b = fixture:getUserData()
 		if b then
-			self:setSelection(b)
-			return false
+			if not self.onSel then
+				self.onSel = b
+			else
+				local prev_layer = self.onSel.layer or 1
+				local post_layer = b.layer or 1
+				if prev_layer < post_layer then
+					self.onSel = b
+				end
+			end
 		end
 		return true
 	end
@@ -38,9 +45,15 @@ end
 
 function Selection:update(dt)
 	assert(self.map.world)
+	self.onSel = nil
+		self:releaseSelection()
 	local x,y = love.mouse.getPosition()
 	self.map.world:queryBoundingBox(x-2,y-2,x+2,y+2,self.queryCallback)
-	if love.mouse.isDown'l' then
+	self:setSelection(self.onSel)
+end
+
+function Selection:mousepressed(x,y,b)
+	if self.object and b=='r' then
 		self:interact(self.object)
 	end
 end

@@ -91,10 +91,10 @@ function text:draw()
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function text:SetText(t)
+function text:setText(t)
 
 	local dtype = type(t)
 	local maxw = self.maxw
@@ -300,7 +300,7 @@ end
 function text:SetMaxWidth(width)
 
 	self.maxw = width
-	self:SetText(self.original)
+	self:setText(self.original)
 	
 end
 
@@ -356,7 +356,7 @@ function text:SetFont(font)
 	self.font = font
 	
 	if original then
-		self:SetText(original)
+		self:setText(original)
 	end
 	
 end

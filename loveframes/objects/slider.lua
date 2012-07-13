@@ -284,10 +284,10 @@ function slider:GetMinMax()
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(name)
+	- func: setText(name)
 	- desc: sets the objects's text
 --]]---------------------------------------------------------
-function slider:SetText(text)
+function slider:setText(text)
 
 	self.text = text
 	

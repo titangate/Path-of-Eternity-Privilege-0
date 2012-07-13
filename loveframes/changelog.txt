@@ -93,11 +93,11 @@ Version 0.9.1 - Alpha (May 8 - 2012)
 ================================================
 [ADDED] a new object: image button
 [ADDED] a new skin: Orange
-[ADDED] a new column list row method: SetTextPos(x, y)
+[ADDED] a new column list row method: setTextPos(x, y)
 [ADDED] a new column list row method: SetFont(font)
 [ADDED] a new column list row method: GetFont()
 [ADDED] a new column list row method: GetColorIndex()
-[ADDED] a new column list row method: SetTextColor(color)
+[ADDED] a new column list row method: setTextColor(color)
 [ADDED] a new debug function: SkinSelector()
 [ADDED] license.txt
 [ADDED] changelog.txt

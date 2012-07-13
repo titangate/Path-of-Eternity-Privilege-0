@@ -40,7 +40,7 @@ function textinput:initialize()
 	
 end
 
-function textinput:SetText(text)
+function textinput:setText(text)
 	self.text = tostring(text)
 end
 
@@ -463,20 +463,20 @@ function textinput:PositionText()
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextOffsetX(num)
+	- func: setTextOffsetX(num)
 	- desc: sets the object's text x offset
 --]]---------------------------------------------------------
-function textinput:SetTextOffsetX(num)
+function textinput:setTextOffsetX(num)
 
 	self.textxoffset = num
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextOffsetY(num)
+	- func: setTextOffsetY(num)
 	- desc: sets the object's text y offset
 --]]---------------------------------------------------------
-function textinput:SetTextOffsetY(num)
+function textinput:setTextOffsetY(num)
 
 	self.textyoffset = num
 	
@@ -493,10 +493,10 @@ function textinput:SetFont(font)
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextColor(color)
+	- func: setTextColor(color)
 	- desc: sets the object's text color
 --]]---------------------------------------------------------
-function textinput:SetTextColor(color)
+function textinput:setTextColor(color)
 
 	self.textcolor = color
 	

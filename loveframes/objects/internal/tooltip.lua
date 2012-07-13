@@ -31,7 +31,7 @@ function tooltip:initialize(object, text, width)
 	self.text = loveframes.Create("text")
 	self.text:Remove()
 	self.text.parent = self
-	self.text:SetText(text or "")
+	self.text:setText(text or "")
 	self.text:SetWidth(width or 0)
 	self.text:setPos(0, 0)
 	
@@ -169,20 +169,20 @@ function tooltip:SetObject(object)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the tooltip's text
 --]]---------------------------------------------------------
-function tooltip:SetText(text)
+function tooltip:setText(text)
 
-	self.text:SetText(text)
+	self.text:setText(text)
 	
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextMaxWidth(text)
+	- func: setTextMaxWidth(text)
 	- desc: sets the tooltip's text max width
 --]]---------------------------------------------------------
-function tooltip:SetTextMaxWidth(width)
+function tooltip:setTextMaxWidth(width)
 
 	self.text:SetMaxWidth(width)
 	

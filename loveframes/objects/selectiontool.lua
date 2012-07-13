@@ -234,7 +234,7 @@ function selectionTool:mousepressed(x, y, button)
 		end
 		
 		if top == true and button == "l" then
-			self:MakeTop()
+--			self:MakeTop()
 		end
 		
 	end

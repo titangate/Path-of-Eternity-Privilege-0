@@ -142,10 +142,10 @@ function columnlistrow:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextPos(x, y)
+	- func: setTextPos(x, y)
 	- desc: sets the positions of the object's text
 --]]---------------------------------------------------------
-function columnlistrow:SetTextPos(x, y)
+function columnlistrow:setTextPos(x, y)
 
 	self.textx = x
 	self.texty = y
@@ -183,10 +183,10 @@ function columnlistrow:GetColorIndex()
 end
 
 --[[---------------------------------------------------------
-	- func: SetTextColor(color)
+	- func: setTextColor(color)
 	- desc: sets the object's text color
 --]]---------------------------------------------------------
-function columnlistrow:SetTextColor(color)
+function columnlistrow:setTextColor(color)
 
 	self.textcolor = color
 

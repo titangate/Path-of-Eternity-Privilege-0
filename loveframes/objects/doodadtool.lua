@@ -14,8 +14,8 @@ doodadTool:include(loveframes.templates.default)
 function doodadTool:initialize()
 
 	self.type			= "doodadTool"
-	self.width 			= 100
-	self.height 		= 100
+	self.width 			= 5
+	self.height 		= 5
 	self.Spinrate		= 1
 	self.Spinvalue		= 0
 	self.completed		= false
@@ -23,7 +23,6 @@ function doodadTool:initialize()
 	self.internal		= false
 	self.dragging		= true
 	self.draggable		= true
-	
 
 end
 --[[---------------------------------------------------------
@@ -43,14 +42,8 @@ function doodadTool:update(dt)
 	end
 	-- dragging check
 	if self.dragging == true then
-		if self.state == 'translate' then
-			self.x = x - self.clickx
-			self.y = y - self.clicky
-		else
-			local ox,oy = self:getCenter()
-			local r = math.atan2(y-oy,x-ox)
-			self.Spinvalue = r
-		end
+		self.x = x - self.clickx
+		self.y = y - self.clicky
 	end
 	self:CheckHover()
 
@@ -78,6 +71,11 @@ function doodadTool:update(dt)
 	
 end
 
+function doodadTool:setPos(x,y)
+	self.clickx,self.clicky = -10,-10
+	base.setPos(self,x,y)
+end
+
 function doodadTool:getCenter()
 	return self.x+self.width/2,self.y+self.height/2
 end
@@ -87,7 +85,6 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function doodadTool:draw()
-	
 	local visible = self.visible
 	
 	if visible == false then
@@ -106,140 +103,29 @@ function doodadTool:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawCompass(self)
+
+		skin.DrawDoodad(self)
 	end
 	
 end
---[[---------------------------------------------------------
-	- func: SetMinMax()
-	- desc: sets the object's minimum and maximum values
---]]---------------------------------------------------------
-function doodadTool:SetMinMax(min, max)
 
-	self.min = min
-	self.max = max
-	
+function doodadTool:setDelegate(del)
+	self.del = del
 end
 
---[[---------------------------------------------------------
-	- func: GetMinMax()
-	- desc: gets the object's minimum and maximum values
---]]---------------------------------------------------------
-function doodadTool:GetMinMax()
-
-	return self.min, self.max
-	
+function doodadTool:setDoodad(def)
+	self.def = def
 end
-
---[[---------------------------------------------------------
-	- func: SetValue(value)
-	- desc: sets the object's value
---]]---------------------------------------------------------
-function doodadTool:SetValue(value)
-
-	self.Spinvalue = value
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetValue()
-	- desc: gets the object's value
---]]---------------------------------------------------------
-function doodadTool:GetValue()
-
-	return self.Spinvalue
-	
-end
-
---[[---------------------------------------------------------
-	- func: SetSpinRate(rate)
-	- desc: sets the object's Spin rate
---]]---------------------------------------------------------
-function doodadTool:SetSpinRate(rate)
-
-	self.Spinrate = rate
-	
-end
-
---[[---------------------------------------------------------
-	- func: GetSpinRate()
-	- desc: gets the object's Spin rate
---]]---------------------------------------------------------
-function doodadTool:GetSpinRate()
-
-	return self.Spinrate
-	
-end
-
-
-function doodadTool:MakeTop()
-	
-	local x, y = love.mouse.getPosition()
-	local key = 0
-	local base = loveframes.base
-	local basechildren = base.children
-	local numbasechildren = #basechildren
-	
-	if numbasechildren == 1 then
-		return
-	end
-	
-	if basechildren[numbasechildren] == self then
-		return
-	end
-	
-	-- make this the top object
-	for k, v in ipairs(basechildren) do
-		if v == self then
-			table.remove(basechildren, k)
-			table.insert(basechildren, self)
-			key = k
-			break
-		end
-	end
-	
-	basechildren[key]:mousepressed(x, y, "l")
-		
-end
-
 
 --[[---------------------------------------------------------
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
 function doodadTool:mousepressed(x, y, button)
-
-	local visible = self.visible
-	
-	if visible == false then
-		return
+	if not self.visible then return end
+	if button == 'r' and self.del then
+		self.del:spawnDoodad(x,y,self.def)
 	end
-	
-	local width = self.width
-	local height = self.height
-	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
-	local children = self.children
-	local internals = self.internals
-	
-	if selfcol == true then
-	
-		local top = self:IsTopCollision()
-		-- initiate dragging if not currently dragging
-		if self.dragging == false and top == true and button == "l" then
-			if self.draggable == true then
-				self.clickx = x - self.x
-				self.clicky = y - self.y
-				self.dragging = true
-			end
-		end
-		
-		if top == true and button == "l" then
-			self:MakeTop()
-		end
-		
-	end
-	
-	
 end
 
 --[[---------------------------------------------------------
@@ -247,20 +133,5 @@ end
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
 function doodadTool:mousereleased(x, y, button)
-	
-	local visible = self.visible
-	
-	if visible == false then
-		return
-	end
-	
-	local dragging = self.dragging
-	local children = self.children
-	local internals = self.internals
-	
-	-- exit the dragging state
-	if dragging == true then
-		self.dragging = false
-	end
 	
 end

@@ -175,10 +175,10 @@ function menubutton:mousereleased(x, y, button)
 end
 
 --[[---------------------------------------------------------
-	- func: SetText(text)
+	- func: setText(text)
 	- desc: sets the object's text
 --]]---------------------------------------------------------
-function menubutton:SetText(text)
+function menubutton:setText(text)
 
 	self.text = text
 	
@@ -317,10 +317,10 @@ function menubutton:SetDescription(text)
 
 		local textobject = loveframes.Create("text")
 		textobject:setSize(self.width,50)
-		textobject:SetText({skin.controls.menubutton_text_hover_color,text})
+		textobject:setText({skin.controls.menubutton_text_hover_color,text})
 --		textobject:SetFont(font.smallfont)
 		
---		textobject:SetText(text)
+--		textobject:setText(text)
 		self:SetObject(textobject)
 		
 	else
