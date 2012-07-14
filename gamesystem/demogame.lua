@@ -28,7 +28,7 @@ function demogame:load()
 --	u2 = Human(Box2DMover,300,200,0,'kinematic')
 	m:load(save)
 --	m:addUnit(u)
---	m:setBackground'map/riverhideout.png'
+	m:setBackground'map/riverhideout.png'
 	--[[
 
 --	
@@ -101,7 +101,9 @@ function demogame:draw()
 		love.graphics.setCanvas(canvas.canvas)
 	end
 	love.graphics.setColor(255,255,255)
-	if DEBUG then
+	m:draw()
+
+	if DEBUG and loveframes.config["DEBUG"] then
 		m:DebugDraw()
 --		u:DebugDraw()
 		host:DebugDraw()
@@ -110,8 +112,6 @@ function demogame:draw()
 			self.s:DebugDraw()
 		end
 	end
-	m:draw()
-
 --	d:DebugDraw()
 	if self.scale ~=1 then
 		love.graphics.pop()

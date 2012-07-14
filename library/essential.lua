@@ -158,7 +158,7 @@ end
 
 function essential.save()
 	
-	local s = table.save(option)
+	local s = json.encode(option)
 	love.filesystem.write('option',s)
 end
 

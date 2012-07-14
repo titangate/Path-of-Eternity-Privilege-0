@@ -7,11 +7,26 @@ function PathMap:initialize(w,h)
 		if state then
 			local a = unit:getObstacle()
 			if a then
+				unit.old_obs = a
 				for v,_ in pairs(a) do
-					v.obstacle = true
+					v.obstacle = v.obstacle or 0
+					if type(v.obstacle) == 'number' then
+						v.obstacle = v.obstacle + 1
+					end
 				end
 			end
 		else
+			if unit.old_obs then
+				for v,_ in pairs(unit.old_obs) do
+					print (v.obstacle)
+					if type(v.obstacle) == 'number' then
+						v.obstacle = v.obstacle- 1
+						if v.obstacle == 0 then
+							v.obstacle = nil
+						end
+					end
+				end
+			end
 		end
 	end
 	for x=1,w do
@@ -298,9 +313,7 @@ function PathMap:encode()
 end
 
 function PathMap:load(t)
-	print (u)
 	for i,v in pairs(t.unit) do
-		print (i,v)
 	local u = serial.decode(v)
 	self:addUnit(u)
 	end
@@ -312,18 +325,25 @@ local shifth = 3^0.5
 local shiftx,shifty = 3^0.5/2,1.5
 function PathMap:DebugDraw()
 	g.push()
-	g.setColor(255,255,255)
-	g.rectangle('fill',0,0,screen.width,screen.height)
+--	g.rectangle('fill',0,0,screen.width,screen.height)
 --	g.setBackgroundColor(255,255,255)
-	g.setColor(0,0,0,125)
+--	g.setColor(0,0,0,50)
 	for x=1,self.w do
 		for y=1,self.h do
+
+			g.setColor(0,0,0,100)
 			if self._data[x][y].obstacle then
 				love.graphics.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 			else
 				love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 			end
---			self._data[x][y]:DebugDraw()
+			self._data[x][y]:DebugDraw()
+		end
+	end
+
+	for i=0,#self.unit do
+		for v,_ in pairs(self.unit[i]) do
+			v:DebugDraw()
 		end
 	end
 	g.pop()

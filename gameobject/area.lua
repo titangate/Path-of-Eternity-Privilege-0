@@ -35,7 +35,7 @@ end
 
 function CircleArea:contain(u)
 	local ux,uy = u:getPosition()
-	return (ux-self.x)^2+(uy-self.y)^2<self.r*self.r
+	return ((ux-self.x)^2+(uy-self.y)^2)<=self.r*self.r
 end
 
 function CircleArea:getCenter()
@@ -59,7 +59,7 @@ end
 function RectangleArea:contain(u)
 	local x,y = u:getPosition()
 	local dx,dy = x-self.x,y-self.y
-	return dx>0 and dx<self.w and dy>0 and dy<self.h
+	return dx>=0 and dx<=self.w and dy>=0 and dy<=self.h
 end
 
 

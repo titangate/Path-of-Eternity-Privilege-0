@@ -4,7 +4,6 @@ local serial = {
 	Doodad = require 'gameobject.doodad'.decode,
 }
 function serial.decode(t)
-	print (t.name)
 	assert(serial[t.name])
 	return serial[t.name](t)
 end

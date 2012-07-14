@@ -70,7 +70,7 @@ function graphics.getAvailableResolution()
 end
 
 function graphics.save()
-	local s = table.save(vfield)
+	local s = json.encode(vfield)
 	love.filesystem.write('graphics',s)
 end
 

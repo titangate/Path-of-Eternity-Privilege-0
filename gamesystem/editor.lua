@@ -11,10 +11,7 @@ function editor:load()
 	list:setPos(5,30)
 	list:setSize(280,450)
 
---	inspector:SetAlwaysUpdate(true)
---	inspector.update = function(object,dt)
---		object:MakeTop()
---	end
+	
 
 	local te = loveframes.Create('text',list)
 	te:setText('OBJECT SELECTED')
@@ -141,6 +138,16 @@ function editor:load()
 
 		table.insert(tools,{dt,b})
 	end
+
+	inspector:SetAlwaysUpdate(true)
+	inspector.Update = function(object,dt)
+		if self.sel then
+			self.atts.x.box:setText(self.sel:getX())
+			self.atts.y.box:setText(self.sel:getY())
+			self.atts.angle.box:setText(self.sel:getAngle())
+			self.namefield:setText("OBJECT SELECTED: "..self.sel.class.name)
+		end
+	end
 	self.seltool:SetVisible(false)
 	self.inspector:SetVisible(false)
 	self.tools = tools
@@ -178,10 +185,6 @@ function editor:interact(obj)
 	if self.currenttool ~= self.seltool then return end
 	self.sel = obj
 	if not obj then return end
-	self.atts.x.box:setText(obj:getX())
-	self.atts.y.box:setText(obj:getY())
-	self.atts.angle.box:setText(obj:getAngle())
-	self.namefield:setText("OBJECT SELECTED: "..obj.class.name)
 	local x,y = obj:getPosition()
 	self.seltool:setPos(x-self.seltool:getWidth()/2,y-self.seltool:getHeight()/2)
 	self.seltool.Spinvalue = obj:getAngle()

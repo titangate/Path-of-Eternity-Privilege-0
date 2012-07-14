@@ -40,9 +40,13 @@ function Unit:update(dt)
 		local area = self.map:getArea(self:getPosition())
 		if self.area and not self.area:contain(self) then
 			self.area:carryUnit(self)
+			self.area = nil
 		end
-		self.area = area
-		self.area:carryUnit(self,true)
+		if not self.area then
+			self.area = area
+			area:carryUnit(self,true)
+			print ('carryon',math.random(100))
+		end
 	end
 	if self.facing then
 		local target,headonly = unpack(self.facing)

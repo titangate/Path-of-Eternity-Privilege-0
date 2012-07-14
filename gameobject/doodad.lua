@@ -63,7 +63,7 @@ function Doodad:getObstacle()
 		r = math.max(r,self.info.height)
 	end
 	local result = {}
-	for i=1,30 do -- use random sampling to determine the obstacled areas
+	for i=1,math.ceil(self.info.width*self.info.height/100) do -- use random sampling to determine the obstacled areas
 		local rx,ry = math.random(r)-r/2+x,math.random(r)-r/2+y
 		if DEBUG then
 			self.sample = self.sample or {}
@@ -93,7 +93,7 @@ end
 if DEBUG then
 function Doodad:DebugDraw()
 	if not self.sample then return end
-	love.graphics.setColor(0,0,0)
+	love.graphics.setColor(255,0,255)
 	for i,v in ipairs(self.sample) do
 		love.graphics.point(v[1],v[2])
 	end

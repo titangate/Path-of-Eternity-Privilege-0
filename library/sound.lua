@@ -94,7 +94,7 @@ end
 function Sound:play()
 	if self.host then
 		assert(self.alert)
-		self.host:playself(self)
+		self.host:playsound(self)
 	end
 	if not self.source then return end
 	sound.play(self.source,self.channel)

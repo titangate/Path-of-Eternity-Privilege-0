@@ -6,7 +6,7 @@ local mask = {
 }
 
 local t = {}
-local function easydoodad(name,shape,bodytype,scale,height,c,m,selectable,obstacle)
+local function easydoodad(name,shape,bodytype,scale,height,obstacle,c,m,selectable)
 	bodytype = bodytype or 'kinematic'
 	height = height or 1
 	scale = scale or 1
@@ -18,11 +18,11 @@ local function easydoodad(name,shape,bodytype,scale,height,c,m,selectable,obstac
 	image = name..'.png',
 	collision = c,
 	mask = m,
-	width = img:getWidth()*scale,
-	height = img:getHeight()*scale,
+	width = img:getWidth()*scale*0.8,
+	height = img:getHeight()*scale*0.8,
 	shape = shape,
 	selectable = selectable,
-	obstacle = obstacle,
+	obstacle = true,
 	ox = img:getWidth()/2,
 	oy = img:getHeight()/2,
 	sx = scale,
@@ -54,5 +54,9 @@ easydoodad('desk2','rectangle','kinematic',2)
 easydoodad('safe')
 easydoodad('table','circle')
 easydoodad('bed')
-
+easydoodad('desk')
+easydoodad('chair')
+easydoodad('sinkwithwater')
+easydoodad('sink')
+easydoodad('toilet')
 return t

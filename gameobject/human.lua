@@ -6,7 +6,7 @@ function Human:initialize(movertype,x,y,r,bt,info)
 	self.walkdt = 0
 	self.feetshift = 0
 	self.headstrain = 1
-	self:setStyle(info)
+	if info then self:setStyle(info) end
 end
 
 function Human:setStyle(info)

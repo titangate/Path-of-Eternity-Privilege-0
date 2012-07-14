@@ -79,11 +79,17 @@ function love.load()
 	-- UI init --
 	
 	if love.filesystem.isFile'option' then
-		essential.load(table.load(love.filesystem.read('option')))
+		local f = love.filesystem.read('option')
+		f = json.decode(f)
+		assert(f)
+		essential.load(f)
 	end
 	
 	if love.filesystem.isFile'graphics' then
-		graphics.load(table.load(love.filesystem.read('graphics')))
+		local f = love.filesystem.read('graphics')
+		f = json.decode(f)
+		assert(f)
+		graphics.load(f)
 	end
 	localization.setLocalization(option.language)
 	essential.setTextureQuality()
