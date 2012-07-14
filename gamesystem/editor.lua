@@ -114,9 +114,33 @@ function editor:load()
 		end
 		toolbox:AddItem(b)
 
-	table.insert(tools,{dt,b})
+		table.insert(tools,{dt,b})
 	end
 
+	local t = require 'unit.definition'
+	for k,v in pairs(t) do
+		local dt = loveframes.Create("humanTool")
+		dt:setHuman(v)
+		dt:setDelegate(self)
+		dt:setPos(love.mouse.getPosition())
+		dt:SetVisible(false)
+		local b = loveframes.Create("circlebutton",toolbox)
+		b:setText(k)
+
+--		b:setSize(180,180)
+		b:setImage('unit/'..v.head)
+		b.OnClick = function(object)
+			self.currenttool:SetVisible(false)
+			self.currentbutton.active = nil
+			self.currenttool = dt
+			self.currentbutton = b
+			b.active = true
+			dt:SetVisible(true)
+		end
+		toolbox:AddItem(b)
+
+		table.insert(tools,{dt,b})
+	end
 	self.seltool:SetVisible(false)
 	self.inspector:SetVisible(false)
 	self.tools = tools
@@ -142,6 +166,12 @@ local doodad = require 'gameobject.doodad'
 function editor:spawnDoodad(x,y,def)
 	local d = doodad.create(def,x,y,0)
 	self.map:addUnit(d)
+end
+
+local unit = require 'gameobject.human'
+function editor:spawnUnit(x,y,def)
+	local u = unit.create(def,x,y,0)
+	self.map:addUnit(u)
 end
 
 function editor:interact(obj)

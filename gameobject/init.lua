@@ -6,7 +6,7 @@ require 'gameobject.collisioninfo'
 require 'gameobject.area'
 require 'gameobject.unit'
 require 'gameobject.pathmap'
-require 'gameobject.human'
+require 'gameobject.human':load()
 require 'gameobject.crowd'
 require 'gameobject.selection'
 require 'gameobject.doodad'

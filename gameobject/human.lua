@@ -1,14 +1,29 @@
 Human = Unit:subclass'Human'
 
-function Human:initialize(...)
-	Unit.initialize(self,...)
-	self.head = requireImage'unit/riverhead.png'
-	self.shoulder = requireImage'unit/rivershoulder.png'
-	self.feet = requireImage'unit/genericfoot.png'
+function Human:initialize(movertype,x,y,r,bt,info)
+	Unit.initialize(self,movertype,x,y,r,bt)
 	self.headtilt = 0
 	self.walkdt = 0
 	self.feetshift = 0
 	self.headstrain = 1
+	self:setStyle(info)
+end
+
+function Human:setStyle(info)
+	self.head = requireImage('unit/'..info.head)
+	self.shoulder = requireImage('unit/'..info.shoulder)
+	self.feet = requireImage('unit/'..info.feet)
+	self.info = info
+end
+
+function Human:encode()
+	local t = Unit.encode(self)
+	t.info = self.info
+	return t
+end
+
+function Human:decode(t)
+	self:setStyle(t.info)
 end
 
 function Human:update(dt)
@@ -86,3 +101,24 @@ end
 function Human:getHeight()
 	return scale*64
 end
+
+local human = {}
+local humandef
+function human.load()
+	humandef = require 'unit.definition'
+end
+function human.decode(t)
+	local u = Human()
+	u.mover = serial.decode(t.mover)
+	u:decode(t)
+--	u:decode(t)
+	return u
+end
+function human.create(def,x,y,r,bodytype)
+	if type(def) == 'string' then
+		def = humandef[def]
+	end
+	local d = Human(Box2DMover,x,y,r,bodytype or 'kinematic',def)
+	return d
+end
+return human

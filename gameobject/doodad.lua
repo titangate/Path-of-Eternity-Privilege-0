@@ -84,6 +84,12 @@ function Doodad:getHeight()
 	return self.info.height
 end
 
+function Doodad:encode()
+	local x,y = self.mover:getPosition()
+	local r = self.mover:getAngle()
+	return {info = self.info,x=x,y=y,r=r,name='Doodad'}
+end
+
 if DEBUG then
 function Doodad:DebugDraw()
 	if not self.sample then return end
@@ -99,6 +105,10 @@ local doodaddef
 
 function doodad.load()
 	doodaddef = require 'doodad.definition'
+end
+
+function doodad.decode(t)
+	return doodad.create(t.info,t.x,t.y,t.r)
 end
 
 function doodad.create(def,x,y,r)

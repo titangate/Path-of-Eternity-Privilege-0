@@ -5,6 +5,10 @@ local doodad = require 'gameobject.doodad'
 local demogame = {}
 
 function demogame:load()
+
+	local save = love.filesystem.read'demosave'
+	save = json.decode(save)
+
 	-- Game Init --
 	
 	m = PathMap(20,20)
@@ -19,12 +23,15 @@ function demogame:load()
 		ur = love.graphics.newQuad(192,0,64,64,256,64),
 		})
 	m:createWallMap()
-	host = AIHost(m)
-	u = Human(Box2DMover,100,100,0,'kinematic')
-	u2 = Human(Box2DMover,300,200,0,'kinematic')
-	
-	m:addUnit(u)
-	m:setBackground'map/riverhideout.png'
+	host = AIHost(m)	
+--	u = Human(Box2DMover,100,100,0,'kinematic')
+--	u2 = Human(Box2DMover,300,200,0,'kinematic')
+	m:load(save)
+--	m:addUnit(u)
+--	m:setBackground'map/riverhideout.png'
+	--[[
+
+--	
 	
 	area = CircleArea(300,300,100)
 	--host:findPath(Vector(50,50),Vector(100,100))
@@ -40,10 +47,11 @@ function demogame:load()
 	
 	e = Exposure(u,host,m.world)
 	
-	sel = Selection(m)
 	doodad:load()
 	d = doodad.create('desk2',500,280,0)
-	m:addUnit(d)
+	m:addUnit(d)]]
+
+	sel = Selection(m)
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
 
@@ -73,9 +81,9 @@ function demogame:update(dt)
 --		u:update(dt)
 --		c:update(dt)
 		m:update(dt)
-		e:update(dt)
+--		e:update(dt)
 --		d:update(dt)
-		sound.setCenter(u:getPosition())
+--		sound.setCenter(u:getPosition())
 	end
 	sel:update(dt)
 end
@@ -97,14 +105,14 @@ function demogame:draw()
 		m:DebugDraw()
 --		u:DebugDraw()
 		host:DebugDraw()
-		e:DebugDraw()
+	--	e:DebugDraw()
 		if self.s then
 			self.s:DebugDraw()
 		end
 	end
 	m:draw()
 
-	d:DebugDraw()
+--	d:DebugDraw()
 	if self.scale ~=1 then
 		love.graphics.pop()
 		love.graphics.setColor(255,255,255,255*self.scale)
@@ -138,6 +146,21 @@ function demogame:keypressed(k)
 	end
 	if k==' ' then
 		pause = not pause
+	end
+	if k=='s' then
+		local t= m:encode()
+		local function dp(t,layer)
+			layer = layer or 0
+			for k,v in pairs(t) do
+				if type(v)=='table' then
+					dp(v,layer + 1)
+				else
+					print (layer,k,v)
+				end
+			end
+		end
+		local l=json.encode(t)
+		love.filesystem.write('demosave',l)
 	end
 end
 

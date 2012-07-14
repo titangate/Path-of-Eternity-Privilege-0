@@ -1,9 +1,24 @@
 
 Unit = Object:subclass'Unit'
 function Unit:initialize(movertype,...)
-	self.mover = movertype(...)
+	if movertype then
+		self.mover = movertype(...)
+	end
 	self.destr_body = nil
 	self.destr_head = nil
+end
+
+function Unit:save()
+	local mover = self.mover:save()
+	return {
+		mover = mover,
+		initiation = {self.mover.class.name},
+		name = self.class.name,
+	}
+end
+
+function Unit:load(t)
+	self.mover:load(t.mover)
 end
 
 function Unit:getRepelField()
@@ -160,6 +175,13 @@ function Unit:getObstacle()
 end
 
 function Unit:getLegacyObstacle()
+end
+
+function Unit:encode()
+	return {
+		mover = self.mover:encode(),
+		name = self.class.name,
+	}
 end
 
 if DEBUG then

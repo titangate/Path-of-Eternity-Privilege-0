@@ -549,6 +549,25 @@ function skin.DrawDoodad(object)
 	
 end
 
+
+--[[---------------------------------------------------------
+	- func: DrawHuman(object)
+	- desc: draws the human object
+--]]---------------------------------------------------------
+function skin.DrawHuman(object)
+	assert(object.def)
+	local g = love.graphics
+	local x,y = object.x,object.y
+	local r = 0
+	g.setColor(255,255,255)
+	local scale = 1.5
+	g.draw(object.feet,x,y,r,scale,scale,30,22)
+	g.draw(object.feet,x,y,r,scale,scale,30,42)
+	g.draw(object.shoulder,x,y,r,scale,scale,32,32)
+	g.draw(object.head,x,y,r,scale,scale,32,32)
+	
+end
+
 --[[---------------------------------------------------------
 	- func: DrawImageButton(object)
 	- desc: draws the image button object

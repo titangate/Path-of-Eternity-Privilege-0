@@ -18,6 +18,7 @@ local waits = require 'library.trigger'
 local shader = require 'shader'
 local graphics = require 'library.graphics'
 local sound = require 'library.sound'
+serial = require 'gamesystem.serial'
 
 screen = {
 	width = love.graphics.getWidth(),

@@ -11,7 +11,7 @@ function Box2DMover:initialize(x,y,r,bt)
 end
 
 local lp = love.physics
-local shape = lp.newCircleShape(16)
+local shape = lp.newCircleShape(24)
 function Box2DMover:createBody(world)
 	self.world = world
 	if type(world)=='table' then
@@ -19,11 +19,17 @@ function Box2DMover:createBody(world)
 	end
 	self.body = lp.newBody(world,self.x,self.y,self.bodytype or 'dynamic')
 	self.fixture = lp.newFixture(self.body,shape)
+	self.body:setAngle(self.r)
+	if self.vx and self.vy and self.va then
+		self.body:setLinearVelocity(self.vx,self.vy)
+		self.body:setAngularVelocity(self.va)
+		self.vx,self.vy,self.va = nil,nil,nil
+	end
 end
 
 function Box2DMover:setUserData(data)
 	table.insert(self.world.f_update,{self.fixture,data})
-	self.fixture:setUserData(data)
+--	self.fixture:setUserData(data)
 end
 
 function Box2DMover:update(dt)
@@ -100,4 +106,26 @@ end
 
 function Box2DMover:valid()
 	return self.fixture and self.fixture:getUserData()~=nil
+end
+
+
+function Box2DMover:encode()
+	local x,y = self.body:getPosition()
+	local r = self.body:getAngle()
+	local vx,vy = self.body:getLinearVelocity()
+	local va = self.body:getAngularVelocity()
+	local bt = self.bodytype
+	return {x = x,y=y,r=r,vx=vx,vy=vy,va=va,bt=bt,name='Box2DMover'}
+end
+
+function Box2DMover:load(t)
+	for k,v in pairs(t) do
+		self[k] = v
+	end
+end
+
+function DecodeBox2DMover(t)
+	local m = Box2DMover(t.x,t.y,t.r,t.bt)
+	m:load(t)
+	return m
 end

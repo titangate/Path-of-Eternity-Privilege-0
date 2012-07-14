@@ -20,6 +20,7 @@ function doodadMover:createBody(world)
 	end
 	self.body = lp.newBody(world,self.x,self.y,self.info.bodytype or 'dynamic')
 	self.fixture = lp.newFixture(self.body,shape)
+	self.body:setAngle(self.r)
 end
 
 local maxImpulse = 5
@@ -36,4 +37,16 @@ end
 
 function doodadMover:valid()
 	return self.fixture and self.fixture:getUserData()~=nil
+end
+
+function doodadMover:save()
+	local x,y = self.body:getPosition()
+	local r = self.body:getAngle()
+	return {x = x,y=y,r=r,info=self.info}
+end
+
+function doodadMover:load(t)
+	for k,v in pairs(t) do
+		self[k] = v
+	end
 end

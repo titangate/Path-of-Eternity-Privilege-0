@@ -286,6 +286,26 @@ function PathMap:getNearbyArea(target,distance)
 	return searchset
 end
 
+function PathMap:encode()
+	local t = {unit = {}}
+	for i=0,#self.unit do
+		for v,_ in pairs(self.unit[i]) do
+			local savedata = v:encode()
+			table.insert(t.unit,savedata)
+		end
+	end
+	return t
+end
+
+function PathMap:load(t)
+	print (u)
+	for i,v in pairs(t.unit) do
+		print (i,v)
+	local u = serial.decode(v)
+	self:addUnit(u)
+	end
+end
+
 
 if DEBUG then
 local shifth = 3^0.5
