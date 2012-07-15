@@ -7,6 +7,7 @@ function Human:initialize(movertype,x,y,r,bt,info)
 	self.feetshift = 0
 	self.headstrain = 1
 	if info then self:setStyle(info) end
+	self.lli_color = {255,255,255,50}
 end
 
 function Human:setStyle(info)
@@ -49,7 +50,7 @@ function Human:getHeadAngle()
 end
 
 local scale = 1.5
-function Human:draw()
+function Human:draw(x,y,r)
 	if self.drawSelection then
 		filters.selection.conf(self)
 		local stroke = filters.selection
@@ -69,8 +70,10 @@ function Human:draw()
 		stroke.pe:send('rf_w',w2)
 	end
 	local g = love.graphics
-	local x,y = self:getPosition()
-	local r = self:getAngle()
+	if not x then
+		x,y = self:getPosition()
+		r = self:getAngle()
+	end
 	g.setColor(255,255,255)
 	g.draw(self.feet,x,y,r,scale,scale,30+self.feetshift*7,22)
 	g.draw(self.feet,x,y,r,scale,scale,30-self.feetshift*7,42)
@@ -92,6 +95,70 @@ function Human:draw()
 		love.graphics.setPixelEffect()
 		stroke.c = nil
 	end
+end
+
+
+function Human:draw_LLI(x,y,r)
+	local i = self.info
+	if not x then
+		x,y = self:getPosition()
+		r = self:getAngle()
+	end
+	if self.drawSelection then
+		filters.selection.conf(self)
+		local stroke = filters.selection
+		-- customized shader predraw
+		local obj = self
+		local w = obj:getWidth()
+		local h = obj:getHeight()
+		local w2 = math.min(screen.width,neartwo(w*1))
+		local c = canvasmanager.requireCanvas(w2,h)
+		c.canvas:clear()
+		stroke.prevc = love.graphics.getCanvas()
+		love.graphics.setCanvas(c.canvas)
+		stroke.c = c
+		love.graphics.push()
+		love.graphics.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
+		stroke.pe:send('rf_h',h)
+		stroke.pe:send('rf_w',w2)
+	end
+	local g = love.graphics
+	g.setColor(255,255,255)
+	g.draw(self.feet,x,y,r,scale,scale,30+self.feetshift*7,22)
+	g.draw(self.feet,x,y,r,scale,scale,30-self.feetshift*7,42)
+	g.draw(self.shoulder,x,y,r,scale,scale,32,32)
+	g.draw(self.head,x,y,r+self.headtilt,scale,scale,32,32)
+	if self.drawSelection then
+		local obj = self
+		local stroke = filters.selection
+
+		local w = obj:getWidth()
+		local h = obj:getHeight()
+		local w2 = math.min(screen.width,neartwo(w*1))
+		love.graphics.pop()
+		love.graphics.setCanvas(stroke.prevc)
+		love.graphics.setPixelEffect(stroke.pe)
+		love.graphics.setColor(0,255,0)
+		love.graphics.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
+		canvasmanager.releaseCanvas(stroke.c)
+		love.graphics.setPixelEffect()
+		stroke.c = nil
+	end
+	filters.lli_unit.conf(self)
+	filters.lli_unit.predraw(self)
+	love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],50)
+	
+	g.draw(self.feet,x,y,r,scale,scale,30+self.feetshift*7,22)
+	g.draw(self.feet,x,y,r,scale,scale,30-self.feetshift*7,42)
+	g.draw(self.shoulder,x,y,r,scale,scale,32,32)
+	g.draw(self.head,x,y,r+self.headtilt,scale,scale,32,32)
+	filters.lli_unit.postdraw(self)
+	if self.lli_flare then
+		love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
+	end
+	g.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
+
+
 end
 
 function Human:getWidth()

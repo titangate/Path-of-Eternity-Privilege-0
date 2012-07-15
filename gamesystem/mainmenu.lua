@@ -32,7 +32,7 @@ function mainmenu:load()
 	exampleslist:setSize(450, exampleslist:GetParent():getHeight() - 25)
 	exampleslist:setPos(screen.halfwidth,screen.halfheight)
 	exampleslist:SetPadding(5)
-	exampleslist:SetSpacing(0)
+	exampleslist:SetSpacing(5)
 	exampleslist:SetDisplayType("vertical")
 	
 	
@@ -149,6 +149,19 @@ function mainmenu:loadpostmenu()
 		
 		require 'gamesystem.optionmenu'.OnReset = function()self:reset()end
 		require 'gamesystem.optionmenu':load()
+	end
+
+
+	local phonebutton = loveframes.Create("menubutton", exampleslist)
+	phonebutton:setPos(5, 60)
+	phonebutton:setSize(490, 265)
+	phonebutton:setText(LocalizedString"PHONE")
+	phonebutton:SetDescription(LocalizedString'CALL OUT PHONE PANEL')
+	
+	phonebutton.OnClick = function(object)
+		
+		require 'gamesystem.phone'.OnReset = function()self:reset()end
+		require 'gamesystem.phone':load()
 	end
 	
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)

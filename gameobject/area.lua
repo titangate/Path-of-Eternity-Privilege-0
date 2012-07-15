@@ -4,6 +4,14 @@ function Area:getCenterVector()
 	return self._cv
 end
 
+function Area:getCarriedUnit()
+	if self.unitcount and self.unitcount~=0 then
+		return self.unit
+	else
+		return {}
+	end
+end
+
 function Area:carryUnit(u,state)
 	self.unitcount = self.unitcount or 0
 	self.unit = self.unit or {}
@@ -69,4 +77,8 @@ end
 
 function RectangleArea:random()
 	return self.x+math.random()*self.w,self.y+math.random()*self.h
+end
+
+function RectangleArea:getAABB()
+	return self.x,self.y,self.x+self.w,self.y+self.h
 end

@@ -151,7 +151,7 @@ function circlebutton:mousereleased(x, y, button)
 	if hover == true and down == true and button == "l" and clickable == true then
 		if enabled == true then
 			if self.OnClick then
-				self.OnClick(self, x, y)
+				coroutinemsg(coroutine.resume(coroutine.create(self.OnClick),self, x, y))
 			end
 		end
 	end

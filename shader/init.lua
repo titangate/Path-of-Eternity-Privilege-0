@@ -13,6 +13,8 @@ local fil = {
 		gaussianblur = require 'shader.gaussianblur',
 		stroke = require 'shader.stroke',
 		selection = require 'shader.stroke',
+		lli = require 'shader.lli',
+		lli_unit = require 'shader.lli_unit',
 	},
 	HIGH = {
 		vibrate = require 'shader.vibrate',
@@ -23,6 +25,8 @@ local fil = {
 		gaussianblur = require 'shader.gaussianblur',
 		stroke = require 'shader.stroke',
 		selection = require 'shader.stroke',
+		lli = require 'shader.lli',
+		lli_unit = require 'shader.lli_unit',
 	},
 	LOW = {
 		vibrate = require 'shader.vibrate',
@@ -31,10 +35,14 @@ local fil = {
 		EKG = require 'shader.EKG',
 		stroke = require 'shader.stroke',
 		selection = require 'shader.stroke',
+		lli = require 'shader.satbri',
+		lli_unit = emptyshader,
 	},
 	DISABLED = {
 		vibrate = emptyshader,
 		zoomblur = emptyshader,
+		lli = emptyshader,
+		lli_unit = emptyshader,
 	},
 }
 function neartwo(n)

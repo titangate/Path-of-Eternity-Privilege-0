@@ -10,6 +10,8 @@ local definition = {
 	head = 'riverhead.png',
 	shoulder = 'rivershoulder.png',
 	feet = 'genericfoot.png',
+	description = 'THE ULTIMATE ASSASSIN',
+	name = 'RIVER'
 }
 }
 

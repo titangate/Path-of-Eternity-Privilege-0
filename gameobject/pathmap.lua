@@ -3,6 +3,7 @@ function PathMap:initialize(w,h)
 	self._data = {}
 	self.w,self.h = w,h
 	self.scale = 64
+	self.obj = {}
 	local function cf(area,unit,state)
 		if state then
 			local a = unit:getObstacle()
@@ -18,7 +19,6 @@ function PathMap:initialize(w,h)
 		else
 			if unit.old_obs then
 				for v,_ in pairs(unit.old_obs) do
-					print (v.obstacle)
 					if type(v.obstacle) == 'number' then
 						v.obstacle = v.obstacle- 1
 						if v.obstacle == 0 then
@@ -44,6 +44,10 @@ function PathMap:initialize(w,h)
 	self.f_update = {}
 
 	self.unit = {[0]={},[1]={},[2]={}}
+end
+
+function PathMap:setUnitIdentifier(d,unit)
+	self.obj[d] = unit
 end
 
 function PathMap:setDelegate(del)
@@ -249,15 +253,16 @@ function PathMap:update(dt)
 	for i,v in ipairs(self.b_destroy) do
 		v:destroy()
 	end
-	for i,v in ipairs(self.f_update) do
-		v[1]:setUserData(v[2])
-	end
-	
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			v:update(dt)
 		end
 	end
+	
+	for i,v in ipairs(self.f_update) do
+		v[1]:setUserData(v[2])
+	end
+	
 	self.f_destroy = {}
 	self.b_destroy = {}
 	self.f_update = {}
@@ -267,6 +272,15 @@ end
 
 	local g = love.graphics
 function PathMap:draw()
+	if self.drawlli then
+		self:draw_LLI()
+	else
+		self:draw_normal()
+	end
+end
+
+function PathMap:draw_normal()
+
 	g.setColor(255,255,255)
 	if self.background then
 		love.graphics.draw(self.background)
@@ -277,6 +291,68 @@ function PathMap:draw()
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			v:draw()
+		end
+	end
+end
+
+function PathMap:draw_LLI()
+	g.setColor(255,255,255)
+	self.satbri_saturation = 0
+	self.satbri_brightness = -1
+	self.lli_intensity = math.random(10)
+	if self.lli_radius < screen.halfwidth then
+		if self.background then
+			love.graphics.draw(self.background)
+		end
+		if self.wallbatch then
+			love.graphics.draw(self.wallbatch)
+		end
+		for i=0,#self.unit do
+			for v,_ in pairs(self.unit[i]) do
+				v:draw()
+			end
+		end
+		filters.lli.conf(self)
+		filters.lli.predraw()
+		love.graphics.setStencil(function()love.graphics.circle('fill',screen.halfwidth,screen.halfheight,self.lli_radius)end)
+		if self.background then
+			love.graphics.draw(self.background)
+		end
+		if self.wallbatch then
+			love.graphics.draw(self.wallbatch)
+		end
+		filters.lli.postdraw()
+		
+		for i=0,#self.unit do
+			for v,_ in pairs(self.unit[i]) do
+				if v.draw_LLI then
+					v:draw_LLI()
+				else
+					v:draw()
+				end
+			end
+		end
+		love.graphics.setStencil()
+
+	else
+		filters.lli.conf(self)
+		filters.lli.predraw()
+		if self.background then
+			love.graphics.draw(self.background)
+		end
+		if self.wallbatch then
+			love.graphics.draw(self.wallbatch)
+		end
+		filters.lli.postdraw()
+
+		for i=0,#self.unit do
+			for v,_ in pairs(self.unit[i]) do
+				if v.draw_LLI then
+					v:draw_LLI()
+				else
+					v:draw()
+				end
+			end
 		end
 	end
 end
@@ -306,17 +382,47 @@ function PathMap:encode()
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			local savedata = v:encode()
+			print (v,v.identifier)
+			savedata.identifier = v.identifier
 			table.insert(t.unit,savedata)
 		end
 	end
 	return t
 end
 
-function PathMap:load(t)
-	for i,v in pairs(t.unit) do
-	local u = serial.decode(v)
-	self:addUnit(u)
+-- f: callback. receives qeuried unit, returns bool wether to keep querying or not
+function PathMap:queryUnits(area,f)
+	local x1,y1,w,h = area:getAABB()
+	x1,y1 = self:pixelToData(x1,y1)
+	x2,y2 = self:pixelToData(x1+w,y1+h)
+	for x = x1,x2 do
+		for y = y1,y2 do
+			for u,_ in pairs(self._data[x][y]:getCarriedUnit()) do
+				if area:contain(u) then
+					local r = f(u)
+					assert(type(r)=='boolean','Query Unit callback has to return a boolean')
+					if r == false then
+						return
+					end
+				end
+			end
+		end
 	end
+end
+
+
+function PathMap:load(t)
+	for i,v in ipairs(t.unit) do
+		local u = serial.decode(v)
+		self:addUnit(u)
+		if v.identifier then
+			self:setUnitIdentifier(v.identifier,u)
+		end
+	end
+end
+
+function PathMap:mapToScreen(x,y)
+	return x,y
 end
 
 

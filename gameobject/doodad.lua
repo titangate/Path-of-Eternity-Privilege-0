@@ -6,6 +6,39 @@ function Doodad:initialize(movertype,x,y,r,bt,info)
 	self.layer = info.layer
 end
 
+function Doodad:draw_LLI()
+
+	local i = self.info
+	local x,y = self:getPosition()
+	local r = self:getAngle()
+	local scale = 0.5
+	if self.drawSelection then
+		filters.selection.conf(self)
+		local stroke = filters.selection
+		-- customized shader predraw
+		local obj = self
+		local w = obj:getWidth()
+		local h = obj:getHeight()
+		stroke.pe:send('rf_h',h)
+		stroke.pe:send('rf_w',w)
+		love.graphics.setPixelEffect(stroke.pe)
+	end
+
+	love.graphics.setColor(255,255,255)
+	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
+	if self.drawSelection then
+		local obj = self
+		local stroke = filters.selection
+		love.graphics.setPixelEffect()
+		stroke.c = nil
+	end
+	filters.lli_unit.conf(self)
+	filters.lli_unit.predraw(self)
+	love.graphics.setColor(0,0,0,100)
+	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
+	filters.lli_unit.postdraw(self)
+end
+
 function Doodad:draw()
 	local i = self.info
 	local x,y = self:getPosition()
@@ -31,9 +64,9 @@ function Doodad:draw()
 		stroke.pe:send('rf_w',w)
 		love.graphics.setPixelEffect(stroke.pe)
 	end
+
 	love.graphics.setColor(255,255,255)
 	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
-
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
@@ -63,10 +96,10 @@ function Doodad:getObstacle()
 		r = math.max(r,self.info.height)
 	end
 	local result = {}
+	self.sample = {}
 	for i=1,math.ceil(self.info.width*self.info.height/100) do -- use random sampling to determine the obstacled areas
 		local rx,ry = math.random(r)-r/2+x,math.random(r)-r/2+y
 		if DEBUG then
-			self.sample = self.sample or {}
 			table.insert(self.sample,{rx,ry})
 		end
 		if self.mover.fixture:testPoint(rx,ry) then

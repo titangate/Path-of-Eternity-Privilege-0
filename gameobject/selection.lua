@@ -10,7 +10,7 @@ function Selection:initialize(map)
 			else
 				local prev_layer = self.onSel.layer or 1
 				local post_layer = b.layer or 1
-				if prev_layer < post_layer then
+				if prev_layer <= post_layer then
 					self.onSel = b
 				end
 			end
@@ -22,12 +22,17 @@ end
 function Selection:setSelection(obj)
 
 	self:releaseSelection()
-	if not obj then return end
+	if not obj then
+
+	if self.onDeselect then
+		self.onDeselect()
+	end
+	return end
 	self.object = obj
 	self.object.drawSelection = true
 	self.object.selection_intensity = 1
-	if self.del then
-		self.del:setSelection(obj)
+	if self.onSelect then
+		self.onSelect(obj)
 	end
 end
 
@@ -38,15 +43,12 @@ function Selection:releaseSelection()
 			self.object.selection_intensity = nil
 	end
 	self.object = nil
-	if self.del then
-		self.del:releaseSelection()
-	end
 end
 
 function Selection:update(dt)
 	assert(self.map.world)
 	self.onSel = nil
-		self:releaseSelection()
+	self:releaseSelection()
 	local x,y = love.mouse.getPosition()
 	self.map.world:queryBoundingBox(x-2,y-2,x+2,y+2,self.queryCallback)
 	self:setSelection(self.onSel)
@@ -59,8 +61,8 @@ function Selection:mousepressed(x,y,b)
 end
 
 function Selection:interact(obj)
-	if self.del and obj and obj.mover:valid() then
-		self.del:interact(obj)
+	if self.onInteract and obj and obj.mover:valid() then
+		self.onInteract(obj)
 	end
 end
 

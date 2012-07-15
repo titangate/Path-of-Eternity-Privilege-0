@@ -8,6 +8,17 @@ function Unit:initialize(movertype,...)
 	self.destr_head = nil
 end
 
+function Unit:getIdentifier()
+	return self.identifier
+end
+
+function Unit:setIdentifier(d)
+	self.identifier = d
+	if self.map then
+		self.map:setUnitIdentifier(d,self)
+	end
+end
+
 function Unit:save()
 	local mover = self.mover:save()
 	return {
@@ -45,7 +56,6 @@ function Unit:update(dt)
 		if not self.area then
 			self.area = area
 			area:carryUnit(self,true)
-			print ('carryon',math.random(100))
 		end
 	end
 	if self.facing then

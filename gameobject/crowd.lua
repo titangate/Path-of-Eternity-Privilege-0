@@ -35,7 +35,7 @@ function Crowd:spawn(x,y,r)
 		self.obstacled = false
 		return
 	end
-	local u = Human(Box2DMover,x,y,r,'dynamic')
+	local u = Human(Box2DMover,x,y,r,'dynamic',require 'unit.definition'.river)
 	--u:createBody(self.world)
 	self.world:addUnit(u,true)
 	table.insert(self.crowd,u)

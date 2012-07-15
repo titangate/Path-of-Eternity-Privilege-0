@@ -44,7 +44,6 @@ function AIHost:raycast()
 end
 
 function AIHost:playsound(s)
-	self.map:findUnitInArea(CircleArea())
 end
 
 if DEBUG then

@@ -11,14 +11,12 @@ function editor:load()
 	list:setPos(5,30)
 	list:setSize(280,450)
 
-	
-
 	local te = loveframes.Create('text',list)
 	te:setText('OBJECT SELECTED')
 	te:SetFont(font.imagebuttonfont)
 	self.namefield = te
 	self.atts = {}
-	local at = {'x','y','angle'}
+	local at = {'x','y','angle','identifier'}
 	for i,v in ipairs(at) do
 		local te = loveframes.Create('text',list)
 		te:setText(v)
@@ -26,6 +24,11 @@ function editor:load()
 		te:SetWidth(450)
 		local ti = loveframes.Create('textinput',list)
 		self.atts[v]={text = te,box = ti}
+	end
+
+	self.atts.identifier.box.OnEnter = function(object,text)
+		print (text,'entered')
+		self.sel:setIdentifier(text)
 	end
 
 	local deletebutton = loveframes.Create('button',list)
@@ -191,6 +194,7 @@ function editor:interact(obj)
 	if self.currenttool == self.seltool then
 		self.seltool:SetVisible(true)
 		self.inspector:SetVisible(true)
+			self.atts.identifier.box:setText(self.sel:getIdentifier())
 	end
 end
 

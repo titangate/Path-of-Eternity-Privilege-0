@@ -335,6 +335,25 @@ function skin.DrawFrame(object)
 
 end
 
+function skin.DrawSimpleFrame(object)
+	
+	local attritubebackground = skin.images["attback.png"]
+	local x,y = object:getX(),object:getY()
+	local w,h = object:getWidth(),object:getHeight()
+	
+	love.graphics.drawq(attritubebackground,quads.topleft,x-10,y-10)
+	love.graphics.drawq(attritubebackground,quads.topright,x+w,y-10)
+	love.graphics.drawq(attritubebackground,quads.botleft,x-10,y+h)
+	love.graphics.drawq(attritubebackground,quads.botright,x+w,y+h)
+	love.graphics.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
+	love.graphics.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
+	love.graphics.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
+	love.graphics.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
+	love.graphics.drawq(attritubebackground,quads.mid,x,y,0,w,h)
+
+end
+
+
 --[[---------------------------------------------------------
 	- func: DrawButton(object)
 	- desc: draws the button object

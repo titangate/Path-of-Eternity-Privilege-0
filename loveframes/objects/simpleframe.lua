@@ -1,20 +1,20 @@
 --[[------------------------------------------------
-	-- LÖVE Frames --
+	-- LÖVE simpleframes --
 	-- By Nikolai Resokav --
 --]]------------------------------------------------
 
--- frame class
-frame = class("frame", base)
-frame:include(loveframes.templates.default)
+-- simpleframe class
+simpleframe = class("simpleframe", base)
+simpleframe:include(loveframes.templates.default)
 
 --[[---------------------------------------------------------
 	- func: initialize()
 	- desc: initializes the object
 --]]---------------------------------------------------------
-function frame:initialize()
+function simpleframe:initialize()
 	
-	self.type				= "frame"
-	self.name 				= "Frame"
+	self.type				= "simpleframe"
+	self.name 				= "simpleframe"
 	self.width 				= 300
 	self.height 			= 150
 	self.clickx 			= 0
@@ -30,23 +30,6 @@ function frame:initialize()
 	self.children 			= {}
 	self.OnClose			= nil
 	
-	local close = closebutton:new()
-	close.parent = self
-	close:setSize(16, 16)
-	close.OnClick = function()
-		
-		self.filter = filters.vibrate
-		loveframes.anim:easy(self,'vibrate_ref',0,10,0.3,loveframes.style.linear)
-		wait(0.3)
-		self.filter = nil
-		self:Remove()
-		
-		if self.OnClose then
-			self.OnClose(self)
-		end
-		
-	end
-	
 	table.insert(self.internals, close)
 	
 end
@@ -55,7 +38,7 @@ end
 	- func: update(deltatime)
 	- desc: updates the element
 --]]---------------------------------------------------------
-function frame:update(dt)
+function simpleframe:update(dt)
 	
 	local visible = self.visible
 	local alwaysupdate = self.alwaysupdate
@@ -79,7 +62,6 @@ function frame:update(dt)
 	local children = self.children
 	local internals = self.internals
 	
-	close:setPos(self.width - 22, 4)
 	self:CheckHover()
 	
 	-- dragging check
@@ -144,16 +126,16 @@ end
 	- func: draw()
 	- desc: draws the object
 --]]---------------------------------------------------------
-function frame:draw()
+function simpleframe:draw()
 	
+	if self.filter then 
+		self.filter.predraw(self)
+		self.filter.conf(self)
+	end
 	local visible = self.visible
 	
 	if visible == false then
 		return
-	end
-	if self.filter then 
-		self.filter.predraw(self)
-		self.filter.conf(self)
 	end
 	
 	local children = self.children
@@ -171,7 +153,7 @@ function frame:draw()
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else
-		skin.DrawFrame(self)
+		skin.DrawSimpleFrame(self)
 	end
 	
 	for k, v in ipairs(internals) do
@@ -190,7 +172,7 @@ end
 	- func: mousepressed(x, y, button)
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
-function frame:mousepressed(x, y, button)
+function simpleframe:mousepressed(x, y, button)
 
 	local visible = self.visible
 	
@@ -237,7 +219,7 @@ end
 	- func: mousereleased(x, y, button)
 	- desc: called when the player releases a mouse button
 --]]---------------------------------------------------------
-function frame:mousereleased(x, y, button)
+function simpleframe:mousereleased(x, y, button)
 	
 	local visible = self.visible
 	
@@ -266,9 +248,9 @@ end
 
 --[[---------------------------------------------------------
 	- func: setName(name)
-	- desc: sets the frame's name
+	- desc: sets the simpleframe's name
 --]]---------------------------------------------------------
-function frame:setName(name)
+function simpleframe:setName(name)
 
 	self.name = name
 	
@@ -276,9 +258,9 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetName()
-	- desc: gets the frame's name
+	- desc: gets the simpleframe's name
 --]]---------------------------------------------------------
-function frame:GetName()
+function simpleframe:GetName()
 
 	return self.name
 	
@@ -286,9 +268,9 @@ end
 
 --[[---------------------------------------------------------
 	- func: SetDraggable(true/false)
-	- desc: sets whether the frame can be dragged or not
+	- desc: sets whether the simpleframe can be dragged or not
 --]]---------------------------------------------------------
-function frame:SetDraggable(bool)
+function simpleframe:SetDraggable(bool)
 
 	self.draggable = bool
 	
@@ -296,9 +278,9 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetDraggable()
-	- desc: gets whether the frame can be dragged ot not
+	- desc: gets whether the simpleframe can be dragged ot not
 --]]---------------------------------------------------------
-function frame:GetDraggable()
+function simpleframe:GetDraggable()
 
 	return self.draggable
 	
@@ -307,10 +289,10 @@ end
 
 --[[---------------------------------------------------------
 	- func: SetScreenLocked(bool)
-	- desc: sets whether the frame can be moved passed the
+	- desc: sets whether the simpleframe can be moved passed the
 			boundaries of the window or not
 --]]---------------------------------------------------------
-function frame:SetScreenLocked(bool)
+function simpleframe:SetScreenLocked(bool)
 
 	self.screenlocked = bool
 	
@@ -318,10 +300,10 @@ end
 
 --[[---------------------------------------------------------
 	- func: GetScreenLocked()
-	- desc: gets whether the frame can be moved passed the
+	- desc: gets whether the simpleframe can be moved passed the
 			boundaries of window or not
 --]]---------------------------------------------------------
-function frame:GetScreenLocked()
+function simpleframe:GetScreenLocked()
 
 	return self.screenlocked
 	
@@ -331,7 +313,7 @@ end
 	- func: ShowCloseButton(bool)
 	- desc: sets whether the close button should be drawn
 --]]---------------------------------------------------------
-function frame:ShowCloseButton(bool)
+function simpleframe:ShowCloseButton(bool)
 
 	local close = self.internals[1]
 
@@ -345,7 +327,7 @@ end
 	- desc: makes the object the top object in the drawing
 			order
 --]]---------------------------------------------------------
-function frame:MakeTop()
+function simpleframe:MakeTop()
 	
 	local x, y = love.mouse.getPosition()
 	local key = 0
@@ -380,7 +362,7 @@ end
 	- desc: makes the object the top object in the drawing
 			order
 --]]---------------------------------------------------------
-function frame:SetModal(bool)
+function simpleframe:SetModal(bool)
 
 	local modalobject = loveframes.modalobject
 	local mbackground = self.modalbackground
@@ -423,7 +405,7 @@ end
 	- desc: gets whether or not the object is in a modal
 			state
 --]]---------------------------------------------------------
-function frame:GetModal()
+function simpleframe:GetModal()
 
 	return self.modal
 	
@@ -433,7 +415,7 @@ end
 	- func: SetVisible(bool)
 	- desc: set's whether the object is visible or not
 --]]---------------------------------------------------------
-function frame:SetVisible(bool)
+function simpleframe:SetVisible(bool)
 
 	local children = self.children
 	local internals = self.internals

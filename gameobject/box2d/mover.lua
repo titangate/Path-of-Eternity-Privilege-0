@@ -34,7 +34,7 @@ end
 
 function Box2DMover:update(dt)
 	local x,y = self:getVelocity()
-	if x~=0 and y~= 0 then
+	if x~=0 or y~= 0 then
 		self:setAngle(math.atan2(y,x))
 	end
 end
@@ -44,7 +44,7 @@ function Box2DMover:setMovingDirection(x,y)
 	assert(type(y)=='number')
 --	print (x*self.speed,y*self.speed)
 	self.body:setLinearVelocity(x*self.speed,y*self.speed)
-	local old_x,old_y = self:getVelocity()
+--	local old_x,old_y = self:getVelocity()
 --	if x~=old_x or y~=old_y then
 --	end
 end

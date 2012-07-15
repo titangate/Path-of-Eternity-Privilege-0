@@ -23,12 +23,14 @@ function demogame:load()
 		ur = love.graphics.newQuad(192,0,64,64,256,64),
 		})
 	m:createWallMap()
-	host = AIHost(m)	
+	host = AIHost(m)
 --	u = Human(Box2DMover,100,100,0,'kinematic')
 --	u2 = Human(Box2DMover,300,200,0,'kinematic')
 	m:load(save)
 --	m:addUnit(u)
 	m:setBackground'map/riverhideout.png'
+	c = Crowd(RectangleArea(100,100,1000,600),20)
+--	m:addUnit(c)
 	--[[
 
 --	
@@ -40,10 +42,7 @@ function demogame:load()
 	
 
 	a = Vector(1,1)
-	c = Crowd(RectangleArea(100,100,1000,600),20)
-	c:addSource(RectangleArea(256,256,80,80))
-	c:addSource(u:getRepelField())
---	m:addUnit(c)
+	
 	
 	e = Exposure(u,host,m.world)
 	
@@ -55,7 +54,116 @@ function demogame:load()
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
 
+	local i = loveframes.Create('frame')
 
+	function i.Draw(object)
+		love.graphics.setColor(0,0,0,120)
+		love.graphics.rectangle('fill',object.x,object.y,object.width,object.height)
+	--	print (object.x/2,object.y,object.width,object.height)
+		love.graphics.setColor(255,255,255)
+	end
+--	i:setName(LocalizedString'LLI INFORMATION')
+	i:setSize(300,50)
+	i:CenterX()
+	i.x = i.x
+	i.y=(100)
+	i:ShowCloseButton(false)
+	i:setName''
+	--i:setPos(screen.halfwidth-150,20)
+--	i:SetVisible(false)
+	self.llipanel = i
+	i.description = loveframes.Create('text',i)
+	i.description:setPos(5,30)
+
+	self.llipanel:SetVisible(false)
+
+	self.llipanel = i
+	i.namefield = loveframes.Create('text',i)
+	i.namefield:setPos(5,5)
+	i.namefield:SetFont(font.imagebuttonfont)
+--	function i:Draw() end
+
+
+	sel.onSelect = function(obj)
+		if obj==self.lli_object then return end
+		self:lliSelect(obj)
+		self.llipanel.filter = filters.vibrate
+		loveframes.anim:easy(self.llipanel,'vibrate_ref',3,0,0.3,loveframes.style.linear)
+		self.llipanel:SetVisible(true)
+	end
+
+	sel.onDeselect = function()
+		if nil==self.lli_object then return end
+		self.lli_object = nil
+		self.llipanel.namefield:setText''
+		self.llipanel.description:setText''
+		self.llipanel:SetVisible(false)
+	end
+
+	i = loveframes.Create('frame')
+
+	function i:Draw()
+		love.graphics.setColor(0,0,0,120)
+		love.graphics.rectangle('fill',i.x,i.y,i.width,i.height)
+		love.graphics.setColor(255,255,255)
+	end
+--	i:setName(LocalizedString'LLI INFORMATION')
+	i:setSize(300,50)
+	i:CenterX()
+	i.y=screen.height - 200
+	i:ShowCloseButton(false)
+	i:setName''
+
+	i.field = loveframes.Create('text',i)
+	i.closetime = 0
+	function i.Update(object,dt)
+		i.closetime = i.closetime - dt
+		if i.closetime <= 0.3 then
+			i.filter = filters.vibrate
+			i.vibrate_ref = 1-i.closetime/0.3
+			if i.closetime <= 0 then
+				i:SetVisible(false)
+			end
+		else
+			--i.filter = nil
+		end
+	end
+	i:SetAlwaysUpdate(true)
+
+
+	self.hintpanel = i
+
+
+
+end
+
+
+function demogame:hint(text,clue)
+	self.hintpanel.field:setText(text)
+	self.hintpanel.filter = filters.vibrate
+	loveframes.anim:easy(self.hintpanel,'vibrate_ref',3,0,0.3,loveframes.style.linear)
+	self.hintpanel:SetVisible(true)
+	self.hintpanel.field:CenterX()
+	self.hintpanel.closetime = 5
+end
+
+
+function demogame:lliSelect(obj)
+	self.lli_object = obj
+	local color = obj.lli_color or {255,255,255}
+	color[4] = 255
+	if obj.info then
+		if  obj.info.description then
+			self.llipanel.description:setText({color,obj.info.description})
+			self.llipanel.description:CenterX()
+		end
+		if obj.info.name then
+			self.llipanel.namefield:setText({color,obj.info.name})
+
+			self.llipanel.namefield:CenterX()
+--			self.llipanel:setName(obj.info.name)
+		end
+	end
 end
 
 function demogame:loadresume()
@@ -127,21 +235,16 @@ function demogame:keypressed(k)
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:dismiss()end)))
 	end
 	if k=='a' then
-		m:addUnit(u2)
-		u2in = true
-	end
-	if k=='o' then
-
-		print 'begin ai calc'
-		--patrolai = AIPatrol(u,{Vector(100,100,0,4),Vector(300,100,1,3),Vector(500,500,2,2),Vector(100,300,3,5),})
-		patrolai = AIInvestigate(u,Vector(400,300))
-		host:addAI(patrolai)
+		self:hint'HAHAH'
 	end
 	if k=='m' then
 		local editor =  require 'gamesystem.editor'
 		editor:load()
 		editor:setMap(m)
-		sel:setDelegate(editor)
+--		sel:setDelegate(editor)
+		sel.onInteract = function(obj)
+			editor:interact(obj)
+		end
 		m:setDelegate(editor)
 	end
 	if k==' ' then
@@ -161,6 +264,30 @@ function demogame:keypressed(k)
 		end
 		local l=json.encode(t)
 		love.filesystem.write('demosave',l)
+	end
+	if k=='q' then
+
+		m:queryUnits(RectangleArea(1,1,300,300),function(u)
+			print (u)
+			return true
+		end)
+	end
+	if k=='l' then
+		loveframes.anim:easy(m,"lli_radius",0,screen.halfwidth,0.3)
+		m.drawlli = not m.drawlli
+		sound.play('sound/effect/lliactive.ogg','effect')
+		local loop = sound.loadsound'sound/effect/lli.ogg'
+		loop:setLooping(true)
+		sound.play(loop,'effect')
+		loop:setVolume(0.5)
+		local loop2 = sound.loadsound'sound/effect/heartbeat.ogg'
+		loop2:setLooping(true)
+		sound.play(loop2,'effect')
+
+		m.obj.river.lli_color = {255,0,0,50}
+		m.obj.river.lli_flare = true
+		m.obj.river.info.name = 'WUNG KING'
+		m.obj.river.info.description = 'TARGET. HAS TO BE ELIMINATED.'
 	end
 end
 

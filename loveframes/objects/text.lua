@@ -125,7 +125,6 @@ function text:setText(t)
 	for k, v in ipairs(tdata) do
 		
 		local dtype = type(v)
-		
 		if k == 1 and dtype ~= "table" then
 			prevcolor = skin.controls.text_color or {0, 0, 0, 255}
 		end
@@ -232,6 +231,7 @@ function text:DrawText()
 		
 		local text = v.text
 		local color = v.color
+		love.graphics.setColor(color)
 		sfn(font)
 		pfn(text,x,y,maxw,'left')
 		totalwidth = font:getWidth(text)

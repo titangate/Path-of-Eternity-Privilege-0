@@ -5,8 +5,8 @@ local function switchfont(loc)
 		
 		font = {}
 
-		font.smallfont = love.graphics.newFont('oldsansblack.ttf',12)
-		font.imagebuttonfont = love.graphics.newFont('oldsansblack.ttf',15)
+		font.smallfont = love.graphics.newFont('oldsansblack.ttf',15)
+		font.imagebuttonfont = love.graphics.newFont('oldsansblack.ttf',20)
 		pn = love.graphics.print
 		function pfn(text,x,y,limit,align)
 			if limit==0 then limit = 999999 end

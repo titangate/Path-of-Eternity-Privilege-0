@@ -6,7 +6,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 {
 	number hazeoff = fract(sin(dot(texture_coords.xy ,vec2(12.9898,78.233))) * 43758.5453)-0.5;
 	vec2 hazeoff2d = vec2(hazeoff,0);
-	return Texel(texture,texture_coords+hazeoff2d*ref);
+	return Texel(texture,texture_coords+hazeoff2d*ref)*color;
 }
 ]]
 
@@ -27,6 +27,7 @@ function vibrate.predraw(obj)
 	vibrate.c = c
 	love.graphics.push()
 	love.graphics.translate(-obj:getX()+(w2-w)/2,-obj:getY())
+	love.graphics.setColor(255,255,255)
 end
 
 function vibrate.postdraw(obj)
