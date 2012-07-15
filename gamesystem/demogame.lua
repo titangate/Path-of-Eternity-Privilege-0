@@ -6,8 +6,6 @@ local demogame = {}
 
 function demogame:load()
 
-	local save = love.filesystem.read'demosave'
-	save = json.decode(save)
 
 	-- Game Init --
 	
@@ -26,7 +24,12 @@ function demogame:load()
 	host = AIHost(m)
 --	u = Human(Box2DMover,100,100,0,'kinematic')
 --	u2 = Human(Box2DMover,300,200,0,'kinematic')
-	m:load(save)
+	if love.filesystem.isFile'demosave' then
+
+	local save = love.filesystem.read'demosave'
+	save = json.decode(save)
+		m:load(save)
+	end
 --	m:addUnit(u)
 	m:setBackground'map/riverhideout.png'
 	c = Crowd(RectangleArea(100,100,1000,600),20)
@@ -252,16 +255,7 @@ function demogame:keypressed(k)
 	end
 	if k=='s' then
 		local t= m:encode()
-		local function dp(t,layer)
-			layer = layer or 0
-			for k,v in pairs(t) do
-				if type(v)=='table' then
-					dp(v,layer + 1)
-				else
-					print (layer,k,v)
-				end
-			end
-		end
+		for k,v in pairs(t.unit[1]) do print (k,v) end
 		local l=json.encode(t)
 		love.filesystem.write('demosave',l)
 	end

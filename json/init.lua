@@ -324,6 +324,7 @@ local encode2 -- forward declaration
 
 local function addpair (key, value, prev, indent, level, buffer, buflen, tables, globalorder)
   local kt = type (key)
+  print (key,value)
   if kt ~= 'string' and kt ~= 'number' then
     return nil, "type '" .. kt .. "' is not supported as a key by JSON."
   end

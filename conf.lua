@@ -3,7 +3,7 @@ function love.conf(t)
 	t.author 	= "Leon Jiang"
 	t.version 	= "0.8.0"
 	
-	t.console 			= false	 
+	t.console 			= true	 
 	t.modules.joystick 	= false    
     t.modules.audio 	= true      
     t.modules.keyboard 	= true   

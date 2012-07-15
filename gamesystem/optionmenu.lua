@@ -43,6 +43,12 @@ function optionmenu:load()
 	tabs1:AddTab(LocalizedString'GAMEPLAY',gameplaypanel)
 	
 	
+	local clearsave = loveframes.Create("button", gameplaypanel)
+	clearsave:setPos(10,100)
+	clearsave:setText(LocalizedString'CLEAR SAVE')
+	clearsave.OnClick = function(object)
+		love.filesystem.remove'demosave'
+	end
 	local p = loveframes.Create("progressbar",gameplaypanel)
 	p:setPos(380,45)
 	p:setSize(220,15)
@@ -185,6 +191,7 @@ function optionmenu:load()
 	multichoice3:SetChoice(LocalizedString(option.shaderquality))
 	multichoice3.OnChoiceSelected = function(object,choice)
 	end
+
 end
 
 return optionmenu

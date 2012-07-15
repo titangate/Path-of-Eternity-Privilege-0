@@ -81,15 +81,15 @@ function love.load()
 	if love.filesystem.isFile'option' then
 		local f = love.filesystem.read('option')
 		f = json.decode(f)
-		assert(f)
-		essential.load(f)
+	--	assert(f)
+		if f then essential.load(f) end
 	end
 	
 	if love.filesystem.isFile'graphics' then
 		local f = love.filesystem.read('graphics')
 		f = json.decode(f)
-		assert(f)
-		graphics.load(f)
+--		assert(f)
+		if f then graphics.load(f) end
 	end
 	localization.setLocalization(option.language)
 	essential.setTextureQuality()

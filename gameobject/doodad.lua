@@ -120,6 +120,7 @@ end
 function Doodad:encode()
 	local x,y = self.mover:getPosition()
 	local r = self.mover:getAngle()
+
 	return {info = self.info,x=x,y=y,r=r,name='Doodad'}
 end
 
@@ -135,7 +136,6 @@ end
 
 local doodad = {}
 local doodaddef
-
 function doodad.load()
 	doodaddef = require 'doodad.definition'
 end
@@ -149,6 +149,10 @@ function doodad.create(def,x,y,r)
 		def = doodaddef[def]
 	end
 	local d = Doodad(doodadMover,x,y,r,def.bodytype,def)
+
+	for k,v in pairs(def) do
+		print ('doodad info',k,v)
+	end
 	return d
 end
 

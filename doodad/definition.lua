@@ -7,23 +7,23 @@ local mask = {
 
 local t = {}
 local function easydoodad(p)
-	local name = name or p.name
-	local shape = shape or p.shape
-	local bodytype = bodytype or p.bodytype
-	local scale = scale or p.scale
-	local height = height or p.height
+	local name = p.name
+	local shape = p.shape
+	local bodytype =  p.bodytype
+	local scale =  p.scale
+	local height =  p.height
 	local obstacle = p.obstacle
 	if obstacle == nil then
 		obstacle = true
 	end
-	local c = c or p.c
-	m = m or p.m
-	selectable = selectable or p.selectable
+	local c = p.c
+	local m = p.m
+	local selectable = selectable or p.selectable
 	bodytype = bodytype or 'kinematic'
 	height = height or 1
 	scale = scale or 1
-	c = c or cc.normal
-	m = m or mask.normal
+	local c = c or cc.normal
+	local m = m or mask.normal
 	shape = shape or 'rectangle'
 	local img = requireImage('doodad/'..name..'.png')
 	t[name] = {

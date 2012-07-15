@@ -382,7 +382,6 @@ function PathMap:encode()
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			local savedata = v:encode()
-			print (v,v.identifier)
 			savedata.identifier = v.identifier
 			table.insert(t.unit,savedata)
 		end
