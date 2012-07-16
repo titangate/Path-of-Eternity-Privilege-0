@@ -27,7 +27,6 @@ function editor:load()
 	end
 
 	self.atts.identifier.box.OnEnter = function(object,text)
-		print (text,'entered')
 		self.sel:setIdentifier(text)
 	end
 

@@ -450,3 +450,8 @@ function frame:SetVisible(bool)
 	end
 	
 end
+
+function frame:dismiss()
+	local close = self.internals[1]
+	close.OnClick()
+end

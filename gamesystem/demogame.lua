@@ -184,6 +184,19 @@ function demogame:dismiss()
 	
 end
 
+function demogame:setCellphoneState(state)
+	self.phone = require 'gamesystem.phone'
+	if state == self.phonestate then
+		return
+	end
+	if state then
+		self.phone:load()
+	else
+		self.phone:dismiss()
+	end
+	self.phonestate = state
+end
+
 local pause = false
 
 function demogame:update(dt)
@@ -233,9 +246,45 @@ function demogame:draw()
 	end
 end
 
+function demogame:playConversation(unit,text,duration)
+	local i = loveframes.Create("frame")
+	i.description = loveframes.Create('text',i)
+	i.description:setPos(5,30)
+	i.description:setText(text)
+	i.description:setSize(200,10)
+	i.namefield = loveframes.Create('text',i)
+	i.namefield:setPos(5,5)
+	i.namefield:SetFont(font.imagebuttonfont)
+	i.namefield:setText(LocalizedString(unit.info.name))
+	i:setName''
+	local tobedismiss = true
+	i:setSize(200,30+i.description:getHeight())
+	i.Update = function(object,dt)
+		local x,y = unit:getPosition()
+		object:setPos(x+10,y+10)
+		duration = duration - dt
+	end
+	i.OnClose = function()
+		duration = 0
+		tobedismiss = false
+	end
+	i:SetAlwaysUpdate(true)
+
+		i.filter = filters.vibrate
+		loveframes.anim:easy(i,'vibrate_ref',3,0,0.3,loveframes.style.linear)
+
+	waitUntil(function() return duration <=0 end)
+	if tobedismiss then
+		i:dismiss()
+	end
+end
+
 function demogame:keypressed(k)
 	if k=='escape' then
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:dismiss()end)))
+	end
+	if k=='c' then
+		self:setCellphoneState(not self.phonestate)
 	end
 	if k=='a' then
 		self:hint'HAHAH'
@@ -260,11 +309,10 @@ function demogame:keypressed(k)
 		love.filesystem.write('demosave',l)
 	end
 	if k=='q' then
-
-		m:queryUnits(RectangleArea(1,1,300,300),function(u)
-			print (u)
-			return true
-		end)
+		coroutinemsg(coroutine.resume(coroutine.create(function()
+			self:playConversation(m.obj.river,LocalizedString'YOU ONLY LIVE ONCE',5)
+			self:playConversation(m.obj.river,LocalizedString'WHAT SAY YOU?',5)
+		end)))
 	end
 	if k=='l' then
 		loveframes.anim:easy(m,"lli_radius",0,screen.halfwidth,0.3)

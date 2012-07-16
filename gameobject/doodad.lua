@@ -150,9 +150,6 @@ function doodad.create(def,x,y,r)
 	end
 	local d = Doodad(doodadMover,x,y,r,def.bodytype,def)
 
-	for k,v in pairs(def) do
-		print ('doodad info',k,v)
-	end
 	return d
 end
 
