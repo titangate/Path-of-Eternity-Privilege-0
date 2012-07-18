@@ -208,7 +208,7 @@ local function extractmin(b)
 end
 
 -- A Star
-function PathMap:findPath(start,finish)
+function PathMap:findPath(start,finish,errorrange)
 	local sx,sy = self:pixelToData(start.x,start.y)
 	local fx,fy = self:pixelToData(finish.x,finish.y)
 	

@@ -93,6 +93,9 @@ function demogame:load()
 		self.llipanel.filter = filters.vibrate
 		loveframes.anim:easy(self.llipanel,'vibrate_ref',3,0,0.3,loveframes.style.linear)
 		self.llipanel:SetVisible(true)
+		if controller then
+			controller.sel = obj
+		end
 	end
 
 	sel.onDeselect = function()

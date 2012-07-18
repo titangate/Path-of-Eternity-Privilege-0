@@ -10,6 +10,7 @@ local function horzBar(parent,image,text,width,height)
 	l.button:setText''
 	l.text = loveframes.Create('text',l)
 	l.text:setText(text)
+	l.text:SetWidth(width-height-10)
 	l.text:SetFont(font.smallfont)
 	l:SetDisplayType'horizontal'
 	return l
@@ -29,10 +30,16 @@ function store:load()
 	self:loadsynrige()
 end
 
+function store:setInventory(inv)
+	self.inv = inv
+end
+
 function store:loadsynrige()
 		local syringe = loveframes.Create"panel"
 	function syringe.Draw(object) 
+		filters.active.predraw()
 		love.graphics.draw(requireImage'asset/interface/storebg.png',object:GetPos())
+		filters.active.postdraw()
 	end
 	syringe:setSize(1010,650)
 
@@ -61,7 +68,13 @@ function store:loadsynrige()
 	synrigelist.name = ''
 	synrigelist:setSize(300,400)
 	synrigelist:setPos(15,200)
-	synrigelist:AddItem(horzBar(synrigelist,requireImage'item/Tetrodotoxin.png','TETRODOTOXIN\n THIS IS \n LEVEL: III\n test',200,64))
+	synrigelist.spacing = 10
+	local b = horzBar(synrigelist,requireImage'item/Tetrodotoxin.png',LocalizedString'TETRODOTOXIN\n THIS IS \n LEVEL: III\n test',200,64)
+	b.button.OnClick = function()self:loadsynrige_tetrodotoxin()end
+	synrigelist:AddItem(b)
+	b = horzBar(synrigelist,requireImage'item/angexetine.png',LocalizedString'ANGEXETINE\n THIS IS \n LEVEL: III\n test',200,64)
+	b.button.OnClick = function()self:loadsynrige_angexetine()end
+	synrigelist:AddItem(b)
 	
 	function synrigelist.Draw(object)
 		local index	= loveframes.config["ACTIVESKIN"]
@@ -70,6 +83,7 @@ function store:loadsynrige()
 		local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
 		skin.DrawFrame(object)
 	end
+
 	local medicineicon = loveframes.Create('image',syringe)
 	medicineicon:setImage'item/Tetrodotoxin.png'
 	medicineicon:setPos(360,140)
@@ -78,9 +92,8 @@ function store:loadsynrige()
 	synrigelist2.name = ''
 	synrigelist2:setSize(650,280)
 	synrigelist2:setPos(340,320)
-	synrigelist2:AddItem(horzBar(synrigelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
 	synrigelist2.Draw = synrigelist.Draw
-
+	synrigelist2.spacing = 10
 	local medicinetext1 = loveframes.Create('text',syringe)
 	medicinetext1:setText{{210,152,65},LocalizedString'TETRODOTOXIN'}
 	medicinetext1:SetFont(font.imagebuttonfont)
@@ -92,7 +105,59 @@ function store:loadsynrige()
 	medicinetext2:setPos(600,200)
 	medicinetext2:SetWidth(380)
 
+	self.medicinetext2 = medicinetext2
+	self.medicinetext1 = medicinetext1
+	self.medicineicon = medicineicon
+	self.medicinelist = synrigelist2
+	self.currentmedicine = 'Tetrodotoxin'
+
 	self.tabs1:AddTab(LocalizedString'SYRINGE',syringe)
+end
+
+function store:loadsynrige_angexetine()
+	if self.currentmedicine == 'angexetine' then return end
+	self.currentmedicine = 'angexetine'
+	local objs = {self.medicinetext1,self.medicinetext2,self.medicineicon,self.medicinelist}
+	for i,v in ipairs(objs) do
+		v.filter = filters.vibrate
+		loveframes.anim:easy(v,'vibrate_ref',0,3,0.3)
+	end
+	wait(0.3)
+	self.medicinelist:Clear()
+	for i,v in ipairs(objs) do
+		loveframes.anim:easy(v,'vibrate_ref',3,0,0.3)
+	end
+	self.medicineicon:setImage'item/angexetine_structure.png'
+	self.medicinetext1:setText{{210,152,65},LocalizedString'ANGEXETINE'}
+	self.medicinetext2:setText(LocalizedString'N/A')
+	wait(0.3)
+	for i,v in ipairs(objs) do
+		v.filter = nil
+	end
+end
+
+function store:loadsynrige_tetrodotoxin()
+	if self.currentmedicine == 'Tetrodotoxin' then return end
+	local objs = {self.medicinetext1,self.medicinetext2,self.medicineicon,self.medicinelist}
+	for i,v in ipairs(objs) do
+		v.filter = filters.vibrate
+		loveframes.anim:easy(v,'vibrate_ref',0,3,0.3)
+	end
+	wait(0.3)
+	self.medicinelist:Clear()
+	for i,v in ipairs(objs) do
+		loveframes.anim:easy(v,'vibrate_ref',3,0,0.3)
+	end
+	self.currentmedicine = 'Tetrodotoxin'
+	self.medicineicon:setImage'item/Tetrodotoxin.png'
+	self.medicinetext1:setText{{210,152,65},LocalizedString'TETRODOTOXIN'}
+	self.medicinetext2:setText(LocalizedString"Tetrodotoxin blocks action potentials in nerves by binding to the voltage-gated, fast sodium channels in nerve cell membranes, essentially preventing any affected nerve cells from firing by blocking the channels used in the process.\n USE IT ON ENEMY TO CAUSE THEIR IMMEDIATE DEATH.")
+
+	self.medicinelist:AddItem(horzBar(synrigelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
+	wait(0.3)
+	for i,v in ipairs(objs) do
+		v.filter = nil
+	end
 end
 
 return store

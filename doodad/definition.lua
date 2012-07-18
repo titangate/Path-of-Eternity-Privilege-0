@@ -64,7 +64,7 @@ t.desk2small = {
 }
 
 easydoodad{name='keyboard',height=2}
-easydoodad{name='monitor',height=2}
+easydoodad{name='monitor',height=2,interact = 'store'}
 easydoodad{name='desk2',scale=2}
 easydoodad{name='safe',
 title = "RIVER'S SAFE",

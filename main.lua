@@ -95,6 +95,7 @@ function love.load()
 	serial = require 'gamesystem.serial'
 	require 'gamesystem.controller'
 	require 'gamesystem.inventory'
+	require 'gamesystem.interactfunc'
 	essential.setTextureQuality()
 	shader.setQuality()
 --	initFont()
