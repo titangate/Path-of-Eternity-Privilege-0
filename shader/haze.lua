@@ -48,4 +48,13 @@ function haze.postdraw(obj)
 	haze.c = nil
 end
 
+
+function haze.predraw(obj)
+	love.graphics.setPixelEffect(haze.pe)
+end
+
+function haze.postdraw(obj)
+	love.graphics.setPixelEffect()
+end
+
 return haze

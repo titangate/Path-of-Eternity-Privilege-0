@@ -42,7 +42,8 @@ local function easydoodad(p)
 		layer = height,
 		bodytype = bodytype,
 		name = p.title or name,
-		description = p.description
+		description = p.description,
+		interact = p.interact,
 	}
 end
 
@@ -75,5 +76,9 @@ easydoodad{name='desk'}
 easydoodad{name='sinkwithwater'}
 easydoodad{name='sink'}
 easydoodad{name='table',shape='circle'}
+
+-- items
+
+--easydoodad{name='kitchenknife',obstacle=false,interact = function()end}
 
 return t

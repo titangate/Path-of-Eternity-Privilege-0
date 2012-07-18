@@ -13,7 +13,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 
 	tc += Texel(texture,texture_coords+intensity*vec2(0,offset[2])/rf_h)*weight[2];
 	tc += Texel(texture,texture_coords-intensity*vec2(0,offset[2])/rf_h)*weight[2];
-
+//	tc.a = Texel(texture,texture_coords).a;
 	return color * tc;
 }
 ]]
@@ -31,6 +31,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 
 	tc += Texel(texture,texture_coords+intensity*vec2(offset[2],0)/rf_w)*weight[2];
 	tc += Texel(texture,texture_coords-intensity*vec2(offset[2],0)/rf_w)*weight[2];
+//	tc.a = Texel(texture,texture_coords).a;
 
 	return color * tc;
 }

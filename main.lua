@@ -7,18 +7,6 @@ if DEBUG and PROFILING then
 	ProFi:start()
 end
 
-require 'middleclass'
-Stateful = require"stateful"
-local localization = require 'library.localization'
-require 'library.mathematic'
-local essential = require 'library.essential'
-require 'ai'
-require 'gameobject'
-local waits = require 'library.trigger'
-local shader = require 'shader'
-local graphics = require 'library.graphics'
-local sound = require 'library.sound'
-serial = require 'gamesystem.serial'
 
 screen = {
 	width = love.graphics.getWidth(),
@@ -71,8 +59,17 @@ function gamesys.draw()
 end
 
 
+require 'middleclass'
+local waits = require 'library.trigger'
+local shader = require 'shader'
+local graphics = require 'library.graphics'
+local sound = require 'library.sound'
+Stateful = require"stateful"
+local localization = require 'library.localization'
+local essential = require 'library.essential'
 
 function love.load()
+	
 	
 	graphics.load()
 	assert(graphics.canvas)
@@ -92,6 +89,12 @@ function love.load()
 		if f then graphics.load(f) end
 	end
 	localization.setLocalization(option.language)
+	require 'library.mathematic'
+	require 'ai'
+	require 'gameobject'
+	serial = require 'gamesystem.serial'
+	require 'gamesystem.controller'
+	require 'gamesystem.inventory'
 	essential.setTextureQuality()
 	shader.setQuality()
 --	initFont()

@@ -37,9 +37,11 @@ local w2 = math.min(screen.width,neartwo(w*2))
 	love.graphics.setCanvas(vibrate.prevc)
 	love.graphics.setPixelEffect(vibrate.pe)
 	love.graphics.setColor(255,255,255)
+	love.graphics.setBlendMode'premultiplied'
 	love.graphics.draw(vibrate.c.canvas,obj:getX()-(w2-w)/2,obj:getY())
 	canvasmanager.releaseCanvas(vibrate.c)
 	love.graphics.setPixelEffect()
+	love.graphics.setBlendMode'alpha'
 	vibrate.c = nil
 end
 

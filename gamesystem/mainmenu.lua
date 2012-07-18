@@ -72,7 +72,7 @@ function mainmenu:load()
 		local t = loveframes.Create('text',self.textframe)
 --		t:SetFont(font.smallfont)
 		t:setPos(screen.halfwidth - 300,screen.halfheight + 200)
-		
+		t.y = screen.halfheight + 200
 		loveframes.anim:easy(t,'y',screen.halfheight+200,screen.halfheight-150,10)
 		t:SetWidth(300)
 		t.filter = filters.vibrate
@@ -152,16 +152,16 @@ function mainmenu:loadpostmenu()
 	end
 
 
-	local phonebutton = loveframes.Create("menubutton", exampleslist)
-	phonebutton:setPos(5, 60)
-	phonebutton:setSize(490, 265)
-	phonebutton:setText(LocalizedString"PHONE")
-	phonebutton:SetDescription(LocalizedString'CALL OUT PHONE PANEL')
+	local selectionwheelbutton = loveframes.Create("menubutton", exampleslist)
+	selectionwheelbutton:setPos(5, 60)
+	selectionwheelbutton:setSize(490, 265)
+	selectionwheelbutton:setText(LocalizedString"selectionwheel")
+	selectionwheelbutton:SetDescription(LocalizedString'CALL OUT selectionwheel PANEL')
 	
-	phonebutton.OnClick = function(object)
+	selectionwheelbutton.OnClick = function(object)
 		
-		require 'gamesystem.phone'.OnReset = function()self:reset()end
-		require 'gamesystem.phone':load()
+		require 'gamesystem.store'.OnReset = function()self:reset()end
+		require 'gamesystem.store':load()
 	end
 	
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)

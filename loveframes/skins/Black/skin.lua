@@ -654,7 +654,7 @@ hazenormal:setWrap('repeat','repeat')
 function skin.DrawCircleButton(object)
 
 	local index	= loveframes.config["ACTIVESKIN"]
-	local font = skin.controls.imagebutton_text_font
+	local font = font.smallfont
 	local twidth = font:getWidth(object.text)
 	local theight = font:getHeight(object.text)
 	local hover = object.hover

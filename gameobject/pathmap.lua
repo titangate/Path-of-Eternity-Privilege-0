@@ -415,7 +415,7 @@ function PathMap:load(t)
 		local u = serial.decode(v)
 		self:addUnit(u)
 		if v.identifier then
-			self:setUnitIdentifier(v.identifier,u)
+			u:setIdentifier(v.identifier)
 		end
 	end
 end

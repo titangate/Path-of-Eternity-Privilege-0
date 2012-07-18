@@ -2,6 +2,9 @@ local waits = {w={},c={}}
 function coroutinemsg(...)
 	print (...)
 end
+function execute(f)
+	coroutinemsg(coroutine.resume(coroutine.create(f)))
+end
 function wait(time)
 	local c = coroutine.running()
 	waits.w[c] = love.timer.getTime()+time

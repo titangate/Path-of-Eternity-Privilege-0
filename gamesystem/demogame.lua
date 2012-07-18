@@ -137,6 +137,15 @@ function demogame:load()
 	self.hintpanel = i
 
 
+	local item = require 'gameobject.item'
+	item:load()
+	local inv = Inventory()
+	for i = 1,3 do
+		inv:setBaseItem(i,item.create('improvisation',0,0,0))
+	end
+	inv:setBaseItem(4,item.create('needle',0,0,0))
+	self.inv = inv
+
 
 end
 
@@ -287,7 +296,7 @@ function demogame:keypressed(k)
 		self:setCellphoneState(not self.phonestate)
 	end
 	if k=='a' then
-		self:hint'HAHAH'
+		coroutinemsg(coroutine.resume(coroutine.create(function()self:loadSelectionWheel()end)))
 	end
 	if k=='m' then
 		local editor =  require 'gamesystem.editor'
@@ -330,15 +339,28 @@ function demogame:keypressed(k)
 		m.obj.river.lli_flare = true
 		m.obj.river.info.name = 'WUNG KING'
 		m.obj.river.info.description = 'TARGET. HAS TO BE ELIMINATED.'
+
+		controller = KMController(m,m.obj.river,host)
+	end
+
+	if controller then
+		controller:keypressed(k)
 	end
 end
 
 function demogame:keyreleased(k)
+	if controller then
+		controller:keyreleased(k)
+	end
 end
 
 function demogame:mousepressed(x,y,b)
 --	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
 --	self.s:play()
+
+	if controller then
+		controller:mousepressed(x,y,b)
+	end
 	if u2in then
 		u2:setPosition(x,y)
 		u:face(u2,true)
@@ -346,6 +368,12 @@ function demogame:mousepressed(x,y,b)
 	sel:mousepressed(x,y,b)
 end
 function demogame:mousereleased()
+end
+
+function demogame:loadSelectionWheel()
+
+	require 'gamesystem.selectionwheel':load()
+	require 'gamesystem.selectionwheel':loadFirstLayout(self.inv:getFirstLayout())
 end
 --demogame:load()
 

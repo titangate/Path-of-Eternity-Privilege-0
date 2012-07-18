@@ -62,5 +62,8 @@ return {
 ["SELECTION"]="选择",
 ["CALL OUT PHONE PANEL"]="打开手机界面",
 ["DISTRACT IN %d SECONDS"]="在%d秒后发出声音",
-["dials[i]"]=""
+["dials[i]"]="",
+["selectionwheel"]="技能转盘",
+["THE ULTIMATE ASSASSIN"]="终极刺客",
+["KITCHEN KNIFE"]="菜刀",
 }

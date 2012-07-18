@@ -166,8 +166,6 @@ end
 function editor:releaseSelection()
 end
 
-
-
 function editor:setSelection()
 end
 
@@ -193,7 +191,7 @@ function editor:interact(obj)
 	if self.currenttool == self.seltool then
 		self.seltool:SetVisible(true)
 		self.inspector:SetVisible(true)
-			self.atts.identifier.box:setText(self.sel:getIdentifier())
+		self.atts.identifier.box:setText(self.sel:getIdentifier())
 	end
 end
 

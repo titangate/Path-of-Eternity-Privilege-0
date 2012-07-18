@@ -45,7 +45,7 @@ function phone:distract()
 	f.gaussianblur_intensity = 5
 	loveframes.anim:easy(f,"gaussianblur_intensity",5,0,0.3)
 	wait(0.3)
-	--f.filter = nil
+	f.filter = nil
 end
 
 
