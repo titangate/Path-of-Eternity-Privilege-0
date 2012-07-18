@@ -209,6 +209,8 @@ end
 
 -- A Star
 function PathMap:findPath(start,finish,errorrange)
+	print (errorrange)
+	errorrange = errorrange or 0
 	local sx,sy = self:pixelToData(start.x,start.y)
 	local fx,fy = self:pixelToData(finish.x,finish.y)
 	
@@ -233,11 +235,15 @@ function PathMap:findPath(start,finish,errorrange)
 				comefrom[near] = b
 				table.insert(open,{near,visited[near]})
 			end
-			if near == finale then
-				table.insert(path,RectangleArea(finish.x-5,finish.y-5,10,10))
-				while comefrom[finale] ~= startv do
-					finale=comefrom[finale]
-					table.insert(path,self._data[finale.x][finale.y])
+--			print ((near-finale):length(),errorrange)
+			if (near-finale):length()<=errorrange then -- determine the distance between target and current search
+				if errorrange==0 then
+					table.insert(path,RectangleArea(finish.x-5,finish.y-5,10,10))
+				end
+				while comefrom[near] ~= startv do
+					near=comefrom[near]
+--					print (near)
+					table.insert(path,self._data[near.x][near.y])
 				end
 				return path
 			end

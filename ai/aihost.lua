@@ -22,10 +22,12 @@ function AIHost:process(dt)
 		elseif state == 'success' then
 			if v.next then
 				self.ai[u] = v.next
+				print (v.next,'next')
 				if v.next.reset then
 					v.next:reset()
 				end
-				self.ai[u]:process(dt-ndt)
+				--self.ai[u]:process(dt-ndt)
+				--print (v.next,'processed')
 			else
 				self.ai[u] = nil
 			end
@@ -36,8 +38,8 @@ end
 function AIHost:alert(unit)
 end
 
-function AIHost:findPath(start,finish)
-	return self.map:findPath(start,finish)
+function AIHost:findPath(start,finish,errorrange)
+	return self.map:findPath(start,finish,errorrange)
 end
 
 function AIHost:raycast()

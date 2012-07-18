@@ -17,6 +17,9 @@ function AIPath:initialize(unit,path)
 end
 
 function AIPath:process(dt)
+	if #self.path == 0 then
+		return 0,'success'
+	end
 	local v = self.p
 	local ndt,state = v:process(dt)
 	if state == 'failed' then

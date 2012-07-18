@@ -19,18 +19,19 @@ function KMController:initialize(map,character,aihost)
 end
 
 function KMController:mousepressed(x,y,b)
-	print (b)
 	if b== 'l' then
-		local ai = AIFindPath(self.character,Vector(x,y),1)
-		self.aihost:addAI(ai)
-		if self.sel and self.sel.info.interact then
-			ai.next = AIInteract(self.sel)
+		if self.sel then
+			local ai = AIFindPath(self.character,Vector(x,y),2)
+			self.aihost:addAI(ai)
+
+			if self.sel.info.interact then
+				ai.next = AIInteract(self.map.obj.river,self.sel)
+			end
+		else
+			local ai = AIFindPath(self.character,Vector(x,y),0)
+			self.aihost:addAI(ai)
 		end
 	elseif b=='r' then
-		print (self.sel)
-		if self.sel and self.sel.info.interact then
-			interactfunc[self.sel.info.interact](self.sel)
-		end
 	end
 end
 
