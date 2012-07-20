@@ -1,0 +1,1 @@
+RiverActor = Object:subclass'RiverActor'

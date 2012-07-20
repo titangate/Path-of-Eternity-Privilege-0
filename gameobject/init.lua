@@ -12,3 +12,4 @@ require 'gameobject.selection'
 require 'gameobject.doodad'
 
 require 'gameobject.animation'
+require 'gameobject.riveractor'

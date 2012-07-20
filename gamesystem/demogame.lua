@@ -149,7 +149,8 @@ function demogame:load()
 	inv:setBaseItem(4,item.create('needle',0,0,0))
 	self.inv = inv
 
-
+	local a = require 'gameobject.animation'
+	aa = RiverActor()
 end
 
 
@@ -222,6 +223,7 @@ function demogame:update(dt)
 --		sound.setCenter(u:getPosition())
 	end
 	sel:update(dt)
+	aa:update(dt)
 end
 
 function demogame:draw()
@@ -256,6 +258,8 @@ function demogame:draw()
 		love.graphics.draw(canvas.canvas)
 		canvasmanager.releaseCanvas(canvas)
 	end
+--	love.graphics.setColor(0,0,0)
+	aa:draw(300,300,0)
 end
 
 function demogame:playConversation(unit,text,duration)
