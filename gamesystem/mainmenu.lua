@@ -160,8 +160,13 @@ function mainmenu:loadpostmenu()
 	
 	selectionwheelbutton.OnClick = function(object)
 		
-		require 'gamesystem.store'.OnReset = function()self:reset()end
-		require 'gamesystem.store':load()
+		coroutine.resume(coroutine.create(function()
+		self:zoomin(500,121,1)
+		self:dismiss()end))
+		wait(0.5)
+		local gs = require 'gamesystem.animationeditor'
+		gs:load()
+		self.host.push(gs,1)
 	end
 	
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)

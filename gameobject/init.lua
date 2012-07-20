@@ -10,3 +10,5 @@ require 'gameobject.human':load()
 require 'gameobject.crowd'
 require 'gameobject.selection'
 require 'gameobject.doodad'
+
+require 'gameobject.animation'
