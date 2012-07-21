@@ -164,6 +164,7 @@ function menubutton:mousereleased(x, y, button)
 	if hover == true and down == true and button == "l" and clickable == true then
 		if enabled == true then
 			if self.OnClick then
+				sound.play('sound/interface/reload3.ogg','interface')
 				coroutinemsg(coroutine.resume(coroutine.create(function() self.OnClick(self, x, y) end)))
 			end
 		end

@@ -3,15 +3,72 @@
 	{
 		"selected_items":
 		[
+			[
+				"frame",
+				"framerate"
+			],
+			[
+				"_b",
+				"_barvertex"
+			],
+			[
+				"pro",
+				"progress"
+			],
+			[
+				"gene",
+				"generateBodyVertex"
+			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "library/sound.lua",
+			"file": "doodad/definition.lua",
 			"settings":
 			{
-				"buffer_size": 1476,
+				"buffer_size": 1765,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "gameobject/doodad.lua",
+			"settings":
+			{
+				"buffer_size": 3979,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "gameobject/animation.lua",
+			"settings":
+			{
+				"buffer_size": 1170,
+				"line_ending": "Windows",
+				"name": "Animation = Object:subclass'Animation'"
+			}
+		},
+		{
+			"file": "gameobject/riveractor.lua",
+			"settings":
+			{
+				"buffer_size": 824,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "gameobject/pathmap.lua",
+			"settings":
+			{
+				"buffer_size": 10848,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "gameobject/init.lua",
+			"settings":
+			{
+				"buffer_size": 407,
 				"line_ending": "Windows"
 			}
 		}
@@ -40,16 +97,33 @@
 	},
 	"file_history":
 	[
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/loveframes/objects/progressbar.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/loveframes/objects/compass.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/library/sound.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/loveframes/skins/Black/skin.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/conf.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/gamesystem/optionmenu.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/main.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/json/json.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/json/init.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/gamesystem/demogame.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/gameobject/pathmap.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/gameobject/doodad.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/doodad/definition.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/report.txt",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/ProFi.lua",
+		"/C/Users/jxp's computer/Documents/GitHub/Path-of-Eternity-Privilege-0/report"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -57,6 +131,36 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"315",
+			"305",
+			"295",
+			"300",
+			"310",
+			"frame",
+			"print",
+			"assert",
+			"support",
+			"table",
+			"tooltip",
+			"DrawCompass",
+			"progressbar",
+			"progress",
+			"sound",
+			"Sound",
+			"sound",
+			"Sound",
+			"sound",
+			"Sound",
+			"sound",
+			"Sound",
+			"sound",
+			"Sound",
+			"sound",
+			"Sound",
+			"sound",
+			"self",
+			"pathmap:debug",
+			"frame"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -64,6 +168,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"sound"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -74,29 +179,168 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "library/sound.lua",
+					"file": "doodad/definition.lua",
 					"settings":
 					{
-						"buffer_size": 1476,
+						"buffer_size": 1765,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								331,
-								331
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Lua/Lua.tmLanguage",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "gameobject/doodad.lua",
+					"settings":
+					{
+						"buffer_size": 3979,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1998.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "gameobject/animation.lua",
+					"settings":
+					{
+						"buffer_size": 1170,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								956,
+								956
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Animation = Object:subclass'Animation'",
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 144.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "gameobject/riveractor.lua",
+					"settings":
+					{
+						"buffer_size": 824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								616,
+								616
+							],
+							[
+								643,
+								643
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "gameobject/pathmap.lua",
+					"settings":
+					{
+						"buffer_size": 10848,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1036,
+								1036
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 490.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "gameobject/init.lua",
+					"settings":
+					{
+						"buffer_size": 407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								406,
+								406
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -140,7 +384,7 @@
 	"menu_visible": true,
 	"replace":
 	{
-		"height": 0.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -148,6 +392,58 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"demo",
+				"gamesystem/demogame.lua"
+			],
+			[
+				"pathmap",
+				"gameobject/pathmap.lua"
+			],
+			[
+				"doodad",
+				"gameobject/doodad.lua"
+			],
+			[
+				"de",
+				"doodad/definition.lua"
+			],
+			[
+				"defi",
+				"doodad/definition.lua"
+			],
+			[
+				"jso",
+				"json/json.lua"
+			],
+			[
+				"conf",
+				"conf.lua"
+			],
+			[
+				"main",
+				"main.lua"
+			],
+			[
+				"option",
+				"gamesystem/optionmenu.lua"
+			],
+			[
+				"progres",
+				"loveframes/objects/progressbar.lua"
+			],
+			[
+				"black",
+				"loveframes/skins/Black/skin.lua"
+			],
+			[
+				"compass",
+				"loveframes/objects/compass.lua"
+			],
+			[
+				"prof",
+				"ProFi.lua"
+			],
 			[
 				"sound",
 				"library/sound.lua"

@@ -63,7 +63,7 @@ require 'middleclass'
 local waits = require 'library.trigger'
 local shader = require 'shader'
 local graphics = require 'library.graphics'
-local sound = require 'library.sound'
+sound = require 'library.sound'
 Stateful = require"stateful"
 local localization = require 'library.localization'
 local essential = require 'library.essential'
