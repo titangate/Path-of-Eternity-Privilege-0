@@ -224,6 +224,7 @@ function selectionTool:mousepressed(x, y, button)
 	if selfcol == true then
 	
 		local top = self:IsTopCollision()
+		-- if a path is selected, link unit towards the path
 		-- initiate dragging if not currently dragging
 		if self.dragging == false and top == true and button == "l" then
 			if self.draggable == true then

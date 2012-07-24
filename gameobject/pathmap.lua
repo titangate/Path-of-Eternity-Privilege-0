@@ -1,7 +1,7 @@
 
 local g = love.graphics
 PathMap = Object:subclass'PathMap'
-function PathMap:initialize(w,h)
+function PathMap:initialize(w,h,aihost)
 	self._data = {}
 	self.w,self.h = w,h
 	self.scale = 64
@@ -48,6 +48,8 @@ function PathMap:initialize(w,h)
 	self.unit = {[0]={},[1]={},[2]={}}
 
 	self.camerashift = Vector(0,0)
+
+	self.aihost = aihost
 end
 
 function PathMap:setFollower(u)
@@ -77,6 +79,7 @@ function PathMap:addUnit(u,crowd)
 	end
 	if crowd then return end
 	self.unit[layer][u] = true
+	u.aihost = self.aihost
 end
 
 function PathMap:setWallbatch(image,config)
@@ -147,6 +150,7 @@ function PathMap:removeUnit(u)
 		u:destroyBody(self)
 	end
 	self.unit[layer][u] = nil
+	u.aihost = nil
 end
 
 function PathMap:destroyNext(fixture,body)
@@ -328,7 +332,7 @@ function PathMap:draw_normal()
 
 	g.setColor(255,255,255)
 	if self.background then
-		love.graphics.draw(self.background)
+		love.graphics.draw(self.background,0,0,0,4)
 	end
 	if self.wallbatch then
 		love.graphics.draw(self.wallbatch)
@@ -486,9 +490,11 @@ function PathMap:load(t)
 	self:createWallMap()
 	for i,v in ipairs(t.unit) do
 		local u = serial.decode(v,global)
-		self:addUnit(u)
-		if v.identifier then
-			u:setIdentifier(v.identifier)
+		if u then
+			self:addUnit(u)
+			if v.identifier then
+				u:setIdentifier(v.identifier)
+			end
 		end
 	end
 end
@@ -511,24 +517,26 @@ function PathMap:DebugDraw()
 --	g.rectangle('fill',0,0,screen.width,screen.height)
 --	g.setBackgroundColor(255,255,255)
 --	g.setColor(0,0,0,50)
-	local startx = math.floor(self.camerashift.x/self.scale)+1
-	local starty = math.floor(self.camerashift.y/self.scale)+1
+	local startx = math.floor(-self.camerashift.x/self.scale)+1
+	local starty = math.floor(-self.camerashift.y/self.scale)+1
 	local w,h = screen.width/self.scale,screen.height/self.scale
 	for x=startx,startx+w do
 		for y=starty,starty+h do
 			g.setColor(0,0,0,100)
-			if self._data[x][y].obstacle_e or self._data[x][y].obstacle then
-				love.graphics.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
-			else
-				love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+			if self:hasObstacle(x,y)~='bound' then
+				if self._data[x][y].obstacle_e or self._data[x][y].obstacle then
+					love.graphics.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+				else
+					love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+				end
+				self._data[x][y]:DebugDraw()
 			end
-			self._data[x][y]:DebugDraw()
 		end
 	end
 
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
-			v:DebugDraw()
+			if v.DebugDraw then v:DebugDraw() end
 		end
 	end
 	g.pop()

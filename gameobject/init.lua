@@ -19,3 +19,7 @@ require 'gameobject.body'
 require 'gameobject.box2d.bodymover'
 require 'gameobject.door'
 require 'gameobject.box2d.doormover'
+require 'gameobject.box2d.patrolpathmover'
+
+
+require 'gameobject.patrolpath'

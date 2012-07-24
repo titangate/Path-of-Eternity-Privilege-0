@@ -24,6 +24,20 @@ function AIGuard:soundAlert(position,level)
 	end
 end
 
+function AIGuard:terminate(lethal,time)
+	self.poptime = 360000
+	if lethal then
+		self.subgoal[2] = AIStop(self.unit)
+		self.subgoal[3] = AIStop(self.unit)
+		--self.host:popAI(self.unit)
+	else
+		self.subgoal[2] = AIStop(self.unit)
+		self.subgoal[3] = AIStop(self.unit)
+		-- TODO
+		--self.host:popAI(self.unit)
+	end
+end
+
 function AIGuard:visionAlert(position,level)
 end
 

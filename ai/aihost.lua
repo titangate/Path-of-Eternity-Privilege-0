@@ -19,6 +19,10 @@ function AIHost:addAI(ai)
 	ai.host = self
 end
 
+function AIHost:terminate(unit,...)
+	self.ai[unit][#self.ai[unit]]:terminate(...)
+end
+
 function AIHost:getNearbyArea(target,distance)
 	return self.map:getNearbyArea(target,distance)
 end
@@ -58,14 +62,25 @@ end
 
 function AIHost:playsound(s)
 	local area = CircleArea(s.pos.x,s.pos.y,s.reach*2)
+	local singleout
+	if alert == 2 then
+		singleout = true
+	end
 	local function unitalert(unit)
-
-		if self.ai[unit] and self.ai[unit][#self.ai[unit]].soundAlert then
+		if self.ai[unit] and self.ai[unit][#self.ai[unit]] and self.ai[unit][#self.ai[unit]].soundAlert then
 			local unitp = Vector(unit:getPosition())
 			local dis = (s.pos-unitp):length()
 			print ((dis-s.reach)/s.reach)
 			local alert = s.alert * math.max(0,math.min(1,2+(dis-s.reach)/s.reach))
-			self.ai[unit][#self.ai[unit]]:soundAlert(s.pos,alert)
+			
+			if singleout then
+--				if math.random()>0.5 then
+					self.ai[unit][#self.ai[unit]]:soundAlert(s.pos,3)
+					singleout = false
+--				end
+			else
+				self.ai[unit][#self.ai[unit]]:soundAlert(s.pos,alert)
+			end
 		end
 		return true
 	end
@@ -80,6 +95,7 @@ function AIHost:pushAI(ai)
 	self.ai[ai.unit] = self.ai[ai.unit] or {}
 	table.insert(self.ai[ai.unit],ai)
 	ai.host = self
+	ai.unit.aihost = self
 end
 
 function AIHost:popAI(unit)

@@ -4,12 +4,15 @@ local doodad = require 'gameobject.doodad'
 
 local demogame = {}
 
+local editor =  require 'gamesystem.editor'
 function demogame:load()
 
 
 	-- Game Init --
 	
 	m = PathMap(100,100)
+	host = AIHost(m)
+	m.aihost = host
 	m:setWallbatch(requireImage'asset/terrain/yellowwall.png',{
 		width = 64,
 		height = 64,
@@ -21,7 +24,6 @@ function demogame:load()
 		ur = love.graphics.newQuad(192,0,64,64,256,64),
 		})
 	
-	host = AIHost(m)
 	if love.filesystem.isFile'demosave' then
 
 	local save = love.filesystem.read'demosave'
@@ -94,6 +96,7 @@ function demogame:load()
 		if controller then
 			controller.sel = obj
 		end
+		editor:setSelection(obj)
 	end
 
 	sel.onDeselect = function()
@@ -106,6 +109,7 @@ function demogame:load()
 		if controller then
 			controller.sel = nil
 		end
+		editor:releaseSelection()
 	end
 
 	i = loveframes.Create('frame')
@@ -160,6 +164,9 @@ function demogame:load()
 	end
 	sound.playMusic('sound/music/danger.ogg')
 
+
+	local p = PatrolPath({Vector(100,100),Vector(200,200),Vector(200,300)})
+	m:addUnit(p)
 
 end
 
@@ -311,7 +318,6 @@ function demogame:keypressed(k)
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:loadSelectionWheel()end)))
 	end
 	if k=='m' then
-		local editor =  require 'gamesystem.editor'
 		editor:load()
 		editor:setMap(m)
 --		sel:setDelegate(editor)
@@ -375,8 +381,8 @@ function demogame:keyreleased(k)
 end
 
 function demogame:mousepressed(x,y,b)
-	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100,'effect',host,3)
-	self.s:play()
+--	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100,'effect',host,3)
+--	self.s:play()
 
 	if controller then
 		controller:mousepressed(x,y,b)

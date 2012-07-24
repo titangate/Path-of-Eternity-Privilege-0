@@ -32,9 +32,9 @@ function ImproviseWeapon:active(host,target)
 			local sound = require 'library.sound'
 			sound.play("sound/interface/drum3.ogg","interface")
 			host.actor.animation = 'synringe'
+			target.aihost:terminate(target,true,360000)
 			wait(0.5)
 			target.actor.animation = 'held'
-			
 				wait(5)
 				target:kill()				
 			end)

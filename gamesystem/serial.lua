@@ -6,8 +6,9 @@ local serial = {
 	Door = CreateDoor,
 }
 function serial.decode(t,...)
-	assert(serial[t.name])
+	if serial[t.name] then
 	return serial[t.name](t,...)
+end
 end
 
 return serial

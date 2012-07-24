@@ -33,6 +33,10 @@ function River:setHeadAngle(angle)
 
 end
 
+function River:setPatrolPath(p)
+	self.aihost:addAI(AIGuard(self,p.waypoint))
+end
+
 function River:getHeadAngle()
 	return self:getAngle()
 end
@@ -61,6 +65,10 @@ function River:draw(x,y,r)
 
 	if self.drawSelection then
 		love.graphics.setPixelEffect()
+	end
+
+	if self.patrolpath then
+		love.graphics.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
 	end
 end
 

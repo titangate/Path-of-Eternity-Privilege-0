@@ -31,8 +31,12 @@ function AIPatrol:process(dt)
 	end
 	self.next = initial
 	new.next = AIPath(self.unit,self.host:findPath(waypoint[#waypoint],waypoint[1]))
-	new.next.next = AIWait(self.unit,self.waypoint[1][4])
-	new.next.next.next = initial.next
+	if waypoint[1][4] then
+		new.next.next = AIWait(self.unit,self.waypoint[1][4])
+		new.next.next.next = initial.next
+	else
+		new.next.next = initial.next
+	end
 	return 0,'success'
 end
 

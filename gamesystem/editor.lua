@@ -67,6 +67,19 @@ function editor:load()
 				self.sel:setAngle(object.Spinvalue)
 			end
 		end
+		if love.mouse.isDown'l' and self.sel and self.sel.setPatrolPath then
+			
+			if self.hover then
+				if instanceOf(PatrolPath,self.hover) then
+					print 'hovered'
+					self.sel:setPatrolPath(self.hover)
+					return true
+				end
+			end
+		end
+	end
+	function sel.GetHoverPath()
+
 	end
 	sel:SetAlwaysUpdate(true)
 	self.seltool = sel
@@ -117,10 +130,8 @@ function editor:load()
 
 	local doortool = loveframes.Create("doorTool")
 	function doortool.OnLeftDown(object,x,y,button)
-		print (object,x,y,button)
 		local x,y = self.map:pixelToData(self.map:screenToMap(x,y))
 		local obs = self.map:hasObstacle(x,y)
-		print (x,y,obs)
 		if obs == 'wall' then
 			-- horizontal
 			if self.map:hasObstacle(x+1,y)==nil and
@@ -223,9 +234,11 @@ function editor:setDelegate(del)
 end
 
 function editor:releaseSelection()
+	self.hover = nil
 end
 
-function editor:setSelection()
+function editor:setSelection(sel)
+	self.hover = sel
 end
 
 local doodad = require 'gameobject.doodad'
