@@ -34,4 +34,32 @@ function waits.update()
 	end
 end
 
+function waits.update()
+	local t = love.timer.getTime()
+	local erase = {}
+--	print (t)
+	for k,v in pairs(waits.w) do
+		if t>=v then
+			table.insert(erase,k)
+		end
+	end
+	while #erase>0 do
+		local k = table.remove(erase)
+		waits.w[k] = nil
+		coroutinemsg(coroutine.resume(k))
+		print (k)
+	end
+	for k,v in pairs(waits.c) do
+		if v() then
+			table.insert(erase,k)
+		end
+	end
+
+	while #erase>0 do
+		local k = table.remove(erase)
+		waits.c[k] = nil
+
+			coroutinemsg(coroutine.resume(k))
+	end
+end
 return waits

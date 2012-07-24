@@ -46,6 +46,11 @@ function CircleArea:contain(u)
 	return ((ux-self.x)^2+(uy-self.y)^2)<=self.r*self.r
 end
 
+
+function CircleArea:getAABB()
+	return self.x-self.r/2,self.y-self.r/2,self.x+self.r/2,self.y+self.r/2
+end
+
 function CircleArea:getCenter()
 	return self.x,self.y
 end

@@ -189,12 +189,8 @@ function mainmenu:loadmain()
 	t.filter = filters.vibrate
 	loveframes.anim:easy(t,'vibrate_ref',10,0,1,loveframes.style.linear)
 	
-	sound.applyToChannel('music',function(s)s:stop()end)
-	local m = sound.loadsound('sound/music/adagio.ogg','stream')
-	if m then
-		m:setLooping(true)
-		sound.play(m,'music','stream')
-	end
+--	sound.applyToChannel('music',function(s)s:stop()end)
+	sound.playMusic('sound/music/adagio.ogg')
 end
 
 function mainmenu:loadpause()

@@ -160,7 +160,6 @@ end
 
 
 function Unit:createBody(x)
---	self.updatedata = true
 	if self.mover.createBody then self.mover:createBody(x) end
 	if self.mover.setUserData then self.mover:setUserData(self) end
 end
@@ -170,6 +169,28 @@ function Unit:destroyBody(x)
 		self.area:carryUnit(self)
 	end
 	if self.mover.destroyBody then self.mover:destroyBody(x) end
+end
+
+function Unit:kill()
+	local u = self:spawnBody()
+	self.map:addUnit(u)
+	u.info.dead = true
+	if self.onKill then
+		self.onKill(self)
+	end
+	
+	self.map:removeUnit(self)
+end
+
+function Unit:knockOut()
+
+	local u = self:spawnBody()
+	self.map:removeUnit(self)
+	self.map:addUnit(u)
+	u.info.dead = false
+	if self.onKnockOut then
+		self.onKnockOut(self)
+	end
 end
 
 function Unit:getHeadAngle()
@@ -189,6 +210,12 @@ function Unit:getObstacle()
 end
 
 function Unit:getLegacyObstacle()
+end
+
+function Unit:spawnBody()
+	local u = Body(BodyMover,self:getX(),self:getY(),self:getAngle(),nil,self.info)
+	self.map:addUnit(u)
+	return u
 end
 
 function Unit:encode()

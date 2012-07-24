@@ -50,6 +50,7 @@ local definition = {
 		{0,39,1,1}, -- start,finish = speed
 	},
 	framerate = 48,
+	halt = 10,
 	},
 }
 

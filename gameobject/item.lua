@@ -12,8 +12,36 @@ function Item:use(target)
 end
 
 ImproviseWeapon = Item:subclass'ImproviseWeapon'
-function ImproviseWeapon:use(target)
+function ImproviseWeapon:interact(host,target)
 	
+end
+
+function ImproviseWeapon:active(host,target)
+	if not instanceOf(River,target) then
+		return false,'INVALID TARGET'
+	end
+	local l = (Vector(host:getPosition())-Vector(target:getPosition())):length()
+	print (l)
+	if l<125 then
+		if true then -- behind back
+			execute(function()
+			local r = target:getAngle()
+			local v = Vector(math.cos(r),math.sin(r))
+			host:setPosition(Vector(target:getPosition())-v*40)
+			host:setAngle(r-0.3)
+			local sound = require 'library.sound'
+			sound.play("sound/interface/drum3.ogg","interface")
+			host.actor.animation = 'synringe'
+			wait(0.5)
+			target.actor.animation = 'held'
+			
+				wait(5)
+				target:kill()				
+			end)
+		end
+	else
+		return false,'OUT OF RANGE'
+	end
 end
 
 local item = {}

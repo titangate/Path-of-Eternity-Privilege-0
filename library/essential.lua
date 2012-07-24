@@ -1,7 +1,10 @@
 json = require 'json'
+
+local emptyimg = love.graphics.newImage'dot.png'
 local img = {}
 function requireImage(f)
 	if not img[f] then
+      --return emptyimg
 		img[f] = love.graphics.newImage(f)
 	end
 	return img[f]
@@ -154,6 +157,10 @@ function essential.load(t)
 	if t then
 		option = t
 	end
+end
+
+function essential.getImageTable()
+   return img
 end
 
 function essential.save()

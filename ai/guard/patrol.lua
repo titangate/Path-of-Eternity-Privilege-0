@@ -10,8 +10,8 @@ end
 function AIPatrol:process(dt)
 	local waypoint = self.waypoint
 	local prev = AIPath(self.unit,self.host:findPath(Vector(self.unit:getPosition()),waypoint[1]))
---	print (prev[1]:getCenterVector())
 	local initial = prev
+--	print (prev[1]:getCenterVector())
 	local new
 	for i=1,#waypoint-1 do
 		local a,b = waypoint[i],waypoint[i+1]
@@ -24,11 +24,18 @@ function AIPatrol:process(dt)
 		end
 		if b[4] then
 			new.next = AIWait(self.unit,b[4])
+			print ('waiting for ',b[4])
 			new = new.next
 		end
 		prev = new
 	end
 	self.next = initial
-	new.next = initial
+	new.next = AIPath(self.unit,self.host:findPath(waypoint[#waypoint],waypoint[1]))
+	new.next.next = AIWait(self.unit,self.waypoint[1][4])
+	new.next.next.next = initial.next
 	return 0,'success'
+end
+
+function AIPatrol:reset()
+	self:process()
 end

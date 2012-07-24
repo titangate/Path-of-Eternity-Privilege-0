@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="64" height="64" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="stone" tilewidth="64" tileheight="64">
+  <image source="stone.png" width="512" height="512"/>
+ </tileset>
+ <layer name="ground" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJzt1dtWgWEYReEfkUKFhFLa2RXSRmjr/q+qeQ++g7cx5hzjOVoXsHJZluVRwB6KKGEfZeR23KN3gENUUEUNRzjGSYI9enU00MQpWjhDG50Ee/S6OMcFerjEFfq4TrBH7wa3uMM9BhhihHGCPXoTPOARU8wwxxMWCfboPeMFr3jDEu9YYZ1gj94GH/jEF77xg19sE+zR2/Xf/X//3//3//1//9///3//b2ZmZmZmZmZmZmZmZmZmZmZmZmZmZmZm8fsDWzUwwQ==
+  </data>
+ </layer>
+</map>

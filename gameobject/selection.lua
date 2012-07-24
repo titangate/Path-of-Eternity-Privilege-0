@@ -49,7 +49,7 @@ function Selection:update(dt)
 	assert(self.map.world)
 	self.onSel = nil
 	self:releaseSelection()
-	local x,y = love.mouse.getPosition()
+	local x,y = self.map:screenToMap(love.mouse.getPosition())
 	self.map.world:queryBoundingBox(x-2,y-2,x+2,y+2,self.queryCallback)
 	self:setSelection(self.onSel)
 end

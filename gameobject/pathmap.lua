@@ -1,3 +1,5 @@
+
+local g = love.graphics
 PathMap = Object:subclass'PathMap'
 function PathMap:initialize(w,h)
 	self._data = {}
@@ -44,6 +46,12 @@ function PathMap:initialize(w,h)
 	self.f_update = {}
 
 	self.unit = {[0]={},[1]={},[2]={}}
+
+	self.camerashift = Vector(0,0)
+end
+
+function PathMap:setFollower(u)
+	self.follower = u
 end
 
 function PathMap:setUnitIdentifier(d,unit)
@@ -72,12 +80,14 @@ function PathMap:addUnit(u,crowd)
 end
 
 function PathMap:setWallbatch(image,config)
-
-	self.wallbatch = love.graphics.newSpriteBatch(image,self.w*self.h)
+	self.wallimage = image
+	self.wallbatch = love.graphics.newSpriteBatch(self.wallimage,self.w*self.h)
 	self.wallconfig = config
 end
 
 function PathMap:createWallMap()
+
+	self.wallbatch = love.graphics.newSpriteBatch(self.wallimage,self.w*self.h)
 	local c = self.wallconfig
 	for x=1,self.w do
 		for y=1,self.h do
@@ -112,6 +122,16 @@ function PathMap:createWallMap()
 						i = i +1
 					end
 				end
+
+				local dx,dy = self._data[x][y]:getCenter()
+				local moverinfo = {width = self.scale,
+				height = self.scale,
+				shape = 'rectangle',
+				bodytype = 'static',
+				}
+				local mover = doodadMover(dx,dy,0,nil,moverinfo)
+				self._data[x][y].mover = mover
+				self:addUnit(mover,true)
 			end
 		end
 	end
@@ -151,7 +171,21 @@ function PathMap:hasObstacle(x,y)
 	if x<1 or x>self.w-1 or y<1 or y>self.h-1 then
 		return 'bound'
 	end
-	return self._data[x][y].obstacle
+	return self._data[x][y].obstacle_e or self._data[x][y].obstacle 
+end
+
+function PathMap:setObstacleEditor(x,y,s)
+	local x,y = self:pixelToData(x,y)
+	self._data[x][y].obstacle_e = s
+	-- body
+--[[	local dx,dy = self._data[x][y]:getCenter()
+	local moverinfo = {width = self.scale,
+	height = self.scale,
+	shape = 'rectangle',
+	}
+	local mover = DoodadMover(dx,dy,r,'static',moverinfo)
+	self._data[x][y].mover = mover
+	self:addUnit(mover)]]
 end
 
 -- The implementation of nearby blocks iterator
@@ -209,7 +243,6 @@ end
 
 -- A Star
 function PathMap:findPath(start,finish,errorrange)
-	print (errorrange)
 	errorrange = errorrange or 0
 	local sx,sy = self:pixelToData(start.x,start.y)
 	local fx,fy = self:pixelToData(finish.x,finish.y)
@@ -273,16 +306,22 @@ function PathMap:update(dt)
 	self.b_destroy = {}
 	self.f_update = {}
 	self.world:update(dt)
-
+	if self.follower then
+		local x,y = self.follower:getPosition()
+		self.camerashift.x,self.camerashift.y=screen.halfwidth-x,screen.halfheight-y
+		
+	end
 end
 
-	local g = love.graphics
 function PathMap:draw()
+	g.push()
+	g.translate(unpack(self.camerashift))
 	if self.drawlli then
 		self:draw_LLI()
 	else
 		self:draw_normal()
 	end
+	g.pop()
 end
 
 function PathMap:draw_normal()
@@ -299,6 +338,7 @@ function PathMap:draw_normal()
 			v:draw()
 		end
 	end
+
 end
 
 function PathMap:draw_LLI()
@@ -384,12 +424,19 @@ function PathMap:getNearbyArea(target,distance)
 end
 
 function PathMap:encode()
-	local t = {unit = {}}
+	local t = {unit = {},wall={}}
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			local savedata = v:encode()
 			savedata.identifier = v.identifier
 			table.insert(t.unit,savedata)
+		end
+	end
+	for x = 1,self.w do
+		table.insert(t.wall,{})
+		for y = 1,self.h do
+		table.insert(t.wall[x],{})
+			t.wall[x][y].obstacle_e = self._data[x][y].obstacle_e
 		end
 	end
 	return t
@@ -415,10 +462,30 @@ function PathMap:queryUnits(area,f)
 	end
 end
 
+function PathMap:getBlockBody(x,y)
+	-- a special function that returns body userdata to build doors
+	assert(self._data[x][y].obstacle_e == 'wall',string.format("%d,%d is not a valid wall block",x,y))
+	return self._data[x][y].mover.body
+end
 
 function PathMap:load(t)
+	local global = {
+		map = self,
+	}
+
+	if t.wall then
+		for x = 1,self.w do
+			for y = 1,self.h do
+				if t.wall[x] and t.wall[x][y] then
+					self._data[x][y].obstacle_e = t.wall[x][y].obstacle_e
+				end
+			end
+		end
+	end
+
+	self:createWallMap()
 	for i,v in ipairs(t.unit) do
-		local u = serial.decode(v)
+		local u = serial.decode(v,global)
 		self:addUnit(u)
 		if v.identifier then
 			u:setIdentifier(v.identifier)
@@ -427,7 +494,11 @@ function PathMap:load(t)
 end
 
 function PathMap:mapToScreen(x,y)
-	return x,y
+	return x+self.camerashift.x,y+self.camerashift.y
+end
+
+function PathMap:screenToMap(x,y)
+	return x-self.camerashift.x,y-self.camerashift.y
 end
 
 
@@ -436,14 +507,17 @@ local shifth = 3^0.5
 local shiftx,shifty = 3^0.5/2,1.5
 function PathMap:DebugDraw()
 	g.push()
+	g.translate(unpack(self.camerashift))
 --	g.rectangle('fill',0,0,screen.width,screen.height)
 --	g.setBackgroundColor(255,255,255)
 --	g.setColor(0,0,0,50)
-	for x=1,self.w do
-		for y=1,self.h do
-
+	local startx = math.floor(self.camerashift.x/self.scale)+1
+	local starty = math.floor(self.camerashift.y/self.scale)+1
+	local w,h = screen.width/self.scale,screen.height/self.scale
+	for x=startx,startx+w do
+		for y=starty,starty+h do
 			g.setColor(0,0,0,100)
-			if self._data[x][y].obstacle then
+			if self._data[x][y].obstacle_e or self._data[x][y].obstacle then
 				love.graphics.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 			else
 				love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)

@@ -142,6 +142,8 @@ function closebutton:mousereleased(x, y, button)
 	if hover == true and self.down == true then
 	
 		if button == "l" then
+			local sound = require 'library.sound'
+			sound.play("sound/interface/out.ogg","interface")
 			coroutinemsg(coroutine.resume(coroutine.create(self.OnClick),self, x, y))
 		end
 		

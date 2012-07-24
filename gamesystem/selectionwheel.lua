@@ -6,6 +6,7 @@ local firstLayout = {}
 local secondLayout = {}
 local maxSecondLayoutCount = 6
 
+local sound = require 'library.sound'
 local wheelspan = math.pi*2
 for i=1,4 do
 	local firstLayoutShift = 80
@@ -117,6 +118,8 @@ function selectionwheel:load()
 	loveframes.anim:easy(frame,"vibrate_ref",5,0,0.3)
 	wait(0.3)
 	frame.filter = nil
+
+	sound.play("sound/interface/in.ogg","interface")
 --	loveframes.anim:easy(self.selectionwheelframe,'y',screen.height,self.selectionwheelframe.y,0.3,loveframes.style.quadInOut)
 end
 
@@ -129,7 +132,9 @@ function selectionwheel:loadFirstLayout(t)
 end
 
 function selectionwheel:dismiss()
-	loveframes.anim:easy(self.selectionwheelframe,'y',self.selectionwheelframe.y,screen.height,0.3,loveframes.style.quadInOut)
+
+	sound.play("sound/interface/out.ogg","interface")
+	--loveframes.anim:easy(self.selectionwheelframe,'y',self.selectionwheelframe.y,screen.height,0.3,loveframes.style.quadInOut)
 end
 
 return selectionwheel

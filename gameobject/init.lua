@@ -7,9 +7,15 @@ require 'gameobject.area'
 require 'gameobject.unit'
 require 'gameobject.pathmap'
 require 'gameobject.human':load()
+require 'gameobject.river'
 require 'gameobject.crowd'
 require 'gameobject.selection'
 require 'gameobject.doodad'
 
 require 'gameobject.animation'
 require 'gameobject.riveractor'
+
+require 'gameobject.body'
+require 'gameobject.box2d.bodymover'
+require 'gameobject.door'
+require 'gameobject.box2d.doormover'

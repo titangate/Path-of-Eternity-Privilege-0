@@ -25,8 +25,14 @@ function Animation:update(dt)
 	end
 end
 
+function Animation:halt()
+	if self.info.halt then
+		self.frame = self.info.halt
+	end
+end
+
 function Animation:draw(x,y,r)
-	love.graphics.draw(self.sprites[self.frame],x,y,r,1,1,64,64)
+	love.graphics.draw(self.sprites[self.frame],x,y,r,2,2,64,64)
 end
 
 local animation = {}

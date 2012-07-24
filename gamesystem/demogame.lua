@@ -9,7 +9,7 @@ function demogame:load()
 
 	-- Game Init --
 	
-	m = PathMap(20,20)
+	m = PathMap(100,100)
 	m:setWallbatch(requireImage'asset/terrain/yellowwall.png',{
 		width = 64,
 		height = 64,
@@ -20,10 +20,8 @@ function demogame:load()
 		lur = love.graphics.newQuad(128,0,64,64,256,64),
 		ur = love.graphics.newQuad(192,0,64,64,256,64),
 		})
-	m:createWallMap()
+	
 	host = AIHost(m)
---	u = Human(Box2DMover,100,100,0,'kinematic')
---	u2 = Human(Box2DMover,300,200,0,'kinematic')
 	if love.filesystem.isFile'demosave' then
 
 	local save = love.filesystem.read'demosave'
@@ -31,7 +29,7 @@ function demogame:load()
 		m:load(save)
 	end
 --	m:addUnit(u)
-	m:setBackground'map/riverhideout.png'
+	m:setBackground'map/hospitalfloor.png'
 	c = Crowd(RectangleArea(100,100,1000,600),20)
 --	m:addUnit(c)
 	--[[
@@ -104,6 +102,10 @@ function demogame:load()
 		self.llipanel.namefield:setText''
 		self.llipanel.description:setText''
 		self.llipanel:SetVisible(false)
+
+		if controller then
+			controller.sel = nil
+		end
 	end
 
 	i = loveframes.Create('frame')
@@ -148,11 +150,18 @@ function demogame:load()
 	end
 	inv:setBaseItem(4,item.create('needle',0,0,0))
 	self.inv = inv
+	if m.obj.river then
+		m.obj.river.inv = inv
+	end
 
-	local a = require 'gameobject.animation'
-	aa = RiverActor()
+	m.obj.boss.onKill = function()
+		self:hint("TARGET ELIMINATED")
+		sound.playMusic('sound/music/secretunvailed.ogg',true)
+	end
+	sound.playMusic('sound/music/danger.ogg')
+
+
 end
-
 
 function demogame:hint(text,clue)
 	self.hintpanel.field:setText(text)
@@ -162,7 +171,6 @@ function demogame:hint(text,clue)
 	self.hintpanel.field:CenterX()
 	self.hintpanel.closetime = 5
 end
-
 
 function demogame:lliSelect(obj)
 	self.lli_object = obj
@@ -220,10 +228,9 @@ function demogame:update(dt)
 		m:update(dt)
 --		e:update(dt)
 --		d:update(dt)
---		sound.setCenter(u:getPosition())
+		sound.setCenter(m.obj.river:getPosition())
 	end
 	sel:update(dt)
-	aa:update(dt)
 end
 
 function demogame:draw()
@@ -241,14 +248,14 @@ function demogame:draw()
 	love.graphics.setColor(255,255,255)
 	m:draw()
 
+	if self.s then
+		self.s:draw_LLI()
+	end
 	if DEBUG and loveframes.config["DEBUG"] then
 		m:DebugDraw()
 --		u:DebugDraw()
 		host:DebugDraw()
 	--	e:DebugDraw()
-		if self.s then
-			self.s:DebugDraw()
-		end
 	end
 --	d:DebugDraw()
 	if self.scale ~=1 then
@@ -258,8 +265,6 @@ function demogame:draw()
 		love.graphics.draw(canvas.canvas)
 		canvasmanager.releaseCanvas(canvas)
 	end
---	love.graphics.setColor(0,0,0)
-	aa:draw(300,300,0)
 end
 
 function demogame:playConversation(unit,text,duration)
@@ -320,17 +325,15 @@ function demogame:keypressed(k)
 	end
 	if k=='s' then
 		local t= m:encode()
-		for k,v in pairs(t.unit[1]) do print (k,v) end
 		local l=json.encode(t)
 		love.filesystem.write('demosave',l)
 	end
 	if k=='q' then
-		coroutinemsg(coroutine.resume(coroutine.create(function()
-			self:playConversation(m.obj.river,LocalizedString'YOU ONLY LIVE ONCE',5)
-			self:playConversation(m.obj.river,LocalizedString'WHAT SAY YOU?',5)
-		end)))
+		m:createWallMap()
 	end
 	if k=='l' then
+		local x,y = m.obj.boss:getPosition()
+	host:addAI(AIGuard(m.obj.boss,{Vector(300,400,0,3),Vector(x,y,0,2)}))
 		loveframes.anim:easy(m,"lli_radius",0,screen.halfwidth,0.3)
 		m.drawlli = not m.drawlli
 		sound.play('sound/effect/lliactive.ogg','effect')
@@ -347,11 +350,21 @@ function demogame:keypressed(k)
 		m.obj.river.info.name = 'WUNG KING'
 		m.obj.river.info.description = 'TARGET. HAS TO BE ELIMINATED.'
 
-		controller = KMController(m,m.obj.river,host)
+		controller = KMController(m,m.obj.river,host,self)
 	end
 
 	if controller then
 		controller:keypressed(k)
+	end
+
+	if k=='up' then
+		m.camerashift.y = m.camerashift.y + 100
+	elseif k=='down' then
+		m.camerashift.y = m.camerashift.y - 100
+	elseif k=='left' then
+		m.camerashift.x = m.camerashift.x + 100
+	elseif k=='right' then
+		m.camerashift.x = m.camerashift.x - 100
 	end
 end
 
@@ -362,8 +375,8 @@ function demogame:keyreleased(k)
 end
 
 function demogame:mousepressed(x,y,b)
---	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100)
---	self.s:play()
+	self.s = Sound('sound/effect/machine1.ogg',Vector(x,y),100,'effect',host,3)
+	self.s:play()
 
 	if controller then
 		controller:mousepressed(x,y,b)

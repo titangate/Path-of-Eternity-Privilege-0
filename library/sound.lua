@@ -3,12 +3,12 @@
 local sound = {}
 function sound.load()
 	sound.center = Vector(0,0)
-	sound.channel = {}
+	sound.channel = {music = {}}
 	sound.source = {}
 	sound.setDistanceModel'linear'
 	sound.setCenter(sound.center)
+	sound.music = {}
 end
-
 function sound.update(dt)
 end
 
@@ -22,6 +22,25 @@ function sound.applyToChannel(channel,func)
 	end
 end
 
+function sound.playMusic(s,once)
+
+	if type(s)=='string' then
+		s = sound.loadsound(s,'stream')
+	end
+
+	if not s then return end
+	if sound.music[#sound.music] then
+		sound.music[#sound.music]:pause()
+	end
+	s:setLooping(not once)
+	if once then
+		table.insert(sound.music,s)
+	else
+		sound.music = {s}
+	end
+	table.insert(sound.channel.music,s)
+	s:play()
+end
 
 function sound.play(s,channel,mode)
 	
@@ -42,6 +61,12 @@ function sound.cleanUp()
 		for i,v in ipairs(c) do
 			if v:isStopped() then
 				table.remove(c,i)
+				if v==sound.music[#sound.music] then
+					table.remove(sound.music)
+					if sound.music[#sound.music] then
+						sound.music[#sound.music]:resume()
+					end
+				end
 				i = i - 1
 			end
 		end
@@ -98,6 +123,15 @@ function Sound:play()
 	end
 	if not self.source then return end
 	sound.play(self.source,self.channel)
+end
+
+
+function Sound:draw_LLI()
+	local tell = (self.source:tell('samples')/4000)%1
+	local x,y = unpack(self.pos)
+	love.graphics.setColor(255,255,255)
+	love.graphics.setLineWidth(2)
+	love.graphics.circle('line',x,y,tell*self.reach*2)
 end
 
 function Sound:update(dt)

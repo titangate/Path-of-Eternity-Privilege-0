@@ -62,7 +62,7 @@ function editor:load()
 	function sel.Update(object,dt)
 		if self.sel then
 			if object.state == 'translate' then
-				self.sel:setPosition(object:getCenter())
+				self.sel:setPosition(self.map:screenToMap(object:getCenter()))
 			elseif object.state == 'rotate' then
 				self.sel:setAngle(object.Spinvalue)
 			end
@@ -77,7 +77,6 @@ function editor:load()
 	b:setText(k)
 	b.active = true
 	self.currentbutton = b
---		b:setSize(180,180)
 	b:setImage('asset/difficulty/brutal.png')
 	b:setText(LocalizedString'SELECTION')
 	b.OnClick = function(object)
@@ -87,6 +86,66 @@ function editor:load()
 		self.currentbutton = b
 		b.active = true
 		sel:SetVisible(true)
+	end
+	toolbox:AddItem(b)
+
+	local walltool = loveframes.Create("wallTool")
+	function walltool.OnLeftDown()
+		local x,y = self.map:screenToMap(love.mouse.getPosition())
+		self.map:setObstacleEditor(x,y,'wall')
+	end
+	function walltool.OnRightDown()
+		local x,y = self.map:screenToMap(love.mouse.getPosition())
+		self.map:setObstacleEditor(x,y,nil)
+	end
+	walltool:SetVisible(false)
+	local b = loveframes.Create("circlebutton",toolbox)
+	b:setText(k)
+	b.active = false
+	b:setImage('asset/difficulty/hard.png')
+	b:setText(LocalizedString'WALL')
+	b.OnClick = function(object)
+		self.currenttool:SetVisible(false)
+		self.currentbutton.active = nil
+		self.currenttool = walltool
+		self.currentbutton = b
+		b.active = true
+		walltool:SetVisible(true)
+	end
+	toolbox:AddItem(b)
+
+
+	local doortool = loveframes.Create("doorTool")
+	function doortool.OnLeftDown(object,x,y,button)
+		print (object,x,y,button)
+		local x,y = self.map:pixelToData(self.map:screenToMap(x,y))
+		local obs = self.map:hasObstacle(x,y)
+		print (x,y,obs)
+		if obs == 'wall' then
+			-- horizontal
+			if self.map:hasObstacle(x+1,y)==nil and
+				self.map:hasObstacle(x+2,y)==nil and
+				self.map:hasObstacle(x+3,y)=='wall' then
+				local door = Door(DoorMover,x*self.map.scale,(y-0.5)*self.map.scale,0,'dynamic',m._data[x][y].mover.body,x,y)
+				self.map:addUnit(door)
+			end
+		end
+	end
+	function doortool.OnRightDown()
+	end
+	doortool:SetVisible(false)
+	local b = loveframes.Create("circlebutton",toolbox)
+	b:setText(k)
+	b.active = false
+	b:setImage('asset/difficulty/normal.png')
+	b:setText(LocalizedString'DOOR')
+	b.OnClick = function(object)
+		self.currenttool:SetVisible(false)
+		self.currentbutton.active = nil
+		self.currenttool = doortool
+		self.currentbutton = b
+		b.active = true
+		doortool:SetVisible(true)
 	end
 	toolbox:AddItem(b)
 
@@ -171,12 +230,14 @@ end
 
 local doodad = require 'gameobject.doodad'
 function editor:spawnDoodad(x,y,def)
+	x,y = self.map:screenToMap(x,y)
 	local d = doodad.create(def,x,y,0)
 	self.map:addUnit(d)
 end
 
 local unit = require 'gameobject.human'
 function editor:spawnUnit(x,y,def)
+	x,y = self.map:screenToMap(x,y)
 	local u = unit.create(def,x,y,0)
 	self.map:addUnit(u)
 end
@@ -185,7 +246,7 @@ function editor:interact(obj)
 	if self.currenttool ~= self.seltool then return end
 	self.sel = obj
 	if not obj then return end
-	local x,y = obj:getPosition()
+	local x,y = self.map:mapToScreen(obj:getPosition())
 	self.seltool:setPos(x-self.seltool:getWidth()/2,y-self.seltool:getHeight()/2)
 	self.seltool.Spinvalue = obj:getAngle()
 	if self.currenttool == self.seltool then

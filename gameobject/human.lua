@@ -175,7 +175,7 @@ function human.load()
 	humandef = require 'unit.definition'
 end
 function human.decode(t)
-	local u = Human()
+	local u = River()
 	u.mover = serial.decode(t.mover)
 	u:decode(t)
 --	u:decode(t)
@@ -185,7 +185,7 @@ function human.create(def,x,y,r,bodytype)
 	if type(def) == 'string' then
 		def = humandef[def]
 	end
-	local d = Human(Box2DMover,x,y,r,bodytype or 'kinematic',def)
+	local d = River(Box2DMover,x,y,r,bodytype or 'kinematic',def)
 	return d
 end
 return human

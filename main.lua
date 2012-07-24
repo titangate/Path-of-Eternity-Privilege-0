@@ -1,3 +1,5 @@
+local loader = require 'loader'
+
 
 DEBUG = true
 PROFILING = false
@@ -68,6 +70,31 @@ Stateful = require"stateful"
 local localization = require 'library.localization'
 local essential = require 'library.essential'
 
+local img = essential.getImageTable()
+local lfs = love.filesystem
+local function _iterateAsset(f)
+	if lfs.isFile(f) then
+		if string.sub(f,#f-3) == '.png' then
+			--loader.newImage(img,f,f)
+			loader.newImage(img,f,f)
+			return
+		end
+	elseif lfs.isDirectory(f) then
+		for i,v in ipairs(lfs.enumerate(f)) do
+			_iterateAsset(f..'/'..v)
+		end
+	end
+end
+
+local function enumerateAssets()
+	local assetfolder = {'asset','animation','doodad','item','unit','dot.png','worldmap.png'}
+	while #assetfolder>0 do
+		local f = table.remove(assetfolder)
+		_iterateAsset(f)
+	end
+end
+
+local finishedLoading
 function love.load()
 	
 	
@@ -103,6 +130,14 @@ function love.load()
 	sound.load()
 	
 	require 'loveframes'
+
+	-- preload all files
+
+	enumerateAssets()
+	loader.start(function()
+		finishedLoading = true
+	end)
+
 	-- load the examples menu
 	
 	-- load the sin selector menu
@@ -123,6 +158,7 @@ function love.load()
 --	loveframes.debug.ExamplesMenu()
 	
 --	love.graphics.setBackgroundColor(255,255,255,0)
+
 end
 
 function love.mousepressed(x, y, button)
@@ -173,6 +209,9 @@ end
 local ui_elapse = 0
 local refreshUI = true
 function love.update(dt)
+	if not finishedLoading then
+		loader.update() -- You must do this on each iteration until all resources are loaded
+	end
 	if option.seperateUI then
 		ui_elapse = ui_elapse + dt
 		if ui_elapse > option.uidt then
@@ -191,8 +230,7 @@ end
 function love.draw()
 	--love.graphics.setColor(0,255,255)
 	
-	--love.graphics.rectangle('fill',0,0,10000,10000)
-	
+		--love.graphics.rectangle('fill',0,0,10000,10000)
 	gamesys.draw()
 	if option.seperateUI then
 		if refreshUI then
@@ -216,6 +254,12 @@ function love.draw()
 	pn("Press \"`\" to toggle debug mode.", 210, 7)
 	love.graphics.setColor(255, 255, 255, 255)
 	pn("Press \"`\" to toggle debug mode.", 210, 5)
+
+	if not finishedLoading then
+		local percent = 0
+		if loader.resourceCount ~= 0 then percent = loader.loadedCount / loader.resourceCount end
+		love.graphics.print(("Loading Assets.. %d%%"):format(percent*100), 100, 100)
+	end
 
 	local fps = love.timer.getFPS()
 	love.graphics.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))

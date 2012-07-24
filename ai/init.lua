@@ -8,6 +8,8 @@ require 'ai.wait'
 require 'ai.turn'
 require 'ai.exposure'
 require 'ai.interact'
+require 'ai.facing'
 
 require 'ai.guard.patrol'
 require 'ai.guard.investigate'
+require 'ai.guard.guard'

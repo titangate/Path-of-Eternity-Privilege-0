@@ -4,29 +4,77 @@ local animation = require 'gameobject.animation'
 function RiverActor:initialize()
 	self.feet = animation.create'feet'
 	self.synringe = animation.create'synringe'
---	self.stand = animation.create'stand'
 	self.stealth = animation.create'stealth'
 	self.action = 'synringe'
 	self.held = animation.create'held'
+	self.run = animation.create'run'
+
+	self.profile = 'high'
+
+	self.walkingspeed = Vector(0,0)
+
+	self.animation = nil
+end
+
+function RiverActor:setProfile(p)
+	self.profile = p
+end
+
+function RiverActor:setWalkingSpeed(vx,vy)
+	self.walkingspeed.x,self.walkingspeed.y = vx,vy
 end
 
 function RiverActor:update(dt)
-	if self.action == 'stealth' then
-		self.feet:update(dt/2)
-		self.stealth:update(dt)
-	elseif self.action == 'synringe' then
-		self.synringe:update(dt)
-		self.feet:update(dt*2)
+	if self.animation then
+		if self.animation == 'synringe' then
+			self.synringe:update(dt)
+		end
+	else
+		if self.walkingspeed:length()>0 then
+			if self.profile == 'high' then
+				self.run:update(dt)
+			elseif self.profile == 'medium' then
+				self.feet:update(dt)
+			elseif self.profile == 'low' then
+				self.stealth:update(dt)
+				self.feet:update(dt)
+			end
+		else
+			self.feet:halt()
+		end
 	end
 end
 
-function RiverActor:draw()
-	self.feet:draw(320,310,0)
-	self.held:draw(320,310,0)
---	self.feet:draw(300,300,0)
-	if self.action == 'stealth' then
-		self.stealth:draw(300,300,0)
-	elseif self.action == 'synringe' then
-		self.synringe:draw(300,300,0)
+function RiverActor:draw(u)
+	local x,y = u:getPosition()
+	local r = u:getAngle()
+	--	print (x,y)
+	if self.animation then
+		if self.animation == 'synringe' then
+			self.feet:draw(x,y,r)
+			self.synringe:draw(x,y,r)
+		elseif self.animation == 'held' then
+
+			self.feet:draw(x,y,r)
+			self.held:draw(x,y,r)
+		end
+	else
+		if self.walkingspeed:length()>0 then
+			if self.profile == 'high' then
+				self.run:draw(x,y,r)
+			elseif self.profile == 'medium' then
+				self.feet:draw(x,y,r)
+			elseif self.profile == 'low' then
+				self.feet:draw(x,y,r)
+				self.stealth:draw(x,y,r)
+			end
+		else
+			if self.profile == 'low' then
+				self.feet:draw(x,y,r)
+				self.stealth:draw(x,y,r)
+			else
+				self.feet:draw(x,y,r)
+			end
+		end
 	end
 end

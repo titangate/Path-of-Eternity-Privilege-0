@@ -76,6 +76,10 @@ easydoodad{name='desk'}
 easydoodad{name='sinkwithwater'}
 easydoodad{name='sink'}
 easydoodad{name='table',shape='circle'}
+easydoodad{name='shelf'}
+easydoodad{name='couch'}
+easydoodad{name='bathtub'}
+easydoodad{name='toilet',scale = 2}
 
 -- items
 

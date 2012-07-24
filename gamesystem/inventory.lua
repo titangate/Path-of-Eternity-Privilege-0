@@ -25,3 +25,7 @@ function Inventory:getFirstLayout()
 	end
 	return t
 end
+
+function Inventory:getActiveItem()
+	return self.baseitem[1]
+end
