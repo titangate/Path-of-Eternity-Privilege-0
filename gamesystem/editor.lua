@@ -127,6 +127,25 @@ function editor:load()
 	end
 	toolbox:AddItem(b)
 
+	local pathtool = loveframes.Create("pathTool")
+	pathtool:SetVisible(false)
+	pathtool:setPos(love.mouse.getPosition())
+	self.pathtool = pathtool
+	local b = loveframes.Create("circlebutton",toolbox)
+	b:setText(k)
+	b.active = false
+	b:setImage('asset/difficulty/hard.png')
+	b:setText(LocalizedString'PATH')
+	b.OnClick = function(object)
+		self.currenttool:SetVisible(false)
+		self.currentbutton.active = nil
+		self.currenttool = pathtool
+		self.currentbutton = b
+		b.active = true
+		pathtool:SetVisible(true)
+	end
+	toolbox:AddItem(b)
+
 
 	local doortool = loveframes.Create("doorTool")
 	function doortool.OnLeftDown(object,x,y,button)
@@ -227,6 +246,8 @@ end
 
 function editor:setMap(m)
 	self.map = m
+
+	self.pathtool:setMap(self.map)
 end
 
 function editor:setDelegate(del)

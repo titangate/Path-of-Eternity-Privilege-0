@@ -11,6 +11,13 @@ function graphics.load(t)
 		vfield = t
 		graphics.apply()
 	end
+
+	
+	if retina then
+		for k,v in pairs(screen) do
+			screen[k] = v/2
+		end
+	end
 end
 
 function graphics.setArgument(field,value)
@@ -37,10 +44,14 @@ function graphics.apply()
 		height = love.graphics.getHeight(),
 		halfwidth = love.graphics.getWidth()/2,
 		halfheight = love.graphics.getHeight()/2,
-		w = love.graphics.getWidth(),
-		h = love.graphics.getHeight(),
 	}
 	
+	if retina then
+		for k,v in pairs(screen) do
+			screen[k] = v/2
+		end
+	end
+
 	graphics.save()
 	
 end

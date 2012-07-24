@@ -38,6 +38,15 @@ function PatrolPath:setPoints(p)
 	end
 end
 
+function PatrolPath:addPoint(p)
+	table.insert(self.waypoint,p)
+	self.mover:setPoints(self.waypoint)
+	if self.world then
+		self:destroyBody(self.world)
+		self:createBody(self.world)
+	end
+end
+
 
 function PatrolPath:createBody(x)
 	self.world = x

@@ -94,6 +94,8 @@ local function enumerateAssets()
 	end
 end
 
+local retina = false
+
 local finishedLoading
 function love.load()
 	
@@ -229,7 +231,9 @@ end
 
 function love.draw()
 	--love.graphics.setColor(0,255,255)
-	
+	if retina then
+		love.graphics.scale(2)
+	end
 		--love.graphics.rectangle('fill',0,0,10000,10000)
 	gamesys.draw()
 	if option.seperateUI then

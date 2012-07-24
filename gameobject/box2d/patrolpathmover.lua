@@ -5,6 +5,7 @@ end
 
 local lp = love.physics
 function PatrolPathMover:createBody(world)
+	if #self.points < 3 then return end
 	self.world = world
 	if type(world)=='table' then
 		world = world.world
@@ -25,6 +26,7 @@ function PatrolPathMover:setPoints(p)
 end
 
 function PatrolPathMover:setUserData(data)
+	if not self.fixture then return end
 	table.insert(self.world.f_update,{self.fixture,data})
 --	self.fixture:setUserData(data)
 end
@@ -90,6 +92,7 @@ function PatrolPathMover:setAngle(x)
 end
 
 function PatrolPathMover:destroyBody(world)
+	if not self.fixture then return end
 	self.fixture:setMask(unpack(collisoninfo.all))
 	world:destroyNext(self.fixture,self.body)
 	self.fixture = nil
