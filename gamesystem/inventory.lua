@@ -15,7 +15,6 @@ end
 function Inventory:getFirstLayout()
 	local t = {}
 	for i,v in ipairs(self.baseitem) do
-		print (i,v.info.title)
 		assert(v.info.title)
 		t[i] = {
 			image = v.info.icon,

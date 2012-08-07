@@ -17,6 +17,20 @@ function AIWait:reset()
 	self.dt = self.time
 end
 
+
+function AIWait:encode()
+	return {
+		name = 'AIWait',
+		dt = self.dt,
+		time = self.time,
+	}
+end
+
+function AIWait:decode(t)
+	self.dt = t.dt
+	self.time = t.time
+end
+
 if DEBUG then
 function AIWait:DebugDraw()
 	local x,y = self.unit:getPosition()

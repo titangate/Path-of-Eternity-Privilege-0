@@ -161,6 +161,8 @@ function Human:draw_LLI(x,y,r)
 
 end
 
+
+
 function Human:getWidth()
 	return scale*64
 end

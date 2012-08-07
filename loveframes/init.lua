@@ -244,5 +244,30 @@ function loveframes.Create(data, parent)
 	
 end
 
+
+function loveframes.dialogue(title,text,optionstyle,callback)
+	local f = loveframes.Create'frame'
+	f:SetModal(true)
+	f:setSize(400,250)
+	f:Center()
+	f:setName(title)
+	local t = loveframes.Create('text',f)
+	t:setText(text)
+	t:SetY(100)
+	t:CenterX()
+	local l = loveframes.Create('list',f)
+	l:SetY(120)
+	l:CenterX()
+	l:setSize(300,100)
+--	l:SetDisplayType'horizontal'
+	for i,v in ipairs(optionstyle) do
+		local b = loveframes.Create('button',l)
+		b:setText(v)
+		b:CenterX()
+		b.OnClick = function() callback(i) end
+		l:AddItem(b)
+	end
+end
+
 -- load the library
 loveframes.load()

@@ -155,18 +155,13 @@ function mainmenu:loadpostmenu()
 	local selectionwheelbutton = loveframes.Create("menubutton", exampleslist)
 	selectionwheelbutton:setPos(5, 60)
 	selectionwheelbutton:setSize(490, 265)
-	selectionwheelbutton:setText(LocalizedString"selectionwheel")
-	selectionwheelbutton:SetDescription(LocalizedString'CALL OUT selectionwheel PANEL')
+	selectionwheelbutton:setText(LocalizedString"DIALOGUE")
+	selectionwheelbutton:SetDescription(LocalizedString'CALL OUT DIALOGUE PANEL')
 	
 	selectionwheelbutton.OnClick = function(object)
 		
-		coroutine.resume(coroutine.create(function()
-		self:zoomin(500,121,1)
-		self:dismiss()end))
-		wait(0.5)
-		local gs = require 'gamesystem.animationeditor'
-		gs:load()
-		self.host.push(gs,1)
+		print(coroutine.resume(coroutine.create(function()
+		loveframes.dialogue(LocalizedString'TEST',LocalizedString"I'M DRUNK. IGNORE THIS MESSAGE.",{"OK"},function()end) end)))
 	end
 	
 	local collapsiblecategory3 = loveframes.Create("menubutton", exampleslist)

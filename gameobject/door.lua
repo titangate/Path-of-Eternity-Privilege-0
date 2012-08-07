@@ -20,7 +20,6 @@ function Door:pre_open(state,direction)
 end
 
 function Door:open(state,direction)
-	print (state,direction)
 	if state then
 		self.mover:setOpen(state,direction)
 	else

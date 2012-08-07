@@ -26,10 +26,16 @@ function demogame:load()
 	
 	if love.filesystem.isFile'demosave' then
 
-	local save = love.filesystem.read'demosave'
-	save = json.decode(save)
+		local save = love.filesystem.read'demosave'
+		save = json.decode(save)
 		m:load(save)
 	end
+	if love.filesystem.isFile'aidemo' then
+		local s = love.filesystem.read'aidemo'
+		s = json.decode(s)
+		host:decode(s)
+	end
+	--host:decode(json.decode(love.filesystem.read'aidemo'))
 --	m:addUnit(u)
 	m:setBackground'map/hospitalfloor.png'
 	c = Crowd(RectangleArea(100,100,1000,600),20)
@@ -164,9 +170,6 @@ function demogame:load()
 	end
 	sound.playMusic('sound/music/danger.ogg')
 
-
-	local p = PatrolPath({Vector(100,100),Vector(200,200),Vector(200,300)})
-	m:addUnit(p)
 
 end
 
@@ -313,6 +316,9 @@ function demogame:keypressed(k)
 	end
 	if k=='c' then
 		self:setCellphoneState(not self.phonestate)
+		
+		print(coroutine.resume(coroutine.create(function()
+		loveframes.dialogue(LocalizedString'TEST',LocalizedString"I'M DRUNK. IGNORE THIS MESSAGE.",{"OK"},function()end) end)))
 	end
 	if k=='a' then
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:loadSelectionWheel()end)))
@@ -331,15 +337,18 @@ function demogame:keypressed(k)
 	end
 	if k=='s' then
 		local t= m:encode()
+		local a = json.encode(host:encode())
+		print (a,host)
 		local l=json.encode(t)
 		love.filesystem.write('demosave',l)
+		love.filesystem.write('aidemo',a)
 	end
 	if k=='q' then
 		m:createWallMap()
 	end
 	if k=='l' then
 		local x,y = m.obj.boss:getPosition()
-	host:addAI(AIGuard(m.obj.boss,{Vector(300,400,0,3),Vector(x,y,0,2)}))
+		--host:addAI(AIFindPath(m.obj.boss,Vector(500,400,0,3)))
 		loveframes.anim:easy(m,"lli_radius",0,screen.halfwidth,0.3)
 		m.drawlli = not m.drawlli
 		sound.play('sound/effect/lliactive.ogg','effect')

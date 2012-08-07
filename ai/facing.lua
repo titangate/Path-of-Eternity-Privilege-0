@@ -23,3 +23,18 @@ end
 function AIFacing:setTarget(t)
 	self.target = t
 end
+
+
+function AIFacing:encode()
+	return {
+		name = 'AIFacing',
+		target = self.host:getIdentifier(self.target),
+		unit = self.host:getIdentifier(self.unit),
+
+	}
+end
+
+function AIFacing:decode(t)
+	self.target = self.host:getUnit(t.target)
+	self.unit = self.host:getUnit(t.unit)
+end

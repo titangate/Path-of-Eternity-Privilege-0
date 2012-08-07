@@ -47,6 +47,25 @@ function PatrolPath:addPoint(p)
 	end
 end
 
+function PatrolPath:getPosition()return 0,0 end
+
+function PatrolPath:getAngle() return 0 end
+
+function PatrolPath:getX() return 0 end
+
+function PatrolPath:getY() return 0 end
+
+function PatrolPath:getIdentifier() return nil end
+
+function PatrolPath:setPosition()return 0,0 end
+
+function PatrolPath:setAngle() return 0 end
+
+function PatrolPath:setX() return 0 end
+
+function PatrolPath:setY() return 0 end
+
+function PatrolPath:setIdentifier() return nil end
 
 function PatrolPath:createBody(x)
 	self.world = x

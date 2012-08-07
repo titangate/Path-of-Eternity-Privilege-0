@@ -79,6 +79,7 @@ function selectionwheel:load()
 		love.graphics.circle('fill',x,y,120,6)
 		love.graphics.circle('fill',x,y,204)
 	end
+	frame:SetModal(true)
 	local centerButton = loveframes.Create('circlebutton',frame)
 	centerButton:setSize(64,64)
 	centerButton:setPos(unpack(centerPos))

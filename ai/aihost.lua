@@ -36,11 +36,10 @@ function AIHost:process(dt)
 
 			elseif state == 'success' then
 				if v[#v].next then
-					print (v[#v].next,'next')
 					if v[#v].next.reset then
 						v[#v].next:reset()
 					end
-
+					v[#v].next.host = self
 					v[#v] = v[#v].next
 				else
 					self.ai[u][#self.ai[u]] = nil
@@ -70,7 +69,6 @@ function AIHost:playsound(s)
 		if self.ai[unit] and self.ai[unit][#self.ai[unit]] and self.ai[unit][#self.ai[unit]].soundAlert then
 			local unitp = Vector(unit:getPosition())
 			local dis = (s.pos-unitp):length()
-			print ((dis-s.reach)/s.reach)
 			local alert = s.alert * math.max(0,math.min(1,2+(dis-s.reach)/s.reach))
 			
 			if singleout then
@@ -100,6 +98,41 @@ end
 
 function AIHost:popAI(unit)
 	table.remove(self.ai[unit])
+end
+
+function AIHost:getIdentifier(unit)
+	return unit:getIdentifier()
+end
+function AIHost:getUnit(identifier)
+	return self.map.obj[identifier]
+end
+
+function AIHost:encode()
+	local t = {}
+	for unit,ai in pairs(self.ai) do
+		local a = {}
+		for i,v in ipairs(ai) do
+			local p = v
+			while p ~= nil do
+				table.insert(a,p:encode())
+				p = p.next
+			end
+		end
+		t[unit:getIdentifier()] = a
+	end
+	return t
+end
+
+function AIHost:decode(t)
+	for unit,ai in pairs(t) do
+		for i,v in ipairs(ai) do
+			--self:pushAI()
+			local u = self:getUnit(unit)
+			local a = serial.decode(v,u)
+			self:pushAI(a)
+		end
+
+	end
 end
 
 if DEBUG then

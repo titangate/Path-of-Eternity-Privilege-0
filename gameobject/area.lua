@@ -63,6 +63,19 @@ function CircleArea:random()
 	return math.cos(r)*d,math.sin(r)*d
 end
 
+function CircleArea:encode()
+	return {
+		name = 'CircleArea',
+		x = self.x,
+		y = self.y,
+		r = self.r,
+	}
+end
+
+function CircleArea:decode(t)
+	self.x,self.y,self.r = t.x,t.y,t.r
+end
+
 RectangleArea = Area:subclass'RectangleArea'
 
 function RectangleArea:initialize(x,y,w,h)
@@ -86,4 +99,19 @@ end
 
 function RectangleArea:getAABB()
 	return self.x,self.y,self.x+self.w,self.y+self.h
+end
+
+
+function RectangleArea:encode()
+	return {
+		name = 'RectangleArea',
+		x = self.x,
+		y = self.y,
+		w = self.w,
+		h = self.h,
+	}
+end
+
+function RectangleArea:decode(t)
+	self.x,self.y,self.w,self.h = t.x,t.y,t.w,t.h
 end

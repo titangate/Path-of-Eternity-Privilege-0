@@ -17,6 +17,18 @@ function AIMoveTo:process(dt)
 	end
 end
 
+
+function AIMoveTo:encode()
+	return {
+		name = 'AIMoveTo',
+		target = self.target:encode(),
+	}
+end
+
+function AIMoveTo:decode(t)
+	self.target = serial.decode(t.target)
+end
+
 if DEBUG then
 function AIMoveTo:DebugDraw()
 	local x,y = self.target:getCenter()

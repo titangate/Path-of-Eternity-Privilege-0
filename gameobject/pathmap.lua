@@ -103,7 +103,7 @@ function PathMap:createWallMap()
 				if not (u or d or l or r) then
 					-- stud
 				elseif u and d and l and r then
-					self.wallbatch:addq(c.lurd,x*self.scale+c.width/2,y*self.scale+c.height/2,i*math.pi/2,1,1,c.ox,c.oy)
+					self.wallbatch:addq(c.lurd,x*self.scale+c.width/2,y*self.scale+c.height/2,0,1,1,c.ox,c.oy)
 				else
 					local walltable = {l,u,r,d}
 					local i = 0
@@ -262,7 +262,7 @@ function PathMap:findPath(start,finish,errorrange)
 	local comefrom = VectorIndexMap()
 	local path = {}
 	local visited = VectorIndexMap()
-	while #open>0 do
+	while #open>0 and #open < 50 do
 		local b,cost = unpack(extractmin(open))
 		for near,c in self:getBlock(b.x,b.y) do
 			local gs = g[b] + cost
@@ -350,7 +350,7 @@ function PathMap:draw_LLI()
 	self.satbri_saturation = 0
 	self.satbri_brightness = -1
 	self.lli_intensity = math.random(10)
-	if self.lli_radius < screen.halfwidth then
+	if self.lli_radius and self.lli_radius < screen.halfwidth then
 		if self.background then
 			love.graphics.draw(self.background)
 		end

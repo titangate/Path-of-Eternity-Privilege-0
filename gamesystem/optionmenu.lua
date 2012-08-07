@@ -145,6 +145,28 @@ function optionmenu:load()
 	checkbox2.tooltip:SetOffsets(0, -5)
 	
 	checkbox2:SetChecked(option.seperateUI)
+
+	local checkbox3 = loveframes.Create("checkbox", graphicspanel)
+	checkbox3:setText({{255,255,255},LocalizedString"RETINA DISPLAY"})
+	checkbox3:setPos(5, 150)
+	checkbox3.OnChanged = function(object2,check)
+		if check then
+			check = 2
+		else
+			check = nil
+		end
+		option.retina = check
+		
+		essential.save()
+		g.apply()
+	end
+	
+	
+	checkbox3.tooltip = tooltip:new(checkbox3, LocalizedString'If you are using Macbook Pro Retina display laptop while using fullscreen mode, this option can optimize graphics settings.')
+	checkbox3.tooltip:SetFollowCursor(false)
+	checkbox3.tooltip:SetOffsets(0, -5)
+	
+	checkbox3:SetChecked(option.seperateUI)
 	
 	tabs1:AddTab(LocalizedString"GRAPHICS", graphicspanel)
 	

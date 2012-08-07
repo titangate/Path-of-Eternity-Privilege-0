@@ -21,7 +21,6 @@ function KMController:initialize(map,character,aihost,system)
 end
 
 function KMController:mousepressed(x,y,b)
-	print (x,y,b)
 	x,y = self.map:screenToMap(x,y)
 	if b== 'l' then
 		if self.sel then
@@ -39,7 +38,6 @@ function KMController:mousepressed(x,y,b)
 		if self.sel then
 			local it = self.inv:getActiveItem()
 			local allowance,msg = it:active(self.character,self.sel)
-			print ('attempt to use item',allowance,msg)
 			if allowance then
 				it:interact(self.character,self.sel)
 			else

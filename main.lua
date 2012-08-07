@@ -24,6 +24,7 @@ option = {
 	shaderquality = 'HIGH',
 	texturequality = 'HIGH',
 	language = 'English',
+	retina = nil,
 }
 
 local gamesys = {}
@@ -94,8 +95,7 @@ local function enumerateAssets()
 	end
 end
 
-local retina = false
-
+local modalBackground
 local finishedLoading
 function love.load()
 	
@@ -110,7 +110,6 @@ function love.load()
 	--	assert(f)
 		if f then essential.load(f) end
 	end
-	
 	if love.filesystem.isFile'graphics' then
 		local f = love.filesystem.read('graphics')
 		f = json.decode(f)
@@ -130,7 +129,7 @@ function love.load()
 --	initFont()
 
 	sound.load()
-	
+
 	require 'loveframes'
 
 	-- preload all files
@@ -160,18 +159,40 @@ function love.load()
 --	loveframes.debug.ExamplesMenu()
 	
 --	love.graphics.setBackgroundColor(255,255,255,0)
+	modalBackground = loveframes.Create'frame'
+	modalBackground:setSize(screen.width,screen.height)
+	modalBackground:setPos(0,0)
+	modalBackground:SetVisible(false)
+	modalBackground.gaussianblur_intensity = 10
 
+
+	print ('screen width',screen.width)
 end
 
 function love.mousepressed(x, y, button)
-	
+	if option.retina then
+		--x,y = x/option.retina,y/option.retina
+	end
 	gamesys[#gamesys]:mousepressed(x,y,button)
 	loveframes.mousepressed(x, y, button)
 	
 end
+--[[
+local mouseposition = love.mouse.getPosition
+function love.mouse.getPosition()
+	local x,y = mouseposition()
+	if option.retina then
+		x,y = x/option.retina,y/option.retina
+	end
+
+	return x,y
+end]]
 
 function love.mousereleased(x, y, button)
 
+	if option.retina then
+		--x,y = x/option.retina,y/option.retina
+	end
 	gamesys[#gamesys]:mousereleased(x,y,button)
 	loveframes.mousereleased(x, y, button)
 
@@ -230,12 +251,16 @@ function love.update(dt)
 end
 
 function love.draw()
-	--love.graphics.setColor(0,255,255)
-	if retina then
-		love.graphics.scale(2)
-	end
 		--love.graphics.rectangle('fill',0,0,10000,10000)
+	if loveframes.modalobject then
+		filters.gaussianblur.conf(modalBackground)
+		filters.gaussianblur.predraw(modalBackground)
+	end
 	gamesys.draw()
+
+	if loveframes.modalobject then
+		filters.gaussianblur.postdraw(modalBackground)
+	end
 	if option.seperateUI then
 		if refreshUI then
 			graphics.canvas.c:clear()

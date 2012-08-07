@@ -21,7 +21,6 @@ function ImproviseWeapon:active(host,target)
 		return false,'INVALID TARGET'
 	end
 	local l = (Vector(host:getPosition())-Vector(target:getPosition())):length()
-	print (l)
 	if l<125 then
 		if true then -- behind back
 			execute(function()

@@ -15,12 +15,37 @@ end
 function River:encode()
 	local t = Unit.encode(self)
 	t.info = self.info
+	if self.patrolpath then
+		local p = {}
+		for i,v in ipairs(self.patrolpath.waypoint) do
+			table.insert(p,{v.x,v.y})
+		end
+		t.patrolpath = p
+	end
 	return t
 end
 
 function River:decode(t)
 	self:setStyle(t.info)
+	if t.patrolpath then
+
+		for i,v in ipairs(t.patrolpath) do
+			t.patrolpath[i] = Vector(unpack(v))
+		end
+		for i,v in ipairs(t.patrolpath) do print(v) end
+		self:setPatrolPath(PatrolPath(t.patrolpath))
+	end
 end
+
+
+
+function River:setPatrolPath(p)
+	self.patrolpath = p
+	if self.aihost then
+		self.aihost:addAI(AIGuard(self,p.waypoint))
+	end
+end
+
 
 function River:update(dt)
 	Unit.update(self,dt)
@@ -31,10 +56,6 @@ end
 
 function River:setHeadAngle(angle)
 
-end
-
-function River:setPatrolPath(p)
-	self.aihost:addAI(AIGuard(self,p.waypoint))
 end
 
 function River:getHeadAngle()
@@ -109,6 +130,9 @@ function River:draw_LLI(x,y,r)
 	end
 	g.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
 
+	if self.patrolpath then
+		love.graphics.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
+	end
 
 end
 

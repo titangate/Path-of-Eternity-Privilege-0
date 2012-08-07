@@ -5,7 +5,6 @@ function AIInteract:initialize(unit,obj)
 end
 
 function AIInteract:process(dt)
-	print (self.next)
 	if self.obj and self.obj.info.interact then
 		interactfunc[self.obj.info.interact](self.unit,self.obj)
 	end

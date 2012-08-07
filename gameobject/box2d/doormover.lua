@@ -7,7 +7,6 @@ function DoorMover:initialize(x,y,r,bt,block)
 	self.x,self.y = x,y
 	self.r = r
 	self.block = block
-	print (r)
 end
 
 local lp = love.physics

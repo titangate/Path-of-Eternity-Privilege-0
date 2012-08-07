@@ -13,7 +13,7 @@ function graphics.load(t)
 	end
 
 	
-	if retina then
+	if option.retina then
 		for k,v in pairs(screen) do
 			screen[k] = v/2
 		end
@@ -46,11 +46,6 @@ function graphics.apply()
 		halfheight = love.graphics.getHeight()/2,
 	}
 	
-	if retina then
-		for k,v in pairs(screen) do
-			screen[k] = v/2
-		end
-	end
 
 	graphics.save()
 	

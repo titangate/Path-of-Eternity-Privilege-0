@@ -47,7 +47,6 @@ function waits.update()
 		local k = table.remove(erase)
 		waits.w[k] = nil
 		coroutinemsg(coroutine.resume(k))
-		print (k)
 	end
 	for k,v in pairs(waits.c) do
 		if v() then

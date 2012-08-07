@@ -11,3 +11,9 @@ function AIBase:process(dt)
 	return dt,'failed'
 end
 
+function AIBase:encode()
+	return {name = 'AIBase'}
+end
+
+function AIBase:decode(t)
+end
