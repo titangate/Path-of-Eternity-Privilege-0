@@ -391,6 +391,7 @@ function frame:SetModal(bool)
 	
 		if modalobject ~= false then
 			modalobject:SetModal(false)
+			
 		end
 	
 		loveframes.modalobject = self
@@ -415,7 +416,9 @@ function frame:SetModal(bool)
 		end
 		
 	end
-	
+	if self.OnModal then
+		self.OnModal(self,bool)
+	end
 end
 
 --[[---------------------------------------------------------
@@ -454,4 +457,7 @@ end
 function frame:dismiss()
 	local close = self.internals[1]
 	close.OnClick()
+	if self.modal then
+		self:SetModal(false)
+	end
 end

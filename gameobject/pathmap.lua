@@ -72,7 +72,9 @@ function PathMap:setBackground(img)
 end
 
 function PathMap:addUnit(u,crowd)
+
 	local layer = u.layer or 1
+	if self.unit[layer][u] then return end
 	u.map = self
 	if u.createBody then
 		u:createBody(self)
@@ -128,9 +130,9 @@ function PathMap:createWallMap()
 
 				local dx,dy = self._data[x][y]:getCenter()
 				local moverinfo = {width = self.scale,
-				height = self.scale,
-				shape = 'rectangle',
-				bodytype = 'static',
+					height = self.scale,
+					shape = 'rectangle',
+					bodytype = 'static',
 				}
 				local mover = doodadMover(dx,dy,0,nil,moverinfo)
 				self._data[x][y].mover = mover
@@ -339,7 +341,7 @@ function PathMap:draw_normal()
 	end
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
-			v:draw()
+			if v.draw then v:draw() end
 		end
 	end
 
@@ -359,7 +361,7 @@ function PathMap:draw_LLI()
 		end
 		for i=0,#self.unit do
 			for v,_ in pairs(self.unit[i]) do
-				v:draw()
+				if v.draw then v:draw() end
 			end
 		end
 		filters.lli.conf(self)
@@ -451,6 +453,10 @@ function PathMap:queryUnits(area,f)
 	local x1,y1,w,h = area:getAABB()
 	x1,y1 = self:pixelToData(x1,y1)
 	x2,y2 = self:pixelToData(x1+w,y1+h)
+	x1 = math.max(x1,1)
+	x2 = math.min(x2,self.w)
+	y1 = math.max(y1,1)
+	y2 = math.min(y2,self.h)
 	for x = x1,x2 do
 		for y = y1,y2 do
 			for u,_ in pairs(self._data[x][y]:getCarriedUnit()) do
@@ -473,9 +479,7 @@ function PathMap:getBlockBody(x,y)
 end
 
 function PathMap:load(t)
-	local global = {
-		map = self,
-	}
+
 
 	if t.wall then
 		for x = 1,self.w do
@@ -489,9 +493,13 @@ function PathMap:load(t)
 
 	self:createWallMap()
 	for i,v in ipairs(t.unit) do
-		local u = serial.decode(v,global)
+		local u = serial.decode(v)
 		if u then
 			self:addUnit(u)
+
+			if u.patrolpath then
+				self:addUnit(u.patrolpath)
+			end
 			if v.identifier then
 				u:setIdentifier(v.identifier)
 			end

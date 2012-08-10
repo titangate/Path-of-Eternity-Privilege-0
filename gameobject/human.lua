@@ -180,7 +180,6 @@ function human.decode(t)
 	local u = River()
 	u.mover = serial.decode(t.mover)
 	u:decode(t)
---	u:decode(t)
 	return u
 end
 function human.create(def,x,y,r,bodytype)

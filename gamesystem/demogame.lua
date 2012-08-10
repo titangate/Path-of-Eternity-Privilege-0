@@ -3,15 +3,22 @@ local sound = require 'library.sound'
 local doodad = require 'gameobject.doodad'
 
 local demogame = {}
-
+global = {}
+local modalfunc
 local editor =  require 'gamesystem.editor'
 function demogame:load()
 
 
+	self.timescale = 1
 	-- Game Init --
 	
 	m = PathMap(100,100)
 	host = AIHost(m)
+
+	global = {
+		map = m,
+		aihost = host,
+	}
 	m.aihost = host
 	m:setWallbatch(requireImage'asset/terrain/yellowwall.png',{
 		width = 64,
@@ -154,11 +161,14 @@ function demogame:load()
 
 	local item = require 'gameobject.item'
 	item:load()
-	local inv = Inventory()
+	local inv = Inventory(m.obj.river)
 	for i = 1,3 do
 		inv:setBaseItem(i,item.create('improvisation',0,0,0))
 	end
 	inv:setBaseItem(4,item.create('needle',0,0,0))
+
+	inv:addItem(1,item.create('kitchenknife',0,0,0))
+
 	self.inv = inv
 	if m.obj.river then
 		m.obj.river.inv = inv
@@ -169,7 +179,6 @@ function demogame:load()
 		sound.playMusic('sound/music/secretunvailed.ogg',true)
 	end
 	sound.playMusic('sound/music/danger.ogg')
-
 
 end
 
@@ -231,13 +240,11 @@ end
 local pause = false
 
 function demogame:update(dt)
-	if not pause then 
+	dt = self.timescale * dt
+	if not pause then
+
 		host:process(dt)
---		u:update(dt)
---		c:update(dt)
 		m:update(dt)
---		e:update(dt)
---		d:update(dt)
 		sound.setCenter(m.obj.river:getPosition())
 	end
 	sel:update(dt)
@@ -349,16 +356,21 @@ function demogame:keypressed(k)
 	if k=='l' then
 		local x,y = m.obj.boss:getPosition()
 		--host:addAI(AIFindPath(m.obj.boss,Vector(500,400,0,3)))
+		if m.obj.boss then
+			--self.s = Sound('sound/effect/machine1.ogg',Vector(m.obj.boss:getPosition()),100,'effect',host,3)
+			--self.s:play()
+			--host:terminate(m.obj.boss,false,5)
+		end
 		loveframes.anim:easy(m,"lli_radius",0,screen.halfwidth,0.3)
 		m.drawlli = not m.drawlli
 		sound.play('sound/effect/lliactive.ogg','effect')
 		local loop = sound.loadsound'sound/effect/lli.ogg'
 		loop:setLooping(true)
-		sound.play(loop,'effect')
+		--sound.play(loop,'effect')
 		loop:setVolume(0.5)
 		local loop2 = sound.loadsound'sound/effect/heartbeat.ogg'
 		loop2:setLooping(true)
-		sound.play(loop2,'effect')
+		--sound.play(loop2,'effect')
 
 		m.obj.river.lli_color = {255,0,0,50}
 		m.obj.river.lli_flare = true
@@ -366,6 +378,9 @@ function demogame:keypressed(k)
 		m.obj.river.info.description = 'TARGET. HAS TO BE ELIMINATED.'
 
 		controller = KMController(m,m.obj.river,host,self)
+		function modalfunc(object,bool)
+			controller:setEnabled(not bool)
+		end
 	end
 
 	if controller then
@@ -406,9 +421,13 @@ function demogame:mousereleased()
 end
 
 function demogame:loadSelectionWheel()
-
-	require 'gamesystem.selectionwheel':load()
-	require 'gamesystem.selectionwheel':loadFirstLayout(self.inv:getFirstLayout())
+	local wheel = require 'gamesystem.selectionwheel'
+	wheel:setInventory(self.inv)
+	assert(modalfunc)
+	wheel.OnModal = modalfunc
+	wheel.OnSetTimescale = function(t)self.timescale = t end
+	wheel:load()
+	--require 'gamesystem.selectionwheel':loadFirstLayout(self.inv:getFirstLayout())
 end
 --demogame:load()
 

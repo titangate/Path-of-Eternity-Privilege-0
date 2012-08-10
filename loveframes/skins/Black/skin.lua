@@ -167,7 +167,7 @@ skin.controls.columnlistrow_border2_color			= bordercolor
 skin.controls.columnlistrow_body2_color				= {0, 0, 0, 255}
 
 -- modalbackground
-skin.controls.modalbackground_body_color			= {255, 255, 255, 100}
+skin.controls.modalbackground_body_color			= {0, 0, 0, 100}
 
 -- text
 skin.controls.text_color							= {255,255,255,255}

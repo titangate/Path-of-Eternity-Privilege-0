@@ -42,6 +42,10 @@ local function _getXYR(body)
 	return body:getX(),body:getY(),body:getAngle()
 end
 
+
+local shapewidth,shapeheight = 48,12
+local bodyrad = 36
+
 function Body:_draw(x,y,r)
 	local g = love.graphics
 	local m = self.mover
@@ -49,19 +53,19 @@ function Body:_draw(x,y,r)
 	local dot = requireImage'dot.png'
 	g.setColor(255,255,255)
 	x,y,r = _getXYR(m.body.body)
-	g.circle('fill',x,y,24)
+	g.circle('fill',x,y,bodyrad)
 	g.setColor(255,0,0)
 	x,y,r = _getXYR(m.body.arm1)
-	g.draw(dot,x,y,r,36,6,0.5,0.5)
+	g.draw(dot,x,y,r,shapewidth,shapeheight,0.5,0.5)
 	g.setColor(255,255,0)
 	x,y,r = _getXYR(m.body.arm2)
-	g.draw(dot,x,y,r,36,6,0.5,0.5)
+	g.draw(dot,x,y,r,shapewidth,shapeheight,0.5,0.5)
 	g.setColor(0,255,0)
 	x,y,r = _getXYR(m.body.leg1)
-	g.draw(dot,x,y,r,36,6,0.5,0.5)
+	g.draw(dot,x,y,r,shapewidth,shapeheight,0.5,0.5)
 	g.setColor(255,0,255)
 	x,y,r = _getXYR(m.body.leg2)
-	g.draw(dot,x,y,r,36,6,0.5,0.5)
+	g.draw(dot,x,y,r,shapewidth,shapeheight,0.5,0.5)
 end
 
 local scale = 1.5

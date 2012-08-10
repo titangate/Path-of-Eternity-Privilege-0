@@ -8,9 +8,11 @@ function BodyMover:initialize(x,y,r,bt)
 	self.r = r
 end
 
+local shapewidth,shapeheight = 48,12
+local bodyrad = 36
 local lp = love.physics
-local bodyshape = lp.newCircleShape(24)
-local limbshape = lp.newRectangleShape(36,6)
+local bodyshape = lp.newCircleShape(bodyrad)
+local limbshape = lp.newRectangleShape(shapewidth,shapeheight)
 function BodyMover:createBody(world)
 	self.world = world
 	if type(world)=='table' then
@@ -23,20 +25,20 @@ function BodyMover:createBody(world)
 	self.body.body = lp.newBody(world,x,y,'dynamic')
 	self.fixture.body = lp.newFixture(self.body.body,bodyshape)
 
-	self.body.arm1 = lp.newBody(world,x-6,y-24,'dynamic')
+	self.body.arm1 = lp.newBody(world,x-shapewidth,y-bodyrad,'dynamic')
 	self.fixture.arm1 = lp.newFixture(self.body.arm1,limbshape)
 	self.body.arm1:setAngle(-math.pi/3*2)
 
-	self.body.arm2 = lp.newBody(world,x+6,y-24,'dynamic')
+	self.body.arm2 = lp.newBody(world,x+shapewidth,y-bodyrad,'dynamic')
 	self.fixture.arm2 = lp.newFixture(self.body.arm2,limbshape)
 	self.body.arm2:setAngle(math.pi/3*2)
 
 
-	self.body.leg1 = lp.newBody(world,x-6,y+24,'dynamic')
+	self.body.leg1 = lp.newBody(world,x-shapewidth,y+bodyrad,'dynamic')
 	self.fixture.leg1 = lp.newFixture(self.body.leg1,limbshape)
 	self.body.leg1:setAngle(math.pi/3*2)
 
-	self.body.leg2 = lp.newBody(world,x+6,y+24,'dynamic')
+	self.body.leg2 = lp.newBody(world,x+shapewidth,y+bodyrad,'dynamic')
 	self.fixture.leg2 = lp.newFixture(self.body.leg2,limbshape)
 	self.body.leg2:setAngle(-math.pi/3*2)
 
@@ -55,7 +57,7 @@ function BodyMover:createBody(world)
 	self.joint.leg2:enableLimit(true)
 
 	for k,v in pairs(self.fixture) do
-		v:setMask(1,2) -- TODO: more informatin
+		v:setMask(2) -- TODO: more informatin
 		v:setCategory(2)
 	end
 

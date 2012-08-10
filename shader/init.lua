@@ -15,6 +15,7 @@ local fil = {
 		selection = require 'shader.stroke',
 		lli = require 'shader.lli',
 		lli_unit = require 'shader.lli_unit',
+		soundwave = require 'shader.soundwave',
 	},
 	HIGH = {
 		vibrate = require 'shader.vibrate',
@@ -27,6 +28,7 @@ local fil = {
 		selection = require 'shader.stroke',
 		lli = require 'shader.lli',
 		lli_unit = require 'shader.lli_unit',
+		soundwave = require 'shader.soundwave',
 	},
 	LOW = {
 		vibrate = require 'shader.vibrate',
@@ -37,12 +39,14 @@ local fil = {
 		selection = require 'shader.stroke',
 		lli = require 'shader.satbri',
 		lli_unit = emptyshader,
+		soundwave = require 'shader.soundwave',
 	},
 	DISABLED = {
 		vibrate = emptyshader,
 		zoomblur = emptyshader,
 		lli = emptyshader,
 		lli_unit = emptyshader,
+		soundwave = require 'shader.soundwave',
 	},
 }
 function neartwo(n)

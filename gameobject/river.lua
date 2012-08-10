@@ -4,8 +4,38 @@ function River:initialize(movertype,x,y,r,bt,info)
 	Unit.initialize(self,movertype,x,y,r,bt)
 	
 	if info then self:setStyle(info) end
-	self.actor = RiverActor()
+	self.actor = RiverActor(function()
+		print 'steping'
+		self:step()
+	end)
 	self.lli_color = {255,255,255,50}
+	self:setProfile'high'
+	self.footsteps = {}
+	for i=1,4 do
+		table.insert(self.footsteps,Sound(string.format('sound/effect/footstep%d.ogg',i),nil,100,'effect',global.aihost,0))
+	end
+	self.footstepcount = 1
+end
+
+function River:setProfile(p)
+	self.actor:setProfile(p)
+	self.profile = p
+	if p=='high' then
+		self.soundwave_range = global.aihost:getConstant'highprofile_foodstep_range'
+	elseif p=='medium' then
+		self.soundwave_range = global.aihost:getConstant'mediumprofile_foodstep_range'
+	elseif p=='low' then
+		self.soundwave_range = global.aihost:getConstant'lowprofile_foodstep_range'
+	end
+end
+
+function River:step()
+	local footstepcount = self.footstepcount
+	local f = self.footsteps[footstepcount]
+	footstepcount = footstepcount%4 + 1
+	f:setPosition(Vector(self:getPosition()))
+	f:play()
+	self.map:addUnit(f)
 end
 
 function River:setStyle(info)
@@ -52,6 +82,8 @@ function River:update(dt)
 	local vx,vy = self:getVelocity()
 	self.actor:setWalkingSpeed(vx,vy)
 	self.actor:update(dt)
+
+	if self.inv then self.inv:update(dt) end
 end
 
 function River:setHeadAngle(angle)
@@ -133,8 +165,10 @@ function River:draw_LLI(x,y,r)
 	if self.patrolpath then
 		love.graphics.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
 	end
-
+	-- Draw foodstep sound
+	if self.inv then self.inv:draw_lli() end
 end
+
 
 function River:getWidth()
 	return scale*64

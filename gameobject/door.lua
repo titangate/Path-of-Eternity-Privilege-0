@@ -102,8 +102,7 @@ function Door:encode()
 end
 
 
-function CreateDoor(t,global)
-	assert(global)
+function CreateDoor(t)
 	local bx,by = unpack(t.info.root)
 	assert(bx)
 	assert(by)

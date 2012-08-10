@@ -2,6 +2,9 @@ local const = {
 	hard = {
 		sound_low_time = 5,
 		sound_high_time = 15,
+		highprofile_foodstep_range = 150,
+		mediumprofile_foodstep_range = 100,
+		lowprofile_foodstep_range = 0,
 	},
 }
 

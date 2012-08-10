@@ -24,6 +24,12 @@ local definition = {
 		{0,39,1,1}, -- start,finish = speed
 	},
 	framerate = 48,
+	critframe = {
+		step1=0,
+		step2=10,
+		step3=20,
+		step4=30,
+	}
 	},
 
 	stealth = {

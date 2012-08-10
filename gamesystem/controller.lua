@@ -5,7 +5,7 @@ Mouse right: interact
 
 Inventory
 Cellphone
-Switch to: 
+Switch to:
 
 ]]
 
@@ -17,13 +17,19 @@ function KMController:initialize(map,character,aihost,system)
 	self.aihost = aihost
 	self.inv = self.character.inv
 	self.system = system
+	self.enable = true
 	assert(map and character and aihost,'controller initialization failed')
 end
 
+function KMController:setEnabled(enable)
+	self.enable = enable
+end
+
 function KMController:mousepressed(x,y,b)
+	if not self.enable then return end
 	x,y = self.map:screenToMap(x,y)
 	if b== 'l' then
-		if self.sel then
+		if self.sel and self.sel.info then
 			local interactrange =  self.sel.info.interactrange or 2
 			local ai = AIFindPath(self.character,Vector(x,y),interactrange)
 			self.aihost:addAI(ai)
@@ -48,11 +54,14 @@ function KMController:mousepressed(x,y,b)
 end
 
 function KMController:mousereleased(x,y,b)
+	if not self.enable then return end
 end
 
 function KMController:keypressed(k)
+	if not self.enable then return end
 end
 
 function KMController:keyreleased(k)
+	if not self.enable then return end
 end
 

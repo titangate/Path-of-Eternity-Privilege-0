@@ -1,7 +1,7 @@
 RiverActor = Object:subclass'RiverActor'
 
 local animation = require 'gameobject.animation'
-function RiverActor:initialize()
+function RiverActor:initialize(OnCrit)
 	self.feet = animation.create'feet'
 	self.synringe = animation.create'synringe'
 	self.stealth = animation.create'stealth'
@@ -14,6 +14,7 @@ function RiverActor:initialize()
 	self.walkingspeed = Vector(0,0)
 
 	self.animation = nil
+	self.run.OnCrit = OnCrit
 end
 
 function RiverActor:setProfile(p)

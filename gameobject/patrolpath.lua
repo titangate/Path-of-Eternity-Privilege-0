@@ -3,7 +3,7 @@ PatrolPath = Object:subclass'PatrolPath'
 function PatrolPath:initialize(p)
 	self.waypoint = p or {}
 	self.mover = PatrolPathMover(p)
-
+	self.layer = 0
 end
 
 function PatrolPath:encode(t)

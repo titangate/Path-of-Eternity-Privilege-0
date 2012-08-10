@@ -7,6 +7,7 @@ function AIGuard:initialize(unit,waypoint)
 	self.ai_investigate = nil 
 	self.poptime = 360000
 	self.subgoal = {self.ai_patrol}
+	self.waypoint = waypoint
 end
 
 function AIGuard:soundAlert(position,level)
@@ -26,11 +27,13 @@ end
 function AIGuard:terminate(lethal,time)
 	self.poptime = 360000
 	if lethal then
-		self.subgoal[2] = AIStop(self.unit)
-		self.subgoal[3] = AIStop(self.unit)
+		self.subgoal = {AIStop(self.unit)}
+		--self.subgoal[2] = AIStop(self.unit)
+		--self.subgoal[3] = AIStop(self.unit)
 		--self.host:popAI(self.unit)
 	else
-		self.subgoal[2] = AIStop(self.unit)
+		print 'nonlethal act detected'
+		self.subgoal[2] = AIWait(self.unit,time)
 		self.subgoal[3] = AIStop(self.unit)
 		-- TODO
 		--self.host:popAI(self.unit)
@@ -44,6 +47,14 @@ function AIGuard:process(dt)
 	self.poptime = self.poptime - dt
 	if self.poptime <= 0 then
 		table.remove(self.subgoal)
+		local v = self.subgoal[#self.subgoal]
+		if v.reset then v:reset() end
+		if #self.subgoal==1 then
+			-- recalculate patrol path
+			self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
+			self.subgoal[1].host = self.host
+		end
+
 		self.poptime = 360000
 	end
 	local v = self.subgoal[#self.subgoal]
@@ -59,7 +70,19 @@ function AIGuard:process(dt)
 			self.subgoal[#self.subgoal]:process(dt-ndt)
 			return
 		else
-			return 0,'success'
+			table.remove(self.subgoal)
+
+		if #self.subgoal==1 then
+			-- recalculate patrol path
+			self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
+			self.subgoal[1].host = self.host
+		end
+
+			if #self.subgoal==0 then
+				return 0,'success'
+			else
+				self:process(dt-ndt)
+			end
 		end
 	end
 end
@@ -88,12 +111,18 @@ function AIGuard:encode()
 		dt = self.dt,
 		poptime = self.poptime,
 		subai = subais,
+		waypoint = self.waypoint,
 	}
 end
 
 function AIGuard:decode(t)
 	self.dt = t.dt
 	self.poptime = t.poptime
+	self.waypoint = t.waypoint
+
+	for i,v in ipairs(self.waypoint) do
+		self.waypoint[i] = Vector(unpack(v))
+	end
 	for i=1,3 do
 		local v = t.subai[i]
 		if v then
@@ -113,7 +142,6 @@ function AIGuard:decode(t)
 			if b2 and initial then
 				b2.next = initial
 			end
-			print ('after',b1,b2)
 			--
 			self.subgoal[i] = initial
 		end

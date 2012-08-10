@@ -17,6 +17,11 @@ end
 
 local secondLayerSpanUnit = math.pi/2/3
 
+function selectionwheel:setInventory(inv)
+	self.inv = inv
+	--
+end
+
 function selectionwheel:redoSecondLayout(start,count)
 	for i=1,count do
 		local secondLayoutShift = 160
@@ -69,34 +74,47 @@ function selectionwheel:fanSecondLayout(state,buttonindex,count)
 end
 
 function selectionwheel:load()
+	if self.OnSetTimescale then
+		self.OnSetTimescale(0.25)
+	end
 	local frame = loveframes.Create('frame')
-	frame:setSize(600,600)
+	frame:setSize(408,408)
 	function frame.Draw(object)
 		local x,y = object:GetPos()
 		x,y = x+centerPos[1]+32,y+centerPos[2]+32
-		love.graphics.setColor(255,255,255,76.5)
+		love.graphics.setColor(0,0,0,76.5)
 		love.graphics.circle('fill',x,y,40,6)
 		love.graphics.circle('fill',x,y,120,6)
 		love.graphics.circle('fill',x,y,204)
 	end
+	frame.OnModal = self.OnModal
 	frame:SetModal(true)
 	local centerButton = loveframes.Create('circlebutton',frame)
 	centerButton:setSize(64,64)
 	centerButton:setPos(unpack(centerPos))
 	centerButton:setImage(requireImage'asset/difficulty/hard.png')
 	local firstLayoutButton = {}
+	local secondLayoutButton = {}
 	for i=1,4 do
 		firstLayoutButton[i] = loveframes.Create('circlebutton',frame)
 		firstLayoutButton[i]:setSize(64,64)
 		firstLayoutButton[i]:setPos(unpack(firstLayout[i]))
 		firstLayoutButton[i]:setImage(requireImage'asset/difficulty/hard.png')
 		firstLayoutButton[i].OnClick = function(object)
-			self:fanSecondLayout(true,i,math.random(1,6))
+			assert(self.inv)
+			local layout = self.inv:getSecondLayout(i)
+			self:loadSecondLayout(layout)
+			self:fanSecondLayout(true,i,#layout)
 			self:highlight('first',i)
+			for i,v in ipairs(layout) do
+				secondLayoutButton[i]:setImage(v.image)
+				secondLayoutButton[i]:setText(v.text)
+			end
+			self.activering1 = i
 		end
 	end
 	self:redoSecondLayout(secondLayerSpanUnit*2.5,6)
-	local secondLayoutButton = {}
+	
 	for i=1,maxSecondLayoutCount do
 		secondLayoutButton[i] = loveframes.Create('circlebutton',frame)
 		secondLayoutButton[i]:setSize(64,64)
@@ -104,9 +122,18 @@ function selectionwheel:load()
 		secondLayoutButton[i]:SetVisible(false)
 		secondLayoutButton[i].OnClick = function(object)
 			self:highlight('second',i)
+			local sound = require 'library.sound'
+			sound.play("sound/interface/out.ogg","interface")
+			self.inv:setActiveItem(self.activering1,i)
+			frame:dismiss()
+
+			if self.OnSetTimescale then
+				self.OnSetTimescale(1)
+			end
 		end
 	end
 
+	frame:ShowCloseButton(false)
 	self.firstLayoutButton = firstLayoutButton
 	self.secondLayoutButton = secondLayoutButton
 	self:fanFirstLayout(true)
@@ -121,6 +148,12 @@ function selectionwheel:load()
 	frame.filter = nil
 
 	sound.play("sound/interface/in.ogg","interface")
+	local item,ring1,ring2 = self.inv:getActiveItem()
+	self:loadFirstLayout(self.inv:getFirstLayout())
+	self:highlight('first',ring1)
+	self:highlight('second',ring2)
+
+
 --	loveframes.anim:easy(self.selectionwheelframe,'y',screen.height,self.selectionwheelframe.y,0.3,loveframes.style.quadInOut)
 end
 
@@ -130,6 +163,9 @@ function selectionwheel:loadFirstLayout(t)
 		self.firstLayoutButton[i]:setImage(v.image)
 		self.firstLayoutButton[i]:setText(v.text)
 	end
+end
+
+function selectionwheel:loadSecondLayout(t)
 end
 
 function selectionwheel:dismiss()

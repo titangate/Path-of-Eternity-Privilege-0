@@ -6,21 +6,29 @@ function Animation:initialize(def,sprites)
 	self.speed = self.info.seq[1][4]
 	self.dt = 0
 	self.frame = 1
+	self.critframe = def.critframe
 end
 
 function Animation:update(dt)
 	assert(self.info)
 	local framerate = self.info.framerate
 	local start,finish,step,speed = unpack(self.info.seq[self.step])
---	local frame = self.frame
 	self.dt = self.dt + dt * speed
 	if self.dt > 1/framerate then
 		self.dt = self.dt - 1/framerate
 		self.frame = self.frame + step
 		if self.frame == finish then
 			self.step = (self.step % #self.info.seq) + 1
-			print (self.step)
 			self.frame = self.info.seq[self.step][1]
+		end
+		if self.critframe then
+			for k,v in pairs(self.critframe) do
+				if v==self.frame then
+					if self.OnCrit then
+						self.OnCrit(k,v)
+					end
+				end
+			end
 		end
 	end
 end

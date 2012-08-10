@@ -4,11 +4,15 @@ function AIPatrol:initialize(unit,waypoint)
 	-- [1]:x [2]:y [3]:angle [4]:time
 	--assert(#waypoint>1,'has to be more than 1 way point.')
 	AIBase.initialize(self,unit)
+	assert(waypoint)
 	self.waypoint = waypoint
+	
 end
 
 function AIPatrol:process(dt)
 	local waypoint = self.waypoint
+	assert(waypoint)
+	assert(self.unit)
 	local prev = AIPath(self.unit,self.host:findPath(Vector(self.unit:getPosition()),waypoint[1]))
 	local initial = prev
 	local new
