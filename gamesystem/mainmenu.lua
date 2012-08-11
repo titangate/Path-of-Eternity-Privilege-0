@@ -22,10 +22,14 @@ function mainmenu:load()
 		love.graphics.translate(-x*s*(1-self.mapopacity)^0.3,-y*s*(1-self.mapopacity)^0.3)
 		love.graphics.scale(s)
 		love.graphics.translate((ox+screen.halfwidth)/s,(oy+screen.halfheight)/s)
+
+		
 		love.graphics.draw(img,0,0,0,1,1,img:getWidth()/2,img:getHeight()/2)
 		love.graphics.setColor(255,0,0,self.mapopacity^0.3*255)
 		love.graphics.circle('fill',x,y,15)
 		love.graphics.pop()
+		love.graphics.setColor(255,255,255)
+		love.graphics.draw(requireImage'asset/banner.png',screen.halfwidth,100,0,0.5,0.5,936/2,288/2)
 	end
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")

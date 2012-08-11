@@ -68,5 +68,5 @@ function Inventory:setActiveItem()
 end
 
 function Inventory:getActiveItem()
-	return self.items[1][1],1,1
+	return self.items[2][1],1,1
 end

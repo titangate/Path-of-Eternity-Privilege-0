@@ -168,6 +168,9 @@ function demogame:load()
 	inv:setBaseItem(4,item.create('needle',0,0,0))
 
 	inv:addItem(1,item.create('kitchenknife',0,0,0))
+	local g = item.create('gun',0,0,0)
+	g.world = m.world
+	inv:addItem(2,g)
 
 	self.inv = inv
 	if m.obj.river then

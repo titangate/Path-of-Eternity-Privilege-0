@@ -40,7 +40,7 @@ function PathMap:initialize(w,h,aihost)
 		end
 	end
 	self.world = love.physics.newWorld()
---	love.physics.setMeter(1)
+	
 	self.f_destroy = {}
 	self.b_destroy = {}
 	self.f_update = {}
@@ -433,9 +433,11 @@ function PathMap:encode()
 	local t = {unit = {},wall={}}
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
+			if v.encode then
 			local savedata = v:encode()
 			savedata.identifier = v.identifier
 			table.insert(t.unit,savedata)
+		end
 		end
 	end
 	for x = 1,self.w do

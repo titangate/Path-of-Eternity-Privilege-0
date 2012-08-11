@@ -1088,7 +1088,8 @@ end
 	- desc: draws the compass
 --]]---------------------------------------------------------
 function skin.DrawCompass(object)
-	love.graphics.setColor(255,255,255)
+	local color = object.color or {255,255,255}
+	love.graphics.setColor(color)
 	local base = skin.images["compass_base.png"]
 	local needle = skin.images["compass_needle.png"]
 	local wheel = skin.images["compass_wheel.png"]
@@ -1098,6 +1099,7 @@ function skin.DrawCompass(object)
 	local x,y = object:getX(),object:getY()
 	local r = object:GetValue()
 	local g = love.graphics
+
 	g.draw(base,x+shift,y+shift,0,scale,scale,gshift,gshift)
 	g.draw(wheel,x+shift,y+shift,-r,scale,scale,gshift,gshift)
 	g.draw(needle,x+shift,y+shift,r,scale,scale,gshift,gshift)

@@ -54,7 +54,7 @@ function sound.play(s,channel,mode)
 		sound.channel[channel] = {}
 	end
 	table.insert(sound.channel[channel],s)
-	s:play()
+	--s:play()
 end
 
 function sound.cleanUp()
@@ -149,7 +149,8 @@ function Sound:play()
 end
 
 function Sound:draw_LLI()
-	local tell = (self.source:tell('samples')/4000)%1
+	if self.source:isStopped() then return end
+	local tell = (love.timer.getTime()*10)%1
 	local x,y = unpack(self.pos)
 	love.graphics.setColor(255,255,255)
 	love.graphics.setLineWidth(2)

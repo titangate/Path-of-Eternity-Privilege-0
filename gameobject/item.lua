@@ -13,7 +13,6 @@ end
 
 function Item:use(target)
 end
-require 'item.improviseweapon'
 
 local item = {}
 local itemdef

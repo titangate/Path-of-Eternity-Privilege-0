@@ -103,6 +103,14 @@ function Vector:length()
 	return length ^ 0.5
 end
 
+function Vector:normalize()
+	local l = self:length()
+	for i,v in ipairs(self) do
+		self[i] = v/l
+	end
+	return self
+end
+
 
 local VectorIndexMapmeta = {
 	__index = function(table,key)

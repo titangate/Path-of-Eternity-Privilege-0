@@ -42,7 +42,6 @@ function image:update(dt)
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
-	
 	if self.Update then
 		self.Update(self, dt)
 	end

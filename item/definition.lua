@@ -1,3 +1,7 @@
+
+require 'item.improviseweapon'
+require 'item.gun'
+
 local cc = {
 	normal = 1,
 }
@@ -53,5 +57,5 @@ end
 easyitem{name='kitchenknife',height=2,class = ImproviseWeapon,title = LocalizedString'KITCHEN KNIFE'}
 easyitem{name='improvisation',height=2,class = ImproviseWeapon,title = LocalizedString'IMPROVISATION'}
 easyitem{name='needle',height=2,class = ImproviseWeapon,title = LocalizedString'SYRINGE'}
-
+easyitem{name='gun',height=2,class = Gun,title = LocalizedString'GUN'}
 return t

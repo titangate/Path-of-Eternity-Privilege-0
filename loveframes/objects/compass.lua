@@ -76,7 +76,7 @@ function compass:draw()
 	
 	loveframes.drawcount = loveframes.drawcount + 1
 	self.draworder = loveframes.drawcount
-		
+	
 	if self.Draw ~= nil then
 		self.Draw(self)
 	else

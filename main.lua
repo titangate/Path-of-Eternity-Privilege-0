@@ -27,7 +27,7 @@ option = {
 	retina = nil,
 }
 
-local gamesys = {}
+gamesys = {}
 function gamesys.push(sys,transtime)
 	table.insert(gamesys,sys)
 	loveframes.anim:easy(gamesys,'transtime',1,0,transtime)
@@ -99,7 +99,7 @@ local modalBackground
 local finishedLoading
 function love.load()
 	
-	
+	love.physics.setMeter(1)
 	graphics.load()
 	assert(graphics.canvas)
 	-- UI init --
@@ -140,15 +140,25 @@ function love.load()
 	end)
 
 	-- load the examples menu
-	
+	local splash = true
 	-- load the sin selector menu
-	
 	local mainmenu = require 'gamesystem.mainmenu'
 	
+	
+	if splash then
+		local splashscreen = require 'gamesystem.splashscreen'
+		splashscreen:load()
+		splashscreen.OnFinish = function()
+		mainmenu:loadmain()
+		gamesys.push(mainmenu)end
+		gamesys.push(splashscreen)
+		
+	else
+
 	mainmenu:loadmain()
-	
-	gamesys.push(mainmenu)
-	
+		gamesys.push(mainmenu)
+	end
+
 	if DEBUG then
 		loveframes.config["DEBUG"] = true
 	else
@@ -165,8 +175,6 @@ function love.load()
 	modalBackground:SetVisible(false)
 	modalBackground.gaussianblur_intensity = 10
 
-
-	print ('screen width',screen.width)
 end
 
 function love.mousepressed(x, y, button)
@@ -235,6 +243,7 @@ function love.update(dt)
 	if not finishedLoading then
 		loader.update() -- You must do this on each iteration until all resources are loaded
 	end
+	waits.update()
 	if option.seperateUI then
 		ui_elapse = ui_elapse + dt
 		if ui_elapse > option.uidt then
@@ -245,7 +254,6 @@ function love.update(dt)
 	else
 		loveframes.update(dt)
 	end
-	waits.update()
 	gamesys.update(dt)
 	sound.cleanUp()
 end
