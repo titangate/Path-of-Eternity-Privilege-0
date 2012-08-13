@@ -212,6 +212,10 @@ end
 function Unit:getLegacyObstacle()
 end
 
+function Unit:isObstacle()
+	return true
+end
+
 function Unit:spawnBody()
 	local u = Body(BodyMover,self:getX(),self:getY(),self:getAngle(),nil,self.info)
 	self.map:addUnit(u)

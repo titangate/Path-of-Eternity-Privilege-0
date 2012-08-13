@@ -2,7 +2,6 @@ AIPath = AIBase:subclass'AIPath'
 function AIPath:initialize(unit,path)
 --	super.initialize(unit)
 	AIBase.initialize(self,unit)
-	print 'paht initialize'
 	if path then
 		local b1,b2 = AIMoveTo(unit,path[#path])
 	--	self.subai = {b1}

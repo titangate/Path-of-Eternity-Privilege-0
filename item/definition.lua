@@ -31,6 +31,7 @@ local function easyitem(p)
 	local m = m or mask.normal
 	shape = shape or 'rectangle'
 	local img = requireImage('item/'..name..'.png')
+
 	t[name] = {
 		image = name..'.png',
 		icon = p.icon or 'item/'..name..'.png',
@@ -58,4 +59,5 @@ easyitem{name='kitchenknife',height=2,class = ImproviseWeapon,title = LocalizedS
 easyitem{name='improvisation',height=2,class = ImproviseWeapon,title = LocalizedString'IMPROVISATION'}
 easyitem{name='needle',height=2,class = ImproviseWeapon,title = LocalizedString'SYRINGE'}
 easyitem{name='gun',height=2,class = Gun,title = LocalizedString'GUN'}
+easyitem{name='barehand',height=2,class = Barehand,title = LocalizedString'BAREHAND'}
 return t

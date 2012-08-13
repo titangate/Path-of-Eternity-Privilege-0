@@ -140,7 +140,7 @@ function love.load()
 	end)
 
 	-- load the examples menu
-	local splash = true
+	--local splash = true
 	-- load the sin selector menu
 	local mainmenu = require 'gamesystem.mainmenu'
 	

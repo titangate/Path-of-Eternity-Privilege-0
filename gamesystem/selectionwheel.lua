@@ -92,7 +92,18 @@ function selectionwheel:load()
 	local centerButton = loveframes.Create('circlebutton',frame)
 	centerButton:setSize(64,64)
 	centerButton:setPos(unpack(centerPos))
-	centerButton:setImage(requireImage'asset/difficulty/hard.png')
+	centerButton:setImage(self.inv.barehand.info.icon)
+	centerButton:setText(self.inv.barehand.info.title)
+	centerButton.OnClick = function(object)
+			self:highlight('second',i)
+			local sound = require 'library.sound'
+			sound.play("sound/interface/out.ogg","interface")
+			self.inv:setActiveItem(0,1)
+			frame:dismiss()
+			if self.OnSetTimescale then
+				self.OnSetTimescale(1)
+			end
+		end
 	local firstLayoutButton = {}
 	local secondLayoutButton = {}
 	for i=1,4 do

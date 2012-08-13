@@ -1,8 +1,9 @@
 
 interactfunc = {
 	store = function(host,object)
-		
-		require 'gamesystem.store':load()
+		local store = require 'gamesystem.store'
+		store:setInventory(host.inv)
+		store:load()
 	end,
 
 	dragbody = function(host,object)

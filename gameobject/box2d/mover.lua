@@ -29,7 +29,6 @@ end
 
 function Box2DMover:setUserData(data)
 	table.insert(self.world.f_update,{self.fixture,data})
---	self.fixture:setUserData(data)
 end
 
 function Box2DMover:update(dt)

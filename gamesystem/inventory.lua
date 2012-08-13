@@ -1,9 +1,12 @@
 Inventory = Object:subclass'Inventory'
-
+local item = require 'gameobject.item'
 function Inventory:initialize(unit)
 	self.unit = unit
 	self.baseitem = {}
+	self.active = {1,1}
 	self.items = {{},{},{},{}}
+	self.barehand = item.create('barehand',0,0,0)
+	self.items[0] = {self.barehand}
 end
 
 function Inventory:interact(target)
@@ -39,8 +42,13 @@ function Inventory:getFirstLayout()
 	return t
 end
 
+function Inventory:purchase()
+	-- TODO
+	return true
+end
+
 function Inventory:update(dt)
-	select(1,self:getActiveItem()):update(dt)
+	select(1,self:getActiveItem()):update_i(dt)
 end
 
 function Inventory:draw()
@@ -64,9 +72,11 @@ function Inventory:getSecondLayout(n)
 	return t
 end
 
-function Inventory:setActiveItem()
+function Inventory:setActiveItem(a,b)
+	self.active = {a,b}
 end
 
 function Inventory:getActiveItem()
-	return self.items[2][1],1,1
+	local a,b= unpack(self.active)
+	return self.items[a][b],a,b
 end

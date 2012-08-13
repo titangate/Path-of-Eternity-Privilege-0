@@ -5,7 +5,6 @@ function River:initialize(movertype,x,y,r,bt,info)
 	
 	if info then self:setStyle(info) end
 	self.actor = RiverActor(function()
-		print 'steping'
 		self:step()
 	end)
 	self.lli_color = {255,255,255,50}

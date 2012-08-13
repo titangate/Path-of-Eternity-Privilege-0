@@ -109,6 +109,10 @@ function Doodad:getObstacle()
 	return result
 end
 
+function Doodad:isObstacle()
+	return self.info.obstacle
+end
+
 function Doodad:getWidth()
 	return self.info.width
 end

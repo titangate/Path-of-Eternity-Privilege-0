@@ -41,14 +41,17 @@ function KMController:mousepressed(x,y,b)
 			self.aihost:addAI(ai)
 		end
 	elseif b=='r' then
-		if self.sel then
-			local it = self.inv:getActiveItem()
-			local allowance,msg = it:active(self.character,self.sel)
-			if allowance then
-				it:interact(self.character,self.sel)
-			else
-				self.system:hint(msg)
-			end
+		local t = self.sel
+		if t == nil then
+			t = Vector(self.map:screenToMap(x,y))
+		end
+		local it = self.inv:getActiveItem()
+		print (t)
+		local allowance,msg = it:active(self.character,t)
+		if allowance then
+			--it:interact(self.character,self.sel)
+		else
+			self.system:hint(msg)
 		end
 	end
 end

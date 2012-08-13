@@ -14,6 +14,15 @@ end
 function Item:use(target)
 end
 
+function Item:update_i()
+end
+
+function Item:draw_lli()
+end
+
+function Item:active()
+end
+
 local item = {}
 local itemdef
 function item.load()

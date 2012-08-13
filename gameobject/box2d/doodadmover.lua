@@ -45,6 +45,10 @@ function doodadMover:save()
 	return {x = x,y=y,r=r,info=self.info}
 end
 
+function doodadMover:isObstacle()
+	return true
+end
+
 function doodadMover:load(t)
 	for k,v in pairs(t) do
 		self[k] = v

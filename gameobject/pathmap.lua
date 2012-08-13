@@ -137,6 +137,7 @@ function PathMap:createWallMap()
 				local mover = doodadMover(dx,dy,0,nil,moverinfo)
 				self._data[x][y].mover = mover
 				self:addUnit(mover,true)
+				mover:setUserData(mover)
 			end
 		end
 	end
@@ -279,10 +280,12 @@ function PathMap:findPath(start,finish,errorrange)
 				if errorrange==0 then
 					table.insert(path,RectangleArea(finish.x-5,finish.y-5,10,10))
 				end
-				while comefrom[near] ~= startv do
+				while near and comefrom[near] ~= startv do
 					near=comefrom[near]
 --					print (near)
+					if near then
 					table.insert(path,self._data[near.x][near.y])
+				end
 				end
 				return path
 			end

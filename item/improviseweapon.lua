@@ -8,7 +8,7 @@ function ImproviseWeapon:interact(host,target)
 	
 end
 
-function ImproviseWeapon:update(dt)
+function ImproviseWeapon:update_i(dt)
 	if self.owner and not self.acting then
 		local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
 		self.s:setPosition(Vector(x,y))

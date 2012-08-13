@@ -30,7 +30,7 @@ function sound.playMusic(s,once)
 
 	if not s then return end
 	if sound.music[#sound.music] then
-		sound.music[#sound.music]:pause()
+		sound.music[#sound.music]:stop()
 	end
 	s:setLooping(not once)
 	if once then
@@ -44,7 +44,7 @@ end
 
 function sound.play(s,channel,mode)
 	
-	if type(s)=='string' or type(s)=='table' then
+	if type(s)=='string' then
 		s = sound.loadsound(s,mode)
 	end
 	if not s then return end
@@ -54,7 +54,7 @@ function sound.play(s,channel,mode)
 		sound.channel[channel] = {}
 	end
 	table.insert(sound.channel[channel],s)
-	--s:play()
+	s:play()
 end
 
 function sound.cleanUp()
@@ -75,12 +75,6 @@ function sound.cleanUp()
 end
 
 function sound.loadsound(name,mode)
-	if type(name)=='table' then
-		for i,v in ipairs(name) do
-			name[i] = sound.loadsound(v,mode)
-		end
-		return name
-	end
 	if not love.filesystem.isFile(name) then return end
 	if mode == 'static' then
 		if not sound.source[name] then
@@ -108,17 +102,12 @@ end
 
 Sound = Object:subclass'Sound'
 function Sound:initialize(name,pos,reach,channel,host,alert)
-	self.sources = sound.loadsound(name)
+	self.source = sound.loadsound(name)
 	self.pos = pos
 	self.reach = reach
 	self.channel = channel or 'effect'
 	self.host = host
 	self.alert = alert
-	if type(self.sources)=='table' then
-		self.source = self.sources[math.random(#self.sources)]
-	else
-		self.source = self.sources
-	end
 	if not self.source then return end
 	if pos then
 		self.source:setPosition(pos.x,0,pos.y)
@@ -126,6 +115,11 @@ function Sound:initialize(name,pos,reach,channel,host,alert)
 	if reach then
 		self.source:setDistance(reach,reach*2)
 	end
+end
+
+function Sound:setReach(reach)
+	self.reach = reach
+	self.source:setDistance(reach,reach*2)
 end
 
 function Sound:setPosition(pos)
@@ -142,7 +136,6 @@ function Sound:play()
 	end
 	if not self.source then return end
 	if (self.pos-sound.center):length()>self.reach*2 then
-		print 'sound skipped'
 		return
 	end
 	sound.play(self.source,self.channel)
@@ -157,7 +150,13 @@ function Sound:draw_LLI()
 	love.graphics.circle('line',x,y,tell*self.reach*2)
 end
 
+local c = {
+	{0,255,0},
+	{255,255,0},
+	{255,0,0},
+}
 function Sound:drawCircle()
+	love.graphics.setColor(c[self.alert])
 	local x,y = self.pos.x,self.pos.y
 	if self.reach and self.reach > 0 then
 		self.soundwave_intensity = math.random()*0.1

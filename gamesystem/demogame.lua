@@ -183,6 +183,7 @@ function demogame:load()
 	end
 	sound.playMusic('sound/music/danger.ogg')
 
+	self:loadUI()
 end
 
 function demogame:hint(text,clue)
@@ -384,6 +385,8 @@ function demogame:keypressed(k)
 		function modalfunc(object,bool)
 			controller:setEnabled(not bool)
 		end
+		
+	loveframes.OnModal = modalfunc
 	end
 
 	if controller then
@@ -426,12 +429,51 @@ end
 function demogame:loadSelectionWheel()
 	local wheel = require 'gamesystem.selectionwheel'
 	wheel:setInventory(self.inv)
-	assert(modalfunc)
-	wheel.OnModal = modalfunc
 	wheel.OnSetTimescale = function(t)self.timescale = t end
 	wheel:load()
 	--require 'gamesystem.selectionwheel':loadFirstLayout(self.inv:getFirstLayout())
 end
 --demogame:load()
+
+function demogame:loadUI()
+	local panel = loveframes.Create('frame')
+	panel:setSize(300,100)
+	panel:setPos(50,50)
+	function panel:Draw()end
+	panel:ShowCloseButton(false)
+	panel:SetDraggable(false)
+	local p = loveframes.Create("progressbar",panel)
+	p:setPos(120,45)
+	p:setSize(220,15)
+	p:SetMinMax(0,100)
+	p:SetValue(80)
+	p.bar_color = {0,255,0,200}
+	p.EKG_image = requireImage'asset/interface/ekg_signal.png'
+	p.EKG_center = 0.2
+	p.EKG_range = 0.1
+	p.EKG_image:setWrap('repeat','repeat')
+	p.EKG_quad = love.graphics.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
+
+	local p = loveframes.Create("progressbar",panel)
+	p:setPos(120,62)
+	p:setSize(200,15)
+	p:SetMinMax(0,100)
+	p:SetValue(80)
+	p.bar_color = {255,0,0,200}
+	
+	local compass = loveframes.Create("compass",panel)
+	compass:setPos(0,0)
+	compass:setSize(128,128)
+	local centerButton = loveframes.Create('circlebutton',panel)
+	centerButton:setSize(64,64)
+	centerButton:setPos(32,32)
+	centerButton.Update = function()
+	local i = select(1,self.inv:getActiveItem())
+	centerButton:setImage(i.info.icon)
+	centerButton:setText(i.info.title)
+end
+	centerButton:SetAlwaysUpdate(true)
+	centerButton.active = true
+end
 
 return demogame

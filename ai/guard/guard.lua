@@ -28,11 +28,7 @@ function AIGuard:terminate(lethal,time)
 	self.poptime = 360000
 	if lethal then
 		self.subgoal = {AIStop(self.unit)}
-		--self.subgoal[2] = AIStop(self.unit)
-		--self.subgoal[3] = AIStop(self.unit)
-		--self.host:popAI(self.unit)
 	else
-		print 'nonlethal act detected'
 		self.subgoal[2] = AIWait(self.unit,time)
 		self.subgoal[3] = AIStop(self.unit)
 		-- TODO
@@ -59,31 +55,33 @@ function AIGuard:process(dt)
 	end
 	local v = self.subgoal[#self.subgoal]
 	if v then
-	v.host = self.host
-	local ndt,state = v:process(dt)
-	if state == 'failed' then
-		return ndt,state
-	elseif state == 'success' then
-		if v.next then
-			if v.next.reset then v.next:reset() end
-			self.subgoal[#self.subgoal] = v.next
-			self.subgoal[#self.subgoal]:process(dt-ndt)
-			return
-		else
-			table.remove(self.subgoal)
+		v.host = self.host
+		local ndt,state = v:process(dt)
+		if state == 'failed' then
+			return ndt,state
+		elseif state == 'success' then
+			if v.next then
+				if v.next.reset then v.next:reset() end
+				self.subgoal[#self.subgoal] = v.next
+				self.subgoal[#self.subgoal]:process(dt-ndt)
+				return
+			else
+				table.remove(self.subgoal)
 
-		if #self.subgoal==1 then
-			-- recalculate patrol path
-			self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
-			self.subgoal[1].host = self.host
-		end
+			if #self.subgoal==1 then
+				-- recalculate patrol path
+				self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
+				self.subgoal[1].host = self.host
+			end
 
 			if #self.subgoal==0 then
 				return 0,'success'
 			else
-				self:process(dt-ndt)
+				return self:process(dt-ndt)
 			end
 		end
+	else
+		--return 0,'success'
 	end
 end
 end

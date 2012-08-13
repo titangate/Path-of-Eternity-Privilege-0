@@ -44,7 +44,9 @@ function frame:initialize()
 		if self.OnClose then
 			self.OnClose(self)
 		end
-		
+		if self.modal then
+		self:SetModal(false)
+	end
 	end
 	
 	table.insert(self.internals, close)
@@ -416,8 +418,8 @@ function frame:SetModal(bool)
 		end
 		
 	end
-	if self.OnModal then
-		self.OnModal(self,bool)
+	if loveframes.OnModal then
+		loveframes.OnModal(self,bool)
 	end
 end
 
@@ -457,7 +459,5 @@ end
 function frame:dismiss()
 	local close = self.internals[1]
 	close.OnClick()
-	if self.modal then
-		self:SetModal(false)
-	end
+	
 end
