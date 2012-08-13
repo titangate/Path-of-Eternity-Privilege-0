@@ -26,9 +26,9 @@ local definition = {
 	framerate = 48,
 	critframe = {
 		step1=0,
-		step2=10,
+		--step2=10,
 		step3=20,
-		step4=30,
+		--step4=30,
 	}
 	},
 

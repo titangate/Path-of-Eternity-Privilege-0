@@ -267,11 +267,12 @@ function demogame:draw()
 		love.graphics.setCanvas(canvas.canvas)
 	end
 	love.graphics.setColor(255,255,255)
+	love.graphics.push()
 	m:draw()
+	love.graphics.pop()
 
-	if self.s then
-		self.s:draw_LLI()
-	end
+	
+	
 	if DEBUG and loveframes.config["DEBUG"] then
 		m:DebugDraw()
 --		u:DebugDraw()
@@ -402,6 +403,8 @@ function demogame:keypressed(k)
 	elseif k=='right' then
 		m.camerashift.x = m.camerashift.x - 100
 	end
+
+	m:setFollower(m.obj.river)
 end
 
 function demogame:keyreleased(k)

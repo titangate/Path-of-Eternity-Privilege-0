@@ -50,6 +50,26 @@ function PathMap:initialize(w,h,aihost)
 	self.camerashift = Vector(0,0)
 
 	self.aihost = aihost
+
+	self.layer = 0
+
+	self.raycastcallback = function(fixture,x,y,xn,yn,fraction)
+		local obs,layer
+		local ud = fixture:getUserData()
+		if ud and ud.isObstacle and ud.info and ud.info.layer then
+			obs = ud:isObstacle()
+			layer = ud.info.layer
+		else
+			obs = false
+		end
+		if obs and self.layer <= layer and self.fraction > fraction then
+			self.layer = layer
+			self.hit = ud
+			self.fraction = fraction
+		end
+		--end
+		return 1
+	end
 end
 
 function PathMap:setFollower(u)
@@ -133,6 +153,7 @@ function PathMap:createWallMap()
 					height = self.scale,
 					shape = 'rectangle',
 					bodytype = 'static',
+					layer = 5,
 				}
 				local mover = doodadMover(dx,dy,0,nil,moverinfo)
 				self._data[x][y].mover = mover
@@ -322,7 +343,61 @@ function PathMap:update(dt)
 	end
 end
 
+local fog = {
+	gaussianblur_intensity = 2
+}
+function fog:getWidth()
+	return screen.width
+end
+function fog:getHeight()
+	return screen.height
+end
+function fog:getX()
+	return 0
+end
+function fog:getY()
+	return 0
+end
+
+local fanimg = requireImage'asset/shader/fan.png'
+local circcount = 64
+function PathMap:generateFog(u,canvas)
+	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
+	canvas.canvas:clear()
+	love.graphics.setCanvas(canvas.canvas)
+	local w = screen.halfwidth
+	local x1,y1 = u:getPosition()
+	local up = Vector(x1,y1)
+	for i=1,circcount do
+		local r = math.pi*2/circcount*i
+		self.hit = nil
+		self.fraction = 1
+		self.layer = 0
+		local x2,y2 = x1+math.cos(r)*w*2,y1+math.sin(r)*w*2
+		self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
+		local scale = self.fraction*w/fanimg:getWidth()
+		
+		love.graphics.draw(fanimg,w/2,screen.halfheight/2,r,scale,scale,0,fanimg:getHeight()/2)
+		--filters.gaussianblur.postdraw(fog)
+	end
+	love.graphics.setCanvas()
+	--canvasmanager.releaseCanvas(canvas)
+end
+
+local invert = love.graphics.newPixelEffect[[
+vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
+{
+	if (Texel(texture,texture_coords).a > 0)
+		return vec4(0,0,0,0);
+	else
+		return vec4(0,0,0,200);
+}
+]]
 function PathMap:draw()
+	local canvas
+	if self.follower then
+		
+	end
 	g.push()
 	g.translate(unpack(self.camerashift))
 	if self.drawlli then
@@ -331,6 +406,17 @@ function PathMap:draw()
 		self:draw_normal()
 	end
 	g.pop()
+	if self.follower then
+		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
+		self:generateFog(self.follower,canvas)
+		filters.gaussianblur.conf(fog)
+		filters.gaussianblur.predraw(fog)
+		love.graphics.setPixelEffect(invert)
+		love.graphics.draw(canvas.canvas,0,0,0,2)
+		love.graphics.setPixelEffect()
+		filters.gaussianblur.postdraw(fog)
+		canvasmanager.releaseCanvas(canvas)
+	end
 end
 
 function PathMap:draw_normal()
@@ -519,7 +605,6 @@ end
 function PathMap:screenToMap(x,y)
 	return x-self.camerashift.x,y-self.camerashift.y
 end
-
 
 if DEBUG then
 local shifth = 3^0.5

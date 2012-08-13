@@ -58,8 +58,8 @@ function multichoicelist:update(dt)
 		end
 	end
 	
-	local width = love.graphics.getWidth()
-	local height = love.graphics.getHeight()
+	local width = screen.width
+	local height = screen.height
 	local x, y = love.mouse.getPosition()
 	local selfcol = loveframes.util.BoundingBox(x, self.x, y, self.y, 1, self.width, 1, self.height)
 	
@@ -255,8 +255,8 @@ function multichoicelist:CalculateSize()
 		end
 	end
 
-	if self.height > love.graphics.getHeight() then
-		self.height = love.graphics.getHeight()
+	if self.height > screen.height then
+		self.height = screen.height
 	end
 	
 	local numitems = #self.children

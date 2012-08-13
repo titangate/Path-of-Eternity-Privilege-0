@@ -8,9 +8,12 @@ function AIGuard:initialize(unit,waypoint)
 	self.poptime = 360000
 	self.subgoal = {self.ai_patrol}
 	self.waypoint = waypoint
+	self.alert_sound = 0
+	self.alert_vision = 0
 end
 
 function AIGuard:soundAlert(position,level)
+	if self.alert_sound > level then return end
 	if level >= 3 then
 		self.poptime = self.host:getConstant'sound_high_time'
 		self.ai_investigate = AIInvestigate(self.unit,position)
@@ -22,6 +25,7 @@ function AIGuard:soundAlert(position,level)
 		self.subgoal[2] = self.ai_suspicous
 	else
 	end
+	self.alert_sound = level
 end
 
 function AIGuard:terminate(lethal,time)
@@ -42,6 +46,8 @@ end
 function AIGuard:process(dt)
 	self.poptime = self.poptime - dt
 	if self.poptime <= 0 then
+		self.alert_sound = 0
+		self.alert_vision = 0
 		table.remove(self.subgoal)
 		local v = self.subgoal[#self.subgoal]
 		if v.reset then v:reset() end

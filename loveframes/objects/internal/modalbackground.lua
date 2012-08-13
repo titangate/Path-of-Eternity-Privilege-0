@@ -14,8 +14,8 @@ modalbackground:include(loveframes.templates.default)
 function modalbackground:initialize(object)
 	
 	self.type			= "modalbackground"
-	self.width 			= love.graphics.getWidth()
-	self.height 		= love.graphics.getHeight()
+	self.width 			= screen.width
+	self.height 		= screen.height
 	self.x				= 0
 	self.y				= 0
 	self.internal		= true

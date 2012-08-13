@@ -14,7 +14,7 @@ base:include(loveframes.templates.default)
 function base:initialize()
 	
 	-- width and height of the window
-	local w, h = love.graphics.getWidth(), love.graphics.getHeight()
+	local w, h = screen.width, screen.height
 	
 	self.type 		= "base"
 	self.width 		= w
@@ -293,8 +293,8 @@ function base:Center()
 	local parent = self.parent
 	
 	if parent == base then
-		local width = love.graphics.getWidth()
-		local height = love.graphics.getHeight()
+		local width = screen.width
+		local height = screen.height
 		
 		self.x = width/2 - self.width/2
 		self.y = height/2 - self.height/2
@@ -318,7 +318,7 @@ function base:CenterX()
 	local parent = self.parent
 	
 	if parent == base then
-		local width = love.graphics.getWidth()
+		local width = screen.width
 		self.x = width/2 - self.width/2
 	else
 		local width = parent.width
@@ -337,7 +337,7 @@ function base:CenterY()
 	local parent = self.parent
 	
 	if parent == base then
-		local height = love.graphics.getHeight()
+		local height = screen.height
 		self.y = height/2 - self.height/2
 	else
 		local height = parent.height

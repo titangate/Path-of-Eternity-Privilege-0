@@ -10,12 +10,6 @@ if DEBUG and PROFILING then
 end
 
 
-screen = {
-	width = love.graphics.getWidth(),
-	height = love.graphics.getHeight(),
-	halfwidth = love.graphics.getWidth()/2,
-	halfheight = love.graphics.getHeight()/2,
-}
 
 option = {
 	uifps = 30,
@@ -264,8 +258,10 @@ function love.draw()
 		filters.gaussianblur.conf(modalBackground)
 		filters.gaussianblur.predraw(modalBackground)
 	end
+	if option.retina then
+		--love.graphics.scale(option.retina)
+	end
 	gamesys.draw()
-
 	if loveframes.modalobject then
 		filters.gaussianblur.postdraw(modalBackground)
 	end

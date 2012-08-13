@@ -73,8 +73,8 @@ function simpleframe:update(dt)
 	-- if screenlocked then keep within screen
 	if screenlocked == true then
 	
-		local width = love.graphics.getWidth()
-		local height = love.graphics.getHeight()
+		local width = screen.width
+		local height = screen.height
 		
 		if self.x < 0 then
 			self.x = 0

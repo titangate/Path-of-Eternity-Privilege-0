@@ -103,7 +103,7 @@ function loveframes.debug.ExamplesMenu()
 	------------------------------------
 	local examplesframe = loveframes.Create("frame")
 	examplesframe:setName("Examples List")
-	examplesframe:setSize(200, love.graphics.getHeight() - 330)
+	examplesframe:setSize(200, screen.height - 330)
 	examplesframe:setPos(5, 325)
 	
 	------------------------------------

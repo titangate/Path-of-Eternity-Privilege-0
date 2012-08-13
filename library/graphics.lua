@@ -12,10 +12,24 @@ function graphics.load(t)
 		graphics.apply()
 	end
 
-	
+	if not screen then
 	if option.retina then
-		for k,v in pairs(screen) do
-			screen[k] = v/2
+
+	screen = {
+		width = love.graphics.getWidth()/option.retina,
+		height = love.graphics.getHeight()/option.retina,
+		halfwidth = love.graphics.getWidth()/2/option.retina,
+		halfheight = love.graphics.getHeight()/2/option.retina,
+	}
+	
+		else
+
+			screen = {
+				width = love.graphics.getWidth(),
+				height = love.graphics.getHeight(),
+				halfwidth = love.graphics.getWidth()/2,
+				halfheight = love.graphics.getHeight()/2,
+			}
 		end
 	end
 end
@@ -33,12 +47,26 @@ function graphics.apply()
 		end
 	end
 	if loaded then return end
-	love.graphics.setMode(unpack(vfield))
+	if option.retina then
+		love.graphics.setMode(vfield[1]*option.retina,vfield[2]*option.retina,vfield[3],vfield[4],vfield[5])
+	else
+		love.graphics.setMode(unpack(vfield))
+	end
 	if not graphics.canvas or (vfield[1] ~= graphics.canvas.w and vfield[2]~=graphics.canvas.h) then
 		graphics.canvas = {w=vfield[1],h=vfield[2],c=love.graphics.newCanvas(vfield[1],vfield[2])}
 	end
 	
+	if option.retina then
+
+	screen = {
+		width = love.graphics.getWidth()/option.retina,
+		height = love.graphics.getHeight()/option.retina,
+		halfwidth = love.graphics.getWidth()/2/option.retina,
+		halfheight = love.graphics.getHeight()/2/option.retina,
+	}
 	
+	else
+
 	screen = {
 		width = love.graphics.getWidth(),
 		height = love.graphics.getHeight(),
@@ -46,6 +74,7 @@ function graphics.apply()
 		halfheight = love.graphics.getHeight()/2,
 	}
 	
+	end
 
 	graphics.save()
 	
@@ -78,6 +107,11 @@ end
 function graphics.save()
 	local s = json.encode(vfield)
 	love.filesystem.write('graphics',s)
+end
+
+gra = {}
+for k,v in pairs(love.graphics) do
+	gra[k] = v
 end
 
 return graphics

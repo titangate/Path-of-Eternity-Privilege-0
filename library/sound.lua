@@ -102,30 +102,30 @@ end
 
 Sound = Object:subclass'Sound'
 function Sound:initialize(name,pos,reach,channel,host,alert)
-	self.source = sound.loadsound(name)
+	self.source = name--sound.loadsound(name)
 	self.pos = pos
 	self.reach = reach
 	self.channel = channel or 'effect'
 	self.host = host
 	self.alert = alert
-	if not self.source then return end
+	--if not self.source then return end
 	if pos then
-		self.source:setPosition(pos.x,0,pos.y)
+	--	self.source:setPosition(pos.x,0,pos.y)
 	end
 	if reach then
-		self.source:setDistance(reach,reach*2)
+	--	self.source:setDistance(reach,reach*2)
 	end
 end
 
 function Sound:setReach(reach)
 	self.reach = reach
-	self.source:setDistance(reach,reach*2)
+	--self.source:setDistance(reach,reach*2)
 end
 
 function Sound:setPosition(pos)
 	self.pos = pos
 	if pos then
-		self.source:setPosition(pos.x,0,pos.y)
+		--self.source:setPosition(pos.x,0,pos.y)
 	end
 end
 
@@ -134,15 +134,21 @@ function Sound:play()
 		assert(self.alert)
 		self.host:playsound(self)
 	end
-	if not self.source then return end
+	--if not self.source then return end
 	if (self.pos-sound.center):length()>self.reach*2 then
 		return
 	end
-	sound.play(self.source,self.channel)
+	local s = sound.loadsound(self.source)
+	if not s then return end
+	if self.pos then s:setPosition(self.pos.x,0,self.pos.y) end
+	if self.reach then s:setDistance(self.reach,self.reach*2) end
+	sound.play(s,self.channel)
+	self.s = s
 end
 
 function Sound:draw_LLI()
-	if self.source:isStopped() then return end
+	if not self.s then return end
+	if self.s:isStopped() then return end
 	local tell = (love.timer.getTime()*10)%1
 	local x,y = unpack(self.pos)
 	love.graphics.setColor(255,255,255)

@@ -174,8 +174,8 @@ end
 function Map:autoDrawRange(tx, ty, scale, pad)
 	tx, ty, scale, pad = tx or 0, ty or 0, scale or 1, pad or 0
 	if scale > 0.001 then
-		self:setDrawRange(-tx-pad,-ty-pad,love.graphics.getWidth()/scale+pad*2,
-						  love.graphics.getHeight()/scale+pad*2)
+		self:setDrawRange(-tx-pad,-ty-pad,screen.width/scale+pad*2,
+						  screen.height/scale+pad*2)
 	end
 end
 
