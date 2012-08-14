@@ -69,7 +69,7 @@ function Loader._newImage(info)
     local w, h = source:getWidth(), source:getHeight()
 	
 	-- If we dont need to pad for PO2 then return now
-	if not Loader.fixPO2 then return love.graphics.newImage(source), w, h end
+	if not Loader.fixPO2 then return gra.newImage(source), w, h end
 	
     -- Find closest power-of-two.
     local wp = math.pow(2, math.ceil(math.log(w)/math.log(2)))
@@ -84,7 +84,7 @@ function Loader._newImage(info)
     end
    
 	-- Return the fixed image
-    return love.graphics._newImage(padded), w, h 
+    return gra._newImage(padded), w, h 
 end
 
 -- Checks to see if the table is a valid XML table

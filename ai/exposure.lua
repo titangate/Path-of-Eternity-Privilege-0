@@ -54,8 +54,8 @@ if DEBUG then
 function Exposure:DebugDraw()
 	for i,v in ipairs(self.rays) do
 		local x1,y1,x2,y2,t=unpack(v)
-		love.graphics.setColor(255*t/5,0,255-255*t/5)
-		love.graphics.line(x1,y1,x2,y2)
+		gra.setColor(255*t/5,0,255-255*t/5)
+		gra.line(x1,y1,x2,y2)
 	end
 end
 end

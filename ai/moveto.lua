@@ -33,6 +33,6 @@ if DEBUG then
 function AIMoveTo:DebugDraw()
 	local x,y = self.target:getCenter()
 	local ux,uy = self.unit:getPosition()
-	love.graphics.line(ux,uy,x,y)
+	gra.line(ux,uy,x,y)
 end
 end

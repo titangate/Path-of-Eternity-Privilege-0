@@ -1,5 +1,5 @@
 
-local g = love.graphics
+local g = gra
 PathMap = Object:subclass'PathMap'
 function PathMap:initialize(w,h,aihost)
 	self._data = {}
@@ -106,13 +106,13 @@ end
 
 function PathMap:setWallbatch(image,config)
 	self.wallimage = image
-	self.wallbatch = love.graphics.newSpriteBatch(self.wallimage,self.w*self.h)
+	self.wallbatch = gra.newSpriteBatch(self.wallimage,self.w*self.h)
 	self.wallconfig = config
 end
 
 function PathMap:createWallMap()
 
-	self.wallbatch = love.graphics.newSpriteBatch(self.wallimage,self.w*self.h)
+	self.wallbatch = gra.newSpriteBatch(self.wallimage,self.w*self.h)
 	local c = self.wallconfig
 	for x=1,self.w do
 		for y=1,self.h do
@@ -364,7 +364,7 @@ local circcount = 64
 function PathMap:generateFog(u,canvas)
 	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 	canvas.canvas:clear()
-	love.graphics.setCanvas(canvas.canvas)
+	gra.setCanvas(canvas.canvas)
 	local w = screen.halfwidth
 	local x1,y1 = u:getPosition()
 	local up = Vector(x1,y1)
@@ -377,14 +377,14 @@ function PathMap:generateFog(u,canvas)
 		self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
 		local scale = self.fraction*w/fanimg:getWidth()
 		
-		love.graphics.draw(fanimg,w/2,screen.halfheight/2,r,scale,scale,0,fanimg:getHeight()/2)
+		gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,scale,0,fanimg:getHeight()/2)
 		--filters.gaussianblur.postdraw(fog)
 	end
-	love.graphics.setCanvas()
+	gra.setCanvas()
 	--canvasmanager.releaseCanvas(canvas)
 end
 
-local invert = love.graphics.newPixelEffect[[
+local invert = gra.newPixelEffect[[
 vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 {
 	if (Texel(texture,texture_coords).a > 0)
@@ -406,27 +406,27 @@ function PathMap:draw()
 		self:draw_normal()
 	end
 	g.pop()
-	if self.follower then
+	--[[if self.follower then
 		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 		self:generateFog(self.follower,canvas)
 		filters.gaussianblur.conf(fog)
 		filters.gaussianblur.predraw(fog)
-		love.graphics.setPixelEffect(invert)
-		love.graphics.draw(canvas.canvas,0,0,0,2)
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect(invert)
+		gra.draw(canvas.canvas,0,0,0,2)
+		gra.setPixelEffect()
 		filters.gaussianblur.postdraw(fog)
 		canvasmanager.releaseCanvas(canvas)
-	end
+	end]]
 end
 
 function PathMap:draw_normal()
 
 	g.setColor(255,255,255)
 	if self.background then
-		love.graphics.draw(self.background,0,0,0,4)
+		gra.draw(self.background,0,0,0,4)
 	end
 	if self.wallbatch then
-		love.graphics.draw(self.wallbatch)
+		gra.draw(self.wallbatch)
 	end
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
@@ -443,10 +443,10 @@ function PathMap:draw_LLI()
 	self.lli_intensity = math.random(10)
 	if self.lli_radius and self.lli_radius < screen.halfwidth then
 		if self.background then
-			love.graphics.draw(self.background)
+			gra.draw(self.background)
 		end
 		if self.wallbatch then
-			love.graphics.draw(self.wallbatch)
+			gra.draw(self.wallbatch)
 		end
 		for i=0,#self.unit do
 			for v,_ in pairs(self.unit[i]) do
@@ -455,12 +455,12 @@ function PathMap:draw_LLI()
 		end
 		filters.lli.conf(self)
 		filters.lli.predraw()
-		love.graphics.setStencil(function()love.graphics.circle('fill',screen.halfwidth,screen.halfheight,self.lli_radius)end)
+		gra.setStencil(function()gra.circle('fill',screen.halfwidth,screen.halfheight,self.lli_radius)end)
 		if self.background then
-			love.graphics.draw(self.background)
+			gra.draw(self.background)
 		end
 		if self.wallbatch then
-			love.graphics.draw(self.wallbatch)
+			gra.draw(self.wallbatch)
 		end
 		filters.lli.postdraw()
 		
@@ -473,16 +473,16 @@ function PathMap:draw_LLI()
 				end
 			end
 		end
-		love.graphics.setStencil()
+		gra.setStencil()
 
 	else
 		filters.lli.conf(self)
 		filters.lli.predraw()
 		if self.background then
-			love.graphics.draw(self.background)
+			gra.draw(self.background)
 		end
 		if self.wallbatch then
-			love.graphics.draw(self.wallbatch)
+			gra.draw(self.wallbatch)
 		end
 		filters.lli.postdraw()
 
@@ -623,9 +623,9 @@ function PathMap:DebugDraw()
 			g.setColor(0,0,0,100)
 			if self:hasObstacle(x,y)~='bound' then
 				if self._data[x][y].obstacle_e or self._data[x][y].obstacle then
-					love.graphics.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+					gra.rectangle('fill',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 				else
-					love.graphics.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+					gra.rectangle('line',(x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
 				end
 				self._data[x][y]:DebugDraw()
 			end

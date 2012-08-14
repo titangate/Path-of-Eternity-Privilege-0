@@ -1,5 +1,5 @@
 local lli_unit = {}
-lli_unit.pe = love.graphics.newPixelEffect[[
+lli_unit.pe = gra.newPixelEffect[[
 extern vec2 pixel_size;
 
 vec4 effect(vec4 c, Image tex, vec2 tc, vec2 pixel_coords)
@@ -25,13 +25,13 @@ function lli_unit.conf(obj)
 end
 
 function lli_unit.predraw(obj)
-	love.graphics.setPixelEffect(lli_unit.pe)
+	gra.setPixelEffect(lli_unit.pe)
 	local n = 1/obj:getWidth()
 	lli_unit.pe:send('pixel_size',{n,n})
 end
 
 function lli_unit.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return lli_unit

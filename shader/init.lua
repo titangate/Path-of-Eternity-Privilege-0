@@ -66,7 +66,7 @@ function canvasmanager.requireCanvas(w,h)
 		canvasmanager[w*10000+h] = {}
 	end
 	if #canvasmanager[w*10000+h] < 1 then
-		table.insert(canvasmanager[w*10000+h],{canvas = love.graphics.newCanvas(w,h),w=w,h=h})
+		table.insert(canvasmanager[w*10000+h],{canvas = gra.newCanvas(w,h),w=w,h=h})
 	end
 	assert(#canvasmanager[w*10000+h]>0)
 	return table.remove(canvasmanager[w*10000+h])

@@ -47,12 +47,12 @@ function animationeditor:update(dt)
 end
 
 function animationeditor:draw()
-	love.graphics.push()
-	love.graphics.translate(screen.halfwidth,screen.halfheight)
+	gra.push()
+	gra.translate(screen.halfwidth,screen.halfheight)
 	for i,v in ipairs(self.animatedparts) do
 		v:draw()
 	end
-	love.graphics.pop()
+	gra.pop()
 end
 
 function animationeditor:keypressed(k)

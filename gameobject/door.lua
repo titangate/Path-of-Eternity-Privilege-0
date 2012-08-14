@@ -8,8 +8,8 @@ function Door:initialize(movertype,x,y,r,bt,block,bx,by)
 end
 
 function Door:_draw(x,y,r)
-	love.graphics.setColor(255,255,0)
-	love.graphics.draw(requireImage'dot.png',x,y,r,100,32,0,0.5)
+	gra.setColor(255,255,0)
+	gra.draw(requireImage'dot.png',x,y,r,100,32,0,0.5)
 end
 
 function Door:pre_open(state,direction)
@@ -43,7 +43,7 @@ function Door:draw_LLI()
 		local h = obj:getHeight()
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
 	self:_draw(x,y,r)
@@ -51,7 +51,7 @@ function Door:draw_LLI()
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 	filters.lli_unit.conf(self)
@@ -74,14 +74,14 @@ function Door:draw()
 		local h = obj:getHeight()
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
 	self:_draw(x,y,r)
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 end

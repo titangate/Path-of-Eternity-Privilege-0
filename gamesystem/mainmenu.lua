@@ -12,24 +12,22 @@ function mainmenu:load()
 	
 	local img = requireImage'worldmap.png'
 	function map.Draw(m)
-		love.graphics.setColor(82, 60, 25,self.mapopacity^0.3*255)
-		love.graphics.push()
---		love.graphics.translate(screen.halfwidth,screen.halfheight)
+		gra.setColor(82, 60, 25,self.mapopacity^0.3*255)
+		gra.push()
+--		gra.translate(screen.halfwidth,screen.halfheight)
 		local x,y = self.focus.x,self.focus.y
 		local ox,oy = 0,0
-		local s = screen.width/img:getWidth()*self.mapscale
---		love.graphics.translate(-screen.halfwidth*s,-screen.halfheight*s)self.mapopacity
-		love.graphics.translate(-x*s*(1-self.mapopacity)^0.3,-y*s*(1-self.mapopacity)^0.3)
-		love.graphics.scale(s)
-		love.graphics.translate((ox+screen.halfwidth)/s,(oy+screen.halfheight)/s)
-
-		
-		love.graphics.draw(img,0,0,0,1,1,img:getWidth()/2,img:getHeight()/2)
-		love.graphics.setColor(255,0,0,self.mapopacity^0.3*255)
-		love.graphics.circle('fill',x,y,15)
-		love.graphics.pop()
-		love.graphics.setColor(255,255,255)
-		love.graphics.draw(requireImage'asset/banner.png',screen.halfwidth,100,0,0.5,0.5,936/2,288/2)
+		local s = screen.width/(img:getWidth()*option.retina)*self.mapscale
+--		gra.translate(-screen.halfwidth*s,-screen.halfheight*s)self.mapopacity
+		gra.translate(-x*s*(1-self.mapopacity)^0.3,-y*s*(1-self.mapopacity)^0.3)
+		gra.scale(s)
+		gra.translate((ox+screen.halfwidth)/s,(oy+screen.halfheight)/s)
+		gra.draw(img,0,0,0,1,1,img:getWidth()/2,img:getHeight()/2)
+		gra.setColor(255,0,0,self.mapopacity^0.3*255)
+		gra.circle('fill',x,y,15)
+		gra.pop()
+		gra.setColor(255,255,255)
+		gra.draw(requireImage'asset/banner.png',screen.halfwidth,100,0,0.5,0.5,936/2,288/2)
 	end
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")

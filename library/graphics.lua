@@ -109,9 +109,5 @@ function graphics.save()
 	love.filesystem.write('graphics',s)
 end
 
-gra = {}
-for k,v in pairs(love.graphics) do
-	gra[k] = v
-end
 
 return graphics

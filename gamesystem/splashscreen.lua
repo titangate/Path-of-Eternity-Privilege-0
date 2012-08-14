@@ -6,7 +6,8 @@ function splashscreen:load()
 	-- button example
 	------------------------------------
 	local con = loveframes.Create('frame')
-	con:setSize(screen.width,screen.height)
+	con:setSize(1366,768)
+	con:Center()
 	con:ShowCloseButton(false)
 	function con:Draw()end
 	self.logo = loveframes.Create('image',con)
@@ -39,9 +40,9 @@ end
 function splashscreen:update()
 end
 function splashscreen:draw()
-	love.graphics.translate(screen.halfwidth,screen.halfheight)
-	love.graphics.scale(self.scale)
-	love.graphics.translate(-screen.halfwidth,-screen.halfheight)
+	gra.translate(screen.halfwidth,screen.halfheight)
+	gra.scale(self.scale)
+	gra.translate(-screen.halfwidth,-screen.halfheight)
 end
 
 

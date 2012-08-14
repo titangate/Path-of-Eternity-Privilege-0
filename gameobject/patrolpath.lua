@@ -16,13 +16,13 @@ function PatrolPath:decode(t)
 end
 
 function PatrolPath:draw()
-	love.graphics.setColor(0,255,0)
-	love.graphics.setLineWidth(3)
+	gra.setColor(0,255,0)
+	gra.setLineWidth(3)
 	for i=1,#self.waypoint do
 		local j = (i%#self.waypoint)+1
 		local a,b = self.waypoint[i],self.waypoint[j]
-		love.graphics.line(a.x,a.y,b.x,b.y)
-		love.graphics.circle('line',a.x,a.y,5)
+		gra.line(a.x,a.y,b.x,b.y)
+		gra.circle('line',a.x,a.y,5)
 	end
 end
 

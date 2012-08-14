@@ -92,7 +92,7 @@ function tabbutton:draw()
 		skin.DrawTabButton(self)
 	end
 	
-	local font = love.graphics.getFont()
+	local font = gra.getFont()
 	local width = font:getWidth(self.text)
 	local image = self.image
 	
@@ -179,7 +179,7 @@ end
 function tabbutton:setImage(image)
 
 	if type(image) == "string" then
-		self.image = love.graphics.newImage(image)
+		self.image = gra.newImage(image)
 	else
 		self.image = image
 	end

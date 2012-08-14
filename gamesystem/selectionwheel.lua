@@ -82,10 +82,10 @@ function selectionwheel:load()
 	function frame.Draw(object)
 		local x,y = object:GetPos()
 		x,y = x+centerPos[1]+32,y+centerPos[2]+32
-		love.graphics.setColor(0,0,0,76.5)
-		love.graphics.circle('fill',x,y,40,6)
-		love.graphics.circle('fill',x,y,120,6)
-		love.graphics.circle('fill',x,y,204)
+		gra.setColor(0,0,0,76.5)
+		gra.circle('fill',x,y,40,6)
+		gra.circle('fill',x,y,120,6)
+		gra.circle('fill',x,y,204)
 	end
 	frame.OnModal = self.OnModal
 	frame:SetModal(true)

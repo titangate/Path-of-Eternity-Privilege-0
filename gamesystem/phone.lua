@@ -102,7 +102,7 @@ function phone:load()
 	frame1:setPos(screen.width - 400,screen.height - 400)
 	local img = requireImage'asset/interface/phone.png'
 	frame1.Draw = function(object)
-		love.graphics.draw(img,object.x,object.y)
+		gra.draw(img,object.x,object.y)
 	end
 	
 	frame1:ShowCloseButton(false)

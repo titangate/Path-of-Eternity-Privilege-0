@@ -25,10 +25,10 @@ function demogame:load()
 		height = 64,
 		ox = 32,
 		oy = 32,
-		lurd = love.graphics.newQuad(0,0,64,64,256,64),
-		lr = love.graphics.newQuad(64,0,64,64,256,64),
-		lur = love.graphics.newQuad(128,0,64,64,256,64),
-		ur = love.graphics.newQuad(192,0,64,64,256,64),
+		lurd = gra.newQuad(0,0,64,64,256,64),
+		lr = gra.newQuad(64,0,64,64,256,64),
+		lur = gra.newQuad(128,0,64,64,256,64),
+		ur = gra.newQuad(192,0,64,64,256,64),
 		})
 	
 	if love.filesystem.isFile'demosave' then
@@ -73,10 +73,10 @@ function demogame:load()
 	local i = loveframes.Create('frame')
 
 	function i.Draw(object)
-		love.graphics.setColor(0,0,0,120)
-		love.graphics.rectangle('fill',object.x,object.y,object.width,object.height)
+		gra.setColor(0,0,0,120)
+		gra.rectangle('fill',object.x,object.y,object.width,object.height)
 	--	print (object.x/2,object.y,object.width,object.height)
-		love.graphics.setColor(255,255,255)
+		gra.setColor(255,255,255)
 	end
 --	i:setName(LocalizedString'LLI INFORMATION')
 	i:setSize(300,50)
@@ -128,9 +128,9 @@ function demogame:load()
 	i = loveframes.Create('frame')
 
 	function i:Draw()
-		love.graphics.setColor(0,0,0,120)
-		love.graphics.rectangle('fill',i.x,i.y,i.width,i.height)
-		love.graphics.setColor(255,255,255)
+		gra.setColor(0,0,0,120)
+		gra.rectangle('fill',i.x,i.y,i.width,i.height)
+		gra.setColor(255,255,255)
 	end
 --	i:setName(LocalizedString'LLI INFORMATION')
 	i:setSize(300,50)
@@ -257,19 +257,19 @@ end
 function demogame:draw()
 	local prev,canvas
 	if self.scale ~=1 then
-		love.graphics.push()
-		love.graphics.translate(screen.halfwidth,screen.halfheight)
-		love.graphics.scale(self.scale)
-		love.graphics.translate(-screen.halfwidth*self.scale,-self.scale*screen.halfheight)
+		gra.push()
+		gra.translate(screen.halfwidth,screen.halfheight)
+		gra.scale(self.scale)
+		gra.translate(-screen.halfwidth*self.scale,-self.scale*screen.halfheight)
 		canvas = canvasmanager.requireCanvas(screen.width,screen.height)
 		canvas.canvas:clear()
-		prev = love.graphics.getCanvas()
-		love.graphics.setCanvas(canvas.canvas)
+		prev = gra.getCanvas()
+		gra.setCanvas(canvas.canvas)
 	end
-	love.graphics.setColor(255,255,255)
-	love.graphics.push()
+	gra.setColor(255,255,255)
+	gra.push()
 	m:draw()
-	love.graphics.pop()
+	gra.pop()
 
 	
 	
@@ -281,10 +281,10 @@ function demogame:draw()
 	end
 --	d:DebugDraw()
 	if self.scale ~=1 then
-		love.graphics.pop()
-		love.graphics.setColor(255,255,255,255*self.scale)
-		love.graphics.setCanvas(prev)
-		love.graphics.draw(canvas.canvas)
+		gra.pop()
+		gra.setColor(255,255,255,255*self.scale)
+		gra.setCanvas(prev)
+		gra.draw(canvas.canvas)
 		canvasmanager.releaseCanvas(canvas)
 	end
 end
@@ -455,7 +455,7 @@ function demogame:loadUI()
 	p.EKG_center = 0.2
 	p.EKG_range = 0.1
 	p.EKG_image:setWrap('repeat','repeat')
-	p.EKG_quad = love.graphics.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
+	p.EKG_quad = gra.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
 
 	local p = loveframes.Create("progressbar",panel)
 	p:setPos(120,62)

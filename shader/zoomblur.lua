@@ -1,5 +1,5 @@
 local zoomblur = {}
-zoomblur.pe = love.graphics.newPixelEffect[[
+zoomblur.pe = gra.newPixelEffect[[
 	extern vec2 center; // Center of blur
 	extern number intensity = 1; // effect intensity
 	const number offset = 0.025;
@@ -35,22 +35,22 @@ function zoomblur.predraw(obj)
 	w = math.min(screen.width,neartwo(w))
 	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
-	zoomblur.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
+	zoomblur.prevc = gra.getCanvas()
+	gra.setCanvas(c.canvas)
 	zoomblur.c = c
-	love.graphics.push()
-	love.graphics.translate(-obj:getX(),-obj:getY())
+	gra.push()
+	gra.translate(-obj:getX(),-obj:getY())
 end
 
 function zoomblur.postdraw(obj)
 	local w = obj:getWidth()
-	love.graphics.pop()
-	love.graphics.setCanvas(zoomblur.prevc)
-	love.graphics.setPixelEffect(zoomblur.pe)
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(zoomblur.c.canvas,obj:getX(),obj:getY())
+	gra.pop()
+	gra.setCanvas(zoomblur.prevc)
+	gra.setPixelEffect(zoomblur.pe)
+	gra.setColor(255,255,255)
+	gra.draw(zoomblur.c.canvas,obj:getX(),obj:getY())
 	canvasmanager.releaseCanvas(zoomblur.c)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 	zoomblur.c = nil
 end
 

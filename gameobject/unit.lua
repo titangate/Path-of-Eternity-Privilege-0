@@ -232,7 +232,7 @@ end
 if DEBUG then
 
 function Unit:DebugDraw()
---	love.graphics.setColor(0,0,0)
---	love.graphics.circle('fill',self.x,self.y,16)
+--	gra.setColor(0,0,0)
+--	gra.circle('fill',self.x,self.y,16)
 end
 end

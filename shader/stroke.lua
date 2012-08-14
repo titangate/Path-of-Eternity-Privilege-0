@@ -1,5 +1,5 @@
 local stroke = {}
-stroke.pe = love.graphics.newPixelEffect[[
+stroke.pe = gra.newPixelEffect[[
 extern number intensity = 1;
 extern number rf_h = 512;
 extern number rf_w = 512;
@@ -32,11 +32,11 @@ function stroke.predraw(obj)
 	local w2 = math.min(screen.width,neartwo(w*blurscale))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
-	stroke.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
+	stroke.prevc = gra.getCanvas()
+	gra.setCanvas(c.canvas)
 	stroke.c = c
-	love.graphics.push()
-	love.graphics.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
+	gra.push()
+	gra.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
 	stroke.pe:send('rf_h',h)
 	stroke.pe:send('rf_w',w2)
 end
@@ -44,13 +44,13 @@ end
 function stroke.postdraw(obj)
 local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*blurscale))
-	love.graphics.pop()
-	love.graphics.setCanvas(stroke.prevc)
-	love.graphics.setPixelEffect(stroke.pe)
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(stroke.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
+	gra.pop()
+	gra.setCanvas(stroke.prevc)
+	gra.setPixelEffect(stroke.pe)
+	gra.setColor(255,255,255)
+	gra.draw(stroke.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
 	canvasmanager.releaseCanvas(stroke.c)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 	stroke.c = nil
 end
 

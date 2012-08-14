@@ -1,5 +1,5 @@
 local haze = {}
-haze.pe = love.graphics.newPixelEffect[[
+haze.pe = gra.newPixelEffect[[
 //const int normalscale = 64;
 extern number ref = 1;
 extern Image normal;
@@ -30,31 +30,31 @@ function haze.predraw(obj)
 	local h = obj:getHeight()
 	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
-	haze.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
+	haze.prevc = gra.getCanvas()
+	gra.setCanvas(c.canvas)
 	haze.c = c
-	love.graphics.push()
-	love.graphics.translate(-obj:getX(),-obj:getY())
+	gra.push()
+	gra.translate(-obj:getX(),-obj:getY())
 end
 
 function haze.postdraw(obj)
-	love.graphics.pop()
-	love.graphics.setCanvas(haze.prevc)
-	love.graphics.setPixelEffect(haze.pe)
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(haze.c.canvas,obj:getX(),obj:getY())
+	gra.pop()
+	gra.setCanvas(haze.prevc)
+	gra.setPixelEffect(haze.pe)
+	gra.setColor(255,255,255)
+	gra.draw(haze.c.canvas,obj:getX(),obj:getY())
 	canvasmanager.releaseCanvas(haze.c)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 	haze.c = nil
 end
 
 
 function haze.predraw(obj)
-	love.graphics.setPixelEffect(haze.pe)
+	gra.setPixelEffect(haze.pe)
 end
 
 function haze.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return haze

@@ -21,21 +21,21 @@ function Doodad:draw_LLI()
 		local h = obj:getHeight()
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
+	gra.setColor(255,255,255)
+	gra.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 	filters.lli_unit.conf(self)
 	filters.lli_unit.predraw(self)
-	love.graphics.setColor(0,0,0,100)
-	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
+	gra.setColor(0,0,0,100)
+	gra.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
 	filters.lli_unit.postdraw(self)
 end
 
@@ -54,19 +54,19 @@ function Doodad:draw()
 	--[[	local w2 = math.min(screen.width,neartwo(w*1))
 		local c = canvasmanager.requireCanvas(w2,h)
 		c.canvas:clear()
-		stroke.prevc = love.graphics.getCanvas()
-		love.graphics.setCanvas(c.canvas)
+		stroke.prevc = gra.getCanvas()
+		gra.setCanvas(c.canvas)
 		stroke.c = c
-		love.graphics.push()
-		love.graphics.translate(-obj:getX()+scale*self.info.width+(w2-w)/1,-obj:getY()+scale*self.info.height)
-		love.graphics.rotate(-r)]]
+		gra.push()
+		gra.translate(-obj:getX()+scale*self.info.width+(w2-w)/1,-obj:getY()+scale*self.info.height)
+		gra.rotate(-r)]]
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
+	gra.setColor(255,255,255)
+	gra.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
@@ -74,13 +74,13 @@ function Doodad:draw()
 	--[[	local w = obj:getWidth()
 		local h = obj:getHeight()
 		local w2 = math.min(screen.width,neartwo(w*1))
-		love.graphics.pop()
-		love.graphics.setCanvas(stroke.prevc)
-		love.graphics.setPixelEffect(stroke.pe)
-		love.graphics.setColor(0,255,0)
-		love.graphics.draw(stroke.c.canvas,obj:getX()-scale*self.info.width-(w2-w)/1,obj:getY()-scale*self.info.height)
+		gra.pop()
+		gra.setCanvas(stroke.prevc)
+		gra.setPixelEffect(stroke.pe)
+		gra.setColor(0,255,0)
+		gra.draw(stroke.c.canvas,obj:getX()-scale*self.info.width-(w2-w)/1,obj:getY()-scale*self.info.height)
 		canvasmanager.releaseCanvas(stroke.c)]]
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 end
@@ -131,9 +131,9 @@ end
 if DEBUG then
 function Doodad:DebugDraw()
 	if not self.sample then return end
-	love.graphics.setColor(255,0,255)
+	gra.setColor(255,0,255)
 	for i,v in ipairs(self.sample) do
-		love.graphics.point(v[1],v[2])
+		gra.point(v[1],v[2])
 	end
 end
 end

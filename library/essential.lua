@@ -1,11 +1,11 @@
 json = require 'json'
 
-local emptyimg = love.graphics.newImage'dot.png'
+local emptyimg = gra.newImage'dot.png'
 local img = {}
 function requireImage(f)
 	if not img[f] then
       --return emptyimg
-		img[f] = love.graphics.newImage(f)
+		img[f] = gra.newImage(f)
 	end
 	return img[f]
 end

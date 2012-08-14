@@ -48,17 +48,17 @@ end
 function ObjectLayer:draw()
 	if not self.map.drawObjects then return end
 	local obj, d, offset							-- Some temporary variables
-	local r,g,b,a = love.graphics.getColor()		-- Store the color so we can set it back
-	local line = love.graphics.getLineWidth()		-- Store the line width so we can set it back 
+	local r,g,b,a = gra.getColor()		-- Store the color so we can set it back
+	local line = gra.getLineWidth()		-- Store the line width so we can set it back 
 	local iso = self.map.orientation == "isometric"	-- If true then the map is isometric
 	local tiles = self.map.tiles					-- The map tiles
 	local rng = self.map.drawRange					-- The drawing range. [1-4] = x,y,width,height
 	local drawList = {}								-- A list of the objects to be drawn
 	
 	-- Set the color and line width. Store the old values so we can revert them back at the end.
-	r,g,b,a = love.graphics.getColor()
-	line = love.graphics.getLineWidth()
-	love.graphics.setLineWidth(2)
+	r,g,b,a = gra.getColor()
+	line = gra.getLineWidth()
+	gra.setLineWidth(2)
 	self.color[4] = 255 * self.opacity
 	
 	-- Put only objects that are on the screen in the draw list. If the screen range isn't defined
@@ -92,12 +92,12 @@ function ObjectLayer:draw()
 		
 		-- If the object has a custom draw function then call it
 		if type(obj.draw) == "function" then
-			love.graphics.setColor(r,g,b,a)
+			gra.setColor(r,g,b,a)
 			obj.draw(di.x, di.y)
 		
 		-- The object has a gid - draw a tile
 		elseif obj.gid then
-				love.graphics.setColor(r,g,b,a)
+				gra.setColor(r,g,b,a)
 				tiles[obj.gid]:draw(di.x, di.y)
 				
 		-- If map isn't set to draw tileless objects then do nothing
@@ -112,33 +112,33 @@ function ObjectLayer:draw()
 				offset[k] = v + (k+1)%2
 			end
 
-			love.graphics.setColor(self.color[1], self.color[2], self.color[3], 50)
-			love.graphics.polygon("fill", unpack(di))
+			gra.setColor(self.color[1], self.color[2], self.color[3], 50)
+			gra.polygon("fill", unpack(di))
 			
-			love.graphics.setColor(0, 0, 0, 255 * self.opacity)
-			love.graphics.polygon("line", unpack(offset))
+			gra.setColor(0, 0, 0, 255 * self.opacity)
+			gra.polygon("line", unpack(offset))
 			
-			love.graphics.setColor(unpack(self.color))
-			love.graphics.polygon("line", unpack(di))
+			gra.setColor(unpack(self.color))
+			gra.polygon("line", unpack(di))
 
 		-- Map is orthogonal - draw a rectangle
 		else
-			love.graphics.setColor(self.color[1], self.color[2], self.color[3], 50)
-			love.graphics.rectangle("fill", di.x+1, di.y+1, di[1]-1, di[2]-1)
+			gra.setColor(self.color[1], self.color[2], self.color[3], 50)
+			gra.rectangle("fill", di.x+1, di.y+1, di[1]-1, di[2]-1)
 			
-			love.graphics.setColor(0, 0, 0, 255 * self.opacity)
-			love.graphics.rectangle("line", di.x+1, di.y+1, di[1], di[2])
-			love.graphics.print(obj.name, di.x+1, di.y-19)
+			gra.setColor(0, 0, 0, 255 * self.opacity)
+			gra.rectangle("line", di.x+1, di.y+1, di[1], di[2])
+			gra.print(obj.name, di.x+1, di.y-19)
 			
-			love.graphics.setColor(unpack(self.color))
-			love.graphics.rectangle("line", di.x, di.y, di[1], di[2])
-			love.graphics.print(obj.name, di.x, di.y-20)
+			gra.setColor(unpack(self.color))
+			gra.rectangle("line", di.x, di.y, di[1], di[2])
+			gra.print(obj.name, di.x, di.y-20)
 		end
 	end
 
 	-- Set back the line width and color as they were before
-	love.graphics.setLineWidth(line)
-	love.graphics.setColor(r,g,b,a)
+	gra.setLineWidth(line)
+	gra.setColor(r,g,b,a)
 end
 
 -- Return the ObjectLayer class

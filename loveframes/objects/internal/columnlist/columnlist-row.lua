@@ -16,7 +16,7 @@ function columnlistrow:initialize(parent, data)
 	self.type 			= "columnlistrow"
 	self.parent			= parent
 	self.colorindex		= self.parent.rowcolorindex
-	self.font			= love.graphics.newFont(10)
+	self.font			= gra.newFont(10)
 	self.textcolor		= {0, 0, 0, 255}
 	self.width 			= 80
 	self.height 		= 25
@@ -89,7 +89,7 @@ function columnlistrow:draw()
 	
 	for k, v in ipairs(self.columndata) do
 		sfn(self.font)
-		love.graphics.setColor(unpack(textcolor))
+		gra.setColor(unpack(textcolor))
 		pn(v, self.x + x, self.y + self.texty)
 		x = x + cwidth
 	end

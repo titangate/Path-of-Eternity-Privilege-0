@@ -15,7 +15,7 @@ local resourceKinds = {
     resourceKey = "imageData",
     constructor = love.image.newImageData,
     postProcess = function(data)
-      return love.graphics.newImage(data)
+      return gra.newImage(data)
     end
   },
   source = {

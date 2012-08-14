@@ -123,16 +123,16 @@ function tabs:draw()
 	end
 	
 	local tabheight = self:getHeightOfButtons()
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, tabheight) end
-	local stencil = love.graphics.newStencil(stencilfunc)
+	local stencilfunc = function() gra.rectangle("fill", self.x, self.y, self.width, tabheight) end
+	local stencil = gra.newStencil(stencilfunc)
 	
-	love.graphics.setStencil(stencil)
+	gra.setStencil(stencil)
 	
 	for k, v in ipairs(internals) do
 		v:draw()
 	end
 	
-	love.graphics.setStencil()
+	gra.setStencil()
 	
 	if #self.children > 0 then
 		self.children[self.tab]:draw()

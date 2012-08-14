@@ -52,7 +52,7 @@ function TileSet:getTiles()
 	local imageWidth, imageHeight = self.image:getWidth(), self.image:getHeight()
 	for i = 1, self:tilesHigh() do
 		for j = 1, self:tilesWide() do
-			quad = love.graphics.newQuad(x, y, self.tileWidth, self.tileHeight, imageWidth, imageHeight)
+			quad = gra.newQuad(x, y, self.tileWidth, self.tileHeight, imageWidth, imageHeight)
 			tiles[id] = Tile:new(self.firstgid + i + j - 2, self, quad, 
 							   self.tileWidth, self.tileHeight, self.tileProperties[id])
 			x = x + self.tileWidth + self.spacing

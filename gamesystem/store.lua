@@ -41,7 +41,7 @@ function store:loadsynringe()
 	local syringe = loveframes.Create"panel"
 	function syringe.Draw(object) 
 		filters.active.predraw()
-		love.graphics.draw(requireImage'asset/interface/storebg.png',object:GetPos())
+		gra.draw(requireImage'asset/interface/storebg.png',object:GetPos())
 		filters.active.postdraw()
 	end
 	syringe:setSize(1010,650)
@@ -183,7 +183,7 @@ function store:loadgun()
 	local gun = loveframes.Create"panel"
 	function gun.Draw(object)
 		filters.active.predraw()
-		love.graphics.draw(requireImage'asset/interface/storebg.png',object:GetPos())
+		gra.draw(requireImage'asset/interface/storebg.png',object:GetPos())
 		filters.active.postdraw()
 	end
 	gun:setSize(1010,650)

@@ -1,3 +1,5 @@
+
+
 local loader = require 'loader'
 
 
@@ -18,8 +20,99 @@ option = {
 	shaderquality = 'HIGH',
 	texturequality = 'HIGH',
 	language = 'English',
-	retina = nil,
+	retina = 1,
 }
+
+
+gra = {}
+for k,v in pairs(love.graphics) do
+	gra[k] = v
+end
+function gra.draw(item,x,y,r,sx,sy,...)
+	if x then x = x*option.retina end
+	if y then y = y*option.retina end
+	if not item:typeOf'Canvas' then
+	sx = sx or 1
+	sy = sy or sx
+	if sx then sx = sx*option.retina end
+	if sy then sy = sy*option.retina end
+end
+	love.graphics.draw(item,x,y,r,sx,sy,...)
+end
+
+function gra.drawq(item,quad,x,y,r,sx,sy,...)
+	if x then x = x*option.retina end
+	if y then y = y*option.retina end
+	if not item:typeOf'Canvas' then
+		sx = sx or 1
+		sy = sy or sx
+		if sx then sx = sx*option.retina end
+		if sy then sy = sy*option.retina end
+	end
+	love.graphics.drawq(item,quad,x,y,r,sx,sy,...)
+end
+function gra.newCanvas(w,h)
+	if w then w = w*option.retina end
+	if h then h = h*option.retina end
+	return love.graphics.newCanvas(w,h)
+end
+function gra.translate(x,y)
+	if x then x = x*option.retina end
+	if y then y = y*option.retina end
+	love.graphics.translate(x,y)
+end
+
+function gra.setFont(f)
+	gra.altfont = font.retina[f]
+end
+
+function gra.print(msg,x,y,r,sx,sy,ox,oy,kx,ky)
+	local f = love.graphics.getFont()
+	if gra.altfont then
+		love.graphics.setFont(gra.altfont)
+	end
+	--gra.printf(msg,x,y,999999)
+	if x then x = x*option.retina end
+	if y then y = y*option.retina end
+
+	love.graphics.print(msg,x,y,r,sx,sy,ox,oy,kx,ky)
+	if f then love.graphics.setFont(f) end
+end
+
+function gra.printf(msg,x,y,limit,...)
+	local f = love.graphics.getFont()
+	if gra.altfont then
+		love.graphics.setFont(gra.altfont)
+	end
+	if x then x = x*option.retina end
+	if y then y = y*option.retina end
+	if limit then limit = limit*option.retina end
+	--love.graphics.print(msg,x,y,0,option.retina,option.retina)
+	love.graphics.printf(msg,x,y,limit,...)
+	if f then love.graphics.setFont(f) end
+end
+
+function gra.rectangle(m,x,y,w,h)
+	love.graphics.rectangle(m,x*option.retina,y*option.retina,w*option.retina,h*option.retina)
+end
+
+function gra.line(x1,y1,x2,y2)
+	love.graphics.line(x1*option.retina,y1*option.retina,x2*option.retina,y2*option.retina)
+end
+
+function gra.circle(m,x,y,r,e)
+	love.graphics.circle(m,x*option.retina,y*option.retina,r*option.retina,e)
+end
+--[[
+function gra.setCanvas(c)
+	if c then
+		love.graphics.push()
+		love.graphics.scale(1/option.retina)
+	else
+		love.graphics.pop()
+	end
+	love.graphics.setCanvas(c)
+end]]
 
 gamesys = {}
 function gamesys.push(sys,transtime)
@@ -134,7 +227,7 @@ function love.load()
 	end)
 
 	-- load the examples menu
-	--local splash = true
+	local splash = true
 	-- load the sin selector menu
 	local mainmenu = require 'gamesystem.mainmenu'
 	
@@ -162,7 +255,7 @@ function love.load()
 --	loveframes.debug.SkinSelector()
 --	loveframes.debug.ExamplesMenu()
 	
---	love.graphics.setBackgroundColor(255,255,255,0)
+--	gra.setBackgroundColor(255,255,255,0)
 	modalBackground = loveframes.Create'frame'
 	modalBackground:setSize(screen.width,screen.height)
 	modalBackground:setPos(0,0)
@@ -173,13 +266,12 @@ end
 
 function love.mousepressed(x, y, button)
 	if option.retina then
-		--x,y = x/option.retina,y/option.retina
+		x,y = x/option.retina,y/option.retina
 	end
 	gamesys[#gamesys]:mousepressed(x,y,button)
 	loveframes.mousepressed(x, y, button)
-	
 end
---[[
+
 local mouseposition = love.mouse.getPosition
 function love.mouse.getPosition()
 	local x,y = mouseposition()
@@ -188,12 +280,12 @@ function love.mouse.getPosition()
 	end
 
 	return x,y
-end]]
+end
 
 function love.mousereleased(x, y, button)
 
 	if option.retina then
-		--x,y = x/option.retina,y/option.retina
+		x,y = x/option.retina,y/option.retina
 	end
 	gamesys[#gamesys]:mousereleased(x,y,button)
 	loveframes.mousereleased(x, y, button)
@@ -253,13 +345,13 @@ function love.update(dt)
 end
 
 function love.draw()
-		--love.graphics.rectangle('fill',0,0,10000,10000)
+		--gra.rectangle('fill',0,0,10000,10000)
 	if loveframes.modalobject then
 		filters.gaussianblur.conf(modalBackground)
 		filters.gaussianblur.predraw(modalBackground)
 	end
 	if option.retina then
-		--love.graphics.scale(option.retina)
+		--gra.scale(option.retina)
 	end
 	gamesys.draw()
 	if loveframes.modalobject then
@@ -268,32 +360,32 @@ function love.draw()
 	if option.seperateUI then
 		if refreshUI then
 			graphics.canvas.c:clear()
-			love.graphics.setColor(255,255,255)
-			love.graphics.setCanvas(graphics.canvas.c)
+			gra.setColor(255,255,255)
+			gra.setCanvas(graphics.canvas.c)
 			loveframes.draw()
-			love.graphics.setCanvas()
+			gra.setCanvas()
 			refreshUI = false
 		end
-		love.graphics.setColor(255,255,255)
-		love.graphics.setBlendMode'premultiplied'
-		love.graphics.draw(graphics.canvas.c)
-		love.graphics.setBlendMode'alpha'
+		gra.setColor(255,255,255)
+		gra.setBlendMode'premultiplied'
+		gra.draw(graphics.canvas.c)
+		gra.setBlendMode'alpha'
 	else
 		
-		love.graphics.setColor(255,255,255)
+		gra.setColor(255,255,255)
 		loveframes.draw()
 	end
-	love.graphics.setColor(0, 0, 0, 255)
+	gra.setColor(0, 0, 0, 255)
 	pn("Press \"`\" to toggle debug mode.", 210, 7)
-	love.graphics.setColor(255, 255, 255, 255)
+	gra.setColor(255, 255, 255, 255)
 	pn("Press \"`\" to toggle debug mode.", 210, 5)
 
 	if not finishedLoading then
 		local percent = 0
 		if loader.resourceCount ~= 0 then percent = loader.loadedCount / loader.resourceCount end
-		love.graphics.print(("Loading Assets.. %d%%"):format(percent*100), 100, 100)
+		gra.print(("Loading Assets.. %d%%"):format(percent*100), 100, 100)
 	end
 
 	local fps = love.timer.getFPS()
-	love.graphics.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
+	gra.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
 end

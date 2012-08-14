@@ -5,7 +5,7 @@
 
 loveframes.debug = {}
 
-local font = love.graphics.newFont(10)
+local font = gra.newFont(10)
 local loremipsum = 
 [[
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -37,27 +37,27 @@ function loveframes.debug.draw()
 	-- font for debug text
 	sfn(font)
 	
-	love.graphics.setColor(0, 0, 0, 150)
-	love.graphics.rectangle("fill", 5, 5, 200, 250)
+	gra.setColor(0, 0, 0, 150)
+	gra.rectangle("fill", 5, 5, 200, 250)
 	
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 10, 190, 20)
-	love.graphics.setColor(255, 0, 0, 255)
+	gra.setColor(0, 0, 0, 50)
+	gra.rectangle("fill", 10, 10, 190, 20)
+	gra.setColor(255, 0, 0, 255)
 	pn("Library Information", 15, 15)
 	
-	love.graphics.setColor(255, 255, 255, 255)
+	gra.setColor(255, 255, 255, 255)
 	pn("Author: " ..loveframes.info.author, 15, 30)
 	pn("Version: " ..loveframes.info.version, 15, 40)
 	pn("Stage: " ..loveframes.info.stage, 15, 50)
 	pn("Base Directory: " ..loveframes.config["DIRECTORY"], 15, 60)
 	
 	-- object information box
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 80, 190, 20)
-	love.graphics.setColor(255, 0, 0, 255)
+	gra.setColor(0, 0, 0, 50)
+	gra.rectangle("fill", 10, 80, 190, 20)
+	gra.setColor(255, 0, 0, 255)
 	pn("Object Information", 15, 85)
 	
-	love.graphics.setColor(255, 255, 255, 255)
+	gra.setColor(255, 255, 255, 255)
 	
 	if numcols > 0 then
 		pn("Type: " ..topcol.type, 15, 100)
@@ -77,12 +77,12 @@ function loveframes.debug.draw()
 	pn("Height: " ..topcol.height, 15, 150)
 	
 	-- Miscellaneous box
-	love.graphics.setColor(0, 0, 0, 50)
-	love.graphics.rectangle("fill", 10, 190, 190, 20)
-	love.graphics.setColor(255, 0, 0, 255)
+	gra.setColor(0, 0, 0, 50)
+	gra.rectangle("fill", 10, 190, 190, 20)
+	gra.setColor(255, 0, 0, 255)
 	pn("Miscellaneous", 15, 195)
 	
-	love.graphics.setColor(255, 255, 255, 255)
+	gra.setColor(255, 255, 255, 255)
 	
 	pn("LOVE Version: " ..love._version, 15, 210)
 	pn("FPS: " ..love.timer.getFPS(), 15, 220)
@@ -90,9 +90,9 @@ function loveframes.debug.draw()
 	pn("Total Objects: " ..#objects, 15, 240)
 	
 	-- outline the object that the mouse is hovering over
-	love.graphics.setColor(255, 204, 51, 255)
-	love.graphics.setLine(2, "smooth")
-	love.graphics.rectangle("line", topcol.x - 1, topcol.y - 1, topcol.width + 2, topcol.height + 2)
+	gra.setColor(255, 204, 51, 255)
+	gra.setLine(2, "smooth")
+	gra.rectangle("line", topcol.x - 1, topcol.y - 1, topcol.width + 2, topcol.height + 2)
 
 end
 
@@ -399,11 +399,11 @@ function loveframes.debug.ExamplesMenu()
 		
 		local text1 = loveframes.Create("text", panel1)
 		text1:setPos(5, 5)
-		text1:SetFont(love.graphics.newFont(10))
+		text1:SetFont(gra.newFont(10))
 		text1:setText(slider1:GetText())
 		
 		local text2 = loveframes.Create("text", panel1)
-		text2:SetFont(love.graphics.newFont(10))
+		text2:SetFont(gra.newFont(10))
 		text2.Update = function(object, dt)
 			object:setPos(slider1:getWidth() - object:getWidth(), 5)
 			object:setText(slider1:GetValue())
@@ -421,11 +421,11 @@ function loveframes.debug.ExamplesMenu()
 		
 		local text3 = loveframes.Create("text", panel1)
 		text3:setPos(5, 45)
-		text3:SetFont(love.graphics.newFont(10))
+		text3:SetFont(gra.newFont(10))
 		text3:setText(slider2:GetText())
 		
 		local text4 = loveframes.Create("text", panel1)
-		text4:SetFont(love.graphics.newFont(10))
+		text4:SetFont(gra.newFont(10))
 		text4.Update = function(object, dt)
 			object:setPos(slider2:getWidth() - object:getWidth(), 45)
 			object:setText(slider2:GetValue())

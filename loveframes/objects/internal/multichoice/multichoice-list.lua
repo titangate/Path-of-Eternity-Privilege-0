@@ -127,7 +127,7 @@ function multichoicelist:draw()
 		v:draw()
 	end
 		
-	love.graphics.setScissor(self.x, self.y, self.width, self.height)
+	gra.setScissor(self.x*option.retina, self.y*option.retina, self.width*option.retina, self.height*option.retina)
 		
 	for k, v in ipairs(self.children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
@@ -136,7 +136,7 @@ function multichoicelist:draw()
 		end
 	end
 		
-	love.graphics.setScissor()
+	gra.setScissor()
 	
 	skin.DrawOverMultiChoiceList(self)
 	

@@ -105,32 +105,32 @@ function Gun:getIcon()
 end
 
 function Gun:generateIcon()
-	self.icon = love.graphics.newCanvas(445,300)
-	love.graphics.setCanvas(self.icon)
-	love.graphics.draw(requireImage'item/1911/gun.png')
+	self.icon = gra.newCanvas(445,300)
+	gra.setCanvas(self.icon)
+	gra.draw(requireImage'item/1911/gun.png')
 	--if self.silencer then
 	if self.silencer == 1 then
-		love.graphics.draw(requireImage'item/1911/silencer1.png')
+		gra.draw(requireImage'item/1911/silencer1.png')
 	elseif self.silencer == 2 then
-		love.graphics.draw(requireImage'item/1911/silencer2.png')
+		gra.draw(requireImage'item/1911/silencer2.png')
 	end
 	if self.scope == 1 then
-		love.graphics.draw(requireImage'item/1911/scope1.png')
+		gra.draw(requireImage'item/1911/scope1.png')
 	elseif self.scope == 2 then
-		love.graphics.draw(requireImage'item/1911/scope2.png')
+		gra.draw(requireImage'item/1911/scope2.png')
 	end
 	if self.slide == 1 then
-		love.graphics.draw(requireImage'item/1911/slide1.png')
+		gra.draw(requireImage'item/1911/slide1.png')
 	elseif self.slide == 2 then
-		love.graphics.draw(requireImage'item/1911/slide2.png')
+		gra.draw(requireImage'item/1911/slide2.png')
 	end
-	love.graphics.setCanvas()
+	gra.setCanvas()
 end
 
 function Gun:draw_lli()
 	local x1,y1 = unpack(self.target)
 	local x2,y2 = unpack(self.ownerPosition)
-	love.graphics.line(x1,y1,x2,y2)
+	gra.line(x1,y1,x2,y2)
 	self.s:drawCircle()
 	if self.silencer ~= 2 then
 	self.s2:drawCircle()

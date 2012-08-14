@@ -1,5 +1,5 @@
 local EKG = {}
-EKG.pe = love.graphics.newPixelEffect[[
+EKG.pe = gra.newPixelEffect[[
 //const int normalscale = 64;
 extern number center = 0.5;
 extern number range = 0.1;
@@ -23,11 +23,11 @@ function EKG.conf(obj)
 end
 
 function EKG.predraw(obj)
-	love.graphics.setPixelEffect(EKG.pe)
+	gra.setPixelEffect(EKG.pe)
 end
 
 function EKG.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return EKG

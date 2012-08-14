@@ -77,7 +77,7 @@ function Crowd:update(dt)
 	
 	for i,v in ipairs(self.crowd) do
 		local f = true
-		love.graphics.push()
+		gra.push()
 		for i,a in ipairs(self.source) do
 			if a:contain(v) then
 				local cv = a:getCenterVector()
@@ -94,7 +94,7 @@ function Crowd:update(dt)
 		end
 		if f then v:face() end
 		v:draw()
-		love.graphics.pop()
+		gra.pop()
 	end
 end
 

@@ -40,7 +40,7 @@ function Animation:halt()
 end
 
 function Animation:draw(x,y,r)
-	love.graphics.draw(self.sprites[self.frame],x,y,r,2,2,64,64)
+	gra.draw(self.sprites[self.frame],x,y,r,2,2,64,64)
 end
 
 local animation = {}

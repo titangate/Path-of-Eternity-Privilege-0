@@ -83,8 +83,8 @@ function TileLayer:draw()
 	useSpriteBatch = self.useSpriteBatch ~= nil and self.useSpriteBatch or map.useSpriteBatch
 	
 	-- We'll blend the set alpha in with the current alpha
-	r,g,b,a = love.graphics.getColor()
-	love.graphics.setColor(r,g,b, a*self.opacity)
+	r,g,b,a = gra.getColor()
+	gra.setColor(r,g,b, a*self.opacity)
 	
 	self._previousUseSpriteBatch = self.useSpriteBatch
 	
@@ -126,7 +126,7 @@ function TileLayer:draw()
 						if useSpriteBatch then
 							-- If we dont have a spritebatch for the current tile's tileset then make one
 							if not self._batches[tile.tileset] then 
-								self._batches[tile.tileset] = love.graphics.newSpriteBatch(
+								self._batches[tile.tileset] = gra.newSpriteBatch(
 																		tile.tileset.image, 
 																		map.width * map.height)
 							end
@@ -181,7 +181,7 @@ function TileLayer:draw()
 								if useSpriteBatch then
 									-- If we dont have a spritebatch for the current tile's tileset then make one
 									if not self._batches[tile.tileset] then 
-										self._batches[tile.tileset] = love.graphics.newSpriteBatch(
+										self._batches[tile.tileset] = gra.newSpriteBatch(
 																				tile.tileset.image, 
 																				map.width * map.height)
 									end
@@ -208,7 +208,7 @@ function TileLayer:draw()
 	-- If sprite batches are turned on then render them
 	if useSpriteBatch then
 		for k,v in pairs(self._batches) do
-			love.graphics.draw(v)
+			gra.draw(v)
 		end
 	end
 	
@@ -216,7 +216,7 @@ function TileLayer:draw()
 	self:clearAfterTile()
 	
 	-- Change the color back
-	love.graphics.setColor(r,g,b,a)
+	gra.setColor(r,g,b,a)
 end
 
 ----------------------------------------------------------------------------------------------------

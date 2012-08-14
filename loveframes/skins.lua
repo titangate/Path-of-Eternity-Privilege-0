@@ -44,7 +44,7 @@ function loveframes.skins.Register(skin)
 	if #images > 0 and indeximages == true then
 	
 		for k, v in ipairs(images) do
-			loveframes.skins.available[name].images[v.name .. "." .. v.extension] = love.graphics.newImage(v.fullpath)
+			loveframes.skins.available[name].images[v.name .. "." .. v.extension] = gra.newImage(v.fullpath)
 		end
 		
 	end

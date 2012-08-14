@@ -1,5 +1,5 @@
 local satbri = {}
-satbri.pe = love.graphics.newPixelEffect[[
+satbri.pe = gra.newPixelEffect[[
 //const int normalscale = 64;
 extern number saturation = 0;
 extern number brightness = 0;
@@ -29,11 +29,11 @@ function satbri.conf(obj)
 end
 
 function satbri.predraw(obj)
-	love.graphics.setPixelEffect(satbri.pe)
+	gra.setPixelEffect(satbri.pe)
 end
 
 function satbri.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return satbri

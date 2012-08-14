@@ -1,5 +1,5 @@
 local gaussianblur = {}
-gaussianblur.vert = love.graphics.newPixelEffect[[
+gaussianblur.vert = gra.newPixelEffect[[
 extern number intensity = 1;
 extern number rf_h = 512;
 
@@ -17,7 +17,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 	return color * tc;
 }
 ]]
-gaussianblur.horz = love.graphics.newPixelEffect[[
+gaussianblur.horz = gra.newPixelEffect[[
 extern number intensity = 1;
 extern number rf_w = 512;
 
@@ -53,26 +53,26 @@ function gaussianblur.predraw(obj)
 	local w2 = math.min(screen.width,neartwo(w*blurscale))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
-	gaussianblur.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
+	gaussianblur.prevc = gra.getCanvas()
+	gra.setCanvas(c.canvas)
 	obj.c = c
-	love.graphics.push()
-	love.graphics.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
+	gra.push()
+	gra.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
 	gaussianblur.vert:send('rf_h',h)
 	gaussianblur.horz:send('rf_w',w2)
-	love.graphics.setPixelEffect(gaussianblur.vert)
+	gra.setPixelEffect(gaussianblur.vert)
 end
 
 function gaussianblur.postdraw(obj)
 local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*blurscale))
-	love.graphics.pop()
-	love.graphics.setCanvas(gaussianblur.prevc)
-	love.graphics.setPixelEffect(gaussianblur.horz)
-	love.graphics.setColor(255,255,255)
-	love.graphics.draw(obj.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
+	gra.pop()
+	gra.setCanvas(gaussianblur.prevc)
+	gra.setPixelEffect(gaussianblur.horz)
+	gra.setColor(255,255,255)
+	gra.draw(obj.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
 	canvasmanager.releaseCanvas(obj.c)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 	obj.c = nil
 end
 

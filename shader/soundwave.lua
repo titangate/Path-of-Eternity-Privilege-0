@@ -1,5 +1,5 @@
 local soundwave = {}
-soundwave.pe = love.graphics.newPixelEffect[[
+soundwave.pe = gra.newPixelEffect[[
 extern vec2 refcenter = vec2(0.5,0.5);
 extern number intensity = 0.05;
 extern number ref = 640;
@@ -24,11 +24,11 @@ function soundwave.conf(obj)
 end
 
 function soundwave.predraw(obj)
-	love.graphics.setPixelEffect(soundwave.pe)
+	gra.setPixelEffect(soundwave.pe)
 end
 
 function soundwave.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return soundwave

@@ -99,17 +99,17 @@ end
 
 if DEBUG then
 function AIPath:DebugDraw()
-	love.graphics.setColor(0,0,0)
+	gra.setColor(0,0,0)
 	local x1,y1,x2,y2
 	for i=self.current-1,1,-1 do
 		x1,y1 = self.path[i]:getCenter()
 		x2,y2 = self.path[i+1]:getCenter()
-		love.graphics.line(x2,y2,x1,y1)
+		gra.line(x2,y2,x1,y1)
 		
 	end
 	if self.current > 0 then
 		x1,y1 = self.path[self.current]:getCenter()
-		love.graphics.line(x1,y1,self.unit:getPosition())
+		gra.line(x1,y1,self.unit:getPosition())
 	end
 end
 end

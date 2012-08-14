@@ -1,5 +1,5 @@
 local vibrate = {}
-vibrate.pe = love.graphics.newPixelEffect[[
+vibrate.pe = gra.newPixelEffect[[
 //const int normalscale = 64;
 extern number ref = 1;
 vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
@@ -19,30 +19,28 @@ end
 function vibrate.predraw(obj)
 	local w = obj:getWidth()
 	local h = obj:getHeight()
-	local w2 = math.min(screen.width,neartwo(w*2))
-	local c = canvasmanager.requireCanvas(w2,h)
+	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
-	vibrate.prevc = love.graphics.getCanvas()
-	love.graphics.setCanvas(c.canvas)
+	vibrate.prevc = gra.getCanvas()
+	gra.setCanvas(c.canvas)
 	vibrate.c = c
-	love.graphics.push()
-	love.graphics.translate((-obj:getX()+(w2-w)/2),(-obj:getY()))
-	love.graphics.setColor(255,255,255)
+	gra.push()
+	--gra.scale(1/option.retina)
+	gra.translate(-obj:getX(),(-obj:getY()))
+	gra.setColor(255,255,255)
 end
 
 function vibrate.postdraw(obj)
 local w = obj:getWidth()
-local w2 = math.min(screen.width,neartwo(w*2))
-	love.graphics.pop()
-	love.graphics.setCanvas(vibrate.prevc)
-	love.graphics.setPixelEffect(vibrate.pe)
-	love.graphics.setColor(255,255,255)
-	love.graphics.setBlendMode'premultiplied'
-	print ((obj:getX()-(w2-w)/2),(obj:getY()))
-	love.graphics.draw(vibrate.c.canvas,(obj:getX()-(w2-w)/2),(obj:getY()))
+	gra.pop()
+	gra.setCanvas(vibrate.prevc)
+	gra.setPixelEffect(vibrate.pe)
+	gra.setColor(255,255,255)
+	gra.setBlendMode'premultiplied'
+	gra.draw(vibrate.c.canvas,(obj:getX()),(obj:getY()))
 	canvasmanager.releaseCanvas(vibrate.c)
-	love.graphics.setPixelEffect()
-	love.graphics.setBlendMode'alpha'
+	gra.setPixelEffect()
+	gra.setBlendMode'alpha'
 	vibrate.c = nil
 end
 

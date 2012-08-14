@@ -230,7 +230,7 @@ end
 function circlebutton:setImage(image)
 
 	if type(image) == "string" then
-		self.image = love.graphics.newImage(image)
+		self.image = gra.newImage(image)
 	else
 		self.image = image
 	end

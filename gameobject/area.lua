@@ -29,7 +29,7 @@ function Area:carryUnit(u,state)
 end
 
 function Area:DebugDraw()
-	love.graphics.setColor(0,0,0)
+	gra.setColor(0,0,0)
 	if self.unitcount then
 		local x,y = self:getCenter()
 		pfn(string.format("unit: %d",self.unitcount),x,y,30,'center')

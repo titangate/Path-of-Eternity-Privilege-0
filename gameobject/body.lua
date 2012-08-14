@@ -47,7 +47,7 @@ local shapewidth,shapeheight = 48,12
 local bodyrad = 36
 
 function Body:_draw(x,y,r)
-	local g = love.graphics
+	local g = gra
 	local m = self.mover
 	local x,y,r
 	local dot = requireImage'dot.png'
@@ -80,11 +80,11 @@ function Body:draw(x,y,r)
 		local w2 = math.min(screen.width,neartwo(w*1))
 		local c = canvasmanager.requireCanvas(w2,h)
 		c.canvas:clear()
-		stroke.prevc = love.graphics.getCanvas()
-		love.graphics.setCanvas(c.canvas)
+		stroke.prevc = gra.getCanvas()
+		gra.setCanvas(c.canvas)
 		stroke.c = c
-		love.graphics.push()
-		love.graphics.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
+		gra.push()
+		gra.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w2)
 	end
@@ -96,13 +96,13 @@ function Body:draw(x,y,r)
 		local w = obj:getWidth()
 		local h = obj:getHeight()
 		local w2 = math.min(screen.width,neartwo(w*1))
-		love.graphics.pop()
-		love.graphics.setCanvas(stroke.prevc)
-		love.graphics.setPixelEffect(stroke.pe)
-		love.graphics.setColor(0,255,0)
-		love.graphics.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
+		gra.pop()
+		gra.setCanvas(stroke.prevc)
+		gra.setPixelEffect(stroke.pe)
+		gra.setColor(0,255,0)
+		gra.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
 		canvasmanager.releaseCanvas(stroke.c)
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 end
@@ -124,11 +124,11 @@ function Body:draw_LLI(x,y,r)
 		local w2 = math.min(screen.width,neartwo(w*1))
 		local c = canvasmanager.requireCanvas(w2,h)
 		c.canvas:clear()
-		stroke.prevc = love.graphics.getCanvas()
-		love.graphics.setCanvas(c.canvas)
+		stroke.prevc = gra.getCanvas()
+		gra.setCanvas(c.canvas)
 		stroke.c = c
-		love.graphics.push()
-		love.graphics.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
+		gra.push()
+		gra.translate(-obj:getX()+scale*32+(w2-w)/1,-obj:getY()+scale*32)
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w2)
 	end
@@ -141,26 +141,26 @@ function Body:draw_LLI(x,y,r)
 		local w = obj:getWidth()
 		local h = obj:getHeight()
 		local w2 = math.min(screen.width,neartwo(w*1))
-		love.graphics.pop()
-		love.graphics.setCanvas(stroke.prevc)
-		love.graphics.setPixelEffect(stroke.pe)
-		love.graphics.setColor(0,255,0)
-		love.graphics.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
+		gra.pop()
+		gra.setCanvas(stroke.prevc)
+		gra.setPixelEffect(stroke.pe)
+		gra.setColor(0,255,0)
+		gra.draw(stroke.c.canvas,obj:getX()-scale*32-(w2-w)/1,obj:getY()-scale*32)
 		canvasmanager.releaseCanvas(stroke.c)
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 		stroke.c = nil
 	end
 
 	filters.lli_unit.conf(self)
 	filters.lli_unit.predraw(self)
-	love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],50)
+	gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],50)
 	
 	self:_draw()
 	filters.lli_unit.postdraw(self)
 	if self.lli_flare then
-		love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
+		gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
 	end
-	love.graphics.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
+	gra.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
 
 
 end

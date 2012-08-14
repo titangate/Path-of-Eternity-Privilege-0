@@ -231,7 +231,7 @@ function text:DrawText()
 		
 		local text = v.text
 		local color = v.color
-		love.graphics.setColor(color)
+		gra.setColor(color)
 		sfn(font)
 		pfn(text,x,y,maxw,'left')
 		totalwidth = font:getWidth(text)
@@ -261,7 +261,7 @@ function text:DrawText()
 				prevtextwidth = width
 				
 				sfn(font)
-				love.graphics.setColor(unpack(color))
+				gra.setColor(unpack(color))
 				
 				pn(text, x + drawx, y + drawy)
 			
@@ -274,7 +274,7 @@ function text:DrawText()
 				prevtextwidth = width
 				
 				sfn(font)
-				love.graphics.setColor(unpack(color))
+				gra.setColor(unpack(color))
 				pn(text, x + drawx, y)
 				
 			end

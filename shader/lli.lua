@@ -1,5 +1,5 @@
 local lli = {}
-lli.pe = love.graphics.newPixelEffect[[
+lli.pe = gra.newPixelEffect[[
 //const int normalscale = 64;
 extern number saturation = 0;
 extern number brightness = 0;
@@ -46,12 +46,12 @@ function lli.conf(obj)
 end
 
 function lli.predraw(obj)
-	love.graphics.setPixelEffect(lli.pe)
+	gra.setPixelEffect(lli.pe)
 	lli.pe:send('rf_h',screen.height)
 end
 
 function lli.postdraw(obj)
-	love.graphics.setPixelEffect()
+	gra.setPixelEffect()
 end
 
 return lli

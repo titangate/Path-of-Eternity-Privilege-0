@@ -59,7 +59,7 @@ function optionmenu:load()
 	p.EKG_center = 0.2
 	p.EKG_range = 0.1
 	p.EKG_image:setWrap('repeat','repeat')
-	p.EKG_quad = love.graphics.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
+	p.EKG_quad = gra.newQuad(0,0,p:getWidth(),p.EKG_image:getHeight(),p.EKG_image:getWidth(),p.EKG_image:getHeight())
 
 	local p = loveframes.Create("progressbar",gameplaypanel)
 	p:setPos(380,62)

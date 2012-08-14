@@ -120,10 +120,10 @@ function list:draw()
 		skin.DrawList(self)
 	end
 	
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil = love.graphics.newStencil(stencilfunc)
+	local stencilfunc = function() gra.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil = gra.newStencil(stencilfunc)
 	
-	love.graphics.setStencil(stencil)
+	gra.setStencil(stencil)
 		
 	for k, v in ipairs(children) do
 		local col = loveframes.util.BoundingBox(self.x, v.x, self.y, v.y, self.width, v.width, self.height, v.height)
@@ -132,7 +132,7 @@ function list:draw()
 		end
 	end
 	
-	love.graphics.setStencil()
+	gra.setStencil()
 	
 	for k, v in ipairs(internals) do
 		v:draw()

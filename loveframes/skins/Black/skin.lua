@@ -188,22 +188,22 @@ function skin.OutlinedRectangle(x, y, width, height, ovt, ovb, ovl, ovr)
 	
 	-- top
 	if ovt == false then
-		love.graphics.rectangle("fill", x, y, width, 1)
+		gra.rectangle("fill", x, y, width, 1)
 	end
 	
 	-- bottom
 	if ovb == false then
-		love.graphics.rectangle("fill", x, y + height - 1, width, 1)
+		gra.rectangle("fill", x, y + height - 1, width, 1)
 	end
 	
 	-- left
 	if ovl == false then
-		love.graphics.rectangle("fill", x, y, 1, height)
+		gra.rectangle("fill", x, y, 1, height)
 	end
 	
 	-- right
 	if ovr == false then
-		love.graphics.rectangle("fill", x + width - 1, y, 1, height)
+		gra.rectangle("fill", x + width - 1, y, 1, height)
 	end
 	
 end
@@ -214,14 +214,14 @@ end
 --]]---------------------------------------------------------
 function skin.DrawRepeatingImage(image, x, y, width, height)
 
-	local image = love.graphics.newImage(image)
+	local image = gra.newImage(image)
 	local iwidth = image:getWidth()
 	local iheight = image:getHeight()
 	local cords = {}
 	local posx = 0
 	local posy = 0
-	local stencilfunc = function() love.graphics.rectangle("fill", x, y, width, height) end
-	local stencil = love.graphics.newStencil(stencilfunc)
+	local stencilfunc = function() gra.rectangle("fill", x, y, width, height) end
+	local stencil = gra.newStencil(stencilfunc)
 	
 	while posy < height do
 	
@@ -236,14 +236,14 @@ function skin.DrawRepeatingImage(image, x, y, width, height)
 		
 	end
 	
-	love.graphics.setStencil(stencil)
+	gra.setStencil(stencil)
 	
 	for k, v in ipairs(cords) do
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, x + v[1], y + v[2])
+		gra.setColor(255, 255, 255, 255)
+		gra.draw(image, x + v[1], y + v[2])
 	end
 	
-	love.graphics.setStencil()
+	gra.setStencil()
 	
 end
 
@@ -264,8 +264,8 @@ function skin.DrawGradient(x, y, width, height, direction, color, colormod)
 		for i=1, height - 1 do
 			percent = i/height * 255
 			color = {color[1], color[2], color[3], loveframes.util.Round(percent)}
-			love.graphics.setColor(unpack(color))
-			love.graphics.rectangle("fill", x, y + i, width, 1)
+			gra.setColor(unpack(color))
+			gra.rectangle("fill", x, y + i, width, 1)
 		end
 	
 	end
@@ -278,15 +278,15 @@ end
 --]]---------------------------------------------------------
 
 local quads = {
-	topleft = love.graphics.newQuad(0,0,10,10,40,40),
-	topright = love.graphics.newQuad(30,0,10,10,40,40),
-	botleft = love.graphics.newQuad(0,30,10,10,40,40),
-	botright = love.graphics.newQuad(30,30,10,10,40,40),
-	top = love.graphics.newQuad(10,0,1,10,40,40),
-	bot = love.graphics.newQuad(10,30,1,10,40,40),
-	left = love.graphics.newQuad(0,10,10,1,40,40),
-	right = love.graphics.newQuad(30,10,10,1,40,40),
-	mid = love.graphics.newQuad(10,10,1,1,40,40)
+	topleft = gra.newQuad(0,0,10,10,40,40),
+	topright = gra.newQuad(30,0,10,10,40,40),
+	botleft = gra.newQuad(0,30,10,10,40,40),
+	botright = gra.newQuad(30,30,10,10,40,40),
+	top = gra.newQuad(10,0,1,10,40,40),
+	bot = gra.newQuad(10,30,1,10,40,40),
+	left = gra.newQuad(0,10,10,1,40,40),
+	right = gra.newQuad(30,10,10,1,40,40),
+	mid = gra.newQuad(10,10,1,1,40,40)
 }
 
 
@@ -296,41 +296,41 @@ function skin.DrawFrame(object)
 	local x,y = object:getX(),object:getY()
 	local w,h = object:getWidth(),object:getHeight()
 	
-	love.graphics.drawq(attritubebackground,quads.topleft,x-10,y-10)
-	love.graphics.drawq(attritubebackground,quads.topright,x+w,y-10)
-	love.graphics.drawq(attritubebackground,quads.botleft,x-10,y+h)
-	love.graphics.drawq(attritubebackground,quads.botright,x+w,y+h)
-	love.graphics.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.mid,x,y,0,w,h)
+	gra.drawq(attritubebackground,quads.topleft,x-10,y-10)
+	gra.drawq(attritubebackground,quads.topright,x+w,y-10)
+	gra.drawq(attritubebackground,quads.botleft,x-10,y+h)
+	gra.drawq(attritubebackground,quads.botright,x+w,y+h)
+	gra.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
+	gra.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
+	gra.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
+	gra.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
+	gra.drawq(attritubebackground,quads.mid,x,y,0,w,h)
 	
 	-- frame name section
 	sfn(skin.controls.frame_name_font)
-	love.graphics.setColor(unpack(skin.controls.frame_name_color))
+	gra.setColor(unpack(skin.controls.frame_name_color))
 	pn(object.name, object:getX() + 5, object:getY() + 5)
 	if true then return end
 
 	local gradientcolor = {}
 	
 	-- frame body
-	love.graphics.setColor(unpack(skin.controls.frame_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.frame_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 	-- frame top bar
-	love.graphics.setColor(unpack(skin.controls.frame_top_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), 25)
+	gra.setColor(unpack(skin.controls.frame_top_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), 25)
 	
 	gradientcolor = {skin.controls.frame_top_color[1] - 20, skin.controls.frame_top_color[2] - 20, skin.controls.frame_top_color[3] - 20, 255}
 	skin.DrawGradient(object:getX(), object:getY(), object:getWidth(), 25, "up", gradientcolor)
 	
-	love.graphics.setColor(unpack(skin.controls.frame_border_color))
+	gra.setColor(unpack(skin.controls.frame_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY() + 25, object:getWidth(), 1)
 	
 	
 	-- frame border
-	love.graphics.setColor(unpack(skin.controls.frame_border_color))
+	gra.setColor(unpack(skin.controls.frame_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 
 end
@@ -341,15 +341,15 @@ function skin.DrawSimpleFrame(object)
 	local x,y = object:getX(),object:getY()
 	local w,h = object:getWidth(),object:getHeight()
 	
-	love.graphics.drawq(attritubebackground,quads.topleft,x-10,y-10)
-	love.graphics.drawq(attritubebackground,quads.topright,x+w,y-10)
-	love.graphics.drawq(attritubebackground,quads.botleft,x-10,y+h)
-	love.graphics.drawq(attritubebackground,quads.botright,x+w,y+h)
-	love.graphics.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.mid,x,y,0,w,h)
+	gra.drawq(attritubebackground,quads.topleft,x-10,y-10)
+	gra.drawq(attritubebackground,quads.topright,x+w,y-10)
+	gra.drawq(attritubebackground,quads.botleft,x-10,y+h)
+	gra.drawq(attritubebackground,quads.botright,x+w,y+h)
+	gra.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
+	gra.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
+	gra.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
+	gra.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
+	gra.drawq(attritubebackground,quads.mid,x,y,0,w,h)
 
 end
 
@@ -371,55 +371,55 @@ function skin.DrawButton(object)
 	if down == true then
 			
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.button_body_down_color))
---		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+--		gra.setColor(unpack(skin.controls.button_body_down_color))
+--		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 --		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button text
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_down_color))
+		gra.setColor(unpack(skin.controls.button_text_down_color))
 		pn(object.text, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	elseif hover == true then
 			
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.button_body_hover_color))
---		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+--		gra.setColor(unpack(skin.controls.button_body_hover_color))
+--		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 --		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button text
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_hover_color))
+		gra.setColor(unpack(skin.controls.button_text_hover_color))
 		pn(object.text, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 			
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.button_body_nohover_color))
---		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+--		gra.setColor(unpack(skin.controls.button_body_nohover_color))
+--		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 --		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button text
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
+		gra.setColor(unpack(skin.controls.button_text_nohover_color))
 		pn(object.text, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	end
@@ -439,47 +439,47 @@ function skin.DrawMenuButton(object)
 	
 	if down == true then
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_down_color))
+		gra.setColor(unpack(skin.controls.button_text_down_color))
 		pn(object.text, object:getX()+object.padding , object:getY()+object.padding)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	elseif hover == true then
 			
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.button_body_hover_color))
---		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+--		gra.setColor(unpack(skin.controls.button_body_hover_color))
+--		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 --		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button text
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_hover_color))
+		gra.setColor(unpack(skin.controls.button_text_hover_color))
 		pn(object.text, object:getX()+object.padding , object:getY()+object.padding)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 			
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.button_body_nohover_color))
---		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+--		gra.setColor(unpack(skin.controls.button_body_nohover_color))
+--		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 --		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button text
 		sfn(skin.controls.button_text_font)
-		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
+		gra.setColor(unpack(skin.controls.button_text_nohover_color))
 		pn(object.text, object:getX()+object.padding , object:getY()+object.padding)
 		
 		-- button border
---		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+--		gra.setColor(unpack(skin.controls.button_border_down_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	end
@@ -501,26 +501,26 @@ function skin.DrawCloseButton(object)
 	local image = skin.images["close.png"]
 	local gradientcolor = {}
 	
-	love.graphics.setColor(255,255,0)
-	love.graphics.draw(skin.images["flare.png"], object:getX()+object:getWidth()/2, object:getY()+object:getHeight()/2,0,0.5,0.5,64,32)
+	gra.setColor(255,255,0)
+	gra.draw(skin.images["flare.png"], object:getX()+object:getWidth()/2, object:getY()+object:getHeight()/2,0,0.5,0.5,64,32)
 	
 	if down == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.closebutton_body_down_color))
-		love.graphics.draw(image, object:getX(), object:getY())
+		gra.setColor(unpack(skin.controls.closebutton_body_down_color))
+		gra.draw(image, object:getX(), object:getY())
 		
 	elseif hover == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.closebutton_body_hover_color))
-		love.graphics.draw(image, object:getX(), object:getY())
+		gra.setColor(unpack(skin.controls.closebutton_body_hover_color))
+		gra.draw(image, object:getX(), object:getY())
 		
 	else
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.closebutton_body_nohover_color))
-		love.graphics.draw(image, object:getX(), object:getY())
+		gra.setColor(unpack(skin.controls.closebutton_body_nohover_color))
+		gra.draw(image, object:getX(), object:getY())
 		
 	end
 	
@@ -536,11 +536,11 @@ function skin.DrawImage(object)
 	local color = object.imagecolor
 	
 	if color then
-		love.graphics.setColor(unpack(color))
-		love.graphics.draw(image, object:getX(), object:getY())
+		gra.setColor(unpack(color))
+		gra.draw(image, object:getX(), object:getY())
 	else
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, object:getX(), object:getY())
+		gra.setColor(255, 255, 255, 255)
+		gra.draw(image, object:getX(), object:getY())
 	end
 	
 end
@@ -559,11 +559,11 @@ function skin.DrawDoodad(object)
 	sy = sy or sx
 --	print (object:getX(), object:getY())
 	if color then
-		love.graphics.setColor(unpack(color))
-		love.graphics.draw(image, object:getX()-10, object:getY()-10,0,sx,sy,ox,oy)
+		gra.setColor(unpack(color))
+		gra.draw(image, object:getX()-10, object:getY()-10,0,sx,sy,ox,oy)
 	else
-		love.graphics.setColor(255, 255, 255, 255)
-		love.graphics.draw(image, object:getX(), object:getY(),0,sx,sy,ox,oy)
+		gra.setColor(255, 255, 255, 255)
+		gra.draw(image, object:getX(), object:getY(),0,sx,sy,ox,oy)
 	end
 	
 end
@@ -575,7 +575,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawHuman(object)
 	assert(object.def)
-	local g = love.graphics
+	local g = gra
 	local x,y = object.x,object.y
 	local r = 0
 	g.setColor(255,255,255)
@@ -604,40 +604,40 @@ function skin.DrawImageButton(object)
 	if down == true then
 	
 		if image ~= false then
-			love.graphics.setColor(255, 255, 255, 255)
-			love.graphics.draw(image, object:getX() + 1, object:getY() + 1)
+			gra.setColor(255, 255, 255, 255)
+			gra.draw(image, object:getX() + 1, object:getY() + 1)
 		end
 		
 		sfn(font)
-		love.graphics.setColor(0, 0, 0, 255)
+		gra.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2 + 1, object:getY() + object:getHeight() - theight - 5 + 1)
-		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
+		gra.setColor(unpack(skin.controls.imagebutton_text_down_color))
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2 + 1, object:getY() + object:getHeight() - theight - 6 + 1)
 		
 	elseif hover == true then
 	
 		if image ~= false then
-			love.graphics.setColor(255, 255, 255, 255)
-			love.graphics.draw(image, object:getX(), object:getY())
+			gra.setColor(255, 255, 255, 255)
+			gra.draw(image, object:getX(), object:getY())
 		end
 		
 		sfn(font)
-		love.graphics.setColor(0, 0, 0, 255)
+		gra.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight() - theight - 5)
-		love.graphics.setColor(unpack(skin.controls.imagebutton_text_hover_color))
+		gra.setColor(unpack(skin.controls.imagebutton_text_hover_color))
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight() - theight - 6)
 		
 	else
 		
 		if image ~= false then
-			love.graphics.setColor(255, 255, 255, 255)
-			love.graphics.draw(image, object:getX(), object:getY())
+			gra.setColor(255, 255, 255, 255)
+			gra.draw(image, object:getX(), object:getY())
 		end
 		
 		sfn(font)
-		love.graphics.setColor(0, 0, 0, 255)
+		gra.setColor(0, 0, 0, 255)
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight() - theight - 5)
-		love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
+		gra.setColor(unpack(skin.controls.imagebutton_text_down_color))
 		pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight() - theight - 6)
 		
 	end
@@ -664,7 +664,7 @@ function skin.DrawCircleButton(object)
 	local scale = object.width/192
 	
 	if image ~= false then
-		love.graphics.setColor(255, 255, 255, 255)
+		gra.setColor(255, 255, 255, 255)
 		if active then
 			if skin.circlebutton_imagefilter.active then
 				object.haze_ref = 5/object:getWidth()
@@ -677,9 +677,9 @@ function skin.DrawCircleButton(object)
 			skin.circlebutton_imagefilter.inactive.conf(object)
 			skin.circlebutton_imagefilter.inactive.predraw(object)
 		end
-		love.graphics.setStencil(function()love.graphics.circle('fill',object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,object:getWidth()/2*0.9,30)end)
-		love.graphics.draw(image ,object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,0,object:getWidth()/image:getWidth(),object:getWidth()/image:getWidth(),image:getWidth()/2,image:getHeight()/2)
-		love.graphics.setStencil()
+		gra.setStencil(function()gra.circle('fill',object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,object:getWidth()/2*0.9,30)end)
+		gra.draw(image ,object:getX()+object:getWidth()/2,object:getY()+object:getHeight()/2,0,object:getWidth()/image:getWidth(),object:getWidth()/image:getWidth(),image:getWidth()/2,image:getHeight()/2)
+		gra.setStencil()
 		if active then
 			if skin.circlebutton_imagefilter.active then
 				skin.circlebutton_imagefilter.active.postdraw(object)
@@ -690,31 +690,31 @@ function skin.DrawCircleButton(object)
 		end
 	end
 	
-	love.graphics.setColor(255,255,255)
+	gra.setColor(255,255,255)
 	if active then
 		if down then
-			love.graphics.draw(skin.images["circlebutton_activedown.png"],object:getX(),object:getY(),0,scale)
+			gra.draw(skin.images["circlebutton_activedown.png"],object:getX(),object:getY(),0,scale)
 		elseif hover then
-			love.graphics.draw(skin.images["circlebutton_active.png"],object:getX(),object:getY(),0,scale)
+			gra.draw(skin.images["circlebutton_active.png"],object:getX(),object:getY(),0,scale)
 		else
---			love.graphics.setColor(255,255,255,127)
-			love.graphics.draw(skin.images["circlebutton_active.png"],object:getX(),object:getY(),0,scale)
+--			gra.setColor(255,255,255,127)
+			gra.draw(skin.images["circlebutton_active.png"],object:getX(),object:getY(),0,scale)
 		end
 	else
 		if down then
-			love.graphics.draw(skin.images["circlebutton_inactivedown.png"],object:getX(),object:getY(),0,scale)
+			gra.draw(skin.images["circlebutton_inactivedown.png"],object:getX(),object:getY(),0,scale)
 		elseif hover then
-			love.graphics.draw(skin.images["circlebutton_inactive.png"],object:getX(),object:getY(),0,scale)
+			gra.draw(skin.images["circlebutton_inactive.png"],object:getX(),object:getY(),0,scale)
 		else
-			love.graphics.setColor(255,255,255,127)
-			love.graphics.draw(skin.images["circlebutton_inactive.png"],object:getX(),object:getY(),0,scale)
+			gra.setColor(255,255,255,127)
+			gra.draw(skin.images["circlebutton_inactive.png"],object:getX(),object:getY(),0,scale)
 		end
 	end
 	
 	sfn(font)
-	love.graphics.setColor(0, 0, 0, 255)
+	gra.setColor(0, 0, 0, 255)
 	pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2 + 1, object:getY() + object:getHeight() - theight - 5 + 1)
-	love.graphics.setColor(unpack(skin.controls.imagebutton_text_down_color))
+	gra.setColor(unpack(skin.controls.imagebutton_text_down_color))
 	pn(object:GetText(), object:getX() + object:getWidth()/2 - twidth/2 + 1, object:getY() + object:getHeight() - theight - 6 + 1)
 	
 
@@ -735,34 +735,34 @@ function skin.DrawProgressBar(object)
 
 	local x,y = object:getX(),object:getY()
 	local w,h = object:getWidth(),object:getHeight()
-	local g = love.graphics
-	love.graphics.push()
-	love.graphics.translate(x,y)
-	love.graphics.setColor(unpack(bodycolor))
+	local g = gra
+	gra.push()
+	gra.translate(x,y)
+	gra.setColor(unpack(bodycolor))
 	g.polygon('fill',unpack(object:GetBodyVertex()))
 	g.polygon('line',unpack(object:GetBodyVertex()))
-	g.setScissor(x,y,w,h)
-	love.graphics.setColor(unpack(barcolor))
+	g.setScissor(x,y,w*option.retina,h*option.retina)
+	gra.setColor(unpack(barcolor))
 	g.polygon('fill',unpack(object:GetBarVertex()))
 	g.setScissor()
-	love.graphics.pop()
+	gra.pop()
 	if object.EKG_image then
 --		skin.DrawEKG(object)
 	end
 	--[[
 	-- progress bar body
-	love.graphics.setColor(unpack())
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-	love.graphics.setColor(unpack(skin.controls.progressbar_bar_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object.progress, object:getHeight())
+	gra.setColor(unpack())
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.progressbar_bar_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object.progress, object:getHeight())
 	gradientcolor = {skin.controls.progressbar_bar_color[1], skin.controls.progressbar_bar_color[2] - 20, skin.controls.progressbar_bar_color[3], 255}
 	skin.DrawGradient(object:getX(), object:getY(), object.progress, object:getHeight(), "up", gradientcolor)
 	sfn(font)
-	love.graphics.setColor(unpack(skin.controls.progressbar_text_color))
+	gra.setColor(unpack(skin.controls.progressbar_text_color))
 	pn(object.value .. "/" ..object.max, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 	
 	-- progress bar border
-	love.graphics.setColor(unpack(skin.controls.progressbar_border_color))
+	gra.setColor(unpack(skin.controls.progressbar_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())]]
 		
 end
@@ -773,9 +773,9 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollArea(object)
 
-	love.graphics.setColor(unpack(skin.controls.scrollarea_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-	love.graphics.setColor(unpack(skin.controls.scrollarea_border_color))
+	gra.setColor(unpack(skin.controls.scrollarea_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.scrollarea_border_color))
 	
 	if object.bartype == "vertical" then
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight(), true, true)
@@ -794,38 +794,38 @@ function skin.DrawScrollBar(object)
 	local gradientcolor = {}
 
 	if object.dragging == true then
-		love.graphics.setColor(unpack(skin.controls.scrollbar_body_down_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.scrollbar_body_down_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_down_color[1] - 20, skin.controls.scrollbar_body_down_color[2] - 20, skin.controls.scrollbar_body_down_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY(), object:getWidth(), object:getHeight(), "up", gradientcolor)
-		love.graphics.setColor(unpack(skin.controls.scrollbar_border_down_color))
+		gra.setColor(unpack(skin.controls.scrollbar_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	elseif object.hover == true then
-		love.graphics.setColor(unpack(skin.controls.scrollbar_body_hover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.scrollbar_body_hover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_hover_color[1] - 20, skin.controls.scrollbar_body_hover_color[2] - 20, skin.controls.scrollbar_body_hover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY(), object:getWidth(), object:getHeight(), "up", gradientcolor)
-		love.graphics.setColor(unpack(skin.controls.scrollbar_border_hover_color))
+		gra.setColor(unpack(skin.controls.scrollbar_border_hover_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	else
-		love.graphics.setColor(unpack(skin.controls.scrollbar_body_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.scrollbar_body_nohover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		gradientcolor = {skin.controls.scrollbar_body_nohover_color[1] - 20, skin.controls.scrollbar_body_nohover_color[2] - 20, skin.controls.scrollbar_body_nohover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY(), object:getWidth(), object:getHeight(), "up", gradientcolor)
-		love.graphics.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
+		gra.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	end
 	
 	if object.bartype == "vertical" then
-		love.graphics.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2 - 3, object:getWidth() - 6, 1)
-		love.graphics.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2, object:getWidth() - 6, 1)
-		love.graphics.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2 + 3, object:getWidth() - 6, 1)
+		gra.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
+		gra.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2 - 3, object:getWidth() - 6, 1)
+		gra.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2, object:getWidth() - 6, 1)
+		gra.rectangle("fill", object:getX() + 3, object:getY() + object:getHeight()/2 + 3, object:getWidth() - 6, 1)
 	else
-		love.graphics.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + object:getWidth()/2 - 3, object:getY() + 3, 1, object:getHeight() - 6)
-		love.graphics.rectangle("fill", object:getX() + object:getWidth()/2, object:getY() + 3, 1, object:getHeight() - 6)
-		love.graphics.rectangle("fill", object:getX() + object:getWidth()/2 + 3, object:getY() + 3, 1, object:getHeight() - 6)
+		gra.setColor(unpack(skin.controls.scrollbar_border_nohover_color))
+		gra.rectangle("fill", object:getX() + object:getWidth()/2 - 3, object:getY() + 3, 1, object:getHeight() - 6)
+		gra.rectangle("fill", object:getX() + object:getWidth()/2, object:getY() + 3, 1, object:getHeight() - 6)
+		gra.rectangle("fill", object:getX() + object:getWidth()/2 + 3, object:getY() + 3, 1, object:getHeight() - 6)
 	end
 	
 end
@@ -836,8 +836,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawScrollBody(object)
 
-	love.graphics.setColor(unpack(skin.controls.scrollbody_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.scrollbody_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 
 end
 
@@ -847,9 +847,9 @@ end
 --]]---------------------------------------------------------
 function skin.DrawPanel(object)
 
-	love.graphics.setColor(unpack(skin.controls.panel_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-	love.graphics.setColor(unpack(skin.controls.panel_border_color))
+	gra.setColor(unpack(skin.controls.panel_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.panel_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -860,8 +860,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawList(object)
 
-	love.graphics.setColor(unpack(skin.controls.list_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.list_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 end
 
@@ -871,7 +871,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverList(object)
 
-	love.graphics.setColor(unpack(skin.controls.list_border_color))
+	gra.setColor(unpack(skin.controls.list_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -884,9 +884,9 @@ function skin.DrawTabPanel(object)
 
 	local buttonheight = object:getHeightOfButtons()
 	
-	love.graphics.setColor(unpack(skin.controls.tabpanel_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY() + buttonheight, object:getWidth(), object:getHeight() - buttonheight)
-	love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
+	gra.setColor(unpack(skin.controls.tabpanel_body_color))
+	gra.rectangle("fill", object:getX(), object:getY() + buttonheight, object:getWidth(), object:getHeight() - buttonheight)
+	gra.setColor(unpack(skin.controls.tabpanel_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY() + buttonheight - 1, object:getWidth(), object:getHeight() - buttonheight + 2)
 	
 	object:SetScrollButtonSize(15, buttonheight)
@@ -919,54 +919,54 @@ function skin.DrawTabButton(object)
 	if object.tabnumber == object.parent.tab then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.tab_body_hover_color))
---		love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+		gra.setColor(unpack(skin.controls.tab_body_hover_color))
+--		gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 --		gradientcolor = {skin.controls.tab_body_hover_color[1] - 20, skin.controls.tab_body_hover_color[2] - 20, skin.controls.tab_body_hover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
-		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
+		gra.setColor(unpack(skin.controls.tabpanel_border_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 				
 		if image then
 			-- button image
-			love.graphics.setColor(255, 255, 255, 255)
-			love.graphics.draw(image, object:getX() + 5, object:getY() + object:getHeight()/2 - imageheight/2)
+			gra.setColor(255, 255, 255, 255)
+			gra.draw(image, object:getX() + 5, object:getY() + object:getHeight()/2 - imageheight/2)
 			-- button text
 			sfn(skin.controls.tab_text_font)
-			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
+			gra.setColor(unpack(skin.controls.tab_text_hover_color))
 			pn(object.text, object:getX() + imagewidth + 10, object:getY() + object:getHeight()/2 - theight/2)
 		else
 			-- button text
 			sfn(skin.controls.tab_text_font)
-			love.graphics.setColor(unpack(skin.controls.tab_text_hover_color))
+			gra.setColor(unpack(skin.controls.tab_text_hover_color))
 			pn(object.text, object:getX() + 5, object:getY() + object:getHeight()/2 - theight/2)
 		end
 				
 	else
 				
 		-- button body
---		love.graphics.setColor(unpack(skin.controls.tab_body_nohover_color))
---		love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+--		gra.setColor(unpack(skin.controls.tab_body_nohover_color))
+--		gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 --		gradientcolor = {skin.controls.tab_body_nohover_color[1] - 20, skin.controls.tab_body_nohover_color[2] - 20, skin.controls.tab_body_nohover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
---		love.graphics.setColor(unpack(skin.controls.tabpanel_border_color))
+--		gra.setColor(unpack(skin.controls.tabpanel_border_color))
 --		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 				
 		if image then
 			-- button image
-			love.graphics.setColor(255, 255, 255, 150)
-			love.graphics.draw(image, object:getX() + 5, object:getY() + object:getHeight()/2 - imageheight/2)
+			gra.setColor(255, 255, 255, 150)
+			gra.draw(image, object:getX() + 5, object:getY() + object:getHeight()/2 - imageheight/2)
 			-- button text
 			sfn(skin.controls.tab_text_font)
-			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
+			gra.setColor(unpack(skin.controls.tab_text_nohover_color))
 			pn(object.text, object:getX() + imagewidth + 10, object:getY() + object:getHeight()/2 - theight/2)
 		else
 			-- button text
 			sfn(skin.controls.tab_text_font)
-			love.graphics.setColor(unpack(skin.controls.tab_text_nohover_color))
+			gra.setColor(unpack(skin.controls.tab_text_nohover_color))
 			pn(object.text, object:getX() + 5, object:getY() + object:getHeight()/2 - theight/2)
 		end
 				
@@ -982,10 +982,10 @@ function skin.DrawMultiChoice(object)
 	
 	local image = skin.images["multichoice-arrow.png"]
 	
-	love.graphics.setColor(unpack(skin.controls.multichoice_body_color))
-	love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+	gra.setColor(unpack(skin.controls.multichoice_body_color))
+	gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 	
-	love.graphics.setColor(skin.controls.multichoice_text_color)
+	gra.setColor(skin.controls.multichoice_text_color)
 	sfn(skin.controls.multichoice_text_font)
 	
 	local h = smallfont:getHeight()
@@ -996,10 +996,10 @@ function skin.DrawMultiChoice(object)
 		pn(object.choice, object:getX() + 5, object:getY() + object:getHeight()/2 - h/2)
 	end
 	
-	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(image, object:getX() + object:getWidth() - 20, object:getY() + 5)
+	gra.setColor(255, 255, 255, 255)
+	gra.draw(image, object:getX() + object:getWidth() - 20, object:getY() + 5)
 	
-	love.graphics.setColor(unpack(skin.controls.multichoice_border_color))
+	gra.setColor(unpack(skin.controls.multichoice_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -1010,8 +1010,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawMultiChoiceList(object)
 	
-	love.graphics.setColor(unpack(skin.controls.multichoicelist_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.multichoicelist_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
 
@@ -1021,7 +1021,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverMultiChoiceList(object)
 
-	love.graphics.setColor(unpack(skin.controls.multichoicelist_border_color))
+	gra.setColor(unpack(skin.controls.multichoicelist_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight() + 1)
 	
 end
@@ -1035,14 +1035,14 @@ function skin.DrawMultiChoiceRow(object)
 	sfn(skin.controls.multichoicerow_text_font)
 	
 	if object.hover == true then
-		love.graphics.setColor(unpack(skin.controls.multichoicerow_body_hover_color))
-		love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-		love.graphics.setColor(unpack(skin.controls.multichoicerow_text_hover_color))
+		gra.setColor(unpack(skin.controls.multichoicerow_body_hover_color))
+		gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+		gra.setColor(unpack(skin.controls.multichoicerow_text_hover_color))
 		pn(object.text, object:getX() + 5, object:getY() + 5)
 	else
-		love.graphics.setColor(unpack(skin.controls.multichoicerow_body_nohover_color))
-		love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-		love.graphics.setColor(unpack(skin.controls.multichoicerow_text_nohover_color))
+		gra.setColor(unpack(skin.controls.multichoicerow_body_nohover_color))
+		gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+		gra.setColor(unpack(skin.controls.multichoicerow_text_nohover_color))
 		pn(object.text, object:getX() + 5, object:getY() + 5)
 	end
 	
@@ -1058,20 +1058,20 @@ function skin.DrawToolTip(object)
 	local x,y = object:getX(),object:getY()
 	local w,h = object:getWidth(),object:getHeight()
 
-	love.graphics.drawq(attritubebackground,quads.topleft,x-10,y-10)
-	love.graphics.drawq(attritubebackground,quads.topright,x+w,y-10)
-	love.graphics.drawq(attritubebackground,quads.botleft,x-10,y+h)
-	love.graphics.drawq(attritubebackground,quads.botright,x+w,y+h)
-	love.graphics.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
-	love.graphics.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
-	love.graphics.drawq(attritubebackground,quads.mid,x,y,0,w,h)
---	love.graphics.setColor(unpack(skin.controls.tooltip_body_color))
---	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
---	love.graphics.setColor(unpack(skin.controls.tooltip_border_color))
+	gra.drawq(attritubebackground,quads.topleft,x-10,y-10)
+	gra.drawq(attritubebackground,quads.topright,x+w,y-10)
+	gra.drawq(attritubebackground,quads.botleft,x-10,y+h)
+	gra.drawq(attritubebackground,quads.botright,x+w,y+h)
+	gra.drawq(attritubebackground,quads.top,x,y-10,0,w,1)
+	gra.drawq(attritubebackground,quads.bot,x,y+h,0,w,1)
+	gra.drawq(attritubebackground,quads.left,x-10,y,0,1,h)
+	gra.drawq(attritubebackground,quads.right,x+w,y,0,1,h)
+	gra.drawq(attritubebackground,quads.mid,x,y,0,w,h)
+--	gra.setColor(unpack(skin.controls.tooltip_body_color))
+--	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+--	gra.setColor(unpack(skin.controls.tooltip_border_color))
 --	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
---	love.graphics.setColor(unpack(skin.controls.tooltip_text_color))
+--	gra.setColor(unpack(skin.controls.tooltip_text_color))
 	
 end
 
@@ -1089,7 +1089,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawCompass(object)
 	local color = object.color or {255,255,255}
-	love.graphics.setColor(color)
+	gra.setColor(color)
 	local base = skin.images["compass_base.png"]
 	local needle = skin.images["compass_needle.png"]
 	local wheel = skin.images["compass_wheel.png"]
@@ -1098,7 +1098,7 @@ function skin.DrawCompass(object)
 	local scale = object:getWidth()/base:getWidth()
 	local x,y = object:getX(),object:getY()
 	local r = object:GetValue()
-	local g = love.graphics
+	local g = gra
 
 	g.draw(base,x+shift,y+shift,0,scale,scale,gshift,gshift)
 	g.draw(wheel,x+shift,y+shift,-r,scale,scale,gshift,gshift)
@@ -1118,9 +1118,9 @@ function skin.DrawEKG(object)
 		filters.EKG.conf(object)
 		filters.EKG.predraw()
 	end
-	love.graphics.setColor(255,255,255)
+	gra.setColor(255,255,255)
 		local s = object:getHeight()/object.EKG_image:getHeight()
-	love.graphics.drawq(object.EKG_image,object.EKG_quad,object:getX(),object:getY(),0,s)--,0,s)
+	gra.drawq(object.EKG_image,object.EKG_quad,object:getX(),object:getY(),0,s)--,0,s)
 	if filters.EKG then
 		filters.EKG.postdraw()
 	end
@@ -1137,8 +1137,8 @@ function skin.DrawTextInput(object)
 	local focus = object:GetFocus()
 	local showblink = object:GetBlinkerVisibility()
 	
-	love.graphics.setColor(unpack(skin.controls.textinput_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.textinput_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 	object:setTextOffsetY(object:getHeight()/2 - height/2)
 	
@@ -1150,12 +1150,12 @@ function skin.DrawTextInput(object)
 	
 	if showblink == true and focus == true then
 	
-		love.graphics.setColor(unpack(skin.controls.textinput_blinker_color))
+		gra.setColor(unpack(skin.controls.textinput_blinker_color))
 		
 		if object.xoffset ~= 0 then
-			love.graphics.rectangle("fill", object.blinkx, object.blinky, 1, height)
+			gra.rectangle("fill", object.blinkx, object.blinky, 1, height)
 		else
-			love.graphics.rectangle("fill", object.blinkx, object.blinky, 1, height)
+			gra.rectangle("fill", object.blinkx, object.blinky, 1, height)
 		end
 		
 	end
@@ -1168,7 +1168,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverTextInput(object)
 
-	love.graphics.setColor(unpack(skin.controls.textinput_border_color))
+	gra.setColor(unpack(skin.controls.textinput_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -1186,40 +1186,40 @@ function skin.DrawScrollButton(object)
 	if down == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_down_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_down_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	elseif hover == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_hover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_hover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_nohover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	end
@@ -1227,35 +1227,35 @@ function skin.DrawScrollButton(object)
 	if object.scrolltype == "up" then
 		local image = skin.images["arrow-up.png"]
 		if object.hover == true then
-			love.graphics.setColor(255, 255, 255, 255)
+			gra.setColor(255, 255, 255, 255)
 		else
-			love.graphics.setColor(255, 255, 255, 150)
+			gra.setColor(255, 255, 255, 150)
 		end
-		love.graphics.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
+		gra.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
 	elseif object.scrolltype == "down" then
 		local image = skin.images["arrow-down.png"]
 		if object.hover == true then
-			love.graphics.setColor(255, 255, 255, 255)
+			gra.setColor(255, 255, 255, 255)
 		else
-			love.graphics.setColor(255, 255, 255, 150)
+			gra.setColor(255, 255, 255, 150)
 		end
-		love.graphics.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
+		gra.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
 	elseif object.scrolltype == "left" then
 		local image = skin.images["arrow-left.png"]
 		if object.hover == true then
-			love.graphics.setColor(255, 255, 255, 255)
+			gra.setColor(255, 255, 255, 255)
 		else
-			love.graphics.setColor(255, 255, 255, 150)
+			gra.setColor(255, 255, 255, 150)
 		end
-		love.graphics.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
+		gra.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
 	elseif object.scrolltype == "right" then
 		local image = skin.images["arrow-right.png"]
 		if object.hover == true then
-			love.graphics.setColor(255, 255, 255, 255)
+			gra.setColor(255, 255, 255, 255)
 		else
-			love.graphics.setColor(255, 255, 255, 150)
+			gra.setColor(255, 255, 255, 150)
 		end
-		love.graphics.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
+		gra.draw(image, object:getX() + object:getWidth()/2 - image:getWidth()/2, object:getY() + object:getHeight()/2 - image:getHeight()/2)
 	end
 	
 end
@@ -1268,19 +1268,19 @@ function skin.DrawSlider(object)
 	
 	if object.slidetype == "horizontal" then
 		
-		love.graphics.setColor(unpack(skin.controls.slider_bar_outline_color))
-		love.graphics.rectangle("fill", object:getX(), object:getY() + object:getHeight()/2 - 5, object:getWidth(), 10)
+		gra.setColor(unpack(skin.controls.slider_bar_outline_color))
+		gra.rectangle("fill", object:getX(), object:getY() + object:getHeight()/2 - 5, object:getWidth(), 10)
 		
-		love.graphics.setColor(unpack(skin.controls.slider_bar_color))
-		love.graphics.rectangle("fill", object:getX() + 5, object:getY() + object:getHeight()/2, object:getWidth() - 10, 1)
+		gra.setColor(unpack(skin.controls.slider_bar_color))
+		gra.rectangle("fill", object:getX() + 5, object:getY() + object:getHeight()/2, object:getWidth() - 10, 1)
 		
 	elseif object.slidetype == "vertical" then
 		
-		love.graphics.setColor(unpack(skin.controls.slider_bar_outline_color))
-		love.graphics.rectangle("fill", object:getX() + object:getWidth()/2 - 5, object:getY(), 10, object:getHeight())
+		gra.setColor(unpack(skin.controls.slider_bar_outline_color))
+		gra.rectangle("fill", object:getX() + object:getWidth()/2 - 5, object:getY(), 10, object:getHeight())
 		
-		love.graphics.setColor(unpack(skin.controls.slider_bar_color))
-		love.graphics.rectangle("fill", object:getX() + object:getWidth()/2, object:getY() + 5, 1, object:getHeight() - 10)
+		gra.setColor(unpack(skin.controls.slider_bar_color))
+		gra.rectangle("fill", object:getX() + object:getWidth()/2, object:getY() + 5, 1, object:getHeight() - 10)
 		
 	end
 	
@@ -1300,40 +1300,40 @@ function skin.DrawSliderButton(object)
 	if down == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_down_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_down_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_down_color[1] - 20, skin.controls.button_body_down_color[2] - 20, skin.controls.button_body_down_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	elseif hover == true then
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_hover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_hover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_hover_color[1] - 20, skin.controls.button_body_hover_color[2] - 20, skin.controls.button_body_hover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 			
 		-- button body
-		love.graphics.setColor(unpack(skin.controls.button_body_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.button_body_nohover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.button_body_nohover_color[1] - 20, skin.controls.button_body_nohover_color[2] - 20, skin.controls.button_body_nohover_color[3] - 20, 255}
 		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- button border
-		love.graphics.setColor(unpack(skin.controls.button_border_down_color))
+		gra.setColor(unpack(skin.controls.button_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	end
@@ -1352,16 +1352,16 @@ function skin.DrawCheckBox(object)
 	local height = font:getHeight()
 	local gradientcolor = {}
 	
-	love.graphics.setColor(unpack(skin.controls.checkbox_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object.boxwidth, object.boxheight)
+	gra.setColor(unpack(skin.controls.checkbox_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object.boxwidth, object.boxheight)
 	
-	love.graphics.setColor(unpack(skin.controls.checkbox_border_color))
+	gra.setColor(unpack(skin.controls.checkbox_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object.boxwidth, object.boxheight)
 	
 	if checked == true then
 	
-		love.graphics.setColor(unpack(skin.controls.checkbox_check_color))
-		love.graphics.rectangle("fill", object:getX() + 4, object:getY() + 4, object.boxwidth - 8, object.boxheight - 8)
+		gra.setColor(unpack(skin.controls.checkbox_check_color))
+		gra.rectangle("fill", object:getX() + 4, object:getY() + 4, object.boxwidth - 8, object.boxheight - 8)
 	
 		gradientcolor = {skin.controls.checkbox_check_color[1] - 20, skin.controls.checkbox_check_color[2] - 20, skin.controls.checkbox_check_color[3] - 20, 255}
 		skin.DrawGradient(object:getX() + 4, object:getY() + 4, object.boxwidth - 8, object.boxheight - 8, "up", gradientcolor)
@@ -1379,16 +1379,16 @@ function skin.DrawCollapsibleCategory(object)
 	local font = smallfont
 	local gradientcolor = {skin.controls.collapsiblecategory_body_color[1] - 20, skin.controls.collapsiblecategory_body_color[2] - 20, skin.controls.collapsiblecategory_body_color[3] - 20, 255}
 	
-	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.collapsiblecategory_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
-	love.graphics.setColor(unpack(gradientcolor))
+	gra.setColor(unpack(gradientcolor))
 	skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 	
-	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_text_color))
+	gra.setColor(unpack(skin.controls.collapsiblecategory_text_color))
 	pn(object.text, object:getX() + 5, object:getY() + 5)
 	
-	love.graphics.setColor(unpack(skin.controls.collapsiblecategory_border_color))
+	gra.setColor(unpack(skin.controls.collapsiblecategory_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -1399,8 +1399,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnList(object)
 	
-	love.graphics.setColor(unpack(skin.controls.columnlist_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.columnlist_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
 
@@ -1420,55 +1420,55 @@ function skin.DrawColumnListHeader(object)
 	if down == true then
 			
 		-- header body
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_body_down_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.columnlistheader_body_down_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_down_color[1] - 20, skin.controls.columnlistheader_body_down_color[2] - 20, skin.controls.columnlistheader_body_down_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- header name
 		sfn(font)
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_down_color))
+		gra.setColor(unpack(skin.controls.columnlistheader_text_down_color))
 		pn(object.name, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- header border
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
+		gra.setColor(unpack(skin.controls.columnlistheader_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	elseif hover == true then
 			
 		-- header body
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_body_hover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.columnlistheader_body_hover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_hover_color[1] - 20, skin.controls.columnlistheader_body_hover_color[2] - 20, skin.controls.columnlistheader_body_hover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- header name
 		sfn(font)
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_text_hover_color))
+		gra.setColor(unpack(skin.controls.columnlistheader_text_hover_color))
 		pn(object.name, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- header border
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
+		gra.setColor(unpack(skin.controls.columnlistheader_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 			
 		-- header body
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_body_nohover_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.columnlistheader_body_nohover_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
 		gradientcolor = {skin.controls.columnlistheader_body_nohover_color[1] - 20, skin.controls.columnlistheader_body_nohover_color[2] - 20, skin.controls.columnlistheader_body_nohover_color[3] - 20, 255}
 --		skin.DrawGradient(object:getX(), object:getY() - 1, object:getWidth(), object:getHeight(), "up", gradientcolor)
 		
 		-- header name
 		sfn(font)
-		love.graphics.setColor(unpack(skin.controls.button_text_nohover_color))
+		gra.setColor(unpack(skin.controls.button_text_nohover_color))
 		pn(object.name, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
 		
 		-- header border
-		love.graphics.setColor(unpack(skin.controls.columnlistheader_border_down_color))
+		gra.setColor(unpack(skin.controls.columnlistheader_border_down_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	end
@@ -1481,8 +1481,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawColumnListArea(object)
 	
-	love.graphics.setColor(unpack(skin.controls.columnlistarea_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.columnlistarea_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
 
@@ -1492,7 +1492,7 @@ end
 --]]---------------------------------------------------------
 function skin.DrawOverColumnListArea(object)
 
-	love.graphics.setColor(unpack(skin.controls.columnlist_border_color))
+	gra.setColor(unpack(skin.controls.columnlist_border_color))
 	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
@@ -1512,18 +1512,18 @@ function skin.DrawColumnListRow(object)
 	
 	if colorindex == 1 then
 	
-		love.graphics.setColor(unpack(skin.controls.columnlistrow_body1_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.columnlistrow_body1_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
-		love.graphics.setColor(unpack(skin.controls.columnlistrow_border1_color))
+		gra.setColor(unpack(skin.controls.columnlistrow_border1_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 		
 	else
 	
-		love.graphics.setColor(unpack(skin.controls.columnlistrow_body2_color))
-		love.graphics.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
+		gra.setColor(unpack(skin.controls.columnlistrow_body2_color))
+		gra.rectangle("fill", object:getX() + 1, object:getY() + 1, object:getWidth() - 2, object:getHeight() - 2)
 		
-		love.graphics.setColor(unpack(skin.controls.columnlistrow_border2_color))
+		gra.setColor(unpack(skin.controls.columnlistrow_border2_color))
 		skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 	end
@@ -1536,8 +1536,8 @@ end
 --]]---------------------------------------------------------
 function skin.DrawModalBackground(object)
 
-	love.graphics.setColor(unpack(skin.controls.modalbackground_body_color))
-	love.graphics.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
+	gra.setColor(unpack(skin.controls.modalbackground_body_color))
+	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
 	
 end
 

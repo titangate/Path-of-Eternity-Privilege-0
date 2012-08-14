@@ -104,10 +104,10 @@ function River:draw(x,y,r)
 		local h = 128
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
-	local g = love.graphics
+	local g = gra
 	if not x then
 		x,y = self:getPosition()
 		r = self:getAngle()
@@ -116,11 +116,11 @@ function River:draw(x,y,r)
 	self.actor:draw(self)
 
 	if self.drawSelection then
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 	end
 
 	if self.patrolpath then
-		love.graphics.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
+		gra.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
 	end
 end
 
@@ -140,29 +140,29 @@ function River:draw_LLI(x,y,r)
 		local h = 128
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
-		love.graphics.setPixelEffect(stroke.pe)
+		gra.setPixelEffect(stroke.pe)
 	end
 
-	local g = love.graphics
+	local g = gra
 	
 	self.actor:draw(self)
 	if self.drawSelection then
-		love.graphics.setPixelEffect()
+		gra.setPixelEffect()
 	end
 	filters.lli_unit.conf(self)
 	filters.lli_unit.predraw(self)
-	love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],50)
+	gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],50)
 	
 	
 	self.actor:draw(self)
 	filters.lli_unit.postdraw(self)
 	if self.lli_flare then
-		love.graphics.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
+		gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
 	end
 	g.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
 
 	if self.patrolpath then
-		love.graphics.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
+		gra.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)
 	end
 	-- Draw foodstep sound
 	if self.inv then self.inv:draw_lli() end

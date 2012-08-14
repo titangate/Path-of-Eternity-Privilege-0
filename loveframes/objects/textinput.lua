@@ -17,7 +17,7 @@ function textinput:initialize()
 	self.type			= "textinput"
 	self.text			= ""
 	self.keydown		= "none"
-	self.font			= love.graphics.newFont(12)
+	self.font			= gra.newFont(12)
 	self.textcolor		= {0, 0, 0, 255}
 	self.width			= 200
 	self.height			= 25
@@ -114,9 +114,9 @@ function textinput:draw()
 	local selfskin = self.skin
 	local skin = loveframes.skins.available[selfskin] or loveframes.skins.available[index] or loveframes.skins.available[defaultskin]
 	
-	local stencilfunc = function() love.graphics.rectangle("fill", self.x, self.y, self.width, self.height) end
-	local stencil = love.graphics.newStencil(stencilfunc)
-	love.graphics.setStencil(stencil)
+	local stencilfunc = function() gra.rectangle("fill", self.x, self.y, self.width, self.height) end
+	local stencil = gra.newStencil(stencilfunc)
+	gra.setStencil(stencil)
 	
 	if self.Draw ~= nil then
 		self.Draw(self)
@@ -125,10 +125,10 @@ function textinput:draw()
 	end
 	
 	sfn(font)
-	love.graphics.setColor(unpack(textcolor))
+	gra.setColor(unpack(textcolor))
 	pn(text, textx, self.texty)
 	
-	love.graphics.setStencil()
+	gra.setStencil()
 	
 	if self.Draw == nil then
 		skin.DrawOverTextInput(self)
