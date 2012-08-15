@@ -110,6 +110,7 @@ function PathMap:setWallbatch(image,config)
 	self.wallconfig = config
 end
 
+
 function PathMap:createWallMap()
 
 	self.wallbatch = gra.newSpriteBatch(self.wallimage,self.w*self.h)
@@ -150,15 +151,17 @@ function PathMap:createWallMap()
 
 				local emptyfunc = function()end
 				local dx,dy = self._data[x][y]:getCenter()
-				local moverinfo = {
+				self.moverinfo = self.moverinfo or {
 					width = self.scale,
 					height = self.scale,
 					shape = 'rectangle',
 					bodytype = 'static',
 					layer = 5,
 					nonupdate = true,
+					name = LocalizedString'WALL',
+					description = LocalizedString'BLOCKS VISION. USE LLI TO SEE THROUGH',
 				}
-				local mover = doodadMover(dx,dy,0,nil,moverinfo)
+				local mover = doodadMover(dx,dy,0,nil,self.moverinfo)
 				self._data[x][y].mover = mover
 				self:addUnit(mover,true)
 				mover.update = false
@@ -364,7 +367,7 @@ function fog:getY()
 end
 
 local fanimg = requireImage'asset/shader/fan.png'
-local circcount = 32
+local circcount = 64
 function PathMap:generateFog(u,canvas)
 	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 	canvas.canvas:clear()
@@ -410,17 +413,17 @@ function PathMap:draw()
 		self:draw_normal()
 	end
 	g.pop()
+	if not self.drawlli then
+
 	if self.follower then
 		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 		self:generateFog(self.follower,canvas)
-		filters.gaussianblur.conf(fog)
-		filters.gaussianblur.predraw(fog)
-		gra.setPixelEffect(invert)
+		--gra.setPixelEffect(invert)
 		gra.draw(canvas.canvas,0,0,0,2)
 		gra.setPixelEffect()
-		filters.gaussianblur.postdraw(fog)
 		canvasmanager.releaseCanvas(canvas)
 	end
+end
 end
 
 function PathMap:draw_normal()
@@ -437,7 +440,6 @@ function PathMap:draw_normal()
 			if v.draw then v:draw() end
 		end
 	end
-
 end
 
 function PathMap:draw_LLI()

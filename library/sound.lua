@@ -145,9 +145,9 @@ function Sound:draw_LLI()
 	if self.source:isStopped() then return end
 	local tell = (love.timer.getTime()*10)%1
 	local x,y = unpack(self.pos)
-	love.graphics.setColor(255,255,255)
-	love.graphics.setLineWidth(2)
-	love.graphics.circle('line',x,y,tell*self.reach*2)
+	gra.setColor(255,255,255)
+	gra.setLineWidth(2)
+	gra.circle('line',x,y,tell*self.reach*2)
 end
 
 local c = {
@@ -156,7 +156,7 @@ local c = {
 	{255,0,0},
 }
 function Sound:drawCircle()
-	love.graphics.setColor(c[self.alert])
+	gra.setColor(c[self.alert])
 	local x,y = self.pos.x,self.pos.y
 	if self.reach and self.reach > 0 then
 		self.soundwave_intensity = math.random()*0.1
@@ -165,7 +165,7 @@ function Sound:drawCircle()
 		filters.soundwave.predraw()
 		local img = requireImage'asset/shader/haze.png'
 		local s = self.reach*4/img:getWidth()
-		love.graphics.draw(img,x,y,love.timer.getTime()*100,s,s,img:getWidth()/2,img:getHeight()/2)
+		gra.draw(img,x,y,love.timer.getTime()*100,s,s,img:getWidth()/2,img:getHeight()/2)
 		filters.soundwave.postdraw()
 	end
 end
@@ -175,10 +175,10 @@ end
 
 if DEBUG then
 function Sound:DebugDraw()
-	love.graphics.setColor(0,0,255,100)
-	love.graphics.circle('fill',self.pos.x,self.pos.y,self.reach)
-	love.graphics.setColor(0,0,255,100)
-	love.graphics.circle('fill',self.pos.x,self.pos.y,self.reach*2)
+	gra.setColor(0,0,255,100)
+	gra.circle('fill',self.pos.x,self.pos.y,self.reach)
+	gra.setColor(0,0,255,100)
+	gra.circle('fill',self.pos.x,self.pos.y,self.reach*2)
 end
 end
 
