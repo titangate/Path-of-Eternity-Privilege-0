@@ -24,11 +24,14 @@ local function switchfont(loc)
 		end
 	end,
 	['Simplified Chinese'] = function()
-		font = {}
+		font = {retina={}}
 		local f = 'simsun.ttc'
 		font.smallfont = gra.newFont(f, 14)
 		font.imagebuttonfont = gra.newFont(f,20)
 		font.bigfont = gra.newFont(f,50)
+		font.retina[font.smallfont] = gra.newFont(f,14*option.retina)
+		font.retina[font.imagebuttonfont] = gra.newFont(f,20*option.retina)
+		font.retina[font.bigfont] = gra.newFont(f,50*option.retina)
 		local fontizes = {
 			[font.imagebuttonfont] = 20,
 			[font.smallfont] = 14,

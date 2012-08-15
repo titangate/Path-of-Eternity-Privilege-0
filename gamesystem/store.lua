@@ -63,7 +63,7 @@ function store:loadsynringe()
 	local synrigetext1 = loveframes.Create('text',syringe)
 	synrigetext1:setText(LocalizedString"A subtle equipment. River can use it to inject medication directly into his bloodstream to counter the symptoms of his Low Latency Inhibition. Towards his enemy, he can inject nerve poison to knock unwanted personnel out to save trouble. He can also use it to perform the most deadliest form of assassination: by directly injecting poison into the victim's neck, even the toughest guy will lose their heartbeat in a few seconds.")
 	synrigetext1:SetFont(font.smallfont)
-	synrigetext1:SetWidth(800)
+	synrigetext1:SetWidth(700)
 	synrigetext1:SetY(100)
 	synrigetext1:SetX(1000-800)
 

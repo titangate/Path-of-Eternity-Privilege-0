@@ -19,25 +19,26 @@ end
 function vibrate.predraw(obj)
 	local w = obj:getWidth()
 	local h = obj:getHeight()
-	local c = canvasmanager.requireCanvas(w,h)
+	local w2 = math.min(screen.width,neartwo(w*2))
+	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
 	vibrate.prevc = gra.getCanvas()
 	gra.setCanvas(c.canvas)
 	vibrate.c = c
 	gra.push()
-	--gra.scale(1/option.retina)
-	gra.translate(-obj:getX(),(-obj:getY()))
+	gra.translate(-obj:getX()+(w2-w)/2,-obj:getY())
 	gra.setColor(255,255,255)
 end
 
 function vibrate.postdraw(obj)
-local w = obj:getWidth()
+	local w = obj:getWidth()
+	local w2 = math.min(screen.width,neartwo(w*2))
 	gra.pop()
 	gra.setCanvas(vibrate.prevc)
 	gra.setPixelEffect(vibrate.pe)
 	gra.setColor(255,255,255)
 	gra.setBlendMode'premultiplied'
-	gra.draw(vibrate.c.canvas,(obj:getX()),(obj:getY()))
+	gra.draw(vibrate.c.canvas,obj:getX()-(w2-w)/2,obj:getY())
 	canvasmanager.releaseCanvas(vibrate.c)
 	gra.setPixelEffect()
 	gra.setBlendMode'alpha'

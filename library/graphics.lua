@@ -15,12 +15,12 @@ function graphics.load(t)
 	if not screen then
 	if option.retina then
 
-	screen = {
-		width = love.graphics.getWidth()/option.retina,
-		height = love.graphics.getHeight()/option.retina,
-		halfwidth = love.graphics.getWidth()/2/option.retina,
-		halfheight = love.graphics.getHeight()/2/option.retina,
-	}
+		screen = {
+			width = love.graphics.getWidth()/option.retina,
+			height = love.graphics.getHeight()/option.retina,
+			halfwidth = love.graphics.getWidth()/2/option.retina,
+			halfheight = love.graphics.getHeight()/2/option.retina,
+		}
 	
 		else
 
@@ -47,11 +47,14 @@ function graphics.apply()
 		end
 	end
 	if loaded then return end
-	if option.retina then
-		love.graphics.setMode(vfield[1]*option.retina,vfield[2]*option.retina,vfield[3],vfield[4],vfield[5])
-	else
+	--if option.retina then
+	----	love.graphics.setMode(vfield[1]*option.retina,vfield[2]*option.retina,vfield[3],vfield[4],vfield[5])
+	--else
+	execute(function()
+		wait(0.5)
 		love.graphics.setMode(unpack(vfield))
-	end
+		end)
+	--end
 	if not graphics.canvas or (vfield[1] ~= graphics.canvas.w and vfield[2]~=graphics.canvas.h) then
 		graphics.canvas = {w=vfield[1],h=vfield[2],c=love.graphics.newCanvas(vfield[1],vfield[2])}
 	end
@@ -59,19 +62,19 @@ function graphics.apply()
 	if option.retina then
 
 	screen = {
-		width = love.graphics.getWidth()/option.retina,
-		height = love.graphics.getHeight()/option.retina,
-		halfwidth = love.graphics.getWidth()/2/option.retina,
-		halfheight = love.graphics.getHeight()/2/option.retina,
+		width = vfield[1]/option.retina,
+		height = vfield[2]/option.retina,
+		halfwidth = vfield[1]/2/option.retina,
+		halfheight = vfield[2]/2/option.retina,
 	}
 	
 	else
 
 	screen = {
-		width = love.graphics.getWidth(),
-		height = love.graphics.getHeight(),
-		halfwidth = love.graphics.getWidth()/2,
-		halfheight = love.graphics.getHeight()/2,
+		width = vfield[1],
+		height = vfield[2],
+		halfwidth = vfield[1]/2,
+		halfheight = vfield[2]/2,
 	}
 	
 	end

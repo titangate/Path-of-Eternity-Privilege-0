@@ -19,6 +19,6 @@ function love.conf(t)
     
     t.screen.fsaa 		= 0           
     t.screen.height 	= 768
-    t.screen.width 		= 1366   
+    t.screen.width 		= 1366
 	
 end

@@ -56,7 +56,7 @@ function PathMap:initialize(w,h,aihost)
 	self.raycastcallback = function(fixture,x,y,xn,yn,fraction)
 		local obs,layer
 		local ud = fixture:getUserData()
-		if ud and ud.isObstacle and ud.info and ud.info.layer then
+		if ud and ud.isObstacle and ud.info and ud.info.layer and ud.info.layer>=5 then
 			obs = ud:isObstacle()
 			layer = ud.info.layer
 		else
@@ -148,16 +148,20 @@ function PathMap:createWallMap()
 					end
 				end
 
+				local emptyfunc = function()end
 				local dx,dy = self._data[x][y]:getCenter()
-				local moverinfo = {width = self.scale,
+				local moverinfo = {
+					width = self.scale,
 					height = self.scale,
 					shape = 'rectangle',
 					bodytype = 'static',
 					layer = 5,
+					nonupdate = true,
 				}
 				local mover = doodadMover(dx,dy,0,nil,moverinfo)
 				self._data[x][y].mover = mover
 				self:addUnit(mover,true)
+				mover.update = false
 				mover:setUserData(mover)
 			end
 		end
@@ -324,7 +328,7 @@ function PathMap:update(dt)
 	end
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
-			v:update(dt)
+			if v.update then v:update(dt) end
 		end
 	end
 	
@@ -360,7 +364,7 @@ function fog:getY()
 end
 
 local fanimg = requireImage'asset/shader/fan.png'
-local circcount = 64
+local circcount = 32
 function PathMap:generateFog(u,canvas)
 	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 	canvas.canvas:clear()
@@ -406,7 +410,7 @@ function PathMap:draw()
 		self:draw_normal()
 	end
 	g.pop()
-	--[[if self.follower then
+	if self.follower then
 		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 		self:generateFog(self.follower,canvas)
 		filters.gaussianblur.conf(fog)
@@ -416,7 +420,7 @@ function PathMap:draw()
 		gra.setPixelEffect()
 		filters.gaussianblur.postdraw(fog)
 		canvasmanager.releaseCanvas(canvas)
-	end]]
+	end
 end
 
 function PathMap:draw_normal()

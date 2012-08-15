@@ -115,6 +115,7 @@ function Sound:initialize(name,pos,reach,channel,host,alert)
 	if reach then
 	--	self.source:setDistance(reach,reach*2)
 	end
+	self.dt = 0
 end
 
 function Sound:setReach(reach)
@@ -144,14 +145,19 @@ function Sound:play()
 	if self.reach then s:setDistance(self.reach,self.reach*2) end
 	sound.play(s,self.channel)
 	self.s = s
+	self.dt = 0
+end
+
+function Sound:update(dt)
+	self.dt = self.dt + dt*3
 end
 
 function Sound:draw_LLI()
 	if not self.s then return end
 	if self.s:isStopped() then return end
-	local tell = (love.timer.getTime()*10)%1
+	local tell = self.dt%1
 	local x,y = unpack(self.pos)
-	gra.setColor(255,255,255)
+	gra.setColor(255,255,255,255-255*tell)
 	gra.setLineWidth(2)
 	gra.circle('line',x,y,tell*self.reach*2)
 end
@@ -174,9 +180,6 @@ function Sound:drawCircle()
 		gra.draw(img,x,y,love.timer.getTime()*100,s,s,img:getWidth()/2,img:getHeight()/2)
 		filters.soundwave.postdraw()
 	end
-end
-
-function Sound:update(dt)
 end
 
 if DEBUG then

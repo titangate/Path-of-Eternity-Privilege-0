@@ -62,7 +62,8 @@ function Unit:update(dt)
 		local target,headonly = unpack(self.facing)
 		local x1,y1 = self:getPosition()
 		local x2,y2 = target:getPosition()
-		if headonly then
+		self:setAngle(math.atan2(y2-y1,x2-x1))
+		--[[if headonly then
 			self.destr_head = math.atan2(y2-y1,x2-x1)
 			self.destr_body = nil
 		else
@@ -99,7 +100,7 @@ function Unit:update(dt)
 			end
 		else
 			self:setHeadAngle(self:getAngle())
-		end
+		end]]
 	end
 end
 

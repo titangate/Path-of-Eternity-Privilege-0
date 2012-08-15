@@ -153,7 +153,7 @@ function optionmenu:load()
 		if check then
 			check = 2
 		else
-			check = nil
+			check = 1
 		end
 		option.retina = check
 		
@@ -166,7 +166,7 @@ function optionmenu:load()
 	checkbox3.tooltip:SetFollowCursor(false)
 	checkbox3.tooltip:SetOffsets(0, -5)
 	
-	checkbox3:SetChecked(option.seperateUI)
+	checkbox3:SetChecked(option.retina==2)
 	
 	tabs1:AddTab(LocalizedString"GRAPHICS", graphicspanel)
 	

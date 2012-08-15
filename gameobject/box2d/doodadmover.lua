@@ -25,6 +25,7 @@ end
 
 local maxImpulse = 5
 function doodadMover:update(dt)
+	if self.info.bodytype == 'static' then return end
 	Box2DMover.update(self,dt)
 	local v = Vector(self.body:getLinearVelocity())*-self.body:getMass()
 	if v:length() > maxImpulse then
