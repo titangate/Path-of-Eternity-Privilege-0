@@ -323,7 +323,17 @@ function demogame:playConversation(unit,text,duration)
 end
 
 function demogame:keypressed(k)
+	if k=='i' then
+
+	ProFi = require 'ProFi'
+	ProFi:start()
+	execute(function()wait(0.5);
+		ProFi:stop()
+		ProFi:writeReport'report.txt'
+	end)
+end
 	if k=='escape' then
+
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:dismiss()end)))
 	end
 	if k=='c' then
