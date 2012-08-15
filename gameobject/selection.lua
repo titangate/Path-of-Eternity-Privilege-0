@@ -61,7 +61,7 @@ function Selection:mousepressed(x,y,b)
 end
 
 function Selection:interact(obj)
-	if self.onInteract and obj and obj.mover:valid() then
+	if self.onInteract and obj and obj.mover and obj.mover:valid() then
 		self.onInteract(obj)
 	end
 end

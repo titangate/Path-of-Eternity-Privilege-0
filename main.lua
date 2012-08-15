@@ -4,7 +4,7 @@ local loader = require 'loader'
 
 
 DEBUG = true
-PROFILING = true
+PROFILING = false
 
 if DEBUG and PROFILING then
 	ProFi = require 'ProFi'

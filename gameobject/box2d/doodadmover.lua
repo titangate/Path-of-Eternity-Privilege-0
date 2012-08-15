@@ -27,12 +27,14 @@ local maxImpulse = 5
 function doodadMover:update(dt)
 	if self.info.bodytype == 'static' then return end
 	Box2DMover.update(self,dt)
-	local v = Vector(self.body:getLinearVelocity())*-self.body:getMass()
+	local vx,vy = self.body:getLinearVelocity()
+	if vx~=0 and vy ~=0 then
+	local v = Vector(vx,vy)*-self.body:getMass()
 	if v:length() > maxImpulse then
 		v = v*maxImpulse/v:length()
 	end
 	self.body:applyLinearImpulse(v.x,v.y)
-
+end
 	self.body:applyAngularImpulse(0.1*self.body:getInertia()*-self.body:getAngularVelocity())
 end
 
