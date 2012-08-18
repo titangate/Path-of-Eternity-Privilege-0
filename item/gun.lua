@@ -46,7 +46,7 @@ function Gun:active(host,target)
 			end
 			t.aihost:terminate(t,true,360000)		
 			wait(0.5)
-			t:kill()
+			t:kill(self)
 			end)
 		return true
 	else

@@ -136,11 +136,10 @@ function text:setText(t)
 --			v = v:gsub("\n", "")
 			
 --			local parts = loveframes.util.SplitSring(v, " ")
-					
-			for i, j in ipairs(parts) do
-				table.insert(self.text, {color = prevcolor, text = j})
-			end]]
-			self.text = {{color = prevcolor,text=v}}
+					]]
+			--for i, j in ipairs(parts) do
+				table.insert(self.text, {color = prevcolor, text = v})
+			--end
 			
 		end
 		
@@ -228,13 +227,13 @@ function text:DrawText()
 	local y = self.y
 	
 	for k, v in ipairs(textdata) do
-		
 		local text = v.text
 		local color = v.color
 		gra.setColor(color)
 		sfn(font)
 		pfn(text,x,y,maxw,'left')
 		totalwidth = font:getWidth(text)
+		y = y+font:getHeight(text)
 		--[[
 		if type(text) == "string" then
 		

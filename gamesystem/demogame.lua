@@ -1,6 +1,8 @@
 
 local sound = require 'library.sound'
 local doodad = require 'gameobject.doodad'
+local mission = require 'gameobject.mission'
+mission.load()
 
 local demogame = {}
 global = {}
@@ -177,13 +179,22 @@ function demogame:load()
 		m.obj.river.inv = inv
 	end
 
-	m.obj.boss.onKill = function()
+	m.obj.boss.onKill = function(unit,killer)
+		self.mission:setTargetInfo('cai','status','DEAD')
+		if killer.info and killer.info.method then
+			self.mission:setTargetInfo('cai','statusdescription',killer.info.method('Cai Zhong Zheng'))
+		else
+			self.mission:setTargetInfo('cai','statusdescription','Cai Zhong Zheng is dead.')
+		end
 		self:hint("TARGET ELIMINATED")
 		sound.playMusic('sound/music/secretunvailed.ogg',true)
 	end
 	sound.playMusic('sound/music/danger.ogg')
 
 	self:loadUI()
+
+	-- mission
+	self.mission = mission.create('hospital')
 end
 
 function demogame:hint(text,clue)
@@ -353,6 +364,13 @@ end
 			editor:interact(obj)
 		end
 		m:setDelegate(editor)
+	end
+	if k=='b' then
+		local brief = require 'gamesystem.brief'
+		brief:setMission(self.mission)
+		brief:load()
+
+		brief.OnSetTimescale = function(t)self.timescale = t end
 	end
 	if k==' ' then
 		pause = not pause

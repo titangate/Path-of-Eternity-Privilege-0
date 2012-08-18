@@ -38,7 +38,7 @@ function ImproviseWeapon:active(host,target)
 			host.map:addUnit(self.s)
 			target.actor.animation = 'held'
 			wait(5)
-			target:kill()	
+			target:kill(self)	
 			self.acting = nil			
 			end)
 		end

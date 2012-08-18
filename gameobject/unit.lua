@@ -172,12 +172,12 @@ function Unit:destroyBody(x)
 	if self.mover.destroyBody then self.mover:destroyBody(x) end
 end
 
-function Unit:kill()
+function Unit:kill(killer)
 	local u = self:spawnBody()
 	self.map:addUnit(u)
 	u.info.dead = true
 	if self.onKill then
-		self.onKill(self)
+		self.onKill(self,killer)
 	end
 	
 	self.map:removeUnit(self)

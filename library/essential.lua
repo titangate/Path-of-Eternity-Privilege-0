@@ -145,6 +145,18 @@ end
 
 -- ChillCode
 
+function table.copy(t)
+   local r = {}
+   for k,v in pairs(t) do
+      if type(v)==table then
+         r[k] = table.copy(v)
+      else
+         r[k] = v
+      end
+   end
+   return r
+end
+
 local essential = {}
 function essential.setTextureQuality()
 	-- unimplemented

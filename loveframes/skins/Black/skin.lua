@@ -662,9 +662,9 @@ function skin.DrawCircleButton(object)
 	local image = object:GetImage()
 	local active = object.active
 	local scale = object.width/192
-	
+	local color = object.color or {255, 255, 255, 255}
 	if image ~= false then
-		gra.setColor(255, 255, 255, 255)
+		gra.setColor(color)
 		if active then
 			if skin.circlebutton_imagefilter.active then
 				object.haze_ref = 5/object:getWidth()

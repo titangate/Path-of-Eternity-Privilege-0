@@ -51,13 +51,14 @@ local function easyitem(p)
 		title = p.title or name,
 		description = p.description,
 		interact = interact,
-		class = p.class or Item
+		class = p.class or Item,
+		method = p.method,
 	}
 end
 
-easyitem{name='kitchenknife',height=2,class = ImproviseWeapon,title = LocalizedString'KITCHEN KNIFE'}
+easyitem{name='kitchenknife',height=2,class = ImproviseWeapon,title = LocalizedString'KITCHEN KNIFE',method = function(n) return string.format("%s was stabbed in the neck.",n) end,}
 easyitem{name='improvisation',height=2,class = ImproviseWeapon,title = LocalizedString'IMPROVISATION'}
 easyitem{name='needle',height=2,class = ImproviseWeapon,title = LocalizedString'SYRINGE'}
-easyitem{name='gun',height=2,class = Gun,title = LocalizedString'GUN'}
+easyitem{name='gun',height=2,class = Gun,title = LocalizedString'GUN',method = function(n) return string.format("%s was executed with a bullet in the head.",n) end,}
 easyitem{name='barehand',height=2,class = Barehand,title = LocalizedString'BAREHAND'}
 return t

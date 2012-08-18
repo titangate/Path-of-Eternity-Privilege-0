@@ -113,7 +113,7 @@ function Sound:initialize(name,pos,reach,channel,host,alert)
 		self.source:setPosition(pos.x,0,pos.y)
 	end
 	if reach then
-		self.source:setDistance(reach,reach*2)
+		self.source:setDistance(reach*2,reach*4)
 	end
 end
 
@@ -135,7 +135,7 @@ function Sound:play()
 		self.host:playsound(self)
 	end
 	if not self.source then return end
-	if (self.pos-sound.center):length()>self.reach*2 then
+	if (self.pos-sound.center):length()>self.reach*4 then
 		return
 	end
 	sound.play(self.source,self.channel)

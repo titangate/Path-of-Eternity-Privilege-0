@@ -367,11 +367,15 @@ function fog:getY()
 end
 
 local fanimg = requireImage'asset/shader/fan.png'
-local circcount = 64
+local circcount = 256
 function PathMap:generateFog(u,canvas)
 	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
-	canvas.canvas:clear()
+	
+	--love.graphics.setBackgroundColor(0,0,0,255)
+
+	canvas.canvas:clear(0,0,0)
 	gra.setCanvas(canvas.canvas)
+	gra.setBlendMode'subtractive'
 	local w = screen.halfwidth
 	local x1,y1 = u:getPosition()
 	local up = Vector(x1,y1)
@@ -388,6 +392,8 @@ function PathMap:generateFog(u,canvas)
 		--filters.gaussianblur.postdraw(fog)
 	end
 	gra.setCanvas()
+	gra.setBlendMode('alpha')
+
 	--canvasmanager.releaseCanvas(canvas)
 end
 
@@ -405,8 +411,33 @@ function PathMap:draw()
 	if self.follower then
 		
 	end
+
+	local u = self.follower
+	if u then
+		g.push()
+		g.scale(2)
+		if option.simplestencil and not self.drawlli then gra.setStencil(function()
+			local w = screen.halfwidth
+			local x1,y1 = u:getPosition()
+			local up = Vector(x1,y1)
+			for i=1,circcount do
+				local r = math.pi*2/circcount*i
+				self.hit = nil
+				self.fraction = 1
+				self.layer = 0
+				local x2,y2 = x1+math.cos(r)*w*2,y1+math.sin(r)*w*2
+				self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
+				local scale = self.fraction*w/fanimg:getWidth()
+				
+				gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,64/circcount,0,fanimg:getHeight()/2)
+			end
+		end)
+	end
+		g.pop()
+	end
 	g.push()
 	g.translate(unpack(self.camerashift))
+
 	if self.drawlli then
 		self:draw_LLI()
 	else
@@ -414,14 +445,16 @@ function PathMap:draw()
 	end
 	g.pop()
 	if not self.drawlli then
-
-	if self.follower then
+	g.setStencil()
+	
+	if not option.simplestencil and self.follower then
 		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 		self:generateFog(self.follower,canvas)
 		--gra.setPixelEffect(invert)
 		gra.draw(canvas.canvas,0,0,0,2)
 		gra.setPixelEffect()
 		canvasmanager.releaseCanvas(canvas)
+		love.graphics.setBackgroundColor(0,0,0,0)
 	end
 end
 end
@@ -610,6 +643,10 @@ end
 
 function PathMap:screenToMap(x,y)
 	return x-self.camerashift.x,y-self.camerashift.y
+end
+
+function PathMap:setViewableRegion(r)
+	self.viewableregion = r
 end
 
 if DEBUG then

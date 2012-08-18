@@ -51,15 +51,6 @@ function Doodad:draw()
 		local obj = self
 		local w = obj:getWidth()
 		local h = obj:getHeight()
-	--[[	local w2 = math.min(screen.width,neartwo(w*1))
-		local c = canvasmanager.requireCanvas(w2,h)
-		c.canvas:clear()
-		stroke.prevc = gra.getCanvas()
-		gra.setCanvas(c.canvas)
-		stroke.c = c
-		gra.push()
-		gra.translate(-obj:getX()+scale*self.info.width+(w2-w)/1,-obj:getY()+scale*self.info.height)
-		gra.rotate(-r)]]
 		stroke.pe:send('rf_h',h)
 		stroke.pe:send('rf_w',w)
 		gra.setPixelEffect(stroke.pe)
@@ -70,16 +61,6 @@ function Doodad:draw()
 	if self.drawSelection then
 		local obj = self
 		local stroke = filters.selection
-
-	--[[	local w = obj:getWidth()
-		local h = obj:getHeight()
-		local w2 = math.min(screen.width,neartwo(w*1))
-		gra.pop()
-		gra.setCanvas(stroke.prevc)
-		gra.setPixelEffect(stroke.pe)
-		gra.setColor(0,255,0)
-		gra.draw(stroke.c.canvas,obj:getX()-scale*self.info.width-(w2-w)/1,obj:getY()-scale*self.info.height)
-		canvasmanager.releaseCanvas(stroke.c)]]
 		gra.setPixelEffect()
 		stroke.c = nil
 	end

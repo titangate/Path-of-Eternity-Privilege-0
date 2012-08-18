@@ -171,7 +171,7 @@ function love.load()
 	modalBackground:setPos(0,0)
 	modalBackground:SetVisible(false)
 	modalBackground.gaussianblur_intensity = 10
-
+	love.graphics.setIcon(requireImage'icon.png')
 end
 
 function love.mousepressed(x, y, button)
@@ -252,7 +252,6 @@ function love.update(dt)
 end
 
 function love.draw()
-		--gra.rectangle('fill',0,0,10000,10000)
 	if loveframes.modalobject then
 	--	filters.gaussianblur.conf(modalBackground)
 	--	filters.gaussianblur.predraw(modalBackground)

@@ -1,6 +1,6 @@
 function love.conf(t)
 
-	t.author 	= "Leon Jiang"
+	t.author 	= "Leon Nanyi Jiang"
 	t.version 	= "0.8.0"
 	
 	t.console 			= true	 

@@ -9,7 +9,7 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 {
 //	number hazeoff = fract(sin(dot(texture_coords.xy ,vec2(12.9898,78.233))) * 43758.5453)-0.5;
 	vec2 hazeoff2d = (Texel(normal,texture_coords+offset).rg-shift)*ref;
-	return Texel(texture,texture_coords+hazeoff2d)*0.5+Texel(texture,texture_coords)*0.5;
+	return color*(Texel(texture,texture_coords+hazeoff2d)*0.5+Texel(texture,texture_coords)*0.5);
 }
 ]]
 
