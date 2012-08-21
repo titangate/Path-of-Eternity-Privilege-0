@@ -23,12 +23,14 @@ function splashscreen:load()
 		self.ring0dev:setImage'asset/ring0dev.png'
 		self.ring0dev:Center()
 		self.ring0dev:SetColor({255,255,255,255})
+		self.ring0dev.filter = filters.channelsplit
 		loveframes.anim:easy(self.ring0dev.imagecolor,4,255,0,1.5)
 
 		local compass = loveframes.Create("compass",con)
 		compass:setPos(580,180)
 		compass:setSize(300,300)
 		compass.color = {255,255,255,255}
+		compass.filter = filters.channelsplit
 		loveframes.anim:easy(compass.color,4,255,0,1.5)
 		wait(2)
 		con:Remove()

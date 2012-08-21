@@ -40,12 +40,15 @@ function gra.translate(x,y)
 end
 
 function gra.setFont(f)
+	--if  then
 	gra.altfont = font.retina[f]
+	love.graphics.setFont(f)
+	--end
 end
 
 function gra.print(msg,x,y,r,sx,sy,ox,oy,kx,ky)
 	local f = love.graphics.getFont()
-	if gra.altfont then
+	if gra.altfont and option.retina ~= 1 then
 		love.graphics.setFont(gra.altfont)
 	end
 	if x then x = x*option.retina end
@@ -57,7 +60,7 @@ end
 
 function gra.printf(msg,x,y,limit,...)
 	local f = love.graphics.getFont()
-	if gra.altfont then
+	if gra.altfont and option.retina ~= 1 then
 		love.graphics.setFont(gra.altfont)
 	end
 	if x then x = x*option.retina end

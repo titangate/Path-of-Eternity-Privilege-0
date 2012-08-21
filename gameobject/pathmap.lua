@@ -111,6 +111,7 @@ function PathMap:setWallbatch(image,config)
 end
 
 
+
 function PathMap:createWallMap()
 
 	self.wallbatch = gra.newSpriteBatch(self.wallimage,self.w*self.h)
@@ -167,6 +168,26 @@ function PathMap:createWallMap()
 				mover.update = false
 				mover:setUserData(mover)
 			end
+		end
+	end
+end
+
+function PathMap:clearWallMap()
+	local w,h = self.w,self.h
+	for x=1,w do
+		for y=1,h do
+			if self._data[x][y].mover then
+				self._data[x][y].mover:destroyBody(self)
+			end
+		end
+	end
+	self._data = {}
+	for x=1,w do
+		table.insert(self._data,{})
+		for y=1,h do
+			local a = RectangleArea((x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+			table.insert(self._data[x],a)
+			a.carryfunc = cf
 		end
 	end
 end
@@ -557,24 +578,48 @@ function PathMap:getNearbyArea(target,distance)
 	return searchset
 end
 
+function PathMap:loadWall(t)
+	self:clearWallMap()
+	if t then
+		for x = 1,self.w do
+			for y = 1,self.h do
+				if t[x] and t[x][y] then
+					self._data[x][y].obstacle_e = t[x][y].obstacle_e
+				end
+			end
+		end
+	end
+end
+
+function PathMap:getWall()
+	local wall = {}
+	for x = 1,self.w do
+		table.insert(wall,{})
+		for y = 1,self.h do
+		table.insert(wall[x],{})
+			wall[x][y].obstacle_e = self._data[x][y].obstacle_e
+		end
+	end
+	return wall
+end
+
 function PathMap:encode()
-	local t = {unit = {},wall={}}
+	local t = {
+	name = self.class.name,
+	w = self.w,
+	h = self.h,
+	unit = {}}
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			if v.encode then
-			local savedata = v:encode()
-			savedata.identifier = v.identifier
-			table.insert(t.unit,savedata)
-		end
-		end
-	end
-	for x = 1,self.w do
-		table.insert(t.wall,{})
-		for y = 1,self.h do
-		table.insert(t.wall[x],{})
-			t.wall[x][y].obstacle_e = self._data[x][y].obstacle_e
+				local savedata = v:encode()
+				savedata.identifier = v.identifier
+				table.insert(t.unit,savedata)
+			end
 		end
 	end
+	t.wall = self:getWall()
+
 	return t
 end
 
@@ -621,7 +666,7 @@ function PathMap:load(t)
 		end
 	end
 
-	self:createWallMap()
+	--self:createWallMap()
 	for i,v in ipairs(t.unit) do
 		local u = serial.decode(v)
 		if u then

@@ -10,6 +10,8 @@ Switch to:
 ]]
 
 
+local hotkey = require 'library.hotkey'
+
 KMController = Object:subclass'KMController'
 function KMController:initialize(map,character,aihost,system)
 	self.map = map
@@ -46,7 +48,6 @@ function KMController:mousepressed(x,y,b)
 			t = Vector(self.map:screenToMap(x,y))
 		end
 		local it = self.inv:getActiveItem()
-		print (t)
 		local allowance,msg = it:active(self.character,t)
 		if allowance then
 			--it:interact(self.character,self.sel)
@@ -62,6 +63,19 @@ end
 
 function KMController:keypressed(k)
 	if not self.enable then return end
+	if k==hotkey.editor then
+		self.system:setGameState'editor'
+	end
+	if k==hotkey.inventory then
+		self.system:loadSelectionWheel()
+	end
+	if k==hotkey.brief then
+		local brief = require 'gamesystem.brief'
+		assert(global.mission,'mission not found')
+		brief:setMission(global.mission)
+		brief:load()
+		brief.OnSetTimescale = function(t)self.system.timescale = t end
+	end
 end
 
 function KMController:keyreleased(k)

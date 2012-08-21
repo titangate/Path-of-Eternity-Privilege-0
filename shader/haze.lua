@@ -26,7 +26,7 @@ function haze.conf(obj)
 end
 
 function haze.predraw(obj)
-	local w = obj:getWidth()
+	--[[local w = obj:getWidth()
 	local h = obj:getHeight()
 	local c = canvasmanager.requireCanvas(w,h)
 	c.canvas:clear()
@@ -34,16 +34,17 @@ function haze.predraw(obj)
 	gra.setCanvas(c.canvas)
 	haze.c = c
 	gra.push()
-	gra.translate(-obj:getX(),-obj:getY())
+	gra.translate(-obj:getX(),-obj:getY())]]
+	gra.setPixelEffect(haze.pe)
 end
 
 function haze.postdraw(obj)
-	gra.pop()
+	--[[gra.pop()
 	gra.setCanvas(haze.prevc)
 	gra.setPixelEffect(haze.pe)
 	gra.setColor(255,255,255)
 	gra.draw(haze.c.canvas,obj:getX(),obj:getY())
-	canvasmanager.releaseCanvas(haze.c)
+	canvasmanager.releaseCanvas(haze.c)]]--
 	gra.setPixelEffect()
 	haze.c = nil
 end

@@ -7,9 +7,9 @@ local function switchfont(loc)
 		font.smallfont = gra.newFont('NeoSans.otf',14)
 		font.imagebuttonfont = gra.newFont('NeoSans.otf',20)
 		font.bigfont = gra.newFont('NeoSans.otf',50)
-		font.retina[font.smallfont] = gra.newFont('NeoSans.otf',14*option.retina)
-		font.retina[font.imagebuttonfont] = gra.newFont('NeoSans.otf',20*option.retina)
-		font.retina[font.bigfont] = gra.newFont('NeoSans.otf',50*option.retina)
+		font.retina[font.smallfont] = gra.newFont('NeoSans.otf',14*2)
+		font.retina[font.imagebuttonfont] = gra.newFont('NeoSans.otf',20*2)
+		font.retina[font.bigfont] = gra.newFont('NeoSans.otf',50*2)
 		pn = gra.print
 		function pfn(text,x,y,limit,align)
 			if limit==0 then limit = 999999 end
@@ -29,9 +29,9 @@ local function switchfont(loc)
 		font.smallfont = gra.newFont(f, 14)
 		font.imagebuttonfont = gra.newFont(f,20)
 		font.bigfont = gra.newFont(f,50)
-		font.retina[font.smallfont] = gra.newFont(f,14*option.retina)
-		font.retina[font.imagebuttonfont] = gra.newFont(f,20*option.retina)
-		font.retina[font.bigfont] = gra.newFont(f,50*option.retina)
+		font.retina[font.smallfont] = gra.newFont(f,14*2)
+		font.retina[font.imagebuttonfont] = gra.newFont(f,20*2)
+		font.retina[font.bigfont] = gra.newFont(f,50*2)
 		local fontizes = {
 			[font.imagebuttonfont] = 20,
 			[font.smallfont] = 14,

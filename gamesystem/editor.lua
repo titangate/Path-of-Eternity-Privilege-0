@@ -1,13 +1,19 @@
 require 'editor.inspector'
 local editor = {}
 function editor:load()
-	local inspector = loveframes.Create'frame'
+	self.uiobject = {}
+	local function createframe(...)
+		local item = loveframes.Create(...)
+		table.insert(self.uiobject,item)
+		return item
+	end
+	local inspector = createframe('frame')
 	inspector:setName(LocalizedString"INSPECTOR")
 	inspector:setSize(300,500)
 	inspector:setPos(100,10)
 	self.inspector = inspector
 
-	local list = loveframes.Create('list',inspector)
+	local list = createframe('list',inspector)
 	list:setPos(5,30)
 	list:setSize(280,450)
 	self.list = list
@@ -16,11 +22,11 @@ function editor:load()
 	end
 --	inspector:MakeTop()
 
-	local toolboxframe = loveframes.Create("frame")
+	local toolboxframe = createframe("frame")
 	toolboxframe:setSize(600,80)
 	toolboxframe:setPos(screen.halfwidth-300,screen.height-220)
 	toolboxframe:setName(LocalizedString"TOOLBOX")
-	local toolbox = loveframes.Create("list",toolboxframe)
+	local toolbox = createframe("list",toolboxframe)
 	toolbox:setSize(600,64)
 	toolbox:setPos(5,20)
 	function toolbox:Draw() end
@@ -30,7 +36,7 @@ function editor:load()
 	local tools = {}
 
 
-	local sel = loveframes.Create("selectionTool")
+	local sel = createframe("selectionTool")
 	function sel.Update(object,dt)
 		if self.sel then
 			if object.state == 'translate' then
@@ -56,7 +62,7 @@ function editor:load()
 	self.currenttool = self.seltool
 
 
-	local b = loveframes.Create("circlebutton",toolbox)
+	local b = createframe("circlebutton",toolbox)
 	b:setText(k)
 	b.active = true
 	self.currentbutton = b
@@ -72,7 +78,7 @@ function editor:load()
 	end
 	toolbox:AddItem(b)
 
-	local walltool = loveframes.Create("wallTool")
+	local walltool = createframe("wallTool")
 	function walltool.OnLeftDown()
 		local x,y = self.map:screenToMap(love.mouse.getPosition())
 		self.map:setObstacleEditor(x,y,'wall')
@@ -82,7 +88,7 @@ function editor:load()
 		self.map:setObstacleEditor(x,y,nil)
 	end
 	walltool:SetVisible(false)
-	local b = loveframes.Create("circlebutton",toolbox)
+	local b = createframe("circlebutton",toolbox)
 	b:setText(k)
 	b.active = false
 	b:setImage('asset/difficulty/hard.png')
@@ -97,11 +103,11 @@ function editor:load()
 	end
 	toolbox:AddItem(b)
 
-	local pathtool = loveframes.Create("pathTool")
+	local pathtool = createframe("pathTool")
 	pathtool:SetVisible(false)
 	pathtool:setPos(love.mouse.getPosition())
 	self.pathtool = pathtool
-	local b = loveframes.Create("circlebutton",toolbox)
+	local b = createframe("circlebutton",toolbox)
 	b:setText(k)
 	b.active = false
 	b:setImage('asset/difficulty/hard.png')
@@ -117,7 +123,7 @@ function editor:load()
 	toolbox:AddItem(b)
 
 
-	local doortool = loveframes.Create("doorTool")
+	local doortool = createframe("doorTool")
 	function doortool.OnLeftDown(object,x,y,button)
 		local x,y = self.map:pixelToData(self.map:screenToMap(x,y))
 		local obs = self.map:hasObstacle(x,y)
@@ -134,7 +140,7 @@ function editor:load()
 	function doortool.OnRightDown()
 	end
 	doortool:SetVisible(false)
-	local b = loveframes.Create("circlebutton",toolbox)
+	local b = createframe("circlebutton",toolbox)
 	b:setText(k)
 	b.active = false
 	b:setImage('asset/difficulty/normal.png')
@@ -152,12 +158,12 @@ function editor:load()
 	table.insert(tools,{sel,b})
 	local t = require 'doodad.definition'
 	for k,v in pairs(t) do
-		local dt = loveframes.Create("doodadTool")
+		local dt = createframe("doodadTool")
 		dt:setDoodad(v)
 		dt:setDelegate(self)
 		dt:setPos(love.mouse.getPosition())
 		dt:SetVisible(false)
-		local b = loveframes.Create("circlebutton",toolbox)
+		local b = createframe("circlebutton",toolbox)
 		b:setText(k)
 
 --		b:setSize(180,180)
@@ -177,12 +183,12 @@ function editor:load()
 
 	local t = require 'unit.definition'
 	for k,v in pairs(t) do
-		local dt = loveframes.Create("humanTool")
+		local dt = createframe("humanTool")
 		dt:setHuman(v)
 		dt:setDelegate(self)
 		dt:setPos(love.mouse.getPosition())
 		dt:SetVisible(false)
-		local b = loveframes.Create("circlebutton",toolbox)
+		local b = createframe("circlebutton",toolbox)
 		b:setText(k)
 
 --		b:setSize(180,180)
@@ -214,6 +220,79 @@ function editor:load()
 	self.seltool:SetVisible(false)
 	self.inspector:SetVisible(false)
 	self.tools = tools
+
+	local menuframe = createframe('frame')
+	menuframe:setSize(200,500)
+	menuframe:setPos(screen.width-250,50)
+
+	menuframe:setName(LocalizedString'MENU')
+
+	local menu = createframe('list',menuframe)
+	menu:setSize(180,470)
+	menu:setPos(10,30)
+
+	local saveAllTo = createframe('button',menu)
+	saveAllTo:setText(LocalizedString"SAVE ALL TO")
+	saveAllTo.OnClick = function()
+		local processor = require 'gamesystem.imageprocessthread'
+
+		local fileselection = createframe('fileselection')
+		fileselection:setCallbacks(
+			function(file)
+				processor.encodeTableToImageData(global.map:getWall(),file..'_mapimage',1,1,100,100,1)
+				processor.start(
+				function()end)
+				local t= global.map:encode()
+				local a = json.encode(global.aihost:encode())
+				local l=json.encode(t)
+				love.filesystem.write(file..'_mapdata.json',l)
+				love.filesystem.write(file..'_aidata.json',a)
+				local quest = {
+					map = file..'_mapdata.json',
+					aidata = file..'_aidata.json',
+					mission = global.mission:encode(),
+				}
+
+				love.filesystem.write(file..'.quest',json.encode(quest))
+			end,
+			function()
+			end)
+	end
+	menu:AddItem(saveAllTo)
+
+	local loadMission = createframe('button',menu)
+	loadMission:setText(LocalizedString"LOAD QUEST")
+	loadMission.OnClick = function()
+		if self.del then
+			local fileselection = createframe('fileselection')
+			fileselection:setCallbacks(
+				function(file)
+					local f = string.sub(file,1,#file-6)
+					if string.sub(file,#file-5)=='.quest' then
+						self.del:loadFromSave(
+							json.decode(love.filesystem.read(f..'_mapdata.json')),
+							json.decode(love.filesystem.read(f..'_aidata.json')),
+							json.decode(love.filesystem.read(f..'.quest')).mission
+						)
+					end
+				end,
+				function()
+				end
+			)
+
+		end
+	end
+
+	local closeEditor = createframe('button',menu)
+	closeEditor:setText(LocalizedString"CLOSE EDITOR")
+	closeEditor.OnClick = function()
+		if self.del then
+			while #self.uiobject>0 do
+				table.remove(self.uiobject):Remove()
+			end
+			self.del:setGameState()
+		end
+	end
 end
 
 function editor:setMap(m)
@@ -267,6 +346,10 @@ function editor:interact(obj)
 		self.inspector:SetVisible(true)
 		if self.atts then self.atts.identifier.box:setText(self.sel:getIdentifier()) end
 	end
+end
+
+function editor:loadPathFile(file)
+
 end
 
 function editor:removeUnit(u)

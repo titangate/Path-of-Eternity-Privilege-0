@@ -29,6 +29,7 @@ function mainmenu:load()
 		gra.setColor(255,255,255)
 		gra.draw(requireImage'asset/banner.png',screen.halfwidth,100,0,0.5,0.5,936/2,288/2)
 	end
+	map:transmitEffect(true)
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")
 	exampleslist:setSize(450, exampleslist:GetParent():getHeight() - 25)
@@ -136,8 +137,20 @@ function mainmenu:loadpostmenu()
 		self:zoomin(500,121,1)
 		self:dismiss()end))
 		wait(0.5)
-		local gs = require 'gamesystem.demogame'
+		local gs = require 'gamesystem.game'
+		local f = 'userdata/hospital/m'
+		--if string.sub(file,#file-5)=='.quest' then
 		gs:load()
+		local f1 = love.filesystem.read(f..'_mapdata.json')
+		local f2 = love.filesystem.read(f..'_aidata.json')
+		local f3 = love.filesystem.read(f..'.quest')
+		
+		gs:loadFromSave(
+			json.decode(f1),
+			json.decode(f2),
+			json.decode(f3)
+		)
+		--end
 		self.host.push(gs,1)
 	end
 	

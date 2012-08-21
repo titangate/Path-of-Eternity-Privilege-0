@@ -1088,6 +1088,10 @@ end
 	- desc: draws the compass
 --]]---------------------------------------------------------
 function skin.DrawCompass(object)
+	if object.filter then
+		object.filter.conf(object)
+		object.filter.predraw(object)
+	end
 	local color = object.color or {255,255,255}
 	gra.setColor(color)
 	local base = skin.images["compass_base.png"]
@@ -1103,6 +1107,10 @@ function skin.DrawCompass(object)
 	g.draw(base,x+shift,y+shift,0,scale,scale,gshift,gshift)
 	g.draw(wheel,x+shift,y+shift,-r,scale,scale,gshift,gshift)
 	g.draw(needle,x+shift,y+shift,r,scale,scale,gshift,gshift)
+
+	if object.filter then
+		object.filter.postdraw(object)
+	end
 end
 
 --[[
