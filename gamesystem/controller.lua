@@ -76,6 +76,14 @@ function KMController:keypressed(k)
 		brief:load()
 		brief.OnSetTimescale = function(t)self.system.timescale = t end
 	end
+	if k==hotkey.profile then
+		ProFi = require 'ProFi'
+		ProFi:start()
+		execute(function()wait(3);
+			ProFi:stop()
+			ProFi:writeReport'report.txt'
+		end)
+	end
 end
 
 function KMController:keyreleased(k)

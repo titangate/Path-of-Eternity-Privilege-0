@@ -437,7 +437,7 @@ function PathMap:draw()
 	if u then
 		g.push()
 		g.scale(2)
-		if option.simplestencil and not self.drawlli then gra.setStencil(function()
+		if option.simplestencil and not self.drawlli then --[[gra.setStencil(function()
 			local w = screen.halfwidth
 			local x1,y1 = u:getPosition()
 			local up = Vector(x1,y1)
@@ -452,7 +452,7 @@ function PathMap:draw()
 				
 				gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,64/circcount,0,fanimg:getHeight()/2)
 			end
-		end)
+		end)]]
 	end
 		g.pop()
 	end
@@ -466,16 +466,16 @@ function PathMap:draw()
 	end
 	g.pop()
 	if not self.drawlli then
-	g.setStencil()
+		g.setStencil()
 	
-	if not option.simplestencil and self.follower then
-		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
-		self:generateFog(self.follower,canvas)
-		--gra.setPixelEffect(invert)
-		gra.draw(canvas.canvas,0,0,0,2)
-		gra.setPixelEffect()
-		canvasmanager.releaseCanvas(canvas)
-		love.graphics.setBackgroundColor(0,0,0,0)
+		if not option.simplestencil and self.follower then
+			canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
+			self:generateFog(self.follower,canvas)
+			--gra.setPixelEffect(invert)
+			gra.draw(canvas.canvas,0,0,0,2)
+			gra.setPixelEffect()
+			canvasmanager.releaseCanvas(canvas)
+			love.graphics.setBackgroundColor(0,0,0,0)
 	end
 end
 end

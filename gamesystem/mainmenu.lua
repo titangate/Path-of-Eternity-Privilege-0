@@ -1,12 +1,13 @@
 local mainmenu = {}
 local sound = require 'library.sound'
+local background = require 'gamesystem.chembg'
 function mainmenu:load()
 	-- music
 	------------------------------------
 	-- button example
 	------------------------------------
 	
-	local map = loveframes.Create("image")
+	--[[local map = loveframes.Create("image")
 	map:setImage"worldmap.png"
 --	map:SetColor{82, 60, 25,255}
 	
@@ -29,7 +30,7 @@ function mainmenu:load()
 		gra.setColor(255,255,255)
 		gra.draw(requireImage'asset/banner.png',screen.halfwidth,100,0,0.5,0.5,936/2,288/2)
 	end
-	map:transmitEffect(true)
+	map:transmitEffect(true)]]
 	self.focus = Vector(0,0)
 	local exampleslist = loveframes.Create("list")
 	exampleslist:setSize(450, exampleslist:GetParent():getHeight() - 25)
@@ -195,9 +196,9 @@ function mainmenu:loadmain()
 	self:load()
 	local exampleslist = self.base
 	self:loadpostmenu()
-	local t=self.map
+	--[[local t=self.map
 	t.filter = filters.vibrate
-	loveframes.anim:easy(t,'vibrate_ref',10,0,1,loveframes.style.linear)
+	loveframes.anim:easy(t,'vibrate_ref',10,0,1,loveframes.style.linear)]]
 	
 --	sound.applyToChannel('music',function(s)s:stop()end)
 	sound.playMusic('sound/music/adagio.ogg')
@@ -235,7 +236,7 @@ function mainmenu:reset()
 		t:Remove()
 	end
 	self.textframe:Remove()
-	self.map:Remove()
+	--self.map:Remove()
 	self.base:Remove()
 	self.dismissing = true
 	self:lastload()
@@ -243,10 +244,13 @@ end
 
 function mainmenu:update(dt)
 --	assert(self.base)
+background:update(dt)
 end
 
 
+
 function mainmenu:draw()
+	background:draw()
 end
 
 function mainmenu:keypressed(k)
@@ -285,7 +289,7 @@ function mainmenu:dismiss()
 	for i,t in ipairs(self.text) do
 		t:Remove()
 	end
-	self.map:Remove()
+	--self.map:Remove()
 	self.base:Remove()
 end
 
@@ -294,7 +298,7 @@ function mainmenu:zoomin(x,y,time)
 	loveframes.anim:easy(self,'mapscale',1,10,time)
 	loveframes.anim:easy(self,'mapopacity',1,0,time)
 	
-	local t = self.map
+	--[[local t = self.map
 	t.filter = filters.zoomblur
 	t.zoomblur_center = Vector(self.focus.x,self.focus.y)
 	t.zoomblur_intensity = 1
@@ -302,7 +306,7 @@ function mainmenu:zoomin(x,y,time)
 	loveframes.anim:easy(t.zoomblur_center,'x',self.focus.x,0.5,time,loveframes.style.linear)
 	loveframes.anim:easy(t.zoomblur_center,'y',self.focus.y,0.5,time,loveframes.style.linear)
 	wait(time)
-	t.filter = nil
+	t.filter = nil]]
 end
 
 function mainmenu:zoomout(x,y,time)
@@ -311,7 +315,7 @@ function mainmenu:zoomout(x,y,time)
 	loveframes.anim:easy(self,'mapscale',10,1,time)
 	loveframes.anim:easy(self,'mapopacity',0,1,time)
 	
-	local t = self.map
+	--[[local t = self.map
 	t.filter = filters.zoomblur
 	t.zoomblur_center = Vector(self.focus.x,self.focus.y)
 	t.zoomblur_intensity = 1
@@ -319,7 +323,7 @@ function mainmenu:zoomout(x,y,time)
 	loveframes.anim:easy(t.zoomblur_center,'x',0.5,self.focus.x,time,loveframes.style.linear)
 	loveframes.anim:easy(t.zoomblur_center,'y',0.5,self.focus.y,time,loveframes.style.linear)
 	wait(time)
-	t.filter = nil
+	t.filter = nil]]
 end
 
 

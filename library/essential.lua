@@ -3,6 +3,11 @@ json = require 'json'
 local emptyimg = gra.newImage'dot.png'
 local img = {}
 function requireImage(f)
+   if type(f) ~= 'string' then
+      if f:typeOf('Image') then
+         return f
+      end
+   end
 	if not img[f] then
       --return emptyimg
 		img[f] = gra.newImage(f)

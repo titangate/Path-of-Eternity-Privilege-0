@@ -140,7 +140,7 @@ function text:setText(t)
 			--for i, j in ipairs(parts) do
 				table.insert(self.text, {color = prevcolor, text = v})
 			--end
-			
+			self.height = self.height+font:getHeight(v)
 		end
 		
 	end

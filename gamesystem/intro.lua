@@ -1,82 +1,5 @@
-ImageUnit = Object:subclass'ImageUnit'
-function ImageUnit:initialize(image,x,y)
-	self.image = image
-	self.x,self.y = x,y
-end
 
-function ImageUnit:getWidth()
-	return self.image:getWidth()
-end
-
-function ImageUnit:getHeight()
-	return self.image:getHeight()
-end
-
-function ImageUnit:getX()
-	return self.x
-end
-
-function ImageUnit:getY()
-	return self.y
-end
-
-local background = {}
-function background:load()
-	self.c = Camera(0,0,0)
-	self.z = 0
-	self.images = {}
-
-	
-end
-
-function background:draw()
-	local gaussianblur = filters.gaussianblur
-	if gaussianblur then
-	for i,image in ipairs(self.images) do
-		self.c.z = 3-3/10*i+self.z
-		image.gaussianblur_intensity = math.max(0,math.abs(self.c.z-2)-0.1)
-		filters.gaussianblur.conf(image)
-		filters.gaussianblur.predraw(image)
-		gra.draw(image.image,image.x,image.y)
-		gra.pop()
-		gra.push()
-		
-		self.c:draw()
-		gra.setCanvas(gaussianblur.prevc)
-		gra.setPixelEffect(gaussianblur.horz)
-		gra.setColor(255,255,255)
-	gra.setColor(210, 152, 65)
-		gra.draw(image.c.canvas,image.x,image.y)
-		canvasmanager.releaseCanvas(image.c)
-		gra.setPixelEffect()
-		image.c = nil
-		gra.pop()
-	end
-else
-end
-	--camerap.zNear,camerap.zFar = shift + 1,shift+3
-end
-
-local chem = love.filesystem.enumerate'asset/chemical/'
-local chems = {}
-for i,v in ipairs(chem) do
-	if string.sub(v,#v-3)=='.png' then
-		table.insert(chems,'asset/chemical/'..v)
-	end
-end
-function background:update(dt)
-	self.z = self.z + dt
-	if self.z > 0.3 then
-		local randomimage = chems[math.random(#chems)]
-		table.remove(self.images,1)
-		table.insert(self.images,ImageUnit(requireImage(randomimage),math.random(screen.width),math.random(screen.height)))
-		if #self.images<15 then
-			table.insert(self.images,ImageUnit(requireImage(randomimage),math.random(screen.width),math.random(screen.height)))
-		end
-		self.z = self.z - 0.3
-	end
-end
-
+local background = require 'gamesystem.chembg'
 local intro = {}
 local sound = require 'library.sound'
 require 'gameobject.camera'
@@ -85,18 +8,45 @@ function intro:load()
 	------------------------------------
 	-- button example
 	------------------------------------
-	background:load()
 	--loveframes.anim:easy(background,'z',0,-10,100)
 	--self:contract()
-	execute(function()self:lli()end)
+	execute(function()
+		wait(8)
+		self:lli()
+		self:compass()
+		self:contract()
+		self:news()
+	end)
+	execute(function()
+		wait(5)
+		local conversation = require 'gamesystem.conversation'
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'LIFE IS A PRIVILEGE. TOO MANY PEOPLE TOOK IT FOR GRANTED.','sound/conversation/lifeisaprivilege.ogg')
+		wait(4)
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'I DO NOT HAVE SUCH LUXURY TO SPARE.','sound/conversation/luxury.ogg')
+		wait(3)
+		conversation.playConversation(LocalizedString'DOCTOR',LocalizedString'THE RESULT OF THE DIAGNOSIS HAS COME OUT.. ITS BAD NEWS.',nil,5)
+		wait(2)
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'TORMENTED BY MY DISEASE, I HAVE LONG THIRST FOR A REASON TO LIVE FOR.','sound/conversation/reason.ogg')
+		wait(2)
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'JUST TELL ME DOC, HOW MUCH TIME DO I HAVE LEFT?','sound/conversation/time_chinese.ogg')
+
+		conversation.playConversation(LocalizedString'DOCTOR',LocalizedString'WE DO HAVE TREATMENT. BUT IT WILL COST YOU CLOSE TO FOUR MILLION DOLLARS A YEAR.',nil,5)
+		wait(3)
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'THIS IS MY ONLY WAY OUT.','sound/conversation/wayout.ogg')
+		wait(5)
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'IN SOME SENSE, I TAKE UNWORTHY PEOPLES LIFE TO EXTEND MY OWN.','sound/conversation/unworthy.ogg')
+		conversation.playConversation(LocalizedString'RIVER',LocalizedString'BUT I KNOW ONE DAY, I WILL HAVE TO PAY MY DEBT.','sound/conversation/debt.ogg')
+		self.OnFinish()
+	end)
 end
 
 function intro:lli()
 	local f = loveframes.Create'frame'
 	f:setSize(1024,600)
-	local t = loveframes.Create('text',f)
-	t:SetFont(font.bigfont)
-	t:setText(LocalizedString'LOW LATENCY INHIBITION')
+	local title = loveframes.Create('text',f)
+	title:SetFont(font.bigfont)
+	title:setText(LocalizedString'LOW LATENCY INHIBITION')
+	title:CenterX()
 	--t.h = 80
 	f.filter = filters.vibrate
 	loveframes.anim:easy(f,'vibrate_ref',3,0,1,loveframes.style.linear)
@@ -131,10 +81,10 @@ function intro:lli()
 
 
 	local color = {255,0,0,0}
-	local t = loveframes.Create('text',f)
-	t:SetFont(font.bigfont)
-	t:setText{color,LocalizedString'LOW LATENCY INHIBITION - E'}
-	
+	local t2 = loveframes.Create('text',f)
+	t2:SetFont(font.bigfont)
+	t2:setText{color,LocalizedString'LOW LATENCY INHIBITION - E'}
+	t2:setPos(title.staticx,title.staticy)
 	loveframes.anim:easy(color,4,0,255,1)
 	local sound = require 'library.sound'
 	sound.play("sound/interface/drum3.ogg","interface")
@@ -142,7 +92,7 @@ function intro:lli()
 
 	local t = loveframes.Create('text',f)
 	t:SetY(300)
-	t:setText{{255,0,0},LocalizedString'AN EXTREMELY RARE AND DEADLY VARIATION OF THIS DISEASE. UNCONTROLLABLE STREAM CONTINUOUSLY PRESSURES BRAIN CELLS, '}
+	t:setText{{255,0,0},LocalizedString'AN EXTREMELY RARE AND DEADLY VARIATION OF THIS DISEASE. UNCONTROLLABLE STREAM PRESSURES BRAIN CELLS, '}
 	table.insert(text,t)
 	t.filter = filters.vibrate
 	loveframes.anim:easy(t,'vibrate_ref',3,0,1,loveframes.style.linear)
@@ -168,10 +118,89 @@ function intro:contract()
 	contract:transmitEffect(true)
 	
 	contract.staticx = (screen.halfwidth-contract:getWidth()/2)
-	loveframes.anim:easy(contract,'staticy',screen.height,0,15)
+	loveframes.anim:easy(contract,'staticy',screen.height,0,4)
+	wait(7)
+	contract:setImage("asset/interface/compasscontract_zoom.png")
+	contract:setPos(0,0)
+	contract:setWidth(screen.width)
+
+	local sound = require 'library.sound'
+	sound.play("sound/interface/drum3.ogg","interface")
+	wait(3)
+
+	contract:setImage("asset/interface/compasscontract_signed.png")
+	wait(3)
+	contract:Remove()
 end
 
 function intro:compass()
+	local color = {255,255,255}
+	local f = loveframes.Create'frame'
+	f:setSize(1024,600)
+	local t = loveframes.Create('text',f)
+	t:SetFont(font.bigfont)
+	t:setText{color,LocalizedString'COMPASS'}
+	t:CenterX()
+	--t.h = 80
+	f.filter = filters.vibrate
+	loveframes.anim:easy(f,'vibrate_ref',3,0,1,loveframes.style.linear)
+
+	
+	f:ShowCloseButton(false)
+	f:Center()
+	f.Draw = function()end
+	local compass = loveframes.Create('compass',f)
+	compass:setSize(256,256)
+	compass:CenterX()
+
+
+	--f:setPos(screen.halfwidth-f:getWidth()/2,screen.halfheight-f:getHeight()/2)
+	wait(5)
+	f.filter = nil
+	local info = {
+		--function()return LocalizedString'DATE: JUL 11, 2012' end,
+		LocalizedString'PROBABLY THE MOST NOTORIOUS CRIME ORGANIZATION EXISITING.',
+		LocalizedString'JUST FINISH YOUR BARGAIN, AND THEY WILL SEND AN AGENT TO TAKE CARE OF THINGS.',
+		LocalizedString'YOU WILL ASSUME FBI, CIA WILL DO ANYTHING ABOUT IT BUT THEY WILL NOT.',
+	}
+
+	local text = {}
+	for i,v in ipairs(info) do
+		local t = loveframes.Create('text',f)
+		t:SetY(240+i*40)
+		t:setText(v)
+		table.insert(text,t)
+		t.filter = filters.vibrate
+		loveframes.anim:easy(t,'vibrate_ref',3,0,1,loveframes.style.linear)
+		wait(1)
+		t.filter = nil
+	end
+	wait(3)
+	loveframes.anim:easy(color,2,255,0,1)
+	loveframes.anim:easy(color,3,255,0,1)
+	local sound = require 'library.sound'
+	sound.play("sound/interface/drum3.ogg","interface")
+	wait(3)
+
+	local t = loveframes.Create('text',f)
+	t:SetY(400)
+	t:setText{{255,0,0},LocalizedString"THEY ARE PROBABLY COMPASS'S MOST VALUABLE CUSTOMER."}
+	table.insert(text,t)
+	t.filter = filters.vibrate
+	loveframes.anim:easy(t,'vibrate_ref',3,0,1,loveframes.style.linear)
+	wait(1)
+	t.filter = nil
+	wait(5)
+
+	f:dismiss()
+
+end
+
+function intro:news()
+	for i=1,5 do
+		background:spawnImage(string.format('asset/newspaper/news%d.png',i))
+		wait(1)
+	end
 end
 
 function intro:update(dt)
@@ -182,6 +211,12 @@ function intro:draw()
 end
 
 function intro:keypressed(k)
+	if k=='escape' then
+		local waits = require 'library.trigger'
+		waits.reset()
+		loveframes.base = base:new()
+		self.OnFinish()
+	end
 end
 function intro:keyreleased(k)
 end

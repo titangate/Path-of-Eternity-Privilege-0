@@ -9,11 +9,14 @@ global = {}
 
 local game = {}
 function game:load()
+	loveframes.base = base()
 	self.timescale = 1
 	self.state = 'game'
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
 	editor:setDelegate(self)
+	sound.playMusic('sound/music/danger.ogg')
+
 end
 
 function game:loadFromSave(map,host,mis)

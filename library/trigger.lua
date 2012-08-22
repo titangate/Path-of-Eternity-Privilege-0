@@ -61,4 +61,10 @@ function waits.update()
 			coroutinemsg(coroutine.resume(k))
 	end
 end
+
+function waits.reset()
+	waits.w = {}
+	waits.c = {}
+end
+
 return waits

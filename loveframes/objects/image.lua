@@ -21,6 +21,7 @@ function image:initialize()
 	self.imagecolor		= nil
 	self.scale = 1
 	self.translate = {0,0}
+	self.rotate = 0
 end
 
 --[[---------------------------------------------------------
@@ -64,6 +65,7 @@ function image:draw()
 	end
 	love.graphics.push()
 	love.graphics.translate(unpack(self.translate))
+	love.graphics.rotate(self.rotate)
 	love.graphics.scale(self.scale)
 	-- skin variables
 	local index	= loveframes.config["ACTIVESKIN"]
@@ -97,7 +99,15 @@ function image:setImage(image)
 	
 	self.width = self.image:getWidth()
 	self.height = self.image:getHeight()
-		
+	
+end
+
+function image:setWidth(width)
+	if self.image then
+		self.scale = width/self.image:getWidth()
+	end
+	self.width = width
+	self.height = self.scale*self.image:getHeight()
 end
 
 function image:transmitEffect(state)
@@ -108,7 +118,7 @@ function image:transmitEffect(state)
 			if not self.transmit then
 				return 
 			end
-			local effect = math.random(2)
+			local effect = math.random(3)
 			if effect == 1 then
 				self.filter = filters.channelsplit
 				assert (self.filter)
@@ -127,7 +137,7 @@ function image:transmitEffect(state)
 				end
 				elseif effect ==3 then
 					for i=1,4 do
-
+					--self.rotate = math.random()-0.5
 					self.scale = math.random(1,4)
 					self.translate = {math.random()*self:getWidth()/2,math.random()*self:getHeight()/2}
 					wait(0.25)
@@ -136,9 +146,10 @@ function image:transmitEffect(state)
 				wait(1)
 			end
 			self.scale = 1
+			self.rotate = 0
 			self.translate = {0,0}
 			self.filter = nil
-			wait(3)
+			wait(0.25)
 		end
 	end)
 	coroutinemsg(coroutine.resume(self.co))

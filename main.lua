@@ -11,8 +11,6 @@ if DEBUG and PROFILING then
 	ProFi:start()
 end
 
-
-
 option = {
 	uifps = 30,
 	uidt = 1/30,
@@ -21,6 +19,7 @@ option = {
 	texturequality = 'HIGH',
 	language = 'English',
 	retina = 1,
+	simplestencil = true,
 }
 
 hotkey = {
@@ -29,6 +28,8 @@ hotkey = {
 	run = 'lshift',
 	sneak = 'lctrl',
 	brief = 'b',
+	profile = 'i',
+	lli = 'l',
 }
 
 gamesys = {}
@@ -153,22 +154,31 @@ function love.load()
 
 	-- load the examples menu
 	local splash = true
+	--local intro = true
 	-- load the sin selector menu
 	local mainmenu = require 'gamesystem.mainmenu'
 	
-	
 	if splash then
-		local splashscreen = require 'gamesystem.intro'
+		local splashscreen = require 'gamesystem.splashscreen'
 		splashscreen:load()
 		splashscreen.OnFinish = function()
-		mainmenu:loadmain()
-		gamesys.push(mainmenu)end
+			if intro then
+				local intro = require 'gamesystem.intro'
+				intro:load()
+				intro.OnFinish = function()
+					mainmenu:loadmain()
+					gamesys.push(mainmenu)
+				end
+				gamesys.push(intro)
+			else
+				mainmenu:loadmain()
+				gamesys.push(mainmenu)
+			end
+		end
 		gamesys.push(splashscreen)
 		
 	else
-
-
-	mainmenu:loadmain()
+		mainmenu:loadmain()
 		gamesys.push(mainmenu)
 	end
 
@@ -191,6 +201,7 @@ function love.load()
 
 	
 	sound.playMusic('sound/music/adagio.ogg')
+
 end
 
 function love.mousepressed(x, y, button)
@@ -218,7 +229,6 @@ function love.mousereleased(x, y, button)
 	end
 	gamesys[#gamesys]:mousereleased(x,y,button)
 	loveframes.mousereleased(x, y, button)
-
 end
 
 
@@ -313,5 +323,5 @@ function love.draw()
 	end
 
 	local fps = love.timer.getFPS()
-	gra.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
+	gra.setCaption(string.format(LocalizedString"Path of Eternity Privilege Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
 end

@@ -537,10 +537,10 @@ function skin.DrawImage(object)
 	
 	if color then
 		gra.setColor(unpack(color))
-		gra.draw(image, object:getX(), object:getY())
+		gra.draw(image, object:getX(), object:getY(),0,object.scale)
 	else
 		gra.setColor(255, 255, 255, 255)
-		gra.draw(image, object:getX(), object:getY())
+		gra.draw(image, object:getX(), object:getY(),0,object.scale)
 	end
 	
 end
