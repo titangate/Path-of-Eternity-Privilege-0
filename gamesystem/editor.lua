@@ -40,7 +40,7 @@ function editor:load()
 	function sel.Update(object,dt)
 		if self.sel then
 			if object.state == 'translate' then
-				self.sel:setPosition(self.map:screenToMap(object:getCenter()))
+				self.sel:setPosition(global.map:screenToMap(object:getCenter()))
 			elseif object.state == 'rotate' then
 				self.sel:setAngle(object.Spinvalue)
 			end
@@ -80,12 +80,12 @@ function editor:load()
 
 	local walltool = createframe("wallTool")
 	function walltool.OnLeftDown()
-		local x,y = self.map:screenToMap(love.mouse.getPosition())
-		self.map:setObstacleEditor(x,y,'wall')
+		local x,y = global.map:screenToMap(love.mouse.getPosition())
+		global.map:setObstacleEditor(x,y,'wall')
 	end
 	function walltool.OnRightDown()
-		local x,y = self.map:screenToMap(love.mouse.getPosition())
-		self.map:setObstacleEditor(x,y,nil)
+		local x,y = global.map:screenToMap(love.mouse.getPosition())
+		global.map:setObstacleEditor(x,y,nil)
 	end
 	walltool:SetVisible(false)
 	local b = createframe("circlebutton",toolbox)
@@ -125,15 +125,15 @@ function editor:load()
 
 	local doortool = createframe("doorTool")
 	function doortool.OnLeftDown(object,x,y,button)
-		local x,y = self.map:pixelToData(self.map:screenToMap(x,y))
-		local obs = self.map:hasObstacle(x,y)
+		local x,y = global.map:pixelToData(global.map:screenToMap(x,y))
+		local obs = global.map:hasObstacle(x,y)
 		if obs == 'wall' then
 			-- horizontal
-			if self.map:hasObstacle(x+1,y)==nil and
-				self.map:hasObstacle(x+2,y)==nil and
-				self.map:hasObstacle(x+3,y)=='wall' then
-				local door = Door(DoorMover,x*self.map.scale,(y-0.5)*self.map.scale,0,'dynamic',m._data[x][y].mover.body,x,y)
-				self.map:addUnit(door)
+			if global.map:hasObstacle(x+1,y)==nil and
+				global.map:hasObstacle(x+2,y)==nil and
+				global.map:hasObstacle(x+3,y)=='wall' then
+				local door = Door(DoorMover,x*global.map.scale,(y-0.5)*global.map.scale,0,'dynamic',m._data[x][y].mover.body,x,y)
+				global.map:addUnit(door)
 			end
 		end
 	end
@@ -296,9 +296,9 @@ function editor:load()
 end
 
 function editor:setMap(m)
-	self.map = m
+	global.map = m
 
-	self.pathtool:setMap(self.map)
+	self.pathtool:setMap(global.map)
 end
 
 function editor:setDelegate(del)
@@ -315,16 +315,16 @@ end
 
 local doodad = require 'gameobject.doodad'
 function editor:spawnDoodad(x,y,def)
-	x,y = self.map:screenToMap(x,y)
+	x,y = global.map:screenToMap(x,y)
 	local d = doodad.create(def,x,y,0)
-	self.map:addUnit(d)
+	global.map:addUnit(d)
 end
 
 local unit = require 'gameobject.human'
 function editor:spawnUnit(x,y,def)
-	x,y = self.map:screenToMap(x,y)
+	x,y = global.map:screenToMap(x,y)
 	local u = unit.create(def,x,y,0)
-	self.map:addUnit(u)
+	global.map:addUnit(u)
 end
 
 function editor:interact(obj)
@@ -338,7 +338,7 @@ function editor:interact(obj)
 	else
 		return
 	end
-	local x,y = self.map:mapToScreen(obj:getPosition())
+	local x,y = global.map:mapToScreen(obj:getPosition())
 	self.seltool:setPos(x-self.seltool:getWidth()/2,y-self.seltool:getHeight()/2)
 	self.seltool.Spinvalue = obj:getAngle()
 	if self.currenttool == self.seltool then

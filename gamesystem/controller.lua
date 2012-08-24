@@ -27,6 +27,10 @@ function KMController:setEnabled(enable)
 	self.enable = enable
 end
 
+function KMController:update(dt)
+	if not self.enable then return end
+end
+
 function KMController:mousepressed(x,y,b)
 	if not self.enable then return end
 	x,y = self.map:screenToMap(x,y)
@@ -67,7 +71,9 @@ function KMController:keypressed(k)
 		self.system:setGameState'editor'
 	end
 	if k==hotkey.inventory then
+		execute(function()
 		self.system:loadSelectionWheel()
+		end)
 	end
 	if k==hotkey.brief then
 		local brief = require 'gamesystem.brief'
@@ -84,9 +90,23 @@ function KMController:keypressed(k)
 			ProFi:writeReport'report.txt'
 		end)
 	end
+	if k==hotkey.lli then
+		loveframes.anim:easy(global.map,"lli_radius",0,screen.halfwidth,0.3)
+		global.map.drawlli = not global.map.drawlli
+		sound.play('sound/effect/lliactive.ogg','effect')
+		local loop = sound.loadsound'sound/effect/lli.ogg'
+		loop:setLooping(true)
+		loop:setVolume(0.5)
+		local loop2 = sound.loadsound'sound/effect/heartbeat.ogg'
+		loop2:setLooping(true)
+	end
+	if k==hotkey.menu then
+		coroutinemsg(coroutine.resume(coroutine.create(function()self.system:dismiss()end)))
+	end
 end
 
 function KMController:keyreleased(k)
 	if not self.enable then return end
 end
+
 

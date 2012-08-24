@@ -54,7 +54,6 @@ function animation.create(def)
 	for i=0,def.maxframe do
 		sprites[i] = requireImage('animation/'..folder..'/'..folder..'_'..tostring(i)..'.png')
 	end
-	print (def.framerate)
 	return Animation(def,sprites)
 end
 return animation

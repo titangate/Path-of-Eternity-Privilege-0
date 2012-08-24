@@ -50,26 +50,36 @@ local blurscale = 1
 function gaussianblur.predraw(obj)
 	local w = obj:getWidth()
 	local h = obj:getHeight()
-	local c = canvasmanager.requireCanvas(w,h)
+	local c = canvasmanager.requireCanvas(w/blurscale,h/blurscale)
 	c.canvas:clear()
-	gaussianblur.prevc = gra.getCanvas()
+	obj.prevc = gra.getCanvas()
 	gra.setCanvas(c.canvas)
 	obj.c = c
 	gra.push()
 	gra.translate(-obj:getX(),-obj:getY())
-	gaussianblur.vert:send('rf_h',h)
-	gaussianblur.horz:send('rf_w',w)
-	gra.setPixelEffect(gaussianblur.vert)
+	gra.scale(1/blurscale)
+	gaussianblur.vert:send('rf_h',h*blurscale)
+	gaussianblur.horz:send('rf_w',w*blurscale)
 end
 
 function gaussianblur.postdraw(obj)
 	local w = obj:getWidth()
 	gra.pop()
-	gra.setCanvas(gaussianblur.prevc)
+
+	gra.setPixelEffect(gaussianblur.vert)
+	local w = obj:getWidth()
+	local h = obj:getHeight()
+	local c = canvasmanager.requireCanvas(w/blurscale,h/blurscale)
+	c.canvas:clear()
+	gra.setCanvas(c.canvas)
+	gra.draw(obj.c.canvas)
+	gra.setCanvas(obj.prevc)
 	gra.setPixelEffect(gaussianblur.horz)
 	gra.setColor(255,255,255)
-	gra.draw(obj.c.canvas,obj:getX(),obj:getY())
+	gra.draw(c.canvas,obj:getX(),obj:getY(),0,blurscale)
 	canvasmanager.releaseCanvas(obj.c)
+
+	canvasmanager.releaseCanvas(c)
 	gra.setPixelEffect()
 	obj.c = nil
 end

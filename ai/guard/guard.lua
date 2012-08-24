@@ -102,7 +102,6 @@ function AIGuard:encode()
 		local hashed = {}
 		while p~=nil and not hashed[p] do
 			p.host = self.host
-			print (json.encode(p:encode()))
 			table.insert(subai,p:encode())
 			hashed[p] = true
 			p = p.next

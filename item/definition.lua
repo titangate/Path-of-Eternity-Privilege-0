@@ -53,6 +53,7 @@ local function easyitem(p)
 		interact = interact,
 		class = p.class or Item,
 		method = p.method,
+		name = name,
 	}
 end
 

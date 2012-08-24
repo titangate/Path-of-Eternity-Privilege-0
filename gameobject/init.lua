@@ -11,6 +11,7 @@ require 'gameobject.river'
 require 'gameobject.crowd'
 require 'gameobject.selection'
 require 'gameobject.doodad'
+require 'gameobject.countdown'
 
 require 'gameobject.animation'
 require 'gameobject.riveractor'

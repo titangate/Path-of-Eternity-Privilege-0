@@ -235,6 +235,11 @@ function list:RemoveItem(object)
 	
 end
 
+function list:RemoveItemAtIndex(index)
+	local object = self.children[index]
+	self:RemoveItem(object)
+end
+
 --[[---------------------------------------------------------
 	- func: CalculateSize()
 	- desc: calculates the size of the object's children

@@ -24,7 +24,6 @@ function AIPath:process(dt)
 		return 0,'success'
 	end
 	if not self.p then
-		print (self.path)
 	end
 	assert(self.p,'subai missing')
 	local v = self.p

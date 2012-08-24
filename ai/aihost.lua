@@ -46,7 +46,6 @@ function AIHost:process(dt)
 					v[#v] = v[#v].next
 				else
 					self.ai[u][#self.ai[u]] = nil
-				print (#v,'success')
 				end
 			end
 		end

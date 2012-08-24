@@ -26,11 +26,19 @@ function background:load()
 	self.c = Camera(0,0,0)
 	self.z = 0
 	self.images = {}
+	self:setSpawning(true)
+end
+
+function background:setSpawning(state)
+	self.spawning = state
+end
+
+function background:reset()
+	self.images = {}
 end
 
 function background:spawnImage(image)
-	table.insert(self.images,ImageUnit(requireImage(image),math.random(screen.width),math.random(screen.height)))
-		
+	table.insert(self.images,ImageUnit(requireImage(image),math.random(screen.width),math.random(screen.height)))	
 end
 
 function background:draw()
@@ -69,7 +77,7 @@ for i,v in ipairs(chem) do
 end
 function background:update(dt)
 	self.z = self.z + dt
-	if self.z > 0.3 then
+	if self.spawning and self.z > 0.3 then
 		local randomimage = chems[math.random(#chems)]
 		table.remove(self.images,1)
 		table.insert(self.images,ImageUnit(requireImage(randomimage),math.random(screen.width),math.random(screen.height)))

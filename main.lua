@@ -30,6 +30,7 @@ hotkey = {
 	brief = 'b',
 	profile = 'i',
 	lli = 'l',
+	menu = 'escape',
 }
 
 gamesys = {}
@@ -154,7 +155,7 @@ function love.load()
 
 	-- load the examples menu
 	local splash = true
-	--local intro = true
+	local intro = true
 	-- load the sin selector menu
 	local mainmenu = require 'gamesystem.mainmenu'
 	

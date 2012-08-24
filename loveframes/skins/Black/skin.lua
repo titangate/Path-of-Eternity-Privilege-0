@@ -735,13 +735,17 @@ function skin.DrawProgressBar(object)
 
 	local x,y = object:getX(),object:getY()
 	local w,h = object:getWidth(),object:getHeight()
+	local flareimage = requireImage'asset/effect/flare.png'
 	local g = gra
+
+	
+
 	gra.push()
 	gra.translate(x,y)
 	gra.setColor(unpack(bodycolor))
 	g.polygon('fill',unpack(object:GetBodyVertex()))
 	g.polygon('line',unpack(object:GetBodyVertex()))
-	g.setScissor(x,y,w*option.retina,h*option.retina)
+	g.setScissor(x*option.retina,y*option.retina,w*option.retina,h*option.retina)
 	gra.setColor(unpack(barcolor))
 	g.polygon('fill',unpack(object:GetBarVertex()))
 	g.setScissor()
@@ -749,22 +753,11 @@ function skin.DrawProgressBar(object)
 	if object.EKG_image then
 --		skin.DrawEKG(object)
 	end
-	--[[
-	-- progress bar body
-	gra.setColor(unpack())
-	gra.rectangle("fill", object:getX(), object:getY(), object:getWidth(), object:getHeight())
-	gra.setColor(unpack(skin.controls.progressbar_bar_color))
-	gra.rectangle("fill", object:getX(), object:getY(), object.progress, object:getHeight())
-	gradientcolor = {skin.controls.progressbar_bar_color[1], skin.controls.progressbar_bar_color[2] - 20, skin.controls.progressbar_bar_color[3], 255}
-	skin.DrawGradient(object:getX(), object:getY(), object.progress, object:getHeight(), "up", gradientcolor)
-	sfn(font)
-	gra.setColor(unpack(skin.controls.progressbar_text_color))
-	pn(object.value .. "/" ..object.max, object:getX() + object:getWidth()/2 - twidth/2, object:getY() + object:getHeight()/2 - theight/2)
-	
-	-- progress bar border
-	gra.setColor(unpack(skin.controls.progressbar_border_color))
-	skin.OutlinedRectangle(object:getX(), object:getY(), object:getWidth(), object:getHeight())]]
-		
+	gra.setColor(255,255,255,255)
+	local x1,y1 = object:GetBarVertex()[3],object:GetBarVertex()[4]
+	g.draw(requireImage'asset/effect/flare.png',x1+x,y1+y,0,1,0.25,98,32)
+	g.draw(requireImage'asset/effect/flare.png',-x1+h+w+x,y1+y+h,0,1,0.25,98,32)
+
 end
 
 --[[---------------------------------------------------------

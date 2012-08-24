@@ -99,9 +99,6 @@ function demogame:load()
 	i.namefield = loveframes.Create('text',i)
 	i.namefield:setPos(5,5)
 	i.namefield:SetFont(font.imagebuttonfont)
---	function i:Draw() end
-
-
 	sel.onSelect = function(obj)
 		if obj==self.lli_object then return end
 		self:lliSelect(obj)

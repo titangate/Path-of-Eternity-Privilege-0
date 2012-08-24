@@ -33,14 +33,6 @@ function progressbar:initialize()
 	self.EKG_rate		= 1
 end
 
-function progressbar:GetBodyVertex()
-	return self._bodyvertex
-end
-
-
-function progressbar:GetBarVertex()
-	return self._barvertex
-end
 
 function progressbar:SetWidth(v)
 	self.width = v
@@ -71,6 +63,16 @@ function progressbar:generateBarVertex()
 	local x,y = 0,0--self.x,self.y
 	local w,h = self.progress,self.height
 	self._barvertex = {x-h,y,x+w,y,x+w-h,y+h,x-h,y+h}
+end
+
+
+function progressbar:GetBodyVertex()
+	return self._bodyvertex
+end
+
+
+function progressbar:GetBarVertex()
+	return self._barvertex
 end
 
 --[[---------------------------------------------------------

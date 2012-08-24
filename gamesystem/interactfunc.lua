@@ -30,4 +30,6 @@ interactfunc = {
 			object:open(true,-1)
 		end
 	end,
+
+	
 }

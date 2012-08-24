@@ -47,7 +47,6 @@ function sound.playMusic(songname,once)
 end
 
 function sound.play(s,channel,mode)
-	
 	if type(s)=='string' then
 		s = sound.loadsound(s,mode)
 	end
@@ -140,9 +139,9 @@ function Sound:play()
 		self.host:playsound(self)
 	end
 	if not self.source then return end
-	if (self.pos-sound.center):length()>self.reach*4 then
-		return
-	end
+	--if (self.pos-sound.center):length()>self.reach*4 then
+	--	return
+	--end
 	sound.play(self.source,self.channel)
 end
 
@@ -161,6 +160,7 @@ local c = {
 	{255,0,0},
 }
 function Sound:drawCircle()
+	
 	gra.setColor(c[self.alert])
 	local x,y = self.pos.x,self.pos.y
 	if self.reach and self.reach > 0 then

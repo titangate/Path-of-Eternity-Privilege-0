@@ -62,7 +62,7 @@ end
 
 function Gun:update_i(dt)
 	local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
-	local w = self.world
+	local w = global.map.world
 	assert(w)
 	local r =self.owner:getAngle()
 	self.ownerPosition = Vector(self.owner:getPosition())
