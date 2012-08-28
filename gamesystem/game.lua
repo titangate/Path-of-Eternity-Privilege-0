@@ -1,7 +1,6 @@
 local sound = require 'library.sound'
 local doodad = require 'gameobject.doodad'
 local mission = require 'gameobject.mission'
-mission:load()
 local editor =  require 'gamesystem.editor'
 local item = require 'gameobject.item'
 local cl = require 'gameobject.clue'
@@ -22,15 +21,13 @@ end
 
 function game:loadFromSave(map,host,mis)
 	assert(mis.mission)
-	for k,v in pairs(mis.mission) do
-		print (k,v)
-	end
 	local m = PathMap(map.w,map.h)
 	local h = AIHost(m)
 	global.map = m
 	global.aihost = h
 	global.mission = serial.decode(mis.mission)
 	global.clue = ClueState'hospital'
+	global.system = self
 	m:setWallbatch(requireImage'asset/terrain/yellowwall.png',{
 		width = 64,
 		height = 64,
@@ -60,9 +57,7 @@ function game:loadFromSave(map,host,mis)
 	end
 	self.sel = Selection(m)
 	self.sel.onSelect = function(obj)
-		if obj==self.lli_object then return end
 		self:lliSelect(obj)
-		self.lli_object = obj
 		if self.controller then
 			self.controller.sel = obj
 		end
@@ -70,7 +65,6 @@ function game:loadFromSave(map,host,mis)
 	end
 
 	self.sel.onDeselect = function()
-		if nil==self.lli_object then return end
 		self:lliDeselect()
 		if self.controller then
 			self.controller.sel = nil
@@ -87,9 +81,6 @@ function game:setCountdown(time,callback,heartbeatinterval,heartbeatfunction,x,y
 end
 
 function game:lliSelect(obj)
-	if obj~=self.lli_object then
-		self:lliDeselect()
-	end
 	if obj.info and obj.info.clue then
 		if global.clue:hasDiscovered(clue) then return end
 		self:setCountdown(5,function()self:discoverClue(obj.info.clue)end,
@@ -104,8 +95,9 @@ function game:lliSelect(obj)
 					self.filter = nil
 				end)
 			end,
-			obj:getX(),obj:getY())
+		obj:getX(),obj:getY())
 	end
+	self.lli_object = obj
 end
 
 
@@ -114,6 +106,7 @@ function game:lliDeselect()
 		global.map:removeUnit(self.countdown)
 		self.countdown = nil
 	end
+	self.lli_object = nil
 end
 
 function game:setGameState(state)
@@ -199,6 +192,9 @@ end
 
 function game:mousepressed(x,y,b)
 	self.controller:mousepressed(x,y,b)
+	if self.state == 'editor' and b=='r' then
+		editor:interact(self.lli_object)
+	end
 end
 
 function game:mousereleased(x,y,b)

@@ -59,6 +59,10 @@ function ClueState:getClue(clue)
 	return Clue(self.cluerep[clue])
 end
 
+function ClueState:getClueList()
+	return self.cluerep
+end
+
 function ClueState:encode()
 	return {
 		name = self.class.name,

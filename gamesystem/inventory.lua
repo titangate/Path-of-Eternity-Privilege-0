@@ -73,7 +73,15 @@ function Inventory:getSecondLayout(n)
 end
 
 function Inventory:setActiveItem(a,b)
+	local item = self:getActiveItem()
+	if item.unequip then
+		item:unequip()
+	end
 	self.active = {a,b}
+	local item = self:getActiveItem()
+	if item.equip then
+		item:equip()
+	end
 end
 
 function Inventory:getActiveItem()

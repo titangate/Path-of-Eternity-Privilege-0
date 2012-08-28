@@ -14,7 +14,6 @@ function serial.decode(t,...)
 	if serial[t.name] then
 		return serial[t.name](t,...)
 	end
-	for i,v in pairs(t) do print (i,v) end
 	if string.sub(t.name,1,2) == 'AI' then
 		local ai = loadstring(string.format("return %s",t.name))()
 		assert(ai,'Invalid AI Class')

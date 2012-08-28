@@ -25,7 +25,6 @@ end
 function sound.playMusic(songname,once)
 	assert(type(songname)=='string')
 	assert(#sound.music)
-	print (songname,sound.music[#sound.music])
 	if sound.music[#sound.music] and songname == sound.music[#sound.music][2] then return end
 	local s
 	--if type(s)=='string' then

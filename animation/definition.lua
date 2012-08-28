@@ -6,8 +6,8 @@ local mask = {
 }
 
 local definition = {
-	synringe = {
-	folder = 'synringe',
+	syringe = {
+	folder = 'syringe',
 	maxframe = 35,
 	seq = {
 		{0,34,1,1}, -- start,finish = speed

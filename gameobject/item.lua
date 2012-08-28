@@ -49,6 +49,7 @@ end
 
 function item.create(def,x,y,r)
 	if type(def) == 'string' then
+		assert(itemdef[def],string.format("%s definition not found.",def))
 		def = itemdef[def]
 	end
 	local d = def.class(doodadMover,x,y,r,def.bodytype,def)

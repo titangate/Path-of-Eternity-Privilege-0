@@ -164,13 +164,10 @@ function selectionwheel:load()
 	self:highlight('first',ring1)
 	self:highlight('second',ring2)
 
-
---	loveframes.anim:easy(self.selectionwheelframe,'y',screen.height,self.selectionwheelframe.y,0.3,loveframes.style.quadInOut)
 end
 
 function selectionwheel:loadFirstLayout(t)
 	for i,v in ipairs(t) do
-		for k,a in pairs(v) do print (k,a) end
 		self.firstLayoutButton[i]:setImage(v.image)
 		self.firstLayoutButton[i]:setText(v.text)
 	end

@@ -65,7 +65,6 @@ function River:decode(t)
 		for i,v in ipairs(t.patrolpath) do
 			t.patrolpath[i] = Vector(unpack(v))
 		end
-		for i,v in ipairs(t.patrolpath) do print(v) end
 		self:setPatrolPath(PatrolPath(t.patrolpath))
 	end
 	if t.inv then

@@ -6,18 +6,27 @@ function editor:load()
 		local item = loveframes.Create(...)
 		table.insert(self.uiobject,item)
 		return item
-	end
+	end 
+
+
 	local inspector = createframe('frame')
 	inspector:setName(LocalizedString"INSPECTOR")
 	inspector:setSize(300,500)
 	inspector:setPos(100,10)
 	self.inspector = inspector
 
+
 	local list = createframe('list',inspector)
 	list:setPos(5,30)
 	list:setSize(280,450)
 	self.list = list
 	
+	local cluechoice = createframe('multichoice',list)
+	for k,v in pairs(global.clue:getClueList()) do
+		cluechoice:AddChoice(k)
+	end
+	self.cluechoice = cluechoice
+
 	function list:Draw()
 	end
 --	inspector:MakeTop()
@@ -296,8 +305,7 @@ function editor:load()
 end
 
 function editor:setMap(m)
-	global.map = m
-
+	--global.map = m
 	self.pathtool:setMap(global.map)
 end
 
@@ -306,10 +314,12 @@ function editor:setDelegate(del)
 end
 
 function editor:releaseSelection()
+	global.map:update(0.01)
 	self.hover = nil
 end
 
 function editor:setSelection(sel)
+	global.map:update(0.01)
 	self.hover = sel
 end
 

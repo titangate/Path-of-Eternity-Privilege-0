@@ -110,7 +110,6 @@ end
 	- desc: called when the player presses a mouse button
 --]]---------------------------------------------------------
 function pathTool:mousepressed(x, y, button)
-	print (x,y,button,self.map)
 	if not self.visible then return end
 	if button == 'l' and self.map then
 		if not self.path then

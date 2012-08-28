@@ -103,6 +103,9 @@ function KMController:keypressed(k)
 	if k==hotkey.menu then
 		coroutinemsg(coroutine.resume(coroutine.create(function()self.system:dismiss()end)))
 	end
+	if k==hotkey.cellphone then
+		self.system:setCellphoneState(true)
+	end
 end
 
 function KMController:keyreleased(k)

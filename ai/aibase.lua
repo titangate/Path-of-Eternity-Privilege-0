@@ -17,3 +17,5 @@ end
 
 function AIBase:decode(t)
 end
+
+function AIBase:reset()end

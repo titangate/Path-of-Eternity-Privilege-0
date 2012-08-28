@@ -30,15 +30,6 @@ local t = {
 			combo = {'medicine_information_for_cai','medicine_location',}
 		},
 
-		demoyeah = {
-			text = "BY INJECTING TETROTOXIDE INTO CAI'S DESIGNATED MEDICINE, IT WILL LIKELY BE TREATED AS A MEDICAL INCIDENT.",
-			cost = 30,
-			icon = 'item/needle.png',
-			class = 'assassination_method',
-			combo = {'medicine_location',}
-		},
-
-
 	}
 }
 

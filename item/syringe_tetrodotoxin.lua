@@ -1,21 +1,21 @@
 
-ImproviseWeapon = Item:subclass'ImproviseWeapon'
-function ImproviseWeapon:initialize(...)
+SyringeTetrodotoxin = Item:subclass'SyringeTetrodotoxin'
+function SyringeTetrodotoxin:initialize(...)
 	Item.initialize(self,...)
-	self.s = Sound('sound/effect/slash.ogg',nil,100,'effect',global.aihost,3)
+	self.s = Sound('sound/effect/syringe.ogg',nil,100,'effect',global.aihost,3)
 end
-function ImproviseWeapon:interact(host,target)
+function SyringeTetrodotoxin:interact(host,target)
 	
 end
 
-function ImproviseWeapon:update_i(dt)
+function SyringeTetrodotoxin:update_i(dt)
 	if self.owner and not self.acting then
 		local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
 		self.s:setPosition(Vector(x,y))
 	end
 end
 
-function ImproviseWeapon:active(host,target)
+function SyringeTetrodotoxin:active(host,target)
 	if not instanceOf(River,target) then
 		return false,'INVALID TARGET'
 	end
@@ -38,7 +38,7 @@ function ImproviseWeapon:active(host,target)
 			host.map:addUnit(self.s)
 			target.actor.animation = 'held'
 			wait(5)
-			target:kill(self)	
+			target:kill(self)
 			self.acting = nil			
 			end)
 		end
@@ -47,6 +47,6 @@ function ImproviseWeapon:active(host,target)
 	end
 end
 
-function ImproviseWeapon:draw_lli()
+function SyringeTetrodotoxin:draw_lli()
 	self.s:drawCircle()
 end

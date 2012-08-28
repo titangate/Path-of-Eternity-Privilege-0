@@ -31,6 +31,7 @@ hotkey = {
 	profile = 'i',
 	lli = 'l',
 	menu = 'escape',
+	cellphone = 'c',
 }
 
 gamesys = {}

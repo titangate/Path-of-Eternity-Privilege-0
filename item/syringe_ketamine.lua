@@ -1,21 +1,22 @@
 
-ImproviseWeapon = Item:subclass'ImproviseWeapon'
-function ImproviseWeapon:initialize(...)
+SyringeKetamine = Item:subclass'SyringeKetamine'
+function SyringeKetamine:initialize(...)
 	Item.initialize(self,...)
-	self.s = Sound('sound/effect/slash.ogg',nil,100,'effect',global.aihost,3)
+	self.s = Sound('sound/effect/syringe.ogg',nil,100,'effect',global.aihost,3)
+	self.sedating_time = 20
 end
-function ImproviseWeapon:interact(host,target)
+function SyringeKetamine:interact(host,target)
 	
 end
 
-function ImproviseWeapon:update_i(dt)
+function SyringeKetamine:update_i(dt)
 	if self.owner and not self.acting then
 		local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
 		self.s:setPosition(Vector(x,y))
 	end
 end
 
-function ImproviseWeapon:active(host,target)
+function SyringeKetamine:active(host,target)
 	if not instanceOf(River,target) then
 		return false,'INVALID TARGET'
 	end
@@ -31,15 +32,21 @@ function ImproviseWeapon:active(host,target)
 			self.acting = true
 			sound.play("sound/interface/drum3.ogg","interface")
 			host.actor.animation = 'syringe'
-			target.aihost:terminate(target,true,360000)
+			target.aihost:suspendAI(target,self.sedating_time)
+			--target.aihost:terminate(target,false,10)
 			wait(1)
-			
 			self.s:play()
 			host.map:addUnit(self.s)
+			--target.aihost:terminate(target,false,10)
 			target.actor.animation = 'held'
 			wait(5)
-			target:kill(self)	
-			self.acting = nil			
+			target.actor.animation = nil
+			host.actor.animation = nil
+			local u = target:kill(self)
+			u.live = target
+			self.acting = nil
+			wait(self.sedating_time-7)
+			u:revive()
 			end)
 		end
 	else
@@ -47,6 +54,6 @@ function ImproviseWeapon:active(host,target)
 	end
 end
 
-function ImproviseWeapon:draw_lli()
+function SyringeKetamine:draw_lli()
 	self.s:drawCircle()
 end

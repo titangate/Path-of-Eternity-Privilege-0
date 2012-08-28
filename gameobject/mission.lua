@@ -41,4 +41,6 @@ function mission.create(def,x,y,r)
 	return d
 end
 
+mission.load()
+
 return mission

@@ -17,7 +17,6 @@ function Conversation:play()
 	t:setText(string.format("%s %s",self.speaker,self.message))
 	t:SetY(screen.height-100)
 	t:CenterX()
-	print (t.height,'text height')
 	t.filter = filters.vibrate
 	loveframes.anim:easy(t,'vibrate_ref',3,0,1)
 	wait(1)

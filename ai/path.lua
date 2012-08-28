@@ -71,7 +71,6 @@ function AIPath:encode()
 end
 
 function AIPath:decode(t)
-	print 'path decoded'
 	self.current = t.current
 	self.path = {}
 	local b1,b2

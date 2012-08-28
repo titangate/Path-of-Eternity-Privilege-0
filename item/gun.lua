@@ -35,7 +35,6 @@ end
 function Gun:active(host,target)
 	--if self.hit then
 	local t = self.hit
-	print (t,'hits')
 	if instanceOf(River,t) then
 		execute(function()
 			self.s:play()

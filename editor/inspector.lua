@@ -1,4 +1,4 @@
-function Unit:fillInspector(editor,list)
+function Unit:fillInspector(editor,list,obj)
 	local te = loveframes.Create('text',list)
 	te:setText(LocalizedString'OBJECT SELECTED')
 	te:SetFont(font.imagebuttonfont)
@@ -25,6 +25,13 @@ function Unit:fillInspector(editor,list)
 		if editor.sel then
 			assert(editor.map)
 			editor.map:removeUnit(editor.sel)
+		end
+	end
+	if obj.info then
+		list:AddItem(editor.cluechoice)
+		editor.cluechoice:SetChoice(tostring(obj.info.clue))
+		editor.cluechoice.OnChoiceSelected = function(object,choice)
+			obj.info.clue = choice
 		end
 	end
 end

@@ -72,7 +72,7 @@ function fileselection:enumerate()
 	self.filelist:Clear()
 	local files = love.filesystem.enumerate(self.basedirectory)
 	if self.basedirectory ~= 'userdata/' then
-		local b = horzBar(synrigelist,requireImage'asset/icon/up.png',{LocalizedString'Up'},550,64)
+		local b = horzBar(syringelist,requireImage'asset/icon/up.png',{LocalizedString'Up'},550,64)
 		b.button.OnClick = function()
 			self.basedirectory=(table.remove(self.dirs))
 			self:enumerate()
@@ -83,7 +83,7 @@ function fileselection:enumerate()
 	for i,v in ipairs(files) do
 		local file = self.basedirectory..v
 		if love.filesystem.isDirectory(file) then
-			local b = horzBar(synrigelist,requireImage'asset/icon/folder.png',{v,LocalizedString'Folder'},550,64)
+			local b = horzBar(syringelist,requireImage'asset/icon/folder.png',{v,LocalizedString'Folder'},550,64)
 			b.button.OnClick = function()
 				self:setDirectory(self.basedirectory..v..'/')
 			
@@ -92,7 +92,7 @@ function fileselection:enumerate()
 			
 		else
 			if string.sub(v,#v-3) == '.png' then
-				local b = horzBar(synrigelist,requireImage(self.basedirectory..v),{v,LocalizedString'Image'},550,64)
+				local b = horzBar(syringelist,requireImage(self.basedirectory..v),{v,LocalizedString'Image'},550,64)
 				b.button.OnClick = function()
 					for i,v in ipairs(self.filelist.children) do
 						v.button.active = nil
@@ -102,7 +102,7 @@ function fileselection:enumerate()
 				end
 				self.filelist:AddItem(b)
 			else
-				local b = horzBar(synrigelist,requireImage'asset/icon/file.png',{v,LocalizedString'File'},550,64)
+				local b = horzBar(syringelist,requireImage'asset/icon/file.png',{v,LocalizedString'File'},550,64)
 				b.button.OnClick = function()
 					for i,v in ipairs(self.filelist.children) do
 						v.button.active = nil
