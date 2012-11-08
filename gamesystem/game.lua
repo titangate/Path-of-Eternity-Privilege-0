@@ -16,10 +16,38 @@ function game:load()
 	loveframes.anim:easy(self,'scale',0,1,0.5)
 	self.scale = 0
 	editor:setDelegate(self)
-	sound.playMusic('sound/music/danger.ogg')
+
+end
+
+function game:loadQuest(file)
+
+	local processor = require 'gamesystem.imageprocessthread'
+	if not string.sub(file,#file-5)=='.quest' then
+		return
+	end
+	local wallmap
+	local f = string.sub(file,1,#file-6)
+	local mapdatafile = love.filesystem.read(f..'_mapdata.json')
+	local mapdata = json.decode(mapdatafile)
+	assert(mapdata)
+	processor.getTableFromImageData(love.image.newImageData(f..'_mapimage.png'),1,1,mapdata.w,mapdata.h,1)
+	processor.start(function(t)wallmap = t end,
+		function()
+			assert(wallmap)
+			mapdata.wall = wallmap
+			local aidata = love.filesystem.read(f..'_aidata.json')
+			local questdata = love.filesystem.read(f..'.quest')
+			self:loadFromSave(
+				mapdata,
+				json.decode(aidata),
+				json.decode(questdata)
+			)
+		
+	end)
 end
 
 function game:loadFromSave(map,host,mis)
+	sound.reset()
 	assert(mis.mission)
 	local m = PathMap(map.w,map.h)
 	local h = AIHost(m)
@@ -73,6 +101,10 @@ function game:loadFromSave(map,host,mis)
 	end
 
 	self:loadUI()
+
+	self.running = true
+
+	sound.playMusic('sound/music/danger.ogg')
 end
 
 function game:setCountdown(time,callback,heartbeatinterval,heartbeatfunction,x,y)
@@ -124,6 +156,7 @@ function game:setGameState(state)
 end
 
 function game:update(dt)
+	if not self.running then return end
 	dt = self.timescale * dt
 	if self.state == 'game' and not self.pause then
 		global.aihost:process(dt)
@@ -155,6 +188,7 @@ function game:getHeight()
 end
 
 function game:draw()
+	if not self.running then return end
 	local prev,canvas
 	if self.scale ~=1 then
 		gra.push()

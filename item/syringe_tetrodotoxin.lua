@@ -31,7 +31,7 @@ function SyringeTetrodotoxin:active(host,target)
 			self.acting = true
 			sound.play("sound/interface/drum3.ogg","interface")
 			host.actor.animation = 'syringe'
-			target.aihost:terminate(target,true,360000)
+			global.aihost:removeAI(target)
 			wait(1)
 			
 			self.s:play()

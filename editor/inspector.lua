@@ -23,11 +23,13 @@ function Unit:fillInspector(editor,list,obj)
 	deletebutton:setSize(100,20)
 	deletebutton.OnClick = function(object)
 		if editor.sel then
-			assert(editor.map)
-			editor.map:removeUnit(editor.sel)
+			assert(global.map)
+			global.map:removeUnit(editor.sel,true)
+			editor.sel = nil
+			editor.inspector:SetVisible(false)
 		end
 	end
-	if obj.info then
+	if obj and obj.info then
 		list:AddItem(editor.cluechoice)
 		editor.cluechoice:SetChoice(tostring(obj.info.clue))
 		editor.cluechoice.OnChoiceSelected = function(object,choice)
@@ -36,14 +38,14 @@ function Unit:fillInspector(editor,list,obj)
 	end
 end
 
-function River:fillInspector(editor,list)
-	Unit.fillInspector(self,editor,list)
+function River:fillInspector(editor,list,obj)
+	Unit.fillInspector(self,editor,list,obj)
 	local removePatrolPath = loveframes.Create('button',list)
 	removePatrolPath:setText(LocalizedString'REMOVE PATROL PATH')
 	removePatrolPath:setSize(100,20)
 	removePatrolPath.OnClick = function(object)
 		if editor.sel then
-			assert(editor.map)
+			assert(global.map)
 			editor.sel.patrolpath = nil
 		end
 	end

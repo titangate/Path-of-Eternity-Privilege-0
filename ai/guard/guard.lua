@@ -63,7 +63,6 @@ function AIGuard:process(dt)
 			self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
 			self.subgoal[1].host = self.host
 		end
-
 		self.poptime = 360000
 	end
 	local v = self.subgoal[#self.subgoal]
@@ -100,6 +99,7 @@ end
 end
 
 function AIGuard:encode()
+	print (#self.subgoal,self.subgoal[1])
 	assert(self.host)
 	local subais = {}
 	for i=1,3 do

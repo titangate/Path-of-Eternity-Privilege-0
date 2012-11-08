@@ -192,7 +192,7 @@ function PathMap:clearWallMap()
 	end
 end
 
-function PathMap:removeUnit(u)
+function PathMap:removeUnit(u,complete)
 	local layer = u.layer or 1
 	if self.del then
 		self.del:removeUnit(u)
@@ -202,7 +202,10 @@ function PathMap:removeUnit(u)
 		u:destroyBody(self)
 	end
 	self.unit[layer][u] = nil
-	u.aihost = nil
+	--u.aihost = nil
+	if complete then
+		global.aihost:removeAI(u)
+	end
 end
 
 function PathMap:destroyNext(fixture,body)
@@ -344,6 +347,10 @@ function PathMap:findPath(start,finish,errorrange)
 end
 
 function PathMap:update(dt)
+	for i,v in ipairs(self.f_update) do
+		v[1]:setUserData(v[2])
+	end
+	
 	for i,v in ipairs(self.f_destroy) do
 		v:destroy()
 	end
@@ -354,10 +361,6 @@ function PathMap:update(dt)
 		for v,_ in pairs(self.unit[i]) do
 			if v.update then v:update(dt) end
 		end
-	end
-	
-	for i,v in ipairs(self.f_update) do
-		v[1]:setUserData(v[2])
 	end
 	
 	self.f_destroy = {}
@@ -655,7 +658,9 @@ function PathMap:load(t)
 	if t.wall then
 		for x = 1,self.w do
 			for y = 1,self.h do
+
 				if t.wall[x] and t.wall[x][y] then
+
 					self._data[x][y].obstacle_e = t.wall[x][y].obstacle_e
 				end
 			end

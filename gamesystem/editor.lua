@@ -15,7 +15,6 @@ function editor:load()
 	inspector:setPos(100,10)
 	self.inspector = inspector
 
-
 	local list = createframe('list',inspector)
 	list:setPos(5,30)
 	list:setSize(280,450)
@@ -29,7 +28,6 @@ function editor:load()
 
 	function list:Draw()
 	end
---	inspector:MakeTop()
 
 	local toolboxframe = createframe("frame")
 	toolboxframe:setSize(600,80)
@@ -58,6 +56,9 @@ function editor:load()
 			if self.hover then
 				if instanceOf(PatrolPath,self.hover) then
 					self.sel:setPatrolPath(self.hover)
+					if global.aihost then
+						global.aihost:addAI(AIGuard(self.sel,self.hover.waypoint))
+					end
 					return true
 				end
 			end
@@ -240,20 +241,20 @@ function editor:load()
 	menu:setSize(180,470)
 	menu:setPos(10,30)
 
+	local processor = require 'gamesystem.imageprocessthread'
 	local saveAllTo = createframe('button',menu)
 	saveAllTo:setText(LocalizedString"SAVE ALL TO")
 	saveAllTo.OnClick = function()
-		local processor = require 'gamesystem.imageprocessthread'
 
 		local fileselection = createframe('fileselection')
 		fileselection:setCallbacks(
 			function(file)
-				processor.encodeTableToImageData(global.map:getWall(),file..'_mapimage',1,1,100,100,1)
+				processor.encodeTableToImageData(global.map:getWall(),file..'_mapimage.png',1,1,100,100,1)
 				processor.start(
 				function()end)
 				local t= global.map:encode()
-				local a = json.encode(global.aihost:encode())
-				local l=json.encode(t)
+				local a= json.encode(global.aihost:encode())
+				local l = json.encode(t)
 				love.filesystem.write(file..'_mapdata.json',l)
 				love.filesystem.write(file..'_aidata.json',a)
 				local quest = {
@@ -276,14 +277,8 @@ function editor:load()
 			local fileselection = createframe('fileselection')
 			fileselection:setCallbacks(
 				function(file)
-					local f = string.sub(file,1,#file-6)
-					if string.sub(file,#file-5)=='.quest' then
-						self.del:loadFromSave(
-							json.decode(love.filesystem.read(f..'_mapdata.json')),
-							json.decode(love.filesystem.read(f..'_aidata.json')),
-							json.decode(love.filesystem.read(f..'.quest')).mission
-						)
-					end
+					gs:loadQuest(file)
+					
 				end,
 				function()
 				end
@@ -306,7 +301,7 @@ end
 
 function editor:setMap(m)
 	--global.map = m
-	self.pathtool:setMap(global.map)
+	--self.pathtool:setMap(global.map)
 end
 
 function editor:setDelegate(del)

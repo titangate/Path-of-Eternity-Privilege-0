@@ -142,15 +142,15 @@ function mainmenu:loadpostmenu()
 		local f = 'userdata/hospital/m'
 		--if string.sub(file,#file-5)=='.quest' then
 		gs:load()
-		local f1 = love.filesystem.read(f..'_mapdata.json')
-		local f2 = love.filesystem.read(f..'_aidata.json')
-		local f3 = love.filesystem.read(f..'.quest')
-		
-		gs:loadFromSave(
-			json.decode(f1),
-			json.decode(f2),
-			json.decode(f3)
-		)
+		--local f1 = love.filesystem.read(f..'_mapdata.json')
+		--local f2 = love.filesystem.read(f..'_aidata.json')
+		--local f3 = love.filesystem.read(f..'.quest')
+		gs:loadQuest('userdata/hospital/q.quest')
+		--gs:loadFromSave(
+		--	json.decode(f1),
+		--	json.decode(f2),
+		--	json.decode(f3)
+		--)
 		--end
 		self.host.push(gs,1)
 	end

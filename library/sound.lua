@@ -9,6 +9,12 @@ function sound.load()
 	sound.setCenter(sound.center)
 	sound.music = {}
 end
+
+function sound.reset()
+	love.audio.stop()
+	sound.load()
+end
+
 function sound.update(dt)
 end
 

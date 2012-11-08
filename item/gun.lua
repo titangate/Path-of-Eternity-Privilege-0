@@ -73,7 +73,6 @@ function Gun:update_i(dt)
 	local x1,y1 = math.cos(r),math.sin(r)
 	local x2,y2 = normalize(unpack(self.designatedTarget - self.ownerPosition))
 	self.designatedTarget = (Vector(x1*x2-y1*y2,y1*x2+y2*x1))*1000+self.ownerPosition
-	--print (self.designatedTarget:normalize())
 	self.hit = nil
 	self.fraction = 1.1
 	w:rayCast(self.ownerPosition.x,self.ownerPosition.y,self.designatedTarget.x,self.designatedTarget.y,self.gunraycast)

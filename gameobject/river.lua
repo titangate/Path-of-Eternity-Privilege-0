@@ -77,9 +77,7 @@ end
 
 function River:setPatrolPath(p)
 	self.patrolpath = p
-	if self.aihost then
-		self.aihost:addAI(AIGuard(self,p.waypoint))
-	end
+	
 end
 
 

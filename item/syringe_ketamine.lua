@@ -32,7 +32,7 @@ function SyringeKetamine:active(host,target)
 			self.acting = true
 			sound.play("sound/interface/drum3.ogg","interface")
 			host.actor.animation = 'syringe'
-			target.aihost:suspendAI(target,self.sedating_time)
+			global.aihost:suspendAI(target,self.sedating_time)
 			--target.aihost:terminate(target,false,10)
 			wait(1)
 			self.s:play()

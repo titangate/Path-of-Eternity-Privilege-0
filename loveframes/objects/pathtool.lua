@@ -111,14 +111,14 @@ end
 --]]---------------------------------------------------------
 function pathTool:mousepressed(x, y, button)
 	if not self.visible then return end
-	if button == 'l' and self.map then
+	if button == 'l' and global.map then
 		if not self.path then
-			self.path = PatrolPath({Vector(self.map:screenToMap(x,y))})
-			self.map:addUnit(self.path)
+			self.path = PatrolPath({Vector(global.map:screenToMap(x,y))})
+			global.map:addUnit(self.path)
 		else
-			self.path:addPoint(Vector(self.map:screenToMap(x,y)))
+			self.path:addPoint(Vector(global.map:screenToMap(x,y)))
 		end
-	elseif button == 'r' and self.map then
+	elseif button == 'r' and global.map then
 		self.path = nil
 	end
 end
