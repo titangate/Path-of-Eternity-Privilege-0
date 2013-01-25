@@ -32,9 +32,9 @@ function stroke.predraw(obj)
 	local w2 = math.min(screen.width,neartwo(w*blurscale))
 	local c = canvasmanager.requireCanvas(w2,h)
 	c.canvas:clear()
-	stroke.prevc = gra.getCanvas()
+	obj.prevc = gra.getCanvas()
 	gra.setCanvas(c.canvas)
-	stroke.c = c
+	obj.c = c
 	gra.push()
 	gra.translate(-obj:getX()+(w2-w)/blurscale,-obj:getY())
 	stroke.pe:send('rf_h',h)
@@ -45,13 +45,14 @@ function stroke.postdraw(obj)
 local w = obj:getWidth()
 local w2 = math.min(screen.width,neartwo(w*blurscale))
 	gra.pop()
-	gra.setCanvas(stroke.prevc)
+	gra.setCanvas(obj.prevc)
 	gra.setPixelEffect(stroke.pe)
 	gra.setColor(255,255,255)
-	gra.draw(stroke.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
-	canvasmanager.releaseCanvas(stroke.c)
+	gra.draw(obj.c.canvas,obj:getX()-(w2-w)/blurscale,obj:getY())
+	canvasmanager.releaseCanvas(obj.c)
 	gra.setPixelEffect()
-	stroke.c = nil
+	obj.c = nil
+	obj.prevc = nil
 end
 
 return stroke

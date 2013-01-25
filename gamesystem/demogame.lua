@@ -99,9 +99,6 @@ function demogame:load()
 	i.namefield = loveframes.Create('text',i)
 	i.namefield:setPos(5,5)
 	i.namefield:SetFont(font.imagebuttonfont)
---	function i:Draw() end
-
-
 	sel.onSelect = function(obj)
 		if obj==self.lli_object then return end
 		self:lliSelect(obj)
@@ -195,6 +192,7 @@ function demogame:load()
 
 	-- mission
 	self.mission = mission.create('hospital')
+	global.mission = self.mission
 end
 
 function demogame:hint(text,clue)
@@ -235,8 +233,6 @@ function demogame:dismiss()
 	wait(0.25)
 	mm:loadpause()
 	self.host.push(mm,1)
---	m:loadpause()
-	
 end
 
 function demogame:setCellphoneState(state)
@@ -343,6 +339,19 @@ function demogame:keypressed(k)
 		ProFi:writeReport'report.txt'
 	end)
 end
+	if k=='q' then
+		local processor = require 'gamesystem.imageprocessthread'
+
+		loveframes.Create('fileselection')
+		fileselection:setCallbacks(
+			function(file)
+				processor.encodeTableToImageData(m:encode().wall,file,1,1,100,100,1)
+				processor.start(function()end)
+			end,
+			function()
+			end)
+		
+	end
 	if k=='escape' then
 
 		coroutinemsg(coroutine.resume(coroutine.create(function()self:dismiss()end)))
@@ -364,6 +373,7 @@ end
 			editor:interact(obj)
 		end
 		m:setDelegate(editor)
+		editor:setDelegate(self)
 	end
 	if k=='b' then
 		local brief = require 'gamesystem.brief'
@@ -378,7 +388,6 @@ end
 	if k=='s' then
 		local t= m:encode()
 		local a = json.encode(host:encode())
-		print (a,host)
 		local l=json.encode(t)
 		love.filesystem.write('demosave',l)
 		love.filesystem.write('aidemo',a)

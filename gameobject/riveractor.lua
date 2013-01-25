@@ -3,9 +3,9 @@ RiverActor = Object:subclass'RiverActor'
 local animation = require 'gameobject.animation'
 function RiverActor:initialize(OnCrit)
 	self.feet = animation.create'feet'
-	self.synringe = animation.create'synringe'
+	self.syringe = animation.create'syringe'
 	self.stealth = animation.create'stealth'
-	self.action = 'synringe'
+	self.action = 'syringe'
 	self.held = animation.create'held'
 	self.run = animation.create'run'
 
@@ -27,8 +27,8 @@ end
 
 function RiverActor:update(dt)
 	if self.animation then
-		if self.animation == 'synringe' then
-			self.synringe:update(dt)
+		if self.animation == 'syringe' then
+			self.syringe:update(dt)
 		end
 	else
 		if self.walkingspeed:length()>0 then
@@ -51,9 +51,9 @@ function RiverActor:draw(u)
 	local r = u:getAngle()
 	--	print (x,y)
 	if self.animation then
-		if self.animation == 'synringe' then
+		if self.animation == 'syringe' then
 			self.feet:draw(x,y,r)
-			self.synringe:draw(x,y,r)
+			self.syringe:draw(x,y,r)
 		elseif self.animation == 'held' then
 
 			self.feet:draw(x,y,r)

@@ -43,9 +43,8 @@ local function _getXYR(body)
 end
 
 
-local shapewidth,shapeheight = 48,12
-local bodyrad = 36
-
+local shapewidth,shapeheight = 60,20
+local bodywidth,bodyheight = 30,60
 function Body:_draw(x,y,r)
 	local g = gra
 	local m = self.mover
@@ -53,7 +52,7 @@ function Body:_draw(x,y,r)
 	local dot = requireImage'dot.png'
 	g.setColor(255,255,255)
 	x,y,r = _getXYR(m.body.body)
-	g.circle('fill',x,y,bodyrad)
+	g.draw(dot,x,y,r,bodywidth,bodyheight,0.5,0.5)
 	g.setColor(255,0,0)
 	x,y,r = _getXYR(m.body.arm1)
 	g.draw(dot,x,y,r,shapewidth,shapeheight,0.5,0.5)
@@ -163,6 +162,15 @@ function Body:draw_LLI(x,y,r)
 	gra.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
 
 
+end
+
+function Body:revive()
+	if self.live then
+		
+		self.map:addUnit(self.live)
+		self.live:setPosition(self.mover.body.body:getPosition())
+	end
+	self.map:removeUnit(self)
 end
 
 function Body:getWidth()

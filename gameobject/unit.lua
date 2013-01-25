@@ -179,8 +179,8 @@ function Unit:kill(killer)
 	if self.onKill then
 		self.onKill(self,killer)
 	end
-	
 	self.map:removeUnit(self)
+	return u
 end
 
 function Unit:knockOut()
@@ -219,6 +219,7 @@ end
 
 function Unit:spawnBody()
 	local u = Body(BodyMover,self:getX(),self:getY(),self:getAngle(),nil,self.info)
+	u.live = u
 	self.map:addUnit(u)
 	return u
 end

@@ -19,7 +19,9 @@ function image:initialize()
 	self.internal		= false
 	self.image			= nil
 	self.imagecolor		= nil
-	
+	self.scale = 1
+	self.translate = {0,0}
+	self.rotate = 0
 end
 
 --[[---------------------------------------------------------
@@ -45,7 +47,6 @@ function image:update(dt)
 	if self.Update then
 		self.Update(self, dt)
 	end
-	
 end
 
 --[[---------------------------------------------------------
@@ -53,17 +54,19 @@ end
 	- desc: draws the object
 --]]---------------------------------------------------------
 function image:draw()
-	
 	if self.filter then 
-		self.filter.predraw(self)
 		self.filter.conf(self)
+		self.filter.predraw(self)
 	end
 	local visible = self.visible
 	
 	if visible == false then
 		return
 	end
-	
+	love.graphics.push()
+	love.graphics.translate(unpack(self.translate))
+	love.graphics.rotate(self.rotate)
+	love.graphics.scale(self.scale)
 	-- skin variables
 	local index	= loveframes.config["ACTIVESKIN"]
 	local defaultskin = loveframes.config["DEFAULTSKIN"]
@@ -78,8 +81,8 @@ function image:draw()
 	else
 		skin.DrawImage(self)
 	end
-	
 	if self.filter then self.filter.postdraw(self) end
+	love.graphics.pop()
 end
 
 --[[---------------------------------------------------------
@@ -96,7 +99,60 @@ function image:setImage(image)
 	
 	self.width = self.image:getWidth()
 	self.height = self.image:getHeight()
-		
+	
+end
+
+function image:setWidth(width)
+	if self.image then
+		self.scale = width/self.image:getWidth()
+	end
+	self.width = width
+	self.height = self.scale*self.image:getHeight()
+end
+
+function image:transmitEffect(state)
+	self.transmit = state
+	if not state then return end
+	self.co = coroutine.create(function()
+		while true do
+			if not self.transmit then
+				return 
+			end
+			local effect = math.random(3)
+			if effect == 1 then
+				self.filter = filters.channelsplit
+				assert (self.filter)
+				for i=1,4 do
+					self.channelsplit_intensity = math.random()*15
+					wait(0.25)
+				end
+			elseif effect ==2 then
+				self.filter = filters.vibrate
+				self.vibrate_ref = 0
+				assert (self.filter)
+				for i=1,2 do
+
+					loveframes.anim:easy(self,'vibrate_ref',self.vibrate_ref, math.random()*0.25,0.25)
+					wait(0.25)
+				end
+				elseif effect ==3 then
+					for i=1,4 do
+					--self.rotate = math.random()-0.5
+					self.scale = math.random(1,4)
+					self.translate = {math.random()*self:getWidth()/2,math.random()*self:getHeight()/2}
+					wait(0.25)
+				end
+			else
+				wait(1)
+			end
+			self.scale = 1
+			self.rotate = 0
+			self.translate = {0,0}
+			self.filter = nil
+			wait(0.25)
+		end
+	end)
+	coroutinemsg(coroutine.resume(self.co))
 end
 
 --[[---------------------------------------------------------

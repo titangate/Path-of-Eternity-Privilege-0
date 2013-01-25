@@ -54,7 +54,7 @@ function list:update(dt)
 	local display = self.display
 	
 	-- move to parent if there is a parent
-	if self.parent ~= loveframes.base then
+	if self.parent ~= loveframes.base and not instanceOf(list,self.parent) then
 		self.x = self.parent.x + self.staticx
 		self.y = self.parent.y + self.staticy
 	end
@@ -70,7 +70,6 @@ function list:update(dt)
 		v:SetClickBounds(self.x, self.y, self.width, self.height)
 		v.y = (v.parent.y + v.staticy) - self.offsety
 		v.x = (v.parent.x + v.staticx) - self.offsetx
-		
 		if display == "vertical" then
 			if v.lastheight ~= v.height then
 				self:CalculateSize()
@@ -234,6 +233,11 @@ function list:RemoveItem(object)
 	self:CalculateSize()
 	self:RedoLayout()
 	
+end
+
+function list:RemoveItemAtIndex(index)
+	local object = self.children[index]
+	self:RemoveItem(object)
 end
 
 --[[---------------------------------------------------------

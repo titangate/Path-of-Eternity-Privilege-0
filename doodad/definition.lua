@@ -44,6 +44,7 @@ local function easydoodad(p)
 		name = p.title or name,
 		description = p.description,
 		interact = p.interact,
+		clue = p.clue
 	}
 end
 
@@ -63,7 +64,7 @@ t.desk2small = {
 	obstacle = true,
 }
 
-easydoodad{name='keyboard',height=2}
+easydoodad{name='keyboard',height=2,clue = 'medicine_location'}
 easydoodad{name='monitor',height=2,interact = 'store'}
 easydoodad{name='desk2',scale=2}
 easydoodad{name='safe',

@@ -6,7 +6,6 @@ function AIPatrol:initialize(unit,waypoint)
 	AIBase.initialize(self,unit)
 	assert(waypoint)
 	self.waypoint = waypoint
-	
 end
 
 function AIPatrol:process(dt)

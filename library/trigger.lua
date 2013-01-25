@@ -1,6 +1,6 @@
 local waits = {w={},c={}}
-function coroutinemsg(...)
-	print (...)
+function coroutinemsg(state,msg)
+	if not state then print (msg) end
 end
 function execute(f)
 	coroutinemsg(coroutine.resume(coroutine.create(f)))
@@ -61,4 +61,10 @@ function waits.update()
 			coroutinemsg(coroutine.resume(k))
 	end
 end
+
+function waits.reset()
+	waits.w = {}
+	waits.c = {}
+end
+
 return waits

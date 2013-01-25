@@ -73,10 +73,46 @@ function Inventory:getSecondLayout(n)
 end
 
 function Inventory:setActiveItem(a,b)
+	local item = self:getActiveItem()
+	if item.unequip then
+		item:unequip()
+	end
 	self.active = {a,b}
+	local item = self:getActiveItem()
+	if item.equip then
+		item:equip()
+	end
 end
 
 function Inventory:getActiveItem()
 	local a,b= unpack(self.active)
 	return self.items[a][b],a,b
+end
+
+function Inventory:encode()
+	local t = {
+		baseitem = {},
+		items = {{},{},{},{}},
+		name = self.class.name,
+	}
+	for i,v in ipairs(self.baseitem) do
+		t.baseitem[i] = v:encode()
+	end
+	for a,subitem in ipairs(self.items) do
+		for i,v in ipairs(subitem) do
+			t.items[a][i] = v:encode()
+		end
+	end
+	return t
+end
+
+function Inventory:decode(t)
+	for i,v in ipairs(t.baseitem) do
+		self:setBaseItem(i,serial.decode(v))
+	end
+	for a,subitem in ipairs(t.items) do
+		for i,v in ipairs(subitem) do
+			self:addItem(a,serial.decode(v))
+		end
+	end
 end

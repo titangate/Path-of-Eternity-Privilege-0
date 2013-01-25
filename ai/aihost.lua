@@ -46,7 +46,6 @@ function AIHost:process(dt)
 					v[#v] = v[#v].next
 				else
 					self.ai[u][#self.ai[u]] = nil
-				print (#v,'success')
 				end
 			end
 		end
@@ -104,6 +103,10 @@ function AIHost:popAI(unit)
 	table.remove(self.ai[unit])
 end
 
+function AIHost:removeAI(unit)
+	self.ai[unit] = nil
+end
+
 function AIHost:getIdentifier(unit)
 	return unit:getIdentifier()
 end
@@ -135,8 +138,13 @@ function AIHost:decode(t)
 			local a = serial.decode(v,u)
 			self:pushAI(a)
 		end
-
 	end
+end
+
+function AIHost:suspendAI(unit,time)
+	self.ai[unit][#self.ai[unit]]:reset()
+	self:pushAI(AIWait(unit,time))
+	self:pushAI(AIStop(unit))
 end
 
 if DEBUG then

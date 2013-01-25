@@ -1,7 +1,7 @@
 
 require 'retina'
 local loader = require 'loader'
-
+local processor = require 'gamesystem.imageprocessthread'
 
 DEBUG = true
 PROFILING = false
@@ -11,8 +11,6 @@ if DEBUG and PROFILING then
 	ProFi:start()
 end
 
-
-
 option = {
 	uifps = 30,
 	uidt = 1/30,
@@ -21,8 +19,20 @@ option = {
 	texturequality = 'HIGH',
 	language = 'English',
 	retina = 1,
+	simplestencil = true,
 }
 
+hotkey = {
+	editor = 'p',
+	inventory = 'q',
+	run = 'lshift',
+	sneak = 'lctrl',
+	brief = 'b',
+	profile = 'i',
+	lli = 'l',
+	menu = 'escape',
+	cellphone = 'c',
+}
 
 gamesys = {}
 function gamesys.push(sys,transtime)
@@ -67,6 +77,7 @@ sound = require 'library.sound'
 Stateful = require"stateful"
 local localization = require 'library.localization'
 local essential = require 'library.essential'
+local hotkey = require 'library.hotkey'
 
 local img = essential.getImageTable()
 local lfs = love.filesystem
@@ -107,6 +118,13 @@ function love.load()
 	--	assert(f)
 		if f then essential.load(f) end
 	end
+
+	if love.filesystem.isFile'hotkey' then
+		local f = love.filesystem.read('hotkey')
+		f = json.decode(f)
+	--	assert(f)
+		if f then hotkey.load(f) end
+	end
 	if love.filesystem.isFile'graphics' then
 		local f = love.filesystem.read('graphics')
 		f = json.decode(f)
@@ -138,21 +156,31 @@ function love.load()
 
 	-- load the examples menu
 	local splash = true
+	local intro = true
 	-- load the sin selector menu
 	local mainmenu = require 'gamesystem.mainmenu'
-	
 	
 	if splash then
 		local splashscreen = require 'gamesystem.splashscreen'
 		splashscreen:load()
 		splashscreen.OnFinish = function()
-		mainmenu:loadmain()
-		gamesys.push(mainmenu)end
+			if intro then
+				local intro = require 'gamesystem.intro'
+				intro:load()
+				intro.OnFinish = function()
+					mainmenu:loadmain()
+					gamesys.push(mainmenu)
+				end
+				gamesys.push(intro)
+			else
+				mainmenu:loadmain()
+				gamesys.push(mainmenu)
+			end
+		end
 		gamesys.push(splashscreen)
 		
 	else
-
-	mainmenu:loadmain()
+		mainmenu:loadmain()
 		gamesys.push(mainmenu)
 	end
 
@@ -172,6 +200,10 @@ function love.load()
 	modalBackground:SetVisible(false)
 	modalBackground.gaussianblur_intensity = 10
 	love.graphics.setIcon(requireImage'icon.png')
+
+	
+	sound.playMusic('sound/music/adagio.ogg')
+
 end
 
 function love.mousepressed(x, y, button)
@@ -199,7 +231,6 @@ function love.mousereleased(x, y, button)
 	end
 	gamesys[#gamesys]:mousereleased(x,y,button)
 	loveframes.mousereleased(x, y, button)
-
 end
 
 
@@ -236,6 +267,7 @@ function love.update(dt)
 	if not finishedLoading then
 		loader.update() -- You must do this on each iteration until all resources are loaded
 	end
+	processor.update()
 	waits.update()
 	if option.seperateUI then
 		ui_elapse = ui_elapse + dt
@@ -249,6 +281,7 @@ function love.update(dt)
 	end
 	gamesys.update(dt)
 	sound.cleanUp()
+--	print(processor.getPercent())
 end
 
 function love.draw()
@@ -285,11 +318,12 @@ function love.draw()
 	pn("Press \"`\" to toggle debug mode.", 210, 5)
 
 	if not finishedLoading then
+		gra.setFont(font.smallfont)
 		local percent = 0
 		if loader.resourceCount ~= 0 then percent = loader.loadedCount / loader.resourceCount end
 		gra.print(("Loading Assets.. %d%%"):format(percent*100), 100, 100)
 	end
 
 	local fps = love.timer.getFPS()
-	gra.setCaption(string.format(LocalizedString"Path of Eternity Priviledge Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
+	gra.setCaption(string.format(LocalizedString"Path of Eternity Privilege Zero // frame time: %.2fms (%d fps).", 1000/fps, fps))
 end

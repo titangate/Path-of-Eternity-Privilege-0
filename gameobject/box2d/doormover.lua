@@ -36,7 +36,6 @@ function DoorMover:setOpen(state,direction)
 		self.doorjoint:setMaxMotorTorque(100000)
 	else
 		self.doorjoint:setMotorSpeed(-self.doorjoint:getMotorSpeed())
-		print (self.doorjoint:getMotorSpeed())
 	end
 end
 

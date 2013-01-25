@@ -49,6 +49,12 @@ end
 
 
 function splashscreen:keypressed(k)
+	if k=='escape' then
+		local waits = require 'library.trigger'
+		waits.reset()
+		loveframes.base = base:new()
+		self.OnFinish()
+	end
 end
 function splashscreen:keyreleased(k)
 end

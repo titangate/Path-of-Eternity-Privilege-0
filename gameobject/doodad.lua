@@ -32,11 +32,6 @@ function Doodad:draw_LLI()
 		gra.setPixelEffect()
 		stroke.c = nil
 	end
-	--[[filters.lli_unit.conf(self)
-	filters.lli_unit.predraw(self)
-	gra.setColor(0,0,0,100)
-	gra.draw(requireImage("doodad/"..i.image),x,y,r,i.sx,i.sy,i.ox,i.oy)
-	filters.lli_unit.postdraw(self)]]
 end
 
 function Doodad:draw()

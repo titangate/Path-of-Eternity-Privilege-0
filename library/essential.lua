@@ -3,6 +3,11 @@ json = require 'json'
 local emptyimg = gra.newImage'dot.png'
 local img = {}
 function requireImage(f)
+   if type(f) ~= 'string' then
+      if f:typeOf('Image') then
+         return f
+      end
+   end
 	if not img[f] then
       --return emptyimg
 		img[f] = gra.newImage(f)
@@ -179,6 +184,17 @@ function essential.save()
 	
 	local s = json.encode(option)
 	love.filesystem.write('option',s)
+end
+
+function table.print(t,depth)
+   depth = depth or 0
+   for k,v in pairs(t) do
+      if type(v)=='table' then
+         table.print(v,depth+1)
+      else
+         print (string.format("%s%s:%s",string.rep('  ',depth),tostring(k),tostring(v)))
+      end
+   end
 end
 
 return essential

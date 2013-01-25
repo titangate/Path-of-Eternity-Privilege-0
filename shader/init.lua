@@ -16,6 +16,8 @@ local fil = {
 		lli = require 'shader.lli',
 		lli_unit = require 'shader.lli_unit',
 		soundwave = require 'shader.soundwave',
+		channelsplit = require 'shader.channelsplit',
+		bloom = require 'shader.bloom',
 	},
 	HIGH = {
 		vibrate = require 'shader.vibrate',
@@ -29,6 +31,8 @@ local fil = {
 		lli = require 'shader.lli',
 		lli_unit = require 'shader.lli_unit',
 		soundwave = require 'shader.soundwave',
+		channelsplit = require 'shader.channelsplit',
+		bloom = require 'shader.bloom',
 	},
 	LOW = {
 		vibrate = require 'shader.vibrate',
@@ -40,6 +44,7 @@ local fil = {
 		lli = require 'shader.satbri',
 		lli_unit = emptyshader,
 		soundwave = require 'shader.soundwave',
+		channelsplit = require 'shader.channelsplit',
 	},
 	DISABLED = {
 		vibrate = emptyshader,

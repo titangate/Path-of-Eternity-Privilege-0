@@ -1,20 +1,5 @@
 local brief = {}
-local function horzBar(parent,image,text,width,height)
-	local l = loveframes.Create('list',parent)
-	function l.Draw() end
-	l.spacing = 10
-	l:setSize(width,height)
-	l.button = loveframes.Create('circlebutton',l)
-	l.button:setImage(image)
-	l.button:setSize(height,height)
-	l.button:setText''
-	l.text = loveframes.Create('text',l)
-	l.text:setText(text)
-	l.text:SetWidth(width-height-10)
-	l.text:SetFont(font.smallfont)
-	l:SetDisplayType'horizontal'
-	return l
-end
+
 
 function brief:setMission(m)
 	self.mission = m

@@ -14,6 +14,13 @@ function Mission:setObjectiveStatus(objective,status,describ)
 	self.objectives[objective].statusdescription = describ
 end
 
+function Mission:encode()
+	return {
+		name = self.class.name,
+		info = self.def,
+	}
+end
+
 
 local mission = {}
 local missiondef
@@ -22,7 +29,7 @@ function mission.load()
 end
 
 function mission.decode(t)
-	return mission.create(t.info,t.x,t.y,t.r)
+	return mission.create(t.info)
 end
 
 function mission.create(def,x,y,r)
@@ -33,5 +40,7 @@ function mission.create(def,x,y,r)
 	local d = Mission(table.copy(def))
 	return d
 end
+
+mission.load()
 
 return mission

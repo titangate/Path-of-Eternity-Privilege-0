@@ -27,7 +27,7 @@ function store:load()
 	
 	self.tabs1 = tabs1
 
-	self:loadsynringe()
+	self:loadsyringe()
 	self:loadgun()
 	frame1:SetModal(true)
 end
@@ -37,7 +37,7 @@ function store:setInventory(inv)
 	self.gunitem = self.inv.items[2][1]
 end
 
-function store:loadsynringe()
+function store:loadsyringe()
 	local syringe = loveframes.Create"panel"
 	function syringe.Draw(object) 
 		filters.active.predraw()
@@ -54,32 +54,32 @@ function store:loadsynringe()
 	syringebutton.active = true
 	syringebutton:setText''
 
-	local synrigetext1 = loveframes.Create('text',syringe)
-	synrigetext1:setText{{210,152,65},LocalizedString'SYRINGE'}
-	synrigetext1:SetFont(font.bigfont)
-	synrigetext1:SetY(30)
-	synrigetext1:CenterX()
+	local syringetext1 = loveframes.Create('text',syringe)
+	syringetext1:setText{{210,152,65},LocalizedString'SYRINGE'}
+	syringetext1:SetFont(font.bigfont)
+	syringetext1:SetY(30)
+	syringetext1:CenterX()
 	
-	local synrigetext1 = loveframes.Create('text',syringe)
-	synrigetext1:setText(LocalizedString"A subtle equipment. River can use it to inject medication directly into his bloodstream to counter the symptoms of his Low Latency Inhibition. Towards his enemy, he can inject nerve poison to knock unwanted personnel out to save trouble. He can also use it to perform the most deadliest form of assassination: by directly injecting poison into the victim's neck, even the toughest guy will lose their heartbeat in a few seconds.")
-	synrigetext1:SetFont(font.smallfont)
-	synrigetext1:SetWidth(700)
-	synrigetext1:SetY(100)
-	synrigetext1:SetX(1000-800)
+	local syringetext1 = loveframes.Create('text',syringe)
+	syringetext1:setText(LocalizedString"A subtle equipment. River can use it to inject medication directly into his bloodstream to counter the symptoms of his Low Latency Inhibition. Towards his enemy, he can inject nerve poison to knock unwanted personnel out to save trouble. He can also use it to perform the most deadliest form of assassination: by directly injecting poison into the victim's neck, even the toughest guy will lose their heartbeat in a few seconds.")
+	syringetext1:SetFont(font.smallfont)
+	syringetext1:SetWidth(700)
+	syringetext1:SetY(100)
+	syringetext1:SetX(1000-800)
 
-	local synrigelist = loveframes.Create('list',syringe)
-	synrigelist.name = ''
-	synrigelist:setSize(300,400)
-	synrigelist:setPos(15,200)
-	synrigelist.spacing = 10
-	local b = horzBar(synrigelist,requireImage'item/Tetrodotoxin.png',LocalizedString'TETRODOTOXIN\n THIS IS \n LEVEL: III\n test',200,64)
-	b.button.OnClick = function()self:loadsynrige_tetrodotoxin()end
-	synrigelist:AddItem(b)
-	b = horzBar(synrigelist,requireImage'item/angexetine.png',LocalizedString'ANGEXETINE\n THIS IS \n LEVEL: III\n test',200,64)
-	b.button.OnClick = function()self:loadsynrige_angexetine()end
-	synrigelist:AddItem(b)
+	local syringelist = loveframes.Create('list',syringe)
+	syringelist.name = ''
+	syringelist:setSize(300,400)
+	syringelist:setPos(15,200)
+	syringelist.spacing = 10
+	local b = horzBar(syringelist,requireImage'item/Tetrodotoxin.png',LocalizedString'TETRODOTOXIN\n THIS IS \n LEVEL: III\n test',200,64)
+	b.button.OnClick = function()self:loadsyringe_tetrodotoxin()end
+	syringelist:AddItem(b)
+	b = horzBar(syringelist,requireImage'item/angexetine.png',LocalizedString'ANGEXETINE\n THIS IS \n LEVEL: III\n test',200,64)
+	b.button.OnClick = function()self:loadsyringe_angexetine()end
+	syringelist:AddItem(b)
 	
-	function synrigelist.Draw(object)
+	function syringelist.Draw(object)
 		local index	= loveframes.config["ACTIVESKIN"]
 		local defaultskin = loveframes.config["DEFAULTSKIN"]
 		local selfskin = object.skin
@@ -91,12 +91,12 @@ function store:loadsynringe()
 	medicineicon:setImage'item/Tetrodotoxin.png'
 	medicineicon:setPos(360,140)
 
-	local synrigelist2 = loveframes.Create('list',syringe)
-	synrigelist2.name = ''
-	synrigelist2:setSize(650,280)
-	synrigelist2:setPos(340,320)
-	synrigelist2.Draw = synrigelist.Draw
-	synrigelist2.spacing = 10
+	local syringelist2 = loveframes.Create('list',syringe)
+	syringelist2.name = ''
+	syringelist2:setSize(650,280)
+	syringelist2:setPos(340,320)
+	syringelist2.Draw = syringelist.Draw
+	syringelist2.spacing = 10
 	local medicinetext1 = loveframes.Create('text',syringe)
 	medicinetext1:setText{{210,152,65},LocalizedString'TETRODOTOXIN'}
 	medicinetext1:SetFont(font.imagebuttonfont)
@@ -111,15 +111,15 @@ function store:loadsynringe()
 	self.medicinetext2 = medicinetext2
 	self.medicinetext1 = medicinetext1
 	self.medicineicon = medicineicon
-	self.medicinelist = synrigelist2
+	self.medicinelist = syringelist2
 	--self.currentmedicine = 'Tetrodotoxin'
-	--self.medicinelist:AddItem(horzBar(synrigelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
+	--self.medicinelist:AddItem(horzBar(syringelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
 
 	self.tabs1:AddTab(LocalizedString'SYRINGE',syringe)
-	self:loadsynrige_tetrodotoxin(true)
+	self:loadsyringe_tetrodotoxin(true)
 end
 
-function store:loadsynrige_angexetine(instant)
+function store:loadsyringe_angexetine(instant)
 	if self.currentmedicine == 'angexetine' then return end
 	self.currentmedicine = 'angexetine'
 	local objs = {self.medicinetext1,self.medicinetext2,self.medicineicon,self.medicinelist}
@@ -148,7 +148,7 @@ function store:loadsynrige_angexetine(instant)
 
 end
 
-function store:loadsynrige_tetrodotoxin(instant)
+function store:loadsyringe_tetrodotoxin(instant)
 	if self.currentmedicine == 'Tetrodotoxin' then return end
 	local objs = {self.medicinetext1,self.medicinetext2,self.medicineicon,self.medicinelist}
 	for i,v in ipairs(objs) do
@@ -167,7 +167,7 @@ function store:loadsynrige_tetrodotoxin(instant)
 	self.medicinetext1:setText{{210,152,65},LocalizedString'TETRODOTOXIN'}
 	self.medicinetext2:setText(LocalizedString"Tetrodotoxin blocks action potentials in nerves by binding to the voltage-gated, fast sodium channels in nerve cell membranes, essentially preventing any affected nerve cells from firing by blocking the channels used in the process.\n USE IT ON ENEMY TO CAUSE THEIR IMMEDIATE DEATH.")
 
-	self.medicinelist:AddItem(horzBar(synrigelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
+	self.medicinelist:AddItem(horzBar(syringelist2,requireImage'item/Tetrodotoxin.png','A RANDOM UPGRADE\n THIS IS SPARTA \n I LIKE SPONGEBOB\n $30,000',650,64))
 	
 	if not instant then
 		wait(0.3)
@@ -286,8 +286,8 @@ function store:loadgun_silencer(instant)
 	self.guncomptext:setText{{210,152,65},LocalizedString'SILENCER'}
 	self.guncomptext2:setText(LocalizedString"ENEMY TO CAUSE THEIR IMMEDIATE DEATH.")
 
-	local silencer1 = horzBar(synrigelist2,requireImage'item/1911/silencer.png','SILENCER LEVEL 1\n SUPRESS SOUND \n \n $30,000',650,64)
-	local silencer2 = horzBar(synrigelist2,requireImage'item/1911/silencer.png','SILENCER LEVEL 2\n ELIMINATE SOUND \n \n $100,000',650,64)
+	local silencer1 = horzBar(syringelist2,requireImage'item/1911/silencer.png','SILENCER LEVEL 1\n SUPRESS SOUND \n \n $30,000',650,64)
+	local silencer2 = horzBar(syringelist2,requireImage'item/1911/silencer.png','SILENCER LEVEL 2\n ELIMINATE SOUND \n \n $100,000',650,64)
 	self.gunlist2:AddItem(silencer1)
 	self.gunlist2:AddItem(silencer2)
 

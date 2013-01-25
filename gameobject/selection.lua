@@ -20,13 +20,9 @@ function Selection:initialize(map)
 end
 
 function Selection:setSelection(obj)
-
+	if obj == self.object then return end
 	self:releaseSelection()
 	if not obj then
-
-	if self.onDeselect then
-		self.onDeselect()
-	end
 	return end
 	self.object = obj
 	self.object.drawSelection = true
@@ -38,17 +34,20 @@ end
 
 function Selection:releaseSelection()
 	if self.object then
---		self.object.drawSelection = false
 			self.object.drawSelection = nil
 			self.object.selection_intensity = nil
 	end
 	self.object = nil
+
+	if self.onDeselect then
+		self.onDeselect()
+	end
 end
 
 function Selection:update(dt)
 	assert(self.map.world)
 	self.onSel = nil
-	self:releaseSelection()
+	--self:releaseSelection()
 	local x,y = self.map:screenToMap(love.mouse.getPosition())
 	self.map.world:queryBoundingBox(x-2,y-2,x+2,y+2,self.queryCallback)
 	self:setSelection(self.onSel)
@@ -64,8 +63,4 @@ function Selection:interact(obj)
 	if self.onInteract and obj and obj.mover and obj.mover:valid() then
 		self.onInteract(obj)
 	end
-end
-
-function Selection:setDelegate(del)
-	self.del = del
 end

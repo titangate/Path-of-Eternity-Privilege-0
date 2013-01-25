@@ -45,7 +45,7 @@ function PathMap:initialize(w,h,aihost)
 	self.b_destroy = {}
 	self.f_update = {}
 
-	self.unit = {[0]={},[1]={},[2]={}}
+	self.unit = {[0]={},[1]={},[2]={},[3]={},[4]={}}
 
 	self.camerashift = Vector(0,0)
 
@@ -111,6 +111,7 @@ function PathMap:setWallbatch(image,config)
 end
 
 
+
 function PathMap:createWallMap()
 
 	self.wallbatch = gra.newSpriteBatch(self.wallimage,self.w*self.h)
@@ -171,7 +172,27 @@ function PathMap:createWallMap()
 	end
 end
 
-function PathMap:removeUnit(u)
+function PathMap:clearWallMap()
+	local w,h = self.w,self.h
+	for x=1,w do
+		for y=1,h do
+			if self._data[x][y].mover then
+				self._data[x][y].mover:destroyBody(self)
+			end
+		end
+	end
+	self._data = {}
+	for x=1,w do
+		table.insert(self._data,{})
+		for y=1,h do
+			local a = RectangleArea((x-1)*self.scale,(y-1)*self.scale,self.scale,self.scale)
+			table.insert(self._data[x],a)
+			a.carryfunc = cf
+		end
+	end
+end
+
+function PathMap:removeUnit(u,complete)
 	local layer = u.layer or 1
 	if self.del then
 		self.del:removeUnit(u)
@@ -181,7 +202,10 @@ function PathMap:removeUnit(u)
 		u:destroyBody(self)
 	end
 	self.unit[layer][u] = nil
-	u.aihost = nil
+	--u.aihost = nil
+	if complete then
+		global.aihost:removeAI(u)
+	end
 end
 
 function PathMap:destroyNext(fixture,body)
@@ -323,6 +347,10 @@ function PathMap:findPath(start,finish,errorrange)
 end
 
 function PathMap:update(dt)
+	for i,v in ipairs(self.f_update) do
+		v[1]:setUserData(v[2])
+	end
+	
 	for i,v in ipairs(self.f_destroy) do
 		v:destroy()
 	end
@@ -333,10 +361,6 @@ function PathMap:update(dt)
 		for v,_ in pairs(self.unit[i]) do
 			if v.update then v:update(dt) end
 		end
-	end
-	
-	for i,v in ipairs(self.f_update) do
-		v[1]:setUserData(v[2])
 	end
 	
 	self.f_destroy = {}
@@ -368,12 +392,13 @@ end
 
 local fanimg = requireImage'asset/shader/fan.png'
 local circcount = 256
-function PathMap:generateFog(u,canvas)
+function PathMap:generateFog(u,canvas,fogscale)
 	--local canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
 	
 	--love.graphics.setBackgroundColor(0,0,0,255)
-
+	local visionlength = 400
 	canvas.canvas:clear(0,0,0)
+	local c = gra.getCanvas()
 	gra.setCanvas(canvas.canvas)
 	gra.setBlendMode'subtractive'
 	local w = screen.halfwidth
@@ -384,14 +409,13 @@ function PathMap:generateFog(u,canvas)
 		self.hit = nil
 		self.fraction = 1
 		self.layer = 0
-		local x2,y2 = x1+math.cos(r)*w*2,y1+math.sin(r)*w*2
+		local x2,y2 = x1+math.cos(r)*visionlength,y1+math.sin(r)*visionlength
 		self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
-		local scale = self.fraction*w/fanimg:getWidth()
-		
-		gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,scale,0,fanimg:getHeight()/2)
+		local scale = self.fraction*visionlength/fanimg:getWidth()/fogscale
+		gra.draw(fanimg,screen.halfwidth/fogscale,screen.halfheight/fogscale,r,scale,scale,0,fanimg:getHeight()/2)
 		--filters.gaussianblur.postdraw(fog)
 	end
-	gra.setCanvas()
+	gra.setCanvas(c)
 	gra.setBlendMode('alpha')
 
 	--canvasmanager.releaseCanvas(canvas)
@@ -408,31 +432,27 @@ vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 pixel_coords)
 ]]
 function PathMap:draw()
 	local canvas
-	if self.follower then
-		
-	end
-
 	local u = self.follower
 	if u then
 		g.push()
 		g.scale(2)
-		if option.simplestencil and not self.drawlli then gra.setStencil(function()
-			local w = screen.halfwidth
-			local x1,y1 = u:getPosition()
-			local up = Vector(x1,y1)
-			for i=1,circcount do
-				local r = math.pi*2/circcount*i
-				self.hit = nil
-				self.fraction = 1
-				self.layer = 0
-				local x2,y2 = x1+math.cos(r)*w*2,y1+math.sin(r)*w*2
-				self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
-				local scale = self.fraction*w/fanimg:getWidth()
-				
-				gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,64/circcount,0,fanimg:getHeight()/2)
-			end
-		end)
-	end
+			if option.simplestencil and not self.drawlli then gra.setStencil(function()
+				local w = screen.halfwidth
+				local x1,y1 = u:getPosition()
+				local up = Vector(x1,y1)
+				for i=1,circcount do
+					local r = math.pi*2/circcount*i
+					self.hit = nil
+					self.fraction = 1
+					self.layer = 0
+					local x2,y2 = x1+math.cos(r)*w*2,y1+math.sin(r)*w*2
+					self.world:rayCast(x1,y1,x2,y2,self.raycastcallback)
+					local scale = self.fraction*w/fanimg:getWidth()
+					
+					gra.draw(fanimg,w/2,screen.halfheight/2,r,scale,64/circcount,0,fanimg:getHeight()/2)
+				end
+			end)
+		end
 		g.pop()
 	end
 	g.push()
@@ -445,18 +465,18 @@ function PathMap:draw()
 	end
 	g.pop()
 	if not self.drawlli then
-	g.setStencil()
-	
-	if not option.simplestencil and self.follower then
-		canvas = canvasmanager.requireCanvas(screen.halfwidth,screen.halfheight)
-		self:generateFog(self.follower,canvas)
-		--gra.setPixelEffect(invert)
-		gra.draw(canvas.canvas,0,0,0,2)
-		gra.setPixelEffect()
-		canvasmanager.releaseCanvas(canvas)
-		love.graphics.setBackgroundColor(0,0,0,0)
+		g.setStencil()
+		if not option.simplestencil and self.follower then
+			local s = 4
+			canvas = canvasmanager.requireCanvas(screen.width/s,screen.height/s)
+			self:generateFog(self.follower,canvas,s)
+			--gra.setPixelEffect(filters.gaussianblur.vert)
+			gra.draw(canvas.canvas,0,0,0,s)
+			gra.setPixelEffect()
+			canvasmanager.releaseCanvas(canvas)
+			love.graphics.setBackgroundColor(0,0,0,0)
+		end
 	end
-end
 end
 
 function PathMap:draw_normal()
@@ -494,7 +514,7 @@ function PathMap:draw_LLI()
 		end
 		filters.lli.conf(self)
 		filters.lli.predraw()
-		gra.setStencil(function()gra.circle('fill',screen.halfwidth,screen.halfheight,self.lli_radius)end)
+		gra.setStencil(function()gra.circle('fill',self.obj.river:getX(),self.obj.river:getY(),self.lli_radius)end)
 		if self.background then
 			gra.draw(self.background)
 		end
@@ -557,24 +577,48 @@ function PathMap:getNearbyArea(target,distance)
 	return searchset
 end
 
+function PathMap:loadWall(t)
+	self:clearWallMap()
+	if t then
+		for x = 1,self.w do
+			for y = 1,self.h do
+				if t[x] and t[x][y] then
+					self._data[x][y].obstacle_e = t[x][y].obstacle_e
+				end
+			end
+		end
+	end
+end
+
+function PathMap:getWall()
+	local wall = {}
+	for x = 1,self.w do
+		table.insert(wall,{})
+		for y = 1,self.h do
+		table.insert(wall[x],{})
+			wall[x][y].obstacle_e = self._data[x][y].obstacle_e
+		end
+	end
+	return wall
+end
+
 function PathMap:encode()
-	local t = {unit = {},wall={}}
+	local t = {
+	name = self.class.name,
+	w = self.w,
+	h = self.h,
+	unit = {}}
 	for i=0,#self.unit do
 		for v,_ in pairs(self.unit[i]) do
 			if v.encode then
-			local savedata = v:encode()
-			savedata.identifier = v.identifier
-			table.insert(t.unit,savedata)
-		end
-		end
-	end
-	for x = 1,self.w do
-		table.insert(t.wall,{})
-		for y = 1,self.h do
-		table.insert(t.wall[x],{})
-			t.wall[x][y].obstacle_e = self._data[x][y].obstacle_e
+				local savedata = v:encode()
+				savedata.identifier = v.identifier
+				table.insert(t.unit,savedata)
+			end
 		end
 	end
+	t.wall = self:getWall()
+
 	return t
 end
 
@@ -614,14 +658,16 @@ function PathMap:load(t)
 	if t.wall then
 		for x = 1,self.w do
 			for y = 1,self.h do
+
 				if t.wall[x] and t.wall[x][y] then
+
 					self._data[x][y].obstacle_e = t.wall[x][y].obstacle_e
 				end
 			end
 		end
 	end
 
-	self:createWallMap()
+	--self:createWallMap()
 	for i,v in ipairs(t.unit) do
 		local u = serial.decode(v)
 		if u then
@@ -645,8 +691,12 @@ function PathMap:screenToMap(x,y)
 	return x-self.camerashift.x,y-self.camerashift.y
 end
 
-function PathMap:setViewableRegion(r)
-	self.viewableregion = r
+function PathMap:setFloor(f)
+	self.floor = r
+end
+
+function PathMap:setFloors(floors)
+	self.floors = floors
 end
 
 if DEBUG then

@@ -14,6 +14,7 @@ function River:initialize(movertype,x,y,r,bt,info)
 		table.insert(self.footsteps,Sound(string.format('sound/effect/footstep%d.ogg',i),nil,100,'effect',global.aihost,0))
 	end
 	self.footstepcount = 1
+	self.lli_flare = true
 end
 
 function River:setProfile(p)
@@ -51,6 +52,9 @@ function River:encode()
 		end
 		t.patrolpath = p
 	end
+	if self.inv then
+		t.inv = self.inv:encode()
+	end
 	return t
 end
 
@@ -61,8 +65,11 @@ function River:decode(t)
 		for i,v in ipairs(t.patrolpath) do
 			t.patrolpath[i] = Vector(unpack(v))
 		end
-		for i,v in ipairs(t.patrolpath) do print(v) end
 		self:setPatrolPath(PatrolPath(t.patrolpath))
+	end
+	if t.inv then
+		self.inv = Inventory(self)
+		self.inv:decode(t.inv)
 	end
 end
 
@@ -70,9 +77,7 @@ end
 
 function River:setPatrolPath(p)
 	self.patrolpath = p
-	if self.aihost then
-		self.aihost:addAI(AIGuard(self,p.waypoint))
-	end
+	
 end
 
 
@@ -96,6 +101,7 @@ end
 local scale = 1.5
 
 function River:draw(x,y,r)
+	gra.setColor(255,255,255)
 	if self.drawSelection then
 		filters.selection.conf(self)
 		local stroke = filters.selection
@@ -126,6 +132,7 @@ end
 
 
 function River:draw_LLI(x,y,r)
+	gra.setColor(255,255,255)
 	local i = self.info
 	if not x then
 		x,y = self:getPosition()
@@ -157,9 +164,9 @@ function River:draw_LLI(x,y,r)
 	self.actor:draw(self)
 	filters.lli_unit.postdraw(self)
 	if self.lli_flare then
-		gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],math.random()*127+127)
+		gra.setColor(self.lli_color[1],self.lli_color[2],self.lli_color[3],127+math.random(127))
 	end
-	g.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,64,32)
+	g.draw(requireImage'asset/effect/flare.png',x,y,0,1,1,98,32)
 
 	if self.patrolpath then
 		gra.line(self:getX(),self:getY(),self.patrolpath.waypoint[1].x,self.patrolpath.waypoint[1].y)

@@ -10,7 +10,7 @@ end
 
 function ImproviseWeapon:update_i(dt)
 	if self.owner and not self.acting then
-		local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
+		local x,y = global.map:screenToMap(love.mouse.getPosition())
 		self.s:setPosition(Vector(x,y))
 	end
 end
@@ -30,12 +30,12 @@ function ImproviseWeapon:active(host,target)
 			--local sound = require 'library.sound'
 			self.acting = true
 			sound.play("sound/interface/drum3.ogg","interface")
-			host.actor.animation = 'synringe'
-			target.aihost:terminate(target,true,360000)
+			host.actor.animation = 'syringe'
+			global.aihost:removeAI(target)
 			wait(1)
 			
 			self.s:play()
-			host.map:addUnit(self.s)
+			global.map:addUnit(self.s)
 			target.actor.animation = 'held'
 			wait(5)
 			target:kill(self)	

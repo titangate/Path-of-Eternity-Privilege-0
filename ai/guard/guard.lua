@@ -13,6 +13,7 @@ function AIGuard:initialize(unit,waypoint)
 end
 
 function AIGuard:soundAlert(position,level)
+	if self.terminated then return end
 	if self.alert_sound > level then return end
 	if level >= 3 then
 		self.poptime = self.host:getConstant'sound_high_time'
@@ -28,17 +29,23 @@ function AIGuard:soundAlert(position,level)
 	self.alert_sound = level
 end
 
+function AIGuard:reset()
+	self.subgoal = {AIPatrol(self.unit,self.waypoint)}
+end
+
 function AIGuard:terminate(lethal,time)
 	self.poptime = 360000
-	if lethal then
-		self.subgoal = {AIStop(self.unit)}
-	else
-		self.subgoal[2] = AIWait(self.unit,time)
-		self.subgoal[3] = AIStop(self.unit)
+	--if lethal then
+	--self.subgoal = {AIStop(self.unit)}
+	--else
+	--	self.subgoal[2] = AIWait(self.unit,time)
+		self.subgoal[2] = AIStop(self.unit)
 		-- TODO
 		--self.host:popAI(self.unit)
-	end
+	--end
+--	self.terminated = true
 end
+
 
 function AIGuard:visionAlert(position,level)
 end
@@ -56,7 +63,6 @@ function AIGuard:process(dt)
 			self.subgoal[1] = AIPatrol(self.unit,self.waypoint)
 			self.subgoal[1].host = self.host
 		end
-
 		self.poptime = 360000
 	end
 	local v = self.subgoal[#self.subgoal]
@@ -72,7 +78,7 @@ function AIGuard:process(dt)
 				self.subgoal[#self.subgoal]:process(dt-ndt)
 				return
 			else
-				table.remove(self.subgoal)
+			table.remove(self.subgoal)
 
 			if #self.subgoal==1 then
 				-- recalculate patrol path
@@ -93,6 +99,7 @@ end
 end
 
 function AIGuard:encode()
+	print (#self.subgoal,self.subgoal[1])
 	assert(self.host)
 	local subais = {}
 	for i=1,3 do
@@ -102,7 +109,6 @@ function AIGuard:encode()
 		local hashed = {}
 		while p~=nil and not hashed[p] do
 			p.host = self.host
-			print (json.encode(p:encode()))
 			table.insert(subai,p:encode())
 			hashed[p] = true
 			p = p.next

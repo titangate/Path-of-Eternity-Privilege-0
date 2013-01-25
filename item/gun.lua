@@ -35,7 +35,6 @@ end
 function Gun:active(host,target)
 	--if self.hit then
 	local t = self.hit
-	print (t,'hits')
 	if instanceOf(River,t) then
 		execute(function()
 			self.s:play()
@@ -62,7 +61,7 @@ end
 
 function Gun:update_i(dt)
 	local x,y = self.owner.map:screenToMap(love.mouse.getPosition())
-	local w = self.world
+	local w = global.map.world
 	assert(w)
 	local r =self.owner:getAngle()
 	self.ownerPosition = Vector(self.owner:getPosition())
@@ -74,7 +73,6 @@ function Gun:update_i(dt)
 	local x1,y1 = math.cos(r),math.sin(r)
 	local x2,y2 = normalize(unpack(self.designatedTarget - self.ownerPosition))
 	self.designatedTarget = (Vector(x1*x2-y1*y2,y1*x2+y2*x1))*1000+self.ownerPosition
-	--print (self.designatedTarget:normalize())
 	self.hit = nil
 	self.fraction = 1.1
 	w:rayCast(self.ownerPosition.x,self.ownerPosition.y,self.designatedTarget.x,self.designatedTarget.y,self.gunraycast)

@@ -9,6 +9,12 @@ function sound.load()
 	sound.setCenter(sound.center)
 	sound.music = {}
 end
+
+function sound.reset()
+	love.audio.stop()
+	sound.load()
+end
+
 function sound.update(dt)
 end
 
@@ -22,28 +28,30 @@ function sound.applyToChannel(channel,func)
 	end
 end
 
-function sound.playMusic(s,once)
-
-	if type(s)=='string' then
-		s = sound.loadsound(s,'stream')
-	end
+function sound.playMusic(songname,once)
+	assert(type(songname)=='string')
+	assert(#sound.music)
+	if sound.music[#sound.music] and songname == sound.music[#sound.music][2] then return end
+	local s
+	--if type(s)=='string' then
+		s = sound.loadsound(songname,'stream')
+	--end
 
 	if not s then return end
 	if sound.music[#sound.music] then
-		sound.music[#sound.music]:stop()
+		sound.music[#sound.music][1]:stop()
 	end
 	s:setLooping(not once)
 	if once then
-		table.insert(sound.music,s)
+		table.insert(sound.music,{s,songname})
 	else
-		sound.music = {s}
+		sound.music = {{s,songname}}
 	end
 	table.insert(sound.channel.music,s)
 	s:play()
 end
 
 function sound.play(s,channel,mode)
-	
 	if type(s)=='string' then
 		s = sound.loadsound(s,mode)
 	end
@@ -55,6 +63,7 @@ function sound.play(s,channel,mode)
 	end
 	table.insert(sound.channel[channel],s)
 	s:play()
+	return s
 end
 
 function sound.cleanUp()
@@ -135,9 +144,9 @@ function Sound:play()
 		self.host:playsound(self)
 	end
 	if not self.source then return end
-	if (self.pos-sound.center):length()>self.reach*4 then
-		return
-	end
+	--if (self.pos-sound.center):length()>self.reach*4 then
+	--	return
+	--end
 	sound.play(self.source,self.channel)
 end
 
@@ -156,6 +165,7 @@ local c = {
 	{255,0,0},
 }
 function Sound:drawCircle()
+	
 	gra.setColor(c[self.alert])
 	local x,y = self.pos.x,self.pos.y
 	if self.reach and self.reach > 0 then

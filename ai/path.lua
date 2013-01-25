@@ -24,7 +24,6 @@ function AIPath:process(dt)
 		return 0,'success'
 	end
 	if not self.p then
-		print (self.path)
 	end
 	assert(self.p,'subai missing')
 	local v = self.p
@@ -72,7 +71,6 @@ function AIPath:encode()
 end
 
 function AIPath:decode(t)
-	print 'path decoded'
 	self.current = t.current
 	self.path = {}
 	local b1,b2
