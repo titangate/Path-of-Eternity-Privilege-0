@@ -1,3 +1,22 @@
 A Stealth Action game with love2d
 Game development blog: http://ring0dev.blogspot.ca
 
+How To:
+Please get love2d at https://love2d.org according to your platform.
+Drag the repository folder to the application to run the game.
+Under UNIX environment, use the repository as the first parameter of the executable.
+
+This is a WIP. There is no in-game help yet, so there's a list of features you can try out once you hit START GAME in the menu.
+
+- you can press Q to view your inventory.
+- you can press L to activate/deactive Low Latency Inhibition vision.
+- you can press P to call out editor. The changes in editor will be reflected right away. You will be able to save/load the entire game state. (In fact a level is a exisiting game state)
+- once you switch into weapon, you can press right mouse button to use them. Right now only gun and syringe is somewhat functioning.
+
+Note regarding Low Latency Inhibition vision:
+- you will be able to see through objects
+- you will be able to see how much noise your action is going to create. (Red circle for highly alerting attention, Yellow circle for mild attention)
+
+AI only responds to sound for now so it does not matter if you pull out weapons in front of them.
+
+This project is not currently under development. We are trying to get back on this during Summer.
